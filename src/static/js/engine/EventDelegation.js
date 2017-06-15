@@ -29,10 +29,7 @@ class EventDelegation {
             if (target.tagName === 'A') {
                 targetIsATag = true
                 break
-            } else if (target.tagName === 'INPUT' && target.type === 'submit') {
-                targetIsASubmit = true
-                break
-            } else if (target.tagName === 'BUTTON' && target.type === 'submit') {
+            } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
                 targetIsASubmit = true
                 break
             }
