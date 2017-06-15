@@ -1,6 +1,6 @@
 {
     "name": "penryn-starter",
-    "version": "4.1.5",
+    "version": "4.1.6",
     "description": "A starter kit for web development",
     "author": "Aristide Benoist",
     "license": "MIT",
@@ -43,4 +43,3 @@
         "uglify-js": "3.0.17"
     }
 }
-
