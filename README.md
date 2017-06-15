@@ -10,11 +10,11 @@ npm install
 
 - Docker
 - Browsersync
-- PHP 7.1.5
+- PHP 7.1.6
 - PostCSS
 - Css Nano
 - ES2015
 - ESLint
 - Rollup
-- Uglify JS 2
+- Uglify JS 3
 - Skylake
