@@ -125,7 +125,8 @@ class EventDelegation {
             xhr: xhr,
             outroM: this.outroM,
             path: this.path,
-            listeners: newInstance.listeners
+            listeners: newInstance.listeners,
+            target: this.target
         })
     }
 

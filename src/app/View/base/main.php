@@ -54,9 +54,9 @@
             </div>
             <?php include ROOT . 'app/View/common/loader.php'; ?>
         </div>
-        <?php include ROOT . 'app/View/issue/browser-width.php'; ?>
-        <?php include ROOT . 'app/View/issue/update-browser.php'; ?>
-        <?php include ROOT . 'app/View/issue/enable-javascript.php'; ?>
+        <?php include ROOT . 'app/View/issue/browserWidth.php'; ?>
+        <?php include ROOT . 'app/View/issue/updateBrowser.php'; ?>
+        <?php include ROOT . 'app/View/issue/enableJavascript.php'; ?>
         <!-- Script -->
         <script type="text/javascript" src="/static/js/app.js"></script>
         <!-- Google Analytics -->
