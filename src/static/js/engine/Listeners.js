@@ -84,6 +84,10 @@ class Listeners {
             wt: {
                 throttle: false,
                 skylake: 'WT'
+            },
+            mm: {
+                throttle: true,
+                skylake: 'MM'
             }
         }
 
@@ -169,6 +173,15 @@ class Listeners {
                 opts = {
                     callback: _ => {
                         speEv.module[speEv.method](opts)
+                    },
+                    throttle: speEv.throttle
+                }
+            } else if (speEvSkylake === 'MM') {
+                opts = {
+                    callback: (x, y) => {
+                        this.speOpts.posX = x
+                        this.speOpts.posY = y
+                        speEv.module[speEv.method](this.speOpts)
                     },
                     throttle: speEv.throttle
                 }
