@@ -112,6 +112,7 @@ class Listeners {
                 }
                 if (isThrottle) {
                     obj.throttle = evContent.throttle
+                    obj.element = evContent.element
                 } else {
                     obj.el = evContent.el || document
                 }
@@ -183,7 +184,8 @@ class Listeners {
                         this.speOpts.posY = y
                         speEv.module[speEv.method](this.speOpts)
                     },
-                    throttle: speEv.throttle
+                    throttle: speEv.throttle,
+                    element: speEv.element
                 }
             }
             this.speEvInstance[i] = new S[speEvSkylake](opts)
