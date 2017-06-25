@@ -95,8 +95,10 @@ class EventDelegation {
         // Old outro
         oldInstance.controller.outro({
             done: this.done,
+            outroM: this.outroM,
+            path: this.path,
             listeners: oldInstance.listeners,
-            outroM: this.outroM
+            target: this.target
         })
     }
 
