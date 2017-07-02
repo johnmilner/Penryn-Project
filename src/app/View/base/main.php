@@ -16,10 +16,10 @@
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="<?= $this->head['twitter']['pseudo']; ?>">
-        <meta name="twitter:creator" content="<?= $this->head['twitter']['creator']; ?>">
         <meta name="twitter:title" content="<?= $this->head['title']; ?>">
         <meta name="twitter:description" content="<?= $this->head['description']; ?>">
-        <meta name="twitter:image:src" content="<?= $this->head['opengraph']; ?>">
+        <meta name="twitter:image" content="<?= $this->head['opengraph']; ?>">
+        <meta name="twitter:creator" content="<?= $this->head['twitter']['creator']; ?>">
         <!-- Google+ -->
         <meta itemprop="name" content="<?= $this->head['title']; ?>">
         <meta itemprop="description" content="<?= $this->head['description']; ?>">
