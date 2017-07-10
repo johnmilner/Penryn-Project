@@ -22,6 +22,10 @@
         }],
         "no-labels": ["error", { "allowLoop": true }],
         "no-unused-vars": 0,
-        "padded-blocks": ["error", "never"]
+        "padded-blocks": ["error", {
+            "blocks": "never",
+            "classes": "always",
+            "switches": "never"
+        }]
     }
 }
