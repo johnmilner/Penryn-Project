@@ -35,7 +35,7 @@
         "postcss-mixins": "6.0.1",
         "postcss-nested": "2.0.2",
         "postcss-simple-vars": "4.0.0",
-        "rollup": "0.45.0",
+        "rollup": "0.45.1",
         "rollup-plugin-babel": "2.7.1",
         "rollup-plugin-commonjs": "8.0.2",
         "rollup-plugin-eslint": "4.0.0",
@@ -43,3 +43,4 @@
         "uglify-js": "3.0.24"
     }
 }
+
