@@ -3,7 +3,6 @@
 namespace Engine\Controller;
 
 use \stdClass;
-use \Exception;
 use \App\Config\Head;
 
 class Controller {

@@ -114,13 +114,15 @@ class Router {
         // Preload
         const path = S.Win.path
         const instance = this.getInstance(path)
-        instance.controller.preload({
-            listeners: instance.listeners,
-            outroM: this.outroM,
-            path: {
-                new: path
-            }
-        })
+        if (instance.controller.preload !== undefined) {
+            instance.controller.preload({
+                listeners: instance.listeners,
+                outroM: this.outroM,
+                path: {
+                    new: path
+                }
+            })
+        }
     }
 
     getInstance (url) {
