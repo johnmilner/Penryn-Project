@@ -76,7 +76,7 @@ class Router {
         })
     }
 
-    get (path, controller) {
+    init (path, controller) {
         this.route = {
             path: this.slashTrim(path),
             controller: controller,
@@ -94,7 +94,7 @@ class Router {
         return this
     }
 
-    width (param, regex) {
+    with (param, regex) {
         this.route.params[param] = regex
 
         return this
