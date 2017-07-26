@@ -7,6 +7,7 @@ const simpleVars = require('postcss-simple-vars')
 const autoprefixer = require('autoprefixer')
 const minmax = require('postcss-media-minmax')
 const mqpacker = require('css-mqpacker')
+const responsiveFont = require('postcss-responsive-font')
 const showError = require('./showError')
 
 module.exports = opts => {
@@ -23,7 +24,8 @@ module.exports = opts => {
         nested,
         autoprefixer({browsers: opts.autoprefixer}),
         minmax,
-        mqpacker
+        mqpacker,
+        responsiveFont
     ]).process(css, {
         from: opts.entry
     }).then(result => {
