@@ -12,11 +12,9 @@ class ErrorController {
     }
 
     outro (opts) {
-        opts.listeners.remove({
-            destroy: true
+        Transition.outro(_ => {
+            opts.done('error')
         })
-
-        opts.done('error')
     }
 
 }
