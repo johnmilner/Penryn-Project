@@ -11,12 +11,12 @@ class ErrorController {
         Loader.run(opts)
     }
 
-    intro (opts) {
-        Transition.intro(opts)
-    }
-
     outro (opts) {
-        Transition.outro(opts.done)
+        opts.listeners.remove({
+            destroy: true
+        })
+
+        opts.done('error')
     }
 
 }
