@@ -4,6 +4,7 @@ node_modules
 .idea
 ip.js
 dist
+package-lock.json
 src/app/Config/Database.php
 src/app/Bundle
 src/static/js/app/Bundle
