@@ -1,6 +1,6 @@
 {
     "name": "penryn-starter",
-    "version": "4.4.5",
+    "version": "4.5.0",
     "description": "A starter kit for web development",
     "author": "Aristide Benoist",
     "license": "MIT",
@@ -12,10 +12,11 @@
         "push": "bash build/bash/push.sh"
     },
     "dependencies": {
-        "skylake": "4.6.0"
+        "skylake": "4.6.3"
     },
     "devDependencies": {
         "autoprefixer": "7.1.2",
+        "babel-core": "6.26.0",
         "babel-preset-es2015-rollup": "3.0.0",
         "browser-sync": "2.18.13",
         "colors": "1.1.2",
@@ -29,16 +30,16 @@
         "fs-extra": "4.0.1",
         "glob": "7.1.2",
         "html-minifier": "3.5.3",
-        "postcss": "6.0.8",
+        "postcss": "6.0.9",
         "postcss-easy-import": "2.1.0",
         "postcss-media-minmax": "3.0.0",
         "postcss-mixins": "6.0.1",
-        "postcss-nested": "2.1.0",
+        "postcss-nested": "2.1.2",
         "postcss-position": "1.0.0",
         "postcss-responsive-font": "1.0.3",
         "postcss-simple-vars": "4.0.0",
-        "rollup": "0.45.2",
-        "rollup-plugin-babel": "3.0.1",
+        "rollup": "0.47.5",
+        "rollup-plugin-babel": "3.0.2",
         "rollup-plugin-commonjs": "8.1.0",
         "rollup-plugin-eslint": "4.0.0",
         "rollup-plugin-node-resolve": "3.0.0",
