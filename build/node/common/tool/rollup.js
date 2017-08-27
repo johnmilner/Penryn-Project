@@ -8,7 +8,7 @@ const showError = require('./showError')
 
 module.exports = opts => {
     rollup.rollup({
-        entry: opts.entry,
+        input: opts.entry,
         plugins: [
             eslint({
                 configFile: opts.eslint,
@@ -28,8 +28,8 @@ module.exports = opts => {
         ]
     }).then(bundle => {
         bundle.write({
-            format: 'cjs',
-            dest: opts.dest
+            file: opts.dest,
+            format: 'cjs'
         })
     }).then(() => {
         opts.callback()

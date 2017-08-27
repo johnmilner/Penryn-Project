@@ -18,11 +18,11 @@ module.exports = page => {
         stream.once('open', _ => {
             stream.write('/*\r\n')
             stream.write('\r\n')
-            stream.write('router.get(\'/\', HomeController)\r\n')
-            stream.write('router.get(\'/about\', AboutController)\r\n')
-            stream.write('router.get(\'/work/:id/:name\', WorkOneController).width(\'id\', \'[0-9]+\').width(\'name\', \'[a-z0-9-]+\')\r\n')
-            stream.write('router.get(\'/work/:type\', WorkAllController).width(\'type\', \'date|title\')\r\n')
-            stream.write('router.get(\'/work\', WorkAllController)\r\n')
+            stream.write('router.init(\'/\', HomeController)\r\n')
+            stream.write('router.init(\'/about\', AboutController)\r\n')
+            stream.write('router.init(\'/work/:id/:name\', WorkOneController).width(\'id\', \'[0-9]+\').width(\'name\', \'[a-z0-9-]+\')\r\n')
+            stream.write('router.init(\'/work/:type\', WorkAllController).width(\'type\', \'date|title\')\r\n')
+            stream.write('router.init(\'/work\', WorkAllController)\r\n')
             stream.write('\r\n')
             stream.write('*/\r\n')
             stream.write('\r\n')
@@ -40,9 +40,9 @@ module.exports = page => {
             stream.write('            xhr: true\r\n')
             stream.write('        })\r\n')
             stream.write('\r\n')
-            stream.write('        router.get(\'/\', HomeController)\r\n')
+            stream.write('        router.init(\'/\', HomeController)\r\n')
             for (let i = 0; i < pageL; i++) {
-                stream.write('        router.get(\'/' + page.url[i] + '\', ' + controllerName[i] + ')\r\n')
+                stream.write('        router.init(\'/' + page.url[i] + '\', ' + controllerName[i] + ')\r\n')
             }
             stream.write('\r\n')
             stream.write('        router.error(ErrorController)\r\n')

@@ -1,10 +1,10 @@
 /*
 
-router.get('/', HomeController)
-router.get('/about', AboutController)
-router.get('/work/:id/:name', WorkOneController).width('id', '[0-9]+').width('name', '[a-z0-9-]+')
-router.get('/work/:type', WorkAllController).width('type', 'date|title')
-router.get('/work', WorkAllController)
+router.init('/', HomeController)
+router.init('/about', AboutController)
+router.init('/work/:id/:name', WorkOneController).width('id', '[0-9]+').width('name', '[a-z0-9-]+')
+router.init('/work/:type', WorkAllController).width('type', 'date|title')
+router.init('/work', WorkAllController)
 
 */
 
@@ -20,8 +20,8 @@ class Route {
             xhr: true
         })
 
-        router.get('/', HomeController)
-        router.get('/about', AboutController)
+        router.init('/', HomeController)
+        router.init('/about', AboutController)
 
         router.error(ErrorController)
 
