@@ -118,6 +118,7 @@ class Router {
             instance.controller.preload({
                 listeners: instance.listeners,
                 outroM: this.outroM,
+                error: instance.error,
                 path: {
                     new: path
                 }
@@ -134,7 +135,8 @@ class Router {
             if (this.match(this.routes[i])) {
                 return {
                     listeners: this.routes[i].instance.listeners,
-                    controller: this.routes[i].instance.controller
+                    controller: this.routes[i].instance.controller,
+                    error: false
                 }
             }
         }
@@ -142,7 +144,8 @@ class Router {
         // Error
         return {
             listeners: this.error.listeners,
-            controller: this.error.controller
+            controller: this.error.controller,
+            error: true
         }
     }
 

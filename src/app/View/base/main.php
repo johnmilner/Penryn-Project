@@ -35,8 +35,8 @@
         <!-- Favicon -->
         <!-- Link mask icon no compatible W3C → safari svg -->
         <link rel="apple-touch-icon" sizes="180x180" href="/static/media/fav/apple-touch-icon.png">
-        <link rel="icon" type="image/png" href="/static/media/fav/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="/static/media/fav/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/media/fav/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/media/fav/favicon-16x16.png">
         <link rel="manifest" href="/static/media/fav/manifest.json">
         <link rel="shortcut icon" href="/static/media/fav/favicon.ico">
         <meta name="msapplication-config" content="/static/media/fav/browserconfig.xml">
@@ -46,7 +46,6 @@
         <link rel="stylesheet" href="/static/style/css/app.css">
     </head>
     <body>
-        <?php include ROOT . 'app/View/common/svg.php'; ?>
         <?php include ROOT . 'app/View/common/sail.php'; ?>
         <div id="app">
             <div id="xhr">
@@ -54,6 +53,7 @@
             </div>
             <?php include ROOT . 'app/View/common/loader.php'; ?>
         </div>
+        <?php include ROOT . 'app/View/common/svg.php'; ?>
         <?php include ROOT . 'app/View/issue/browserWidth.php'; ?>
         <?php include ROOT . 'app/View/issue/updateBrowser.php'; ?>
         <?php include ROOT . 'app/View/issue/enableJavascript.php'; ?>

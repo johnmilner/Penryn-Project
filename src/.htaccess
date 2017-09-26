@@ -1,14 +1,22 @@
 <files .htaccess>
-  Require all denied
+    Require all denied
 </files>
 Options +FollowSymlinks -Indexes -Multiviews
 RewriteEngine On
 RewriteBase /
+
 RewriteCond %{HTTP_HOST} ^example.com$
 RewriteRule ^(.*) http://www.example.com/$1  [QSA,L,R=301]
+#RewriteRule ^(.*) https://www.example.com/$1  [QSA,L,R=301]
+
+#RewriteCond %{HTTP_HOST} ^(www\.)?example\.com$ [NC]
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^/?(.*) https://www.example.com/$1 [R,L]
+
 #RewriteCond %{HTTP_USER_AGENT} "ipod|iphone|ipad|android|palm|blackberry" [NC]
 #RewriteCond %{HTTP_HOST} !^m
 #RewriteRule (.*) http://www.m.example.com/ [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$   /$1 [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-f
