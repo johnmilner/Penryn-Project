@@ -10,7 +10,7 @@ npm install
 
 - Docker
 - Browsersync
-- PHP 7.1.9
+- PHP 7.1.10
 - PostCSS
 - Css Nano
 - ES2015

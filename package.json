@@ -12,7 +12,7 @@
         "push": "bash build/bash/push.sh"
     },
     "dependencies": {
-        "skylake": "^4.8.5"
+        "skylake": "4.8.5"
     },
     "devDependencies": {
         "autoprefixer": "7.1.4",
