@@ -27,7 +27,7 @@ function isInt(value) {
 function updatePackage (version) {
     PackageJson.version = version
 
-    fs.writeFile(PackageFile, JSON.stringify(PackageJson, null, 4), function (err) {
+    fs.writeFile(PackageFile, JSON.stringify(PackageJson, null, 4), err => {
         if (err) {
             console.log(err)
         }
