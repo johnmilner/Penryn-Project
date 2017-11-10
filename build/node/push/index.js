@@ -10,13 +10,13 @@ const rl = Readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
-rl.question(q, (version) => {
+rl.question(q, version => {
     const futureVersion = isInt(version.charAt(0)) ? version : PackageJson.version
     updatePackage(futureVersion)
-    rl.close()
+    // rl.close()
 })
 
-function isInt(value) {
+function isInt (value) {
     if (isNaN(value)) {
         return false
     }
