@@ -13,7 +13,7 @@ const rl = Readline.createInterface({
 rl.question(q, version => {
     const futureVersion = isInt(version.charAt(0)) ? version : PackageJson.version
     updatePackage(futureVersion)
-    // rl.close()
+    rl.close()
 })
 
 function isInt (value) {

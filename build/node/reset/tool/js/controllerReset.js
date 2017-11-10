@@ -16,7 +16,7 @@ module.exports = _ => {
     })
 
     function getUnlink (file) {
-        fs.unlink(folder + file)
+        fs.unlinkSync(folder + file)
     }
 
     function createJsController () {
