@@ -13,7 +13,7 @@ class FileUpload {
 
     public static function init ($type, $fileInputName, $fileFutureName, $destinationFolder) {
         self::$type              = $type;
-        self::$file              = $_FILES[$fileInputName];
+        self::$file              = isset($_FILES[$fileInputName]) ? $_FILES[$fileInputName] : false;
         self::$fileFutureName    = $fileFutureName;
         self::$destinationFolder = $destinationFolder;
 

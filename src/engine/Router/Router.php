@@ -11,7 +11,7 @@ class Router {
     private $errorController;
 
     public function __construct () {
-        $this->url = $_GET['url'];
+        $this->url = isset($_GET['url']) ? $_GET['url'] : '';
     }
 
     public function get ($path, $controller) {

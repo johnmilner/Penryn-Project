@@ -18,7 +18,8 @@ class FileUnknowExt {
 
     public static function delete ($pathWithoutExt) {
         $relativePathWithoutExt = self::getRelativePath($pathWithoutExt);
-        if(self::path($relativePathWithoutExt)) {
+        $filePath = self::path($relativePathWithoutExt);
+        if($filePath && file_exists($filePath)) {
             unlink(ROOT . self::path($relativePathWithoutExt));
         }
     }
@@ -26,7 +27,13 @@ class FileUnknowExt {
     private static function get ($return, $pathWithoutExt, $newRoot) {
         $relativePathWithoutExt = self::getRelativePath($pathWithoutExt);
 
-        $file = $newRoot === true ? glob(IMG_ROOT . $pathWithoutExt . '.*')[0] : glob(ROOT . $relativePathWithoutExt . '.*')[0];
+        if ($newRoot === true) {
+            $glob = glob(IMG_ROOT . $pathWithoutExt . '.*');
+        } else {
+            $glob = glob(ROOT . $relativePathWithoutExt . '.*');
+        }
+        $file = sizeof($glob) > 0 ? $glob[0] : null;
+
         if(is_null($file)) {
             return false;
         } else {
