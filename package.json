@@ -1,6 +1,6 @@
 {
     "name": "penryn-starter",
-    "version": "4.7.7",
+    "version": "4.8.0",
     "description": "A starter kit for web development",
     "author": "Aristide Benoist",
     "license": "MIT",
@@ -12,7 +12,7 @@
         "push": "bash build/bash/push.sh"
     },
     "dependencies": {
-        "skylake": "4.8.6"
+        "skylake": "4.9.0"
     },
     "devDependencies": {
         "autoprefixer": "7.1.6",
