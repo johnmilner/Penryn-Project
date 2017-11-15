@@ -5,7 +5,7 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <link rel="canonical" href="<?= $this->head['url']; ?>">
         <!-- Robots -->
-        <meta name="robots" content="noindex, nofollow">
+        <meta name="robots" content="<?= $this->head['robots']; ?>">
         <!-- Device -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no">
         <meta name="format-detection" content="telephone=no">

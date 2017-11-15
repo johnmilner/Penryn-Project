@@ -1,11 +1,10 @@
 const config = require('../config/config.js')
 const fs = require('fs')
-const fse = require('fs-extra')
 const uglifyJS = require('uglify-js')
 const writeInternal = require('./writeInternal.js')
 const showEnd = require('./showEnd.js')
 
-module.exports = internal => {
+module.exports = _ => {
     // Add all files from main.js
     const js = fs.readFileSync(config.src + config.minify.js, 'utf8')
     const result = uglifyJS.minify(js).code
@@ -52,16 +51,11 @@ module.exports = internal => {
         // Grouping
         const fullResult = closure.start + additionalScript + result + closure.end
 
-        if (internal === 'y') {
-            writeInternal({
-                content: fullResult,
-                type: 'js',
-                callback: callback
-            })
-        } else {
-            fse.outputFileSync(config.dest + config.minify.js, fullResult, 'utf-8')
-            callback()
-        }
+        writeInternal({
+            content: fullResult,
+            type: 'js',
+            callback: callback
+        })
     }
 
     function callback () {

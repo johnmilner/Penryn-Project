@@ -15,13 +15,17 @@ class HomeController extends Controller {
         $this->data->msg = 'Home';
 
         /*------------------------------------
-            SEO
+            HEAD
         ------------------------------------*/
 
+        // SEO
         $this->head['title'] = 'Home';
         $this->head['description'] = '';
         $this->head['keywords'] = '';
         $this->head['opengraph'] = '/static/media/fav/open-graph/1200-630.png';
+
+        // Robots
+        $this->head['allow-robots'] = true;
 
         /*------------------------------------
             RENDER

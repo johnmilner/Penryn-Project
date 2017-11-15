@@ -41,8 +41,5 @@ module.exports = {
         'app/View/base/main.php',
         'app/View/base/p404.php'
     ],
-    robots: [
-        'app/View/base/main.php'
-    ],
     additionalScript: []
 }
