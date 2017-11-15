@@ -24,8 +24,7 @@ class Controller {
 
         // Head url
         $urlPath = $_SERVER['REQUEST_URI'] === '/' ? '' : $_SERVER['REQUEST_URI'];
-        $ssl = $this->head['ssl'] ? 's' : '';
-        $this->head['url'] = 'http' . $ssl . '://' . $this->head['serverName'] . $urlPath;
+        $this->head['url'] = $this->head['urlBase'] . $urlPath;
 
         // Head robots
         if ($_SERVER['SERVER_NAME'] === $this->head['serverName'] && $this->head['allow-robots']) {
