@@ -1,6 +1,6 @@
 {
     "name": "penryn-starter",
-    "version": "4.9.1",
+    "version": "4.9.2",
     "description": "A starter kit for web development",
     "author": "Aristide Benoist",
     "license": "MIT",
@@ -38,7 +38,7 @@
         "postcss-position": "1.0.0",
         "postcss-responsive-font": "1.0.3",
         "postcss-simple-vars": "4.1.0",
-        "rollup": "0.51.5",
+        "rollup": "0.51.7",
         "rollup-plugin-babel": "3.0.2",
         "rollup-plugin-commonjs": "8.2.6",
         "rollup-plugin-eslint": "4.0.0",
