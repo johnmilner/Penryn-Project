@@ -4,7 +4,7 @@ A starter kit for web development.
 
 ## Usage
 
-npm install
+yarn
 
 ## Features
 

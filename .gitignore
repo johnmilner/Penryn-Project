@@ -5,6 +5,7 @@ node_modules
 ip.js
 dist
 package-lock.json
+yarn.lock
 src/app/Config/Database.php
 src/app/Bundle
 src/static/js/app/Bundle
