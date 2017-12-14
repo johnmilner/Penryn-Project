@@ -7,8 +7,8 @@ class Support {
             S.Dom.html.className = 'old-browser'
         }
 
-        if (!S.Sniffer.isTouch) {
-            S.Dom.body.className = 'no-touch'
+        if (S.Sniffer.isMobile) {
+            S.Dom.body.className = 'is-mobile'
         }
     }
 
