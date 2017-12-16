@@ -12,7 +12,6 @@
         <!-- SEO -->
         <title><?= $this->head['title']; ?></title>
         <meta name="description" content="<?= $this->head['description']; ?>">
-        <meta name="keywords" content="<?= $this->head['keywords']; ?>">
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="<?= $this->head['twitter']['pseudo']; ?>">

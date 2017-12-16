@@ -35,7 +35,6 @@ module.exports = _ => {
             stream.write('        // SEO\r\n')
             stream.write('        $this->head[\'title\'] = \'About\';\r\n')
             stream.write('        $this->head[\'description\'] = \'\';\r\n')
-            stream.write('        $this->head[\'keywords\'] = \'\';\r\n')
             stream.write('        $this->head[\'opengraph\'] = \'/static/media/fav/open-graph/1200-630.png\';\r\n\r\n')
             stream.write('        // Robots\r\n')
             stream.write('        $this->head[\'allow-robots\'] = true;\r\n\r\n')
