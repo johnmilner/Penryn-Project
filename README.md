@@ -10,7 +10,7 @@ yarn
 
 - Docker
 - Browsersync
-- PHP 7.1.11
+- PHP 7.2.0
 - PostCSS
 - Css Nano
 - ES2015
