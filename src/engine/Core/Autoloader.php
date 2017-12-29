@@ -9,10 +9,12 @@ class Autoloader {
     }
 
     static function autoload ($class) {
-        if (strpos($class, 'Engine\\') === 0) {
-            $class = str_replace('Engine\\', '', $class);
+        $rootFolder = explode('\\', $class)[0];
+
+        if ($rootFolder === 'Engine' || $rootFolder === 'App') {
+            $class = str_replace($rootFolder . '\\', '', $class);
             $class = str_replace('\\', '/', $class);
-            require ROOT . '/' . strtolower('engine') . '/' . $class . '.php';
+            require ROOT . '/' . strtolower($rootFolder) . '/' . $class . '.php';
         }
     }
 
