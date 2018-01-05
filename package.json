@@ -1,6 +1,6 @@
 {
     "name": "penryn-starter",
-    "version": "5.1.0",
+    "version": "5.1.1",
     "description": "A starter kit for web development",
     "author": "Aristide Benoist",
     "license": "MIT",
@@ -12,13 +12,13 @@
         "push": "bash build/bash/push.sh"
     },
     "dependencies": {
-        "skylake": "5.1.4"
+        "skylake": "5.1.8"
     },
     "devDependencies": {
-        "autoprefixer": "7.2.3",
+        "autoprefixer": "7.2.4",
         "babel-core": "6.26.0",
         "babel-preset-es2015-rollup": "3.0.0",
-        "browser-sync": "2.23.1",
+        "browser-sync": "2.23.3",
         "colors": "1.1.2",
         "css-mqpacker": "6.0.1",
         "cssnano": "3.10.0",
@@ -30,7 +30,7 @@
         "fs-extra": "5.0.0",
         "glob": "7.1.2",
         "html-minifier": "3.5.8",
-        "postcss": "6.0.14",
+        "postcss": "6.0.15",
         "postcss-easy-import": "3.0.0",
         "postcss-media-minmax": "3.0.0",
         "postcss-mixins": "6.2.0",
@@ -38,11 +38,11 @@
         "postcss-position": "1.0.0",
         "postcss-responsive-font": "1.0.3",
         "postcss-simple-vars": "4.1.0",
-        "rollup": "0.53.1",
+        "rollup": "0.53.3",
         "rollup-plugin-babel": "3.0.3",
         "rollup-plugin-commonjs": "8.2.6",
         "rollup-plugin-eslint": "4.0.0",
         "rollup-plugin-node-resolve": "3.0.0",
-        "uglify-js": "3.3.3"
+        "uglify-js": "3.3.4"
     }
 }
