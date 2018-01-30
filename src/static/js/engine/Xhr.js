@@ -64,15 +64,18 @@ class Xhr {
             }, 0)
         }
 
-        function popstate (event) {
+        function popstate (e) {
             if (blockPopstateEvent && d.readyState === 'complete') {
-                event.preventDefault()
-                event.stopImmediatePropagation()
+                e.preventDefault()
+                e.stopImmediatePropagation()
             }
         }
 
-        w.onpopstate = _ => {
-            w.location.href = S.Win.path
+        w.onpopstate = e => {
+            /* state is null when change url without change page → story stream social wall for example */
+            if (e.state !== null) {
+                w.location.href = S.Win.path
+            }
         }
     }
 

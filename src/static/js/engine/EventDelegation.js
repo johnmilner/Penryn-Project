@@ -3,13 +3,12 @@ import Xhr from './Xhr.js'
 
 class EventDelegation {
 
-    constructor (opts) {
+    constructor (getInstance) {
         // Opts
-        this.isXhr = opts.isXhr
-        this.getInstance = opts.getInstance
-        this.outroM = opts.outroM
+        this.getInstance = getInstance
 
         // Parameters
+        this.p = window.Penryn
         this.xhr = S.Geb.id('xhr')
 
         // Bind
@@ -21,6 +20,7 @@ class EventDelegation {
     }
 
     eventDelegation (event) {
+        const w = window
         let target = event.target
         let targetIsATag = false
         let targetIsASubmit = false
@@ -41,47 +41,47 @@ class EventDelegation {
 
             if (target.classList.contains('_tb')) {
                 prD()
-                window.open(targetHref)
+                w.open(targetHref)
             } else if (target.classList.contains('_tbs')) {
                 prD()
 
                 if (this.isTouch && this.isSafari) {
-                    window.location.href = targetHref
+                    w.location.href = targetHref
                 } else {
-                    window.open(targetHref)
+                    w.open(targetHref)
                 }
-            } else if (this.isXhr) {
+            } else {
                 const hrefBeginByHash = targetHref.charAt(targetHref.length - 1) === '#'
-                const hrefIsNotMailto = targetHref.substring(0, 6) !== 'mailto'
-                const hrefHasNotOSTClass = !target.classList.contains('_ost')
+                const hrefIsMailto = targetHref.substring(0, 6) === 'mailto'
 
                 if (hrefBeginByHash) {
                     prD()
-                } else if (hrefIsNotMailto && hrefHasNotOSTClass) {
+                } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
                     prD()
 
-                    if (this.outroM.enable) {
+                    if (this.p.outroIsOn) {
                         this.path = {
                             old: S.Win.path,
                             new: targetHref.replace(/^.*\/\/[^/]+/, '')
                         }
 
                         if (this.path.old !== this.path.new) {
-                            // Outro method disable
-                            this.outroM.off()
+                            this.p.outroIsOn = false
 
                             this.target = target
                             this.xhrReq()
                         }
                     }
+                } else if (hrefIsMailto) {
+                    prD()
+                    const myWindow = w.open(targetHref)
+                    setTimeout(_ => {
+                        myWindow.close()
+                    }, 300)
                 }
-            } else if (target.classList.contains('_pr')) {
-                prD()
             }
         } else if (targetIsASubmit) {
-            if (this.isXhr) {
-                prD()
-            }
+            prD()
         }
 
         function prD () {
@@ -92,23 +92,20 @@ class EventDelegation {
     xhrReq () {
         const oldInstance = this.getInstance(this.path.old)
 
+        this.p.done = this.done
+
         // Old outro
-        oldInstance.controller.outro({
-            done: this.done,
-            outroM: this.outroM,
-            path: this.path,
-            listeners: oldInstance.listeners,
-            target: this.target
-        })
+        oldInstance.controller.outro()
     }
 
-    done (args) {
-        Xhr.controller(this.path.new, this.xhrCallback, args)
+    done () {
+        Xhr.controller(this.path.new, this.xhrCallback)
     }
 
-    xhrCallback (response, args) {
+    xhrCallback (response) {
         const newInstance = this.getInstance(this.path.new)
-        const xhr = {
+
+        this.p.xhr = {
             insertNew: _ => {
                 this.xhr.insertAdjacentHTML('beforeend', response)
             },
@@ -117,19 +114,12 @@ class EventDelegation {
                 oldXhrContent.parentNode.removeChild(oldXhrContent)
             }
         }
-
-        // Outro method enable
-        this.outroM.on()
+        this.p.outroIsOn = true
+        this.p.path = this.path
+        this.p.target = this.target
 
         // New intro
-        newInstance.controller.intro({
-            outroArgs: args,
-            xhr: xhr,
-            outroM: this.outroM,
-            path: this.path,
-            listeners: newInstance.listeners,
-            target: this.target
-        })
+        newInstance.controller.intro()
     }
 
 }

@@ -19,7 +19,7 @@ class HomeController extends Controller {
         ------------------------------------*/
 
         // SEO
-        $this->head['title'] = 'Home';
+        $this->head['title'] = 'Website — Home';
         $this->head['description'] = '';
         $this->head['opengraph'] = '/static/media/fav/open-graph/1200-630.png';
 

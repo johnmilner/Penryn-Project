@@ -12,7 +12,7 @@ class ErrorController extends Controller {
             TITLE TAG
         ------------------------------------*/
 
-        $this->head['title'] = 'Error 404 - Not Found';
+        $this->head['title'] = 'Website — Not Found';
 
         /*------------------------------------
             RENDER ERROR

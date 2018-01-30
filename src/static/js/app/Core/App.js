@@ -5,9 +5,11 @@ import Route from './Route.js'
 class App {
 
     constructor () {
+        window.Penryn = window.Penryn || {}
+
         Support.init()
 
-        // S.TopWhenRefresh()
+        S.TopWhenRefresh()
 
         new Route()
     }

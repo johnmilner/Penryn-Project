@@ -6,74 +6,41 @@ CLASS
 Class "_tb"     →    targetBlank W3C compatible (target blank)
 Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
 Class "_ost"    →    Xhr website : open link in same tab without prevent default (open same tab)
-Class "_pr"     →    Not xhr website : prevent default
 
-METHODS ARGS
-────────────
+APP
+───
 
-contructor      →    Listeners
-preload         →    opts : outroM
-intro           →    opts : outroArgs / xhr / outroM (enable)
-outro           →    done
-
-PARALYSE OUTRO METHOD
-─────────────────────
-
-intro (opts) {
-    const outroM = opts.outroM
-    outroM.off()
-}
-
-INTRO XHR TRANSITION
-────────────────────
-
-intro (opts) {
-    const xhr = opts.xhr
-    xhr.removeOld()
-    xhr.insertNew()
-}
+path
+target
+outroEnable
+outroArgs
+done
+xhr
 
 */
 
 import S from 'skylake'
 import Xhr from './Xhr.js'
-import Listeners from './Listeners.js'
 import EventDelegation from './EventDelegation.js'
 
 class Router {
 
-    constructor (opts) {
-        // Opts
-        this.isXhr = opts.xhr
-
+    constructor () {
         // Parameters
         this.routes = []
+        this.p = window.Penryn
 
         // Bind
         S.BindMaker(this, ['getInstance'])
 
-        // Outro Method : paralyse outro method during animations
-        this.outroM = {
-            enable: true
-        }
-        this.outroM.on = _ => {
-            this.outroM.enable = true
-        }
-        this.outroM.off = _ => {
-            this.outroM.enable = false
-        }
+        // Outro is on : paralyse outro method during animations
+        this.p.outroIsOn = false
 
         // On popstate
-        if (this.isXhr) {
-            Xhr.onPopstate()
-        }
+        Xhr.onPopstate()
 
         // Instantiating event delegation
-        this.eventDelegation = new EventDelegation({
-            isXhr: this.isXhr,
-            getInstance: this.getInstance,
-            outroM: this.outroM
-        })
+        this.eventDelegation = new EventDelegation(this.getInstance)
     }
 
     init (path, controller) {
@@ -88,8 +55,7 @@ class Router {
 
         // Instantiating
         const Controller = this.route.controller
-        this.route.instance.listeners = new Listeners()
-        this.route.instance.controller = new Controller(this.route.instance.listeners)
+        this.route.instance.controller = new Controller()
 
         return this
     }
@@ -103,8 +69,7 @@ class Router {
     error (errorController) {
         // Instantiating
         const ErrorController = errorController
-        this.error.listeners = new Listeners()
-        this.error.controller = new ErrorController(this.error.listeners)
+        this.error.controller = new ErrorController()
     }
 
     run () {
@@ -113,17 +78,10 @@ class Router {
 
         // Preload
         const path = S.Win.path
+        this.p.path = {new: path}
         const instance = this.getInstance(path)
-        if (instance.controller.preload !== undefined) {
-            instance.controller.preload({
-                listeners: instance.listeners,
-                outroM: this.outroM,
-                error: instance.error,
-                path: {
-                    new: path
-                }
-            })
-        }
+
+        instance.controller.preload()
     }
 
     getInstance (url) {
@@ -134,18 +92,14 @@ class Router {
         for (let i = 0; i < routesL; i++) {
             if (this.match(this.routes[i])) {
                 return {
-                    listeners: this.routes[i].instance.listeners,
-                    controller: this.routes[i].instance.controller,
-                    error: false
+                    controller: this.routes[i].instance.controller
                 }
             }
         }
 
         // Error
         return {
-            listeners: this.error.listeners,
-            controller: this.error.controller,
-            error: true
+            controller: this.error.controller
         }
     }
 

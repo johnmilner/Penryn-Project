@@ -1,19 +1,24 @@
-import Loader from '../Bundle/Common/Loader.js'
-import Transition from '../Bundle/Common/Transition.js'
+import Loader from '../Bundle/Common/Transition/Loader.js'
+import Transition from '../Bundle/Common/Transition/Transition.js'
+import Listeners from '../Bundle/Common/Listeners/Common.js'
 
 class ErrorController {
 
-    constructor (Listeners) {
-        console.log('error constructor')
+    preload () {
+        Loader.run({
+            listeners: Listeners
+        })
     }
 
-    preload (opts) {
-        Loader.run(opts)
+    intro () {
+        Transition.intro({
+            listeners: Listeners
+        })
     }
 
-    outro (opts) {
-        Transition.outro(_ => {
-            opts.done('error')
+    outro () {
+        Transition.outro({
+            listeners: Listeners
         })
     }
 

@@ -36,9 +36,7 @@ module.exports = page => {
             stream.write('class Route {\r\n')
             stream.write('\r\n')
             stream.write('    constructor () {\r\n')
-            stream.write('        const router = new Router({\r\n')
-            stream.write('            xhr: true\r\n')
-            stream.write('        })\r\n')
+            stream.write('        const router = new Router()\r\n')
             stream.write('\r\n')
             stream.write('        router.init(\'/\', HomeController)\r\n')
             for (let i = 0; i < pageL; i++) {
