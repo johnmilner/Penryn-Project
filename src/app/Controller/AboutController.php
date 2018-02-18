@@ -13,9 +13,8 @@ class AboutController extends Controller {
         ------------------------------------*/
 
         // SEO
-        $this->head['title'] = 'About';
+        $this->head['title'] = 'Website — About';
         $this->head['description'] = '';
-        $this->head['keywords'] = '';
         $this->head['opengraph'] = '/static/media/fav/open-graph/1200-630.png';
 
         // Robots

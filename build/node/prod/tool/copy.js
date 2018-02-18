@@ -19,19 +19,19 @@ module.exports = () => {
         }
     }
 
-    function fileExists (filePath) {
-        try {
-            return fs.lstatSync(filePath)
-        } catch (err) {
-            return false
-        }
-    }
-
     function removeImgLocalOnly (filePath) {
         const localOnlyImgs = config.dest + config.localOnlyImgs
         if (fileExists(localOnlyImgs)) {
             fse.removeSync(localOnlyImgs)
             console.log(colors.red('→ Local-only images removed  ❤'))
+        }
+    }
+
+    function fileExists (filePath) {
+        try {
+            return fs.lstatSync(filePath)
+        } catch (err) {
+            return false
         }
     }
 }

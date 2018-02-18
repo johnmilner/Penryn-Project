@@ -1,22 +1,25 @@
-import Loader from '../Bundle/Common/Loader.js'
-import Transition from '../Bundle/Common/Transition.js'
+import Loader from '../Bundle/Common/Transition/Loader.js'
+import Transition from '../Bundle/Common/Transition/Transition.js'
+import Listeners from '../Bundle/Common/Listeners/Common.js'
 
 class AboutController {
 
-    constructor (Listeners) {
-        console.log('about constructor')
+    preload () {
+        Loader.run({
+            listeners: Listeners
+        })
     }
 
-    preload (opts) {
-        Loader.run(opts)
+    intro () {
+        Transition.intro({
+            listeners: Listeners
+        })
     }
 
-    intro (opts) {
-        Transition.intro(opts)
-    }
-
-    outro (opts) {
-        Transition.outro(opts.done)
+    outro () {
+        Transition.outro({
+            listeners: Listeners
+        })
     }
 
 }
