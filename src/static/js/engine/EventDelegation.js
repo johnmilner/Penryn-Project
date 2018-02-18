@@ -93,6 +93,8 @@ class EventDelegation {
         const oldInstance = this.getInstance(this.path.old)
 
         this.p.done = this.done
+        this.p.target = this.target
+        this.p.path = this.path
 
         // Old outro
         oldInstance.controller.outro()
@@ -115,8 +117,6 @@ class EventDelegation {
             }
         }
         this.p.outroIsOn = true
-        this.p.path = this.path
-        this.p.target = this.target
 
         // New intro
         newInstance.controller.intro()

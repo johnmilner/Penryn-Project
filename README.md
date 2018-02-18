@@ -10,8 +10,8 @@ yarn
 
 - Docker
 - Browsersync
-- PHP 7.2.1
-- Adminer 4.5.0
+- PHP 7.2.2
+- Adminer 4.6.1
 - PostCSS
 - Css Nano
 - ESLint

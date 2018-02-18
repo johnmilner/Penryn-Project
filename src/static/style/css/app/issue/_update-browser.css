@@ -5,7 +5,7 @@
 /*─
 /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
 /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
-.issue-ub-w {
+#issue-ub-w {
     display: none;
     position: fixed;
     z-index: 9999;
@@ -16,12 +16,12 @@
     text-align: center;
     background: #fff;
 }
-.issue-ub {
+#issue-ub {
     position: absolute;
     top: 48%;
     left: 0;
     width: 100%;
 }
-.old-browser .issue-ub-w {
+.old-browser #issue-ub-w {
     display: block;
 }

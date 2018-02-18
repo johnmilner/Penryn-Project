@@ -5,10 +5,10 @@ CLASS
 
 Class "_tb"     →    targetBlank W3C compatible (target blank)
 Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
-Class "_ost"    →    Xhr website : open link in same tab without prevent default (open same tab)
+Class "_ost"    →    open link in same tab without prevent default (open same tab)
 
-APP
-───
+PENRYN
+──────
 
 path
 target

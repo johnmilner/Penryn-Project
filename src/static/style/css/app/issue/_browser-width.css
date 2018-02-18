@@ -5,7 +5,7 @@
 /*─
 /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
 /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
-.issue-bw-w {
+#issue-bw-w {
     display: none;
     position: fixed;
     z-index: 9999;
@@ -16,7 +16,7 @@
     text-align: center;
     background: #fff;
 }
-.issue-bw {
+#issue-bw {
     position: absolute;
     top: 47%;
     left: 0;
@@ -24,10 +24,10 @@
 }
 @media (width <= 999px)
 {
-    .issue-bw-w {
+    #issue-bw-w {
         display: block;
     }
 }
-body.is-mobile .issue-bw-w {
+body.is-mobile #issue-bw-w {
     display: block;
 }
