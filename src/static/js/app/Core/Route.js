@@ -16,7 +16,9 @@ import AboutController from '../Controller/AboutController.js'
 class Route {
 
     constructor () {
-        const router = new Router()
+        const router = new Router({
+            xhr: true
+        })
 
         router.init('/', HomeController)
         router.init('/about', AboutController)

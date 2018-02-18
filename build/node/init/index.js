@@ -7,7 +7,7 @@ const capitalizeFirstLetter = require('./tool/capitalizeFirstLetter.js')
 
 const languageQuestion = colors.yellow('\nLANGUAGE ?') + '\n1. EN\n2. FR\n\n'
 const pageQtyQuestion = colors.yellow('\nHOW MANY SIMPLE PAGES WITHOUT HOME ?') + '\n\n'
-const pageUrlQuestion = i => { return colors.yellow('\nURL OF PAGE ' + (i + 1) + ' WITHOUT / ?') + '\n\n' }
+const pageUrlQuestion = i => { return colors.yellow('\nURL OF PAGE ' + (i + 1) + ' ?') + '\n\n' }
 const pageIdQuestion = i => { return colors.yellow('\nID OF PAGE ' + (i + 1) + ' ?') + '\n\n' }
 
 const page = {

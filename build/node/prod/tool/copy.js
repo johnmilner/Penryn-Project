@@ -14,7 +14,8 @@ module.exports = () => {
         }
 
         if (i === config.copy.length - 1) {
-            console.log(colors.magenta('→ All files are copied   ❤ '))
+            console.log(colors.magenta('→ All files are copied       ❤'))
+            removeImgLocalOnly()
         }
     }
 
@@ -23,6 +24,14 @@ module.exports = () => {
             return fs.lstatSync(filePath)
         } catch (err) {
             return false
+        }
+    }
+
+    function removeImgLocalOnly (filePath) {
+        const localOnlyImgs = config.dest + config.localOnlyImgs
+        if (fileExists(localOnlyImgs)) {
+            fse.removeSync(localOnlyImgs)
+            console.log(colors.red('→ Local-only images removed  ❤'))
         }
     }
 }

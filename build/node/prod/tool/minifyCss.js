@@ -2,7 +2,7 @@ const config = require('../config/config.js')
 const fs = require('fs')
 const cssnano = require('cssnano')
 const writeInternal = require('./writeInternal.js')
-const showEnd = require('./showEnd.js')
+const consoleEnd = require('./consoleEnd.js')
 
 module.exports = _ => {
     const css = fs.readFileSync(config.src + config.minify.css, 'utf8')
@@ -16,6 +16,6 @@ module.exports = _ => {
     })
 
     function callback () {
-        showEnd('CSS')
+        consoleEnd('CSS')
     }
 }

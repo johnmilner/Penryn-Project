@@ -23,6 +23,7 @@ module.exports = {
     },
     copy: [
         '.htaccess',
+        '.htpasswd',
         'index.php',
         'robots.txt',
         'sitemap.xml',
@@ -36,6 +37,7 @@ module.exports = {
         'static/media',
         'static/style/font'
     ],
+    localOnlyImgs: 'static/media/img/_local-only',
     metaRobotsUrl: 'app/View/base/main.php',
     internal: [
         'app/View/base/main.php',

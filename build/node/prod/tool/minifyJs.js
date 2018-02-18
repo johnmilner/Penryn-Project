@@ -2,7 +2,7 @@ const config = require('../config/config.js')
 const fs = require('fs')
 const uglifyJS = require('uglify-js')
 const writeInternal = require('./writeInternal.js')
-const showEnd = require('./showEnd.js')
+const consoleEnd = require('./consoleEnd.js')
 
 module.exports = _ => {
     // Add all files from main.js
@@ -59,6 +59,6 @@ module.exports = _ => {
     }
 
     function callback () {
-        showEnd('JS ')
+        consoleEnd('JS ')
     }
 }

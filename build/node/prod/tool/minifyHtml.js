@@ -3,7 +3,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const glob = require('glob')
 const minify = require('html-minifier').minify
-const showEnd = require('./showEnd.js')
+const consoleEnd = require('./consoleEnd.js')
 
 module.exports = callback => {
     glob(config.src + config.minify.html.view + '**/*.php', false, (er, files) => {
@@ -24,8 +24,7 @@ module.exports = callback => {
         cleanPhpTags(dest)
 
         if (no === files.length - 1) {
-            console.log('\n')
-            showEnd('PHP')
+            consoleEnd('PHP')
             callback()
         } else {
             getMinify(files, no + 1)
