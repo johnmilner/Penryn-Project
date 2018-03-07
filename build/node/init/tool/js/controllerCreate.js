@@ -14,7 +14,7 @@ module.exports = page => {
         stream.once('open', _ => {
             stream.write('import Loader from \'../Bundle/Common/Transition/Loader.js\'\r\n')
             stream.write('import Transition from \'../Bundle/Common/Transition/Transition.js\'\r\n')
-            stream.write('import Listeners from \'../Bundle/Common/Listeners/Common.js\'\r\n')
+            stream.write('import Listeners from \'../Bundle/Common/Listeners/Listeners.js\'\r\n')
             stream.write('\r\n')
             stream.write('class ' + jsControllerName + ' {\r\n')
             stream.write('\r\n')
