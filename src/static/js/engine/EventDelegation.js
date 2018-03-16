@@ -37,7 +37,7 @@ class EventDelegation {
         }
 
         if (targetIsATag) {
-            const targetHref = target.href
+            const targetHref = target.dataset.href === undefined ? target.href : target.dataset.href
 
             if (target.classList.contains('_tb')) {
                 prD()
