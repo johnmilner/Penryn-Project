@@ -1,0 +1,87 @@
+Arguments: 
+  /usr/bin/node /usr/local/bin/yarn dev
+
+PATH: 
+  /home/johnio/bin:/usr/local/bin:/home/johnio/bin:/home/johnio/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.11.1
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+      "name": "penryn-starter",
+      "version": "6.1.7",
+      "description": "A starter kit for web development",
+      "author": "Aristide Benoist",
+      "license": "MIT",
+      "scripts": {
+          "init": "node build/node/init/index.js",
+          "reset": "node build/node/reset/index.js",
+          "dev": "node build/node/dev/index.js",
+          "prod": "bash build/bash/prod.sh",
+          "push": "bash build/bash/push.sh"
+      },
+      "dependencies": {
+          "skylake": "6.2.1"
+      },
+      "devDependencies": {
+          "autoprefixer": "8.2.0",
+          "babel-core": "6.26.0",
+          "babel-preset-es2015-rollup": "3.0.0",
+          "browser-sync": "2.23.6",
+          "colors": "1.2.1",
+          "css-mqpacker": "6.0.2",
+          "cssnano": "3.10.0",
+          "eslint": "4.19.1",
+          "eslint-config-standard": "10.2.1",
+          "eslint-plugin-import": "2.9.0",
+          "eslint-plugin-node": "6.0.1",
+          "eslint-plugin-promise": "3.7.0",
+          "eslint-plugin-standard": "3.0.1",
+          "fs-extra": "5.0.0",
+          "glob": "7.1.2",
+          "html-minifier": "3.5.12",
+          "postcss": "6.0.21",
+          "postcss-easy-import": "3.0.0",
+          "postcss-media-minmax": "3.0.0",
+          "postcss-mixins": "6.2.0",
+          "postcss-nested": "3.0.0",
+          "postcss-position": "1.0.0",
+          "postcss-responsive-font": "1.0.3",
+          "postcss-simple-vars": "4.1.0",
+          "rollup": "0.57.1",
+          "rollup-plugin-babel": "3.0.3",
+          "rollup-plugin-commonjs": "9.1.0",
+          "rollup-plugin-eslint": "4.0.0",
+          "rollup-plugin-node-resolve": "3.3.0",
+          "uglify-js": "3.3.16"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c node build/node/dev/index.js
+  Directory: /home/johnio/Dropbox/Websites/Sites-Johnnycat/5 - Portfolio Site/11 - Penryn Starter Aristide Benoist/penryn-starter
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

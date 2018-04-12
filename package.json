@@ -45,5 +45,7 @@
         "rollup-plugin-eslint": "4.0.0",
         "rollup-plugin-node-resolve": "3.3.0",
         "uglify-js": "3.3.16"
-    }
+    },
+    "main": "index.js",
+    "repository": "https://github.com/ariiiman/penryn-starter.git"
 }

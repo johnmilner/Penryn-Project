@@ -12,8 +12,8 @@
 $font: 'eesti';
 $style: normal;
 
-@mixin font-face $font, 400, $style, GT-Eesti-Display-Regular;
-@mixin font-face $font, 200, $style, GT-Eesti-Display-Thin;
+@font-face $font, 400, $style, GT-Eesti-Display-Regular;
+@font-face $font, 200, $style, GT-Eesti-Display-Thin;
 
 /*───────────────────────────────────────────────────────────*/
 /*─                         variables
