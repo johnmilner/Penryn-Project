@@ -956,7 +956,7 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.15.x, commander@^2.2.0, commander@~2.15.0:
+commander@2.15.x, commander@^2.2.0, commander@^2.9.0, commander@~2.15.0:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -1296,6 +1296,10 @@ escape-html@~1.0.3:
 escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
+
+eslint-config-google@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-google/-/eslint-config-google-0.9.1.tgz#83353c3dba05f72bb123169a4094f4ff120391eb"
 
 eslint-config-standard@10.2.1:
   version "10.2.1"
@@ -2409,6 +2413,12 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
+node-php-server@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/node-php-server/-/node-php-server-0.1.2.tgz#131a0509d603aece32f8fde412f52b9c4ae26628"
+  dependencies:
+    open "*"
+
 node-pre-gyp@^0.6.39:
   version "0.6.39"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.39.tgz#c00e96860b23c0e1420ac7befc5044e1d78d8649"
@@ -2517,6 +2527,10 @@ onetime@^2.0.0:
   resolved "https://registry.yarnpkg.com/onetime/-/onetime-2.0.1.tgz#067428230fd67443b2794b22bba528b6867962d4"
   dependencies:
     mimic-fn "^1.0.0"
+
+open@*:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/open/-/open-0.0.5.tgz#42c3e18ec95466b6bf0dc42f3a2945c3f0cad8fc"
 
 openurl@1.1.1:
   version "1.1.1"
@@ -2657,6 +2671,13 @@ path-type@^2.0.0:
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+
+php-serve@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/php-serve/-/php-serve-0.0.1.tgz#14f478164bbc889ae75d1a59512427ad74e181cc"
+  dependencies:
+    commander "^2.9.0"
+    node-php-server "^0.1.2"
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"

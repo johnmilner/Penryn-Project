@@ -1,144 +1,182 @@
-/* eslint-disable */
-
-import skylake from 'skylake'
-
-const classCallCheck = function(t, e) {
-    if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
-   },
-   createClass = function() {
-    function t(t, e) {
-     for (var i = 0; i < e.length; i++) {
-      var s = e[i];
-      s.enumerable = s.enumerable || !1, s.configurable = !0, "value" in s && (s.writable = !0), Object.defineProperty(t, s.key, s)
-     }
-    }
-    return function(e, i, s) {
-     return i && t(e.prototype, i), s && t(e, s), e
-    }
-   }()
-
-const Listeners = function() {
-    function t() {
-     classCallCheck(this, t)
-    }
-    return createClass(t, [{
-     key: "init",
-     value: function(t) {
-      var e = this,
-       i = t,
-       s = [];
-      this.normEvs = [], this.moduleArr = [], this.speOpts = {};
-      for (var a = {
-        scroll: {
-         throttle: !0,
-         skylake: "Scroll"
-        },
-        ro: {
-         throttle: !0,
-         skylake: "RO"
-        },
-        wt: {
-         throttle: !1,
-         skylake: "WT"
-        },
-        mm: {
-         throttle: !0,
-         skylake: "MM"
-        }
-       }, o = Object.keys(i), n = o.length, r = 0; r < n; r++)
-       for (var l = o[r], h = i[o[r]], c = void 0 !== a[l], u = !!c && a[l].throttle, d = c ? 1 : h.length, m = c ? s : this.normEvs, y = 0; y < d; y++) {
-        var p = c ? h : h[y],
-         f = p.module,
-         k = {
-          event: l,
-          module: f,
-          method: p.method
-         };
-        u ? (k.throttle = p.throttle, k.element = p.element) : k.el = p.el || document, m.push(k), this.moduleArr.indexOf(f) < 0 && this.moduleArr.push({
-         module: f,
-         arg: p.arg,
-         alreadyCalled: this.getAlreadyCalled(f)
+/*
+RULES
+─────
+►►► Init module method when add listeners with "moduleInit" option on "true"
+►►► Need outroM option only when initialize module
+►►► Call module destroy method when remove listeners with destroy parameter
+►►► All module callback method include 2 options : listeners & outroM
+►►► Each module need : export default new MyModule()
+►►► Arg is accessible in "init" and "destroy" methods
+EXAMPLE
+───────
+class HomeController {
+    constructor (Listeners) {
+        Listeners.init({
+            mouseenter: [
+                {
+                    el: '#h-link',
+                    module: Over,
+                    method: 'run'
+                }
+            ],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                },
+                module: Resize,
+                method: 'calculate'
+            }
         })
-       }
-      this.normEvsL = this.normEvs.length, this.speEvsL = s.length, this.moduleArrL = this.moduleArr.length, this.speEvInstance = [];
-      for (var v = function(t) {
-        var i = e.normEvs[t];
-        i.callback = function(t) {
-         var s = {
-          event: t,
-          listeners: e,
-          outroM: e.outroM
-         };
-         i.module[i.method](s)
-        }
-       }, g = 0; g < this.normEvsL; g++) v(g);
-      for (var b = function(t) {
-        var i = s[t],
-         o = a[i.event].skylake,
-         n = void 0;
-        e.speOpts.listeners = e, "Scroll" === o ? n = {
-         callback: function(t, s) {
-          e.speOpts.currentScrollY = t, e.speOpts.delta = s, i.module[i.method](e.speOpts)
-         },
-         throttle: i.throttle
-        } : "WT" === o ? n = function(t, s, a) {
-         e.speOpts.delta = t, e.speOpts.type = s, e.speOpts.event = a, i.module[i.method](e.speOpts)
-        } : "RO" === o ? n = {
-         callback: function(t) {
-          i.module[i.method](n)
-         },
-         throttle: i.throttle
-        } : "MM" === o && (n = {
-         callback: function(t, s) {
-          e.speOpts.posX = t, e.speOpts.posY = s, i.module[i.method](e.speOpts)
-         },
-         throttle: i.throttle,
-         element: i.element
-        }), e.speEvInstance[t] = new skylake[o](n)
-       }, x = 0; x < this.speEvsL; x++) b(x)
-     }
-    }, {
-     key: "getAlreadyCalled",
-     value: function(t) {
-      for (var e = this.moduleArr.length, i = 0; i < e; i++)
-       if (t === this.moduleArr[i].module) return !0;
-      return !1
-     }
-    }, {
-     key: "add",
-     value: function(t) {
-      t && t.moduleInit && (this.outroM = this.speOpts.outroM = t.outroM, this.methodCall("init")), this.listen("add")
-     }
-    }, {
-     key: "remove",
-     value: function(t) {
-      !(!t || void 0 === t.destroy) && t.destroy && this.methodCall("destroy"), this.listen("remove")
-     }
-    }, {
-     key: "methodCall",
-     value: function(t) {
-      for (var e = 0; e < this.moduleArrL; e++) {
-       var i = this.moduleArr[e].module;
-       this.moduleArr[e].alreadyCalled || "function" != typeof i[t] || i[t]({
-        outroM: this.outroM,
-        listeners: this,
-        arg: this.moduleArr[e].arg
-       })
-      }
-     }
-    }, {
-     key: "listen",
-     value: function(t) {
-      for (var e = 0; e < this.speEvsL; e++) {
-       var i = "add" === t ? "on" : "off";
-       this.speEvInstance[e][i]()
-      }
-      for (var s = 0; s < this.normEvsL; s++) {
-       var a = this.normEvs[s];
-       skylake.Listen(a.el, t, a.event, a.callback)
-      }
-     }
-    }]), t
-   }()
+    }
+    preload (opts) {
+        opts.listeners.add()
+    }
+    intro (opts) {
+        opts.listeners.add()
+    }
+    outro (done, listeners) {
+        listeners.remove({
+            destroy: true
+        })
+    }
+}
+*/
 
-   export default Listeners 
+import S from 'skylake'
+
+class Listeners {
+
+    init (events) {
+        const evs = events
+        const speEvs = []
+        this.normEvs = []
+        this.moduleArr = []
+
+        const keys = Object.keys(evs)
+        const keysL = keys.length
+        for (let i = 0; i < keysL; i++) {
+            const ev = keys[i]
+            const allEvContent = evs[keys[i]]
+            const isSpeEv = ev === 'scroll' || ev === 'ro'
+            const evContentL = isSpeEv ? 1 : allEvContent.length
+            const arr = isSpeEv ? speEvs : this.normEvs
+
+            for (let j = 0; j < evContentL; j++) {
+                const evContent = isSpeEv ? allEvContent : allEvContent[j]
+                const evContentModule = evContent.module
+                // Normal & spe arr
+                const obj = {
+                    event: ev,
+                    module: evContentModule,
+                    method: evContent.method
+                }
+                if (isSpeEv) {
+                    obj.throttle = evContent.throttle
+                } else {
+                    obj.el = evContent.el
+                }
+                arr.push(obj)
+                // Common arr
+                if (this.moduleArr.indexOf(evContentModule) < 0) {
+                    this.moduleArr.push({
+                        module: evContentModule,
+                        arg: evContent.arg,
+                        alreadyCalled: this.getAlreadyCalled(evContentModule)
+                    })
+                }
+            }
+        }
+
+        this.normEvsL = this.normEvs.length
+        this.speEvsL = speEvs.length
+        this.moduleArrL = this.moduleArr.length
+        this.speEvInstance = []
+
+        // Normal events prepare
+        for (let i = 0; i < this.normEvsL; i++) {
+            const normEv = this.normEvs[i]
+            normEv.callback = e => {
+                const opts = {
+                    event: e,
+                    listeners: this,
+                    outroM: this.outroM
+                }
+                normEv.module[normEv.method](opts)
+            }
+        }
+
+        // Special events prepare
+        for (let i = 0; i < this.speEvsL; i++) {
+            const speEv = speEvs[i]
+            const speEvIsScroll = speEv.event === 'scroll'
+            const speEvSkylake = speEvIsScroll ? 'Scroll' : 'RO'
+            this.speEvInstance[i] = new S[speEvSkylake]({
+                callback: (s, d) => {
+                    const opts = {
+                        listeners: this,
+                        outroM: this.outroM
+                    }
+                    if (speEvIsScroll) {
+                        opts.currentScrollY = s
+                        opts.delta = d
+                    }
+                    speEv.module[speEv.method](opts)
+                },
+                throttle: speEv.throttle
+            })
+        }
+    }
+
+    getAlreadyCalled (module) {
+        const moduleArrL = this.moduleArr.length
+        for (let i = 0; i < moduleArrL; i++) {
+            if (module === this.moduleArr[i].module) {
+                return true
+            }
+        }
+        return false
+    }
+
+    add (opts) {
+        if (opts && opts.moduleInit) {
+            this.outroM = opts.outroM
+            this.methodCall('init')
+        }
+        this.listen('add')
+    }
+
+    remove (opts) {
+        const destroy = opts && opts.destroy !== undefined ? opts.destroy : false
+        if (destroy) {
+            this.methodCall('destroy')
+        }
+        this.listen('remove')
+    }
+
+    methodCall (name) {
+        for (let i = 0; i < this.moduleArrL; i++) {
+            const module = this.moduleArr[i].module
+            if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
+                module[name]({
+                    outroM: this.outroM,
+                    arg: this.moduleArr[i].arg
+                })
+            }
+        }
+    }
+
+    listen (action) {
+        for (let i = 0; i < this.speEvsL; i++) {
+            const state = action === 'add' ? 'on' : 'off'
+            this.speEvInstance[i][state]()
+        }
+        for (let i = 0; i < this.normEvsL; i++) {
+            const normEv = this.normEvs[i]
+            S.Listen(normEv.el, action, normEv.event, normEv.callback)
+        }
+    }
+
+}
+
+export default Listeners
