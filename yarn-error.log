@@ -4088,7 +4088,7 @@ Trace:
   Exit code: 1
   Command: sh
   Arguments: -c node build/node/dev/index.js
-  Directory: /var/www/html/penryn-starter
+  Directory: /home/johnio/Dropbox/Websites/Sites-Johnnycat/dev/penryn.dev
   Output:
   
       at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)

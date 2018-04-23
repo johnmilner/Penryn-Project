@@ -13,13 +13,13 @@ const browserSyncConfig = {
         open: 'external',
         host: ip,
         proxy: ip,
-        port: 9000,
+        port: 3000,
         notify: false
     },
     mac: {
         open: 'external',
-        proxy: "http://127.0.0.1",
-        port: 9000,
+        proxy: "http://127.0.1.1/",
+        port: 3000,
         notify: false,
         files: ["**/*.php"]
     }

@@ -1,8 +1,9 @@
 /* eslint-disable */
 
+//import S from 'skylake'
 import jQuery from 'jquery'
 
-$(window).on("load", function() {
+const Loader = $(window).on("load", function() {
     var preloaderFadeOutTime = 2500;
     function hidePreloader() {
       var preloader = $("#loader");
@@ -11,5 +12,7 @@ $(window).on("load", function() {
     }
     hidePreloader();  
   });
+
+
 
 export default Loader

@@ -9,14 +9,15 @@
 /*─                          fonts
 /*───────────────────────────────────────────────────────────*/
 
-$font: 'eesti';
+$font: 'GT-Eesti-Text-Thin';
 $style: normal;
 
-@font-face $font, 400, $style, GT-Eesti-Display-Regular;
-@font-face $font, 200, $style, GT-Eesti-Display-Thin;
+/* 
+@font-face $font, 400, $style, GT-Eesti-Text-Thin;
+@font-face $font, 200, $style, GT-Eesti-Text-Thin; */
 
 /*───────────────────────────────────────────────────────────*/
 /*─                         variables
 /*───────────────────────────────────────────────────────────*/
 
-$color: #131313;
+/* $color: #131313; */
