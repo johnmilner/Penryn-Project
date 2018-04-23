@@ -10750,11 +10750,38 @@ var Loader = $(window).on("load", function () {
 
 // /* eslint-disable */
 
-var Transition = new skylake.Timeline();
-Transition.from({ el: '', p: { y: [-100, 0] }, d: 5000, e: 'Power4InOut' });
-// Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
+// CONTROLLER
+// ──────────
 
-Transition.play();
+// Xhr.controller(pageName, myCallback, args);
+
+// function myCallback(response, args) {
+
+//     // Insert HTML
+//     app.insertAdjacentHTML('beforeend', response);
+
+// }
+
+// ONPOPSTATE
+// ──────────
+
+// Xhr.onPopstate()
+
+Xhr.controller('about', tran, args);
+
+function tran(response, args) {
+
+    var Transition = new skylake.Timeline();
+    Transition.from({ el: '#sail', p: { y: [-100, 0] }, d: 5000, e: 'Power4InOut' });
+    // Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
+
+    Transition.play();
+
+    // Insert HTML
+    app.insertAdjacentHTML('beforeend', response);
+}
+
+Xhr.onPopstate();
 
 /*
 RULES
