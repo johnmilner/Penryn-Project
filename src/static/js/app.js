@@ -10738,7 +10738,11 @@ var Router = function () {
 
 /* eslint-disable */
 
-var Loader = $(window).on("load", function () {
+var Transition$1 = new skylake.Timeline();
+Transition$1.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut' });
+// Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
+
+var Loader = function Loader() {
   var preloaderFadeOutTime = 2500;
   function hidePreloader() {
     var preloader = $("#loader");
@@ -10746,9 +10750,12 @@ var Loader = $(window).on("load", function () {
     preloader.delay(2300).fadeOut(preloaderFadeOutTime);
   }
   hidePreloader();
-});
+  Transition$1.play();
+};
 
-// /* eslint-disable */
+Loader();
+
+/* eslint-disable */
 
 // CONTROLLER
 // ──────────
@@ -10770,12 +10777,6 @@ var Loader = $(window).on("load", function () {
 Xhr.controller('about', tran, args);
 
 function tran(response, args) {
-
-    var Transition = new skylake.Timeline();
-    Transition.from({ el: '#sail', p: { y: [-100, 0] }, d: 5000, e: 'Power4InOut' });
-    // Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
-
-    Transition.play();
 
     // Insert HTML
     app.insertAdjacentHTML('beforeend', response);
