@@ -10739,15 +10739,14 @@ var Router = function () {
 /* eslint-disable */
 
 var Transition$1 = new skylake.Timeline();
-Transition$1.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut' });
-// Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
+Transition$1.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, delay: 2000, e: 'Power4InOut' });
 
 var Loader = function Loader() {
   var preloaderFadeOutTime = 2500;
   function hidePreloader() {
     var preloader = $("#loader");
     preloader.show(); //show preloader - see spinner css
-    preloader.delay(2300).fadeOut(preloaderFadeOutTime);
+    preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
   }
   hidePreloader();
   Transition$1.play();
@@ -10756,33 +10755,6 @@ var Loader = function Loader() {
 Loader();
 
 /* eslint-disable */
-
-// CONTROLLER
-// ──────────
-
-// Xhr.controller(pageName, myCallback, args);
-
-// function myCallback(response, args) {
-
-//     // Insert HTML
-//     app.insertAdjacentHTML('beforeend', response);
-
-// }
-
-// ONPOPSTATE
-// ──────────
-
-// Xhr.onPopstate()
-
-Xhr.controller('about', tran, args);
-
-function tran(response, args) {
-
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-}
-
-Xhr.onPopstate();
 
 /*
 RULES
@@ -11033,6 +11005,7 @@ var HomeController = function () {
         value: function intro() {
             Transition.intro({
                 listeners: Listeners
+
             });
         }
     }, {
@@ -11044,6 +11017,77 @@ var HomeController = function () {
         }
     }]);
     return HomeController;
+}();
+
+var AboutController = function () {
+    function AboutController() {
+        classCallCheck(this, AboutController);
+    }
+
+    createClass(AboutController, [{
+        key: 'preload',
+        value: function preload() {
+            Loader.run({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'intro',
+        value: function intro() {
+            Transition.intro({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'outro',
+        value: function outro() {
+            Transition.outro({
+                listeners: Listeners
+            });
+        }
+    }]);
+    return AboutController;
+}();
+
+/*
+
+router.init('/', HomeController)
+router.init('/about', AboutController)
+router.init('/work/:id/:name', WorkOneController).with('id', '[0-9]+').with('name', '[a-z0-9-]+')
+router.init('/work/:type', WorkAllController).with('type', 'date|title')
+router.init('/work', WorkAllController)
+
+*/
+
+var Route = function Route() {
+    classCallCheck(this, Route);
+
+    var router = new Router();
+
+    router.init('/', HomeController);
+    router.init('/about', AboutController);
+
+    router.error(ErrorController);
+
+    router.run();
+};
+
+var App = function App() {
+    classCallCheck(this, App);
+
+    window.Penryn = window.Penryn || {};
+
+    Support.init();
+
+    skylake.TopWhenRefresh();
+
+    new Route();
+};
+
+(function (_) {
+  return new App();
+})();
+eController;
 }();
 
 var AboutController = function () {

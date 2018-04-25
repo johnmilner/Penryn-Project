@@ -1,6 +1,10 @@
 /* eslint-disable */
-
+import S from 'skylake'
 import Xhr from '../../../../Engine/Xhr.js'
+
+
+
+
 
 // CONTROLLER
 // ──────────
@@ -19,20 +23,20 @@ import Xhr from '../../../../Engine/Xhr.js'
 
 // Xhr.onPopstate()
 
-Xhr.controller('about', tran, args);
+// Xhr.controller('about', tran, args);
 
-function tran(response, args) {
+// function tran(response, args) {
 
+//     // Insert HTML
+//     app.insertAdjacentHTML('beforeend', response);
 
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
+// }
 
-}
-
-Xhr.onPopstate()
+//Xhr.onPopstate()
 
 // Transition.pause()
 
 // Transition.play({reverse: true})
+
 
 export default Transition

@@ -40,11 +40,15 @@
         <link rel="shortcut icon" href="/static/media/fav/favicon.ico">
         <meta name="msapplication-config" content="/static/media/fav/browserconfig.xml">
         <meta name="theme-color" content="#000">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
         <!-- Style -->
         <!-- CSS after Typekit is better -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
         <link rel="stylesheet" href="/static/style/css/app.css">
     </head>
     <body>
+    <div class="container" id="home">
+        <div id="body-content-wrapper">
         <?php include ROOT . 'app/View/common/sail.php'; ?>
         <div id="app">
             <div id="xhr">
@@ -56,6 +60,8 @@
         <?php include ROOT . 'app/View/issue/browserWidth.php'; ?>
         <?php include ROOT . 'app/View/issue/updateBrowser.php'; ?>
         <?php include ROOT . 'app/View/issue/enableJavascript.php'; ?>
+        </div>
+    </div>
         <!-- Script -->
         <script type="text/javascript" src="/static/js/app.js"></script>
         <!-- Google Analytics -->

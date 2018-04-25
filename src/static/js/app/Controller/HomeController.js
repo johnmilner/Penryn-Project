@@ -13,6 +13,7 @@ class HomeController {
     intro () {
         Transition.intro({
             listeners: Listeners
+            
         })
     }
 
@@ -24,4 +25,38 @@ class HomeController {
 
 }
 
+// class HomeController {
+//     constructor (Listeners) {
+//         Listeners.init({
+//             mouseenter: [
+//                 {
+//                     el: '#h-link',
+//                     module: Over,
+//                     method: 'run'
+//                 }
+//             ],
+//             ro: {
+//                 throttle: {
+//                     delay: 200,
+//                     atEnd: true
+//                 },
+//                 module: Resize,
+//                 method: 'calculate'
+//             }
+//         })
+//     }
+//     preload (opts) {
+//         opts.listeners.add()
+//     }
+//     intro (opts) {
+//         opts.listeners.add()
+//     }
+//     outro (done, listeners) {
+//         listeners.remove({
+//             destroy: true
+//         })
+//     }
+// }
+
+// export default new MyModule()
 export default HomeController
