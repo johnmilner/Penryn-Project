@@ -726,7 +726,7 @@ $grid-width: 114rem;
     margin: 40px;
     padding: 10px;
     float: left;
-    background: rgba(#2998ff, .5);
+    background: rgba(41, 152, 255, .5);
     border-radius: 6px;
     opacity: 1;
     border-bottom: 2px solid #8d8d8d;
@@ -741,12 +741,12 @@ $grid-width: 114rem;
     background-image: -webkit-gradient(
         linear,
         left top, right bottom,
-        from(rgba(#2998ff, 0.6)),
-        to(rgba(#fff, 0.6)));
+        from(rgba(41, 152, 255, 0.6)),
+        to(rgba(255,255,255, 0.6)));
     background-image: linear-gradient(
         to right bottom,
-        rgba(#2998ff, 0.6),
-        rgba(#fff, 0.6));
+        rgba(41, 152, 255, 0.6),
+        rgba(255,255,255, 0.6));
     background-size: cover;
     background-position: top;
     position: relative;
@@ -865,7 +865,7 @@ $grid-width: 114rem;
     overflow: hidden;
   }
   
-  .icon {
+  /* .icon {
     background-size: 90px;
     width: 21.5px;
     height: 24px;
@@ -874,8 +874,7 @@ $grid-width: 114rem;
   
   .social-icons {
     text-align: center;
-    -webkit-transform: scale(1.3);
-            transform: scale(1.3);
+    transform: scale(1.3);
     position: relative;
   
     @include respond(phone) {
@@ -917,22 +916,13 @@ $grid-width: 114rem;
   .icon--medium,
   .icon--github,
   .icon--envelope {
-    -webkit-transition: all 0.2s;
     transition: all 0.2s;
-  }
   
-  .icon--twitter:hover,
-    .icon--twitter:active,
-    .icon--linkedin-in:hover,
-    .icon--linkedin-in:active,
-    .icon--medium:hover,
-    .icon--medium:active,
-    .icon--github:hover,
-    .icon--github:active,
-    .icon--envelope:hover,
-    .icon--envelope:active {
+    &:hover,
+    &:active {
       opacity: 0.6;
     }
+  }
   
   .icon--twitter {
     width: 24px;
@@ -968,15 +958,14 @@ $grid-width: 114rem;
     position: relative !important;
     top: 8px !important;
     left: 0px !important;
-    -webkit-transition: all 0.2s;
     transition: all 0.2s;
     //-webkit-filter: drop-shadow(0px 0px 4px rgba(247, 87, 89, 0.8));
-  }
   
-  .icon--heart:hover {
+    &:hover {
       -webkit-filter: drop-shadow(0px 0px 4px rgba(247, 87, 89, 0.8));
       cursor: pointer;
     }
+  } */
   
   .cf:after {
     content: "";
@@ -5887,12 +5876,12 @@ $grid-width: 114rem;
         background-image: -webkit-gradient(
             linear,
             left top, right bottom,
-            from(rgba(#2998ff, 0.6)),
-            to(rgba(#fff, 0.6)));
+            from(rgba(41, 152, 255, 0.6)),
+            to(rgba(255,255,255, 0.6)));
         background-image: linear-gradient(
             to right bottom,
-            rgba(#2998ff, 0.6),
-            rgba(#fff, 0.6))
+            rgba(41, 152, 255, 0.6),
+            rgba(255,255,255, 0.6))
   }
     }
   

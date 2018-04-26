@@ -99,7 +99,7 @@
     margin: 40px;
     padding: 10px;
     float: left;
-    background: rgba($color-tertiary-light, .5);
+    background: rgba(41, 152, 255, .5);
     border-radius: 6px;
     opacity: 1;
     border-bottom: 2px solid #8d8d8d;
@@ -113,8 +113,8 @@
     height: 85vh;
     background-image: linear-gradient(
         to right bottom,
-        rgba($color-tertiary-light, 0.6),
-        rgba($color-white, 0.6));
+        rgba(41, 152, 255, 0.6),
+        rgba(255,255,255, 0.6));
     background-size: cover;
     background-position: top;
     position: relative;
@@ -132,8 +132,8 @@
             only screen and (min-width: 125em) {
         background-image: linear-gradient(
             to right bottom,
-            rgba($color-tertiary-light, 0.6),
-            rgba($color-white, 0.6));
+            rgba(41, 152, 255, 0.6),
+            rgba(255,255,255, 0.6));
     }
   }
   

@@ -66,7 +66,7 @@ html {
     overflow: hidden;
   }
   
-  .icon {
+  /* .icon {
     background-size: 90px;
     width: 21.5px;
     height: 24px;
@@ -166,7 +166,7 @@ html {
       -webkit-filter: drop-shadow(0px 0px 4px rgba(247, 87, 89, 0.8));
       cursor: pointer;
     }
-  }
+  } */
   
   .cf:after {
     content: "";
