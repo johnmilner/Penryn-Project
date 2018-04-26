@@ -15,11 +15,14 @@ module.exports = {
         dest: 'src/static/style/css/app.css',
         watch: [
             './src/static/style/css/main.css',
-            './src/static/style/css/app/**/*.css'
-            // './src/static/style/css/app/lib/**/*.css',
-            // './src/static/style/css/app/common/**/*.css',
-            // './src/static/style/css/app/page/**/*.css',
-            // './src/static/style/css/app/vars/**/*.css'
+            './src/static/style/css/app/**/*.css',
+            './src/static/style/css/lib/**/*.css',
+            './src/static/style/css/common/**/*.css',
+            './src/static/style/css/issue/**/*.css',
+            './src/static/style/css/page/**/*.css',
+            './src/static/style/css/vars/**/*.css'
+
+            
         ],
         autoprefixer: ['last 2 versions']
     },

@@ -1,21 +1,3 @@
-<!-- <div id="h">
-    <div id="h-content"><?= $this->data->msg; ?></div>
-    <a id="h-link" href="/about">ABOUT</a>
-</div> -->
-
- <div class="spinner">
-                <h1 class="ml8">
-                    <span class="letters-container">
-                        <span class="letters letters-left">Hi</span>
-                        <span class="letters bang">!</span>
-                    </span>
-                    <span class="circle circle-white"></span>
-                    <span class="circle circle-dark"></span>
-                    <span class="circle circle-container">
-                        <span class="circle circle-dark-dashed"></span>
-                    </span>
-                </h1>
-            </div>
             <div id="burger" class="oh">
                 <div id="burger-hover"></div>
                 <div class="burger-line-wrap-0 burger-line-wrap oh">
@@ -51,11 +33,11 @@
                 <div id="burger-menu-sail-l" class="burger-menu-sail"></div>
                 <div id="burger-menu-sail-r" class="burger-menu-sail"></div>
                 <div id="burger-menu-bg-wrap" class="oh">
-                    <div class="burger-menu-bg"><img id="burger-menu-bg-0" class="burger-menu-bg-no" src="/static/media/img/home/intro/img.jpg" alt=""></div>
-                    <div class="burger-menu-bg"><img id="burger-menu-bg-1" class="burger-menu-bg-no" src="/static/media/img/home/case/img-0.png" alt=""></div>
-                    <div class="burger-menu-bg"><img id="burger-menu-bg-2" class="burger-menu-bg-no" src="/static/media/img/home/case/img-1.png" alt=""></div>
-                    <div class="burger-menu-bg"><img id="burger-menu-bg-3" class="burger-menu-bg-no" src="/static/media/img/home/case/img-2.png" alt=""></div>
-                    <div class="burger-menu-bg"><img id="burger-menu-bg-4" class="burger-menu-bg-no" src="/static/media/img/home/case/img-3.png" alt=""></div>
+                    <div class="burger-menu-bg"><img id="burger-menu-bg-0" class="burger-menu-bg-no" src="/static/media/img/im0.jpg" alt=""></div>
+                    <div class="burger-menu-bg"><img id="burger-menu-bg-1" class="burger-menu-bg-no" src="/static/media/img/im1.jpg" alt=""></div>
+                    <div class="burger-menu-bg"><img id="burger-menu-bg-2" class="burger-menu-bg-no" src="/static/media/img/im2.jpg" alt=""></div>
+                    <div class="burger-menu-bg"><img id="burger-menu-bg-3" class="burger-menu-bg-no" src="/static/media/img/im3.jpg" alt=""></div>
+                    <div class="burger-menu-bg"><img id="burger-menu-bg-4" class="burger-menu-bg-no" src="/static/media/img/im4.jpg" alt=""></div>
                 </div>
                 <div id="burger-menu-line-wrap" class="oh">
                     <div id="burger-menu-line"></div>
