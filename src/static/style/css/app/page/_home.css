@@ -34,8 +34,8 @@
     min-height: 100vh;
     background-image: linear-gradient(
       to right bottom,
-      rgba($color-tertiary-light, 0.3),
-      rgba($color-white, 0.3)
+      rgba(41, 152, 255, 0.3),
+      rgba(255, 255, 255, 0.3)
     );
     background-size: cover;
     background-position: top;

@@ -229,32 +229,208 @@ $grid-width: 114rem;
     }
   }
   
-  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
+  /* Animations */
   
-  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
-  
-  /*─
-/*─                                                                                    LOADER
-/*─
-/*─────────────────────────────────────────────────────────────────────────────────────────────────*/
-  
-  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
-  
-  /* #loader {
-    position: fixed 0;
-    background: #131313;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @-webkit-keyframes cascade {
+    0% {
+        -webkit-transform: 
+    rotateX(50deg) rotateZ(45deg)     translateY(1000px) scale(1.2) translateX(0);
+        transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(0);
+        opacity: 0
+    }
+    0.1% {
+        opacity: 0
+    }
+    0.2% {
+        opacity: 1
+    }
+    99.9% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(-4000px);
+        transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(-4000px);
+        opacity: 0
+    }
 }
-#loader-txt {
-    font-size: 10vw;
-    color: #fff;
-    opacity: 0;
-    transform: translate3d(0,0,0);
- }*/
   
-  /* chrome 62 bug */
+  @keyframes cascade {
+    0% {
+        -webkit-transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(0);
+        transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(0);
+        opacity: 0
+    }
+    0.1% {
+        opacity: 0
+    }
+    0.2% {
+        opacity: 1
+    }
+    99.9% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(-4000px);
+        transform: rotateX(50deg) rotateZ(45deg) translateY(1000px) scale(1.2) translateX(-4000px);
+        opacity: 0
+    }
+}
+  
+  @-webkit-keyframes rotateplane{
+    0%{
+        -webkit-transform:perspective(120px)
+    }
+    50%{
+        -webkit-transform:perspective(120px) rotateY(180deg)
+    }
+    100%{
+        -webkit-transform:perspective(120px) rotateY(180deg) rotateX(180deg)
+    }
+}
+  
+  @keyframes rotateplane{
+    0%{
+        -webkit-transform:perspective(120px) rotateX(0) rotateY(0);
+        transform:perspective(120px) rotateX(0) rotateY(0)
+    }
+    50%{
+        -webkit-transform:perspective(120px) rotateX(-180.1deg) rotateY(0);
+        transform:perspective(120px) rotateX(-180.1deg) rotateY(0)
+    }
+    100%{
+        -webkit-transform:perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        transform:perspective(120px) rotateX(-180deg) rotateY(-179.9deg)
+    }
+}
+  
+  .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
+  .animated.infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-delay: 5s;
+            animation-delay: 5s;
+  }
+  
+  @-webkit-keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+      -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+  
+    0% {
+      opacity: 0;
+      -webkit-transform: scale3d(0.3, 0.3, 0.3);
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+  
+    20% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1);
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+  
+    40% {
+      -webkit-transform: scale3d(0.9, 0.9, 0.9);
+      transform: scale3d(0.9, 0.9, 0.9);
+    }
+  
+    60% {
+      opacity: 1;
+      -webkit-transform: scale3d(1.03, 1.03, 1.03);
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
+  
+    80% {
+      -webkit-transform: scale3d(0.97, 0.97, 0.97);
+      transform: scale3d(0.97, 0.97, 0.97);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+  }
+  
+  @keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+      -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+  
+    0% {
+      opacity: 0;
+      -webkit-transform: scale3d(0.3, 0.3, 0.3);
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+  
+    20% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1);
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+  
+    40% {
+      -webkit-transform: scale3d(0.9, 0.9, 0.9);
+      transform: scale3d(0.9, 0.9, 0.9);
+    }
+  
+    60% {
+      opacity: 1;
+      -webkit-transform: scale3d(1.03, 1.03, 1.03);
+      transform: scale3d(1.03, 1.03, 1.03);
+    }
+  
+    80% {
+      -webkit-transform: scale3d(0.97, 0.97, 0.97);
+      transform: scale3d(0.97, 0.97, 0.97);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+  }
+  
+  .bounceIn {
+    -webkit-animation-duration: 5.75s;
+    animation-duration: 5.75s;
+    -webkit-animation-name: bounceIn;
+    animation-name: bounceIn;
+  }
+  
+  @-webkit-keyframes fade-In {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-In {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
   
   .spinner {
     width: 6rem;
@@ -479,13 +655,13 @@ $grid-width: 114rem;
     background-image: -webkit-gradient(
       linear,
       left top, right bottom,
-      from(rgba(#2998ff, 0.3)),
-      to(rgba(#fff, 0.3))
+      from(rgba(41, 152, 255, 0.3)),
+      to(rgba(255, 255, 255, 0.3))
     );
     background-image: linear-gradient(
       to right bottom,
-      rgba(#2998ff, 0.3),
-      rgba(#fff, 0.3)
+      rgba(41, 152, 255, 0.3),
+      rgba(255, 255, 255, 0.3)
     );
     background-size: cover;
     background-position: top;

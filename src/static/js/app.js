@@ -11123,3 +11123,49 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
+{
+                listeners: Listeners
+            });
+        }
+    }]);
+    return AboutController;
+}();
+
+/*
+
+router.init('/', HomeController)
+router.init('/about', AboutController)
+router.init('/work/:id/:name', WorkOneController).with('id', '[0-9]+').with('name', '[a-z0-9-]+')
+router.init('/work/:type', WorkAllController).with('type', 'date|title')
+router.init('/work', WorkAllController)
+
+*/
+
+var Route = function Route() {
+    classCallCheck(this, Route);
+
+    var router = new Router();
+
+    router.init('/', HomeController);
+    router.init('/about', AboutController);
+
+    router.error(ErrorController);
+
+    router.run();
+};
+
+var App = function App() {
+    classCallCheck(this, App);
+
+    window.Penryn = window.Penryn || {};
+
+    Support.init();
+
+    skylake.TopWhenRefresh();
+
+    new Route();
+};
+
+(function (_) {
+  return new App();
+})();
