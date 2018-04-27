@@ -10829,10 +10829,10 @@ Loader();
 
 // Xhr.onPopstate()
 
+
 Xhr.controller('home', tran, args);
 
 function tran(response, args) {
-
     // Insert HTML
     app.insertAdjacentHTML('beforeend', response);
 }
@@ -11071,31 +11071,65 @@ var ErrorController = function () {
     return ErrorController;
 }();
 
+// class HomeController {
+
+//     preload () {
+//         Loader.run({
+//             listeners: Listeners
+//         })
+//     }
+
+//     intro () {
+//         Transition.intro({
+//             listeners: Listeners
+
+//         })
+//     }
+
+//     outro () {
+//         Transition.outro({
+//             listeners: Listeners
+//         })
+//     }
+
+// }
+
 var HomeController = function () {
-    function HomeController() {
+    function HomeController(Listeners$$1) {
         classCallCheck(this, HomeController);
+
+        Listeners$$1.init({
+            mouseenter: [{
+                el: '#h-link',
+                module: Over,
+                method: 'run'
+            }],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                },
+                module: Resize,
+                method: 'calculate'
+            }
+        });
     }
 
     createClass(HomeController, [{
         key: 'preload',
-        value: function preload() {
-            Loader.run({
-                listeners: Listeners
-            });
+        value: function preload(opts) {
+            opts.listeners.add();
         }
     }, {
         key: 'intro',
-        value: function intro() {
-            Transition.intro({
-                listeners: Listeners
-
-            });
+        value: function intro(opts) {
+            opts.listeners.add();
         }
     }, {
         key: 'outro',
-        value: function outro() {
-            Transition.outro({
-                listeners: Listeners
+        value: function outro(done, listeners) {
+            listeners.remove({
+                destroy: true
             });
         }
     }]);

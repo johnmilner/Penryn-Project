@@ -23,10 +23,10 @@ import Xhr from '../../../../Engine/Xhr.js'
 
 // Xhr.onPopstate()
 
+
 Xhr.controller('home', tran, args);
 
 function tran(response, args) {
-
     // Insert HTML
     app.insertAdjacentHTML('beforeend', response);
 

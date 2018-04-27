@@ -176,6 +176,16 @@ $grid-width: 114rem;
   }
   
   @font-face {
+    font-family: "FuturaStd-Book";
+    src: url("../../../../static/media/sou/FuturaStd-Book.otf");
+  }
+  
+  @font-face {
+    font-family: "FuturaStd-ExtraBold";
+    src: url("../../../../static/media/sou/FuturaStd-ExtraBold.otf");
+  }
+  
+  @font-face {
     font-family: trump-gothic-pro;
     font-weight: 400;
     font-style: normal;
@@ -625,20 +635,36 @@ $grid-width: 114rem;
   
   /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
   
-  /* #h {
-    position: absolute 0;
-    background: #240051;
+  #h {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: transparent;
     font-family: 'GT-Eesti-Text-Thin';
     color: #fff;
 }
-#h-content {
-    position: absolute 0;
+  
+  #h-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     font-size: 10vw;
 }
-#h-link {
+  
+  #h-link {
     position: absolute;
     top: 2vw;
     left: 2.2vw;
@@ -646,7 +672,7 @@ $grid-width: 114rem;
     letter-spacing: 0.05vw;
     font-size: 0.9vw;
     opacity: 0.7;
-} */
+}
   
   .page-content {
     position: relative;
@@ -5822,6 +5848,56 @@ $grid-width: 114rem;
     letter-spacing: 2px;
     color: #fff;
   }
+  
+  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
+  
+  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
+  
+  /*─
+/*─                                                                                    ABOUT
+/*─
+/*─────────────────────────────────────────────────────────────────────────────────────────────────*/
+  
+  /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
+  
+  #a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #450049;
+    font-family: 'GT-Eesti-Text-Thin';
+    color: #fff;
+}
+  
+  #a-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 10vw;
+}
+  
+  #a-link {
+    position: absolute;
+    top: 2vw;
+    left: 2.2vw;
+    font-weight: 200;
+    letter-spacing: 0.05vw;
+    font-size: 0.9vw;
+    opacity: 0.7;
+}
   
   /*─────────────────────────────────────────────────────────────────────────────────────────────────*/
   

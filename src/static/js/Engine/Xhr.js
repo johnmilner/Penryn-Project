@@ -81,5 +81,4 @@ class Xhr {
 
 }
 
-
 export default Xhr

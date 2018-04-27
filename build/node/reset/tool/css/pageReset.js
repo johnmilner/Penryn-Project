@@ -39,7 +39,7 @@ module.exports = page => {
             stream.write('    display: flex;\r\n')
             stream.write('    justify-content: center;\r\n')
             stream.write('    align-items: center;\r\n')
-            //stream.write('    font-size: 10vw;\r\n')
+            stream.write('    font-size: 10vw;\r\n')
             stream.write('}\r\n')
             stream.write('#a-link {\r\n')
             stream.write('    position: absolute;\r\n')

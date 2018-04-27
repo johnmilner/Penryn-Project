@@ -1,3 +1,4 @@
+            
             <div id="burger" class="oh">
                 <div id="burger-hover"></div>
                 <div class="burger-line-wrap-0 burger-line-wrap oh">
@@ -130,5 +131,8 @@
                         </div>
                     </div>
                 </article>
-
+                <div id="h">
+                    <div id="h-content"><?= $this->data->msg; ?></div>
+                    <a id="h-link" href="/about">ABOUT</a>
+                </div>
             </header>

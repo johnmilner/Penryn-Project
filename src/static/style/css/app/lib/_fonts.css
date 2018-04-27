@@ -5,6 +5,16 @@
   }
 
   @font-face {
+    font-family: "FuturaStd-Book";
+    src: url("../../../../static/media/sou/FuturaStd-Book.otf");
+  }
+
+  @font-face {
+    font-family: "FuturaStd-ExtraBold";
+    src: url("../../../../static/media/sou/FuturaStd-ExtraBold.otf");
+  }
+
+  @font-face {
     font-family: trump-gothic-pro;
     font-weight: 400;
     font-style: normal;

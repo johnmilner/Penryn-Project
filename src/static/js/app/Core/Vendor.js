@@ -1,6 +1,9 @@
+/* eslint-disable */
+
 import jQuery from "jquery";
 import "jquery.easing";
 import S from 'skylake'
+
 //import devicon from 'devicon'
 
 /*
@@ -24,23 +27,24 @@ import S from 'skylake'
 
 // Loader();
 
-var app = {};
-app.menuVisible = false;
-app.keyCodeESC = 27;
+var burger = {};
+burger.menuVisible = false;
+burger.keyCodeESC = 27;
+
 
 
 $(function() {
-  if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) app.loadAndFadeInCaseImages();
+  if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
   // Top menu
   $('#burger').click(function(e) {
     e.preventDefault();
-    !app.menuVisible ? app.revealMenu() : app.hideMenu();
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
   });
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function(e) {
-    app.hideMenu();
+    burger.hideMenu();
   });
 
   // Make sure that links don't close the menu
@@ -50,14 +54,14 @@ $(function() {
 
   // Listen to ESC, close menu if visible
   $(document).keyup(function(e) {
-    if (e.keyCode == app.keyCodeESC) app.handleESCKey();
+    if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
   });
 
   
 });
 
 
-// app.loadAndFadeInCaseImages = function() {
+// burger.loadAndFadeInCaseImages = function() {
 //   // Load background images
 //   $("[data-image]").each(function(i, elem) {
 //     var $elem = $(elem),
@@ -78,22 +82,22 @@ $(function() {
 //   });
 // }
 
-app.handleESCKey = function() {
+burger.handleESCKey = function() {
   $(document).trigger("pressed:ESC");
-  if (app.menuVisible) app.hideMenu();
+  if (burger.menuVisible) burger.hideMenu();
 }
 
-app.toggleMenuStates = function() {
+burger.toggleMenuStates = function() {
   //$('body').toggleClass('no-scroll');
   $('#burger').toggleClass('active');
   $('#burger-menu').toggleClass('active');
   $('#burger-menu-line-wrap').toggleClass('oh')
 }
 
-app.revealMenu = function() {
-  app.menuVisible = true;
+burger.revealMenu = function() {
+  burger.menuVisible = true;
   //overlay.toggle();
-  app.toggleMenuStates();
+  burger.toggleMenuStates();
   
     const tl = new S.Timeline()
     const isObj = S.Is.object(tl)
@@ -114,11 +118,11 @@ app.revealMenu = function() {
 
 }
 
-app.hideMenu = function() {
-  app.menuVisible = false;
-  app.toggleMenuStates();
+burger.hideMenu = function() {
+  burger.menuVisible = false;
+  burger.toggleMenuStates();
   //overlay.toggle();
-  $(document).trigger("app:menuWillHide");
+  $(document).trigger("burger:menuWillHide");
 
   // $(".burger-line-hover").css({
   //   "transition-delay": "800ms"
@@ -147,11 +151,11 @@ app.hideMenu = function() {
 
 // Typically called by views that want to display something in the same 
 // position of the menu icon
-// app.hideMenuIcon = function() {
+// burger.hideMenuIcon = function() {
 //   $(".menu").hide();
 // }
 
-// app.showMenuIcon = function() {
+// burger.showMenuIcon = function() {
 //   $(".menu").show();  
 // }
 
@@ -174,7 +178,7 @@ for (var i = 0; i < navItems.length; i++) {
     if (burger.className === 'active') {
       return false;
     }
-    app.hideMenu();   
+    burger.hideMenu();   
   });
   
 };
@@ -185,7 +189,7 @@ for (var i = 0; i < navItems.length; i++) {
 //     if (burger.className === 'active') {
 //       return false;
 //     }
-//     app.hideMenu();   
+//     burger.hideMenu();   
 //   });
 
 
