@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/local/bin/yarn dev
+  /usr/bin/node /usr/local/bin/yarn run dev
 
 PATH: 
   /home/johnio/bin:/home/johnio/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games

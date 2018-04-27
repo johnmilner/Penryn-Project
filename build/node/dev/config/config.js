@@ -5,7 +5,7 @@ module.exports = {
         watch: [
             './src/static/js/app/**/*.js',
             './src/static/js/Engine/**/*.js',
-            './src/static/js/app/Core/Vendor.js',
+            './src/static/js/app/Core/*.js',
             './src/static/js/lib/**/*.js',
             './src/static/js/main.js'
         ],

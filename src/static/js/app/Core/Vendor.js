@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import jQuery from "jquery";
-import "jquery.easing";
+//import "jquery.easing";
 import S from 'skylake'
 
 //import devicon from 'devicon'
@@ -39,6 +39,7 @@ $(function() {
   // Top menu
   $('#burger').click(function(e) {
     e.preventDefault();
+    console.log('burger clicked!!');
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
   });
 
