@@ -52,6 +52,7 @@
         <div id="body-content-wrapper">
         <?php include ROOT . 'app/View/common/sail.php'; ?>
         <div id="app">
+        <?php include ROOT . 'app/View/common/burger.php'; ?>
             <div id="xhr">
                 <?= $this->content; ?>
             </div>

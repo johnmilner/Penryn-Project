@@ -30,7 +30,7 @@ class HomeController {
         Listeners.init({
             mouseenter: [
                 {
-                    el: '#h-link',
+                    el: '.header',
                     module: Over,
                     method: 'run'
                 }

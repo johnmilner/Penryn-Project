@@ -25,6 +25,7 @@ import Xhr from '../../../../Engine/Xhr.js'
 
 const intro = function() {
     const tl = new S.Timeline()
+    S.L('.header', 'add', 'scroll', intro)
     const isObj = S.Is.object(tl)
     tl.from({el: '.header', p: {opacity: [0, 1]}, d: 1000, e: 'ExpoIn'})
     tl.from({el: '.tagline', p: {y: [100, 0]}, d: 1600, e: 'Power4InOut', delay: 500})
@@ -35,7 +36,7 @@ const intro = function() {
     
     tl.play()
   }
-  
+
 Xhr.controller('home', tran, intro);
 
 function tran(response, args) {
