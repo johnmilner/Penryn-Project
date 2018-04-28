@@ -10,38 +10,26 @@ import S from 'skylake'
   Menu Overlay
 */
 
-// const Transition = new S.Timeline()
-// Transition.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, delay: 2000, e: 'Power4InOut'})
-
-
-// const Loader = function() {
-//     var preloaderFadeOutTime = 2500;
-//     function hidePreloader() {
-//       var preloader = $("#loader");
-//       preloader.show(); //show preloader - see spinner css
-//       preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
-//     }
-//     hidePreloader(); 
-//     Transition.play() 
-//   };
-
-// Loader();
-
 var burger = {};
 burger.menuVisible = false;
 burger.keyCodeESC = 27;
-
-
 
 $(function() {
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
   // Top menu
-  $('#burger').click(function(e) {
+  
+  var myFunction = function(e) {
+    $('#burger').off('click');
     e.preventDefault();
     console.log('burger clicked!!');
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-  });
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
+    
+    }
+
+    $('#burger').on('click', myFunction)
+
+
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function(e) {
@@ -91,64 +79,84 @@ burger.handleESCKey = function() {
 burger.toggleMenuStates = function() {
   //$('body').toggleClass('no-scroll');
   $('#burger').toggleClass('active');
+  //$('#burger').toggleClass('np');
   $('#burger-menu').toggleClass('active');
   $('#burger-menu-line-wrap').toggleClass('oh')
 }
+
 
 burger.revealMenu = function() {
   burger.menuVisible = true;
   //overlay.toggle();
   burger.toggleMenuStates();
-  
-    const tl = new S.Timeline()
-    const isObj = S.Is.object(tl)
-    tl.from({el: '.burger-line-hover', p: {x: [0, 105]}, d: 1600, e: 'ExpoOut', delay: 800})
-    tl.from({el: '.burger-close', p: {y: [-108, 0]}, d: 1600, e: 'Power4InOut'})
 
-    tl.from({el: '#burger-menu-sail-l', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
-    tl.from({el: '#burger-menu-sail-r', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut', delay: 50})
-    tl.from({el: '#burger-menu-list', p: {y: [0, 223.3]}, d: 2500, e: 'Power4InOut'})
-    tl.from({el: '#burger-menu-line', p: {y: [-100, 100]}, d: 2500, e: 'Power4InOut'})
-
-    tl.from({el: '.burger-menu-link', p: {y: [-100, 0]}, d: 1600, e: 'ExpoOut', delay: 1800})
-    tl.from({el: '.burger-menu-share', p: {y: [100, 0]}, d: 1600, e: 'ExpoOut', delay: 400})
-
+  var myFunction = function(e) {
+    $('#burger').off('click');
+    e.preventDefault();
+    console.log('burger clicked!!');
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
+    
+  }
+ 
+  const tl = new S.Timeline()
+  const isObj = S.Is.object(tl)
   
-    tl.play()
-  
+  tl.from({el: '.burger-line-hover', p: {x: [0, 105]}, d: 1600, e: 'ExpoOut', delay: 800})
+  tl.from({el: '.burger-close', p: {y: [-108, 0]}, d: 1600, e: 'Power4InOut'})
+
+  tl.from({el: '#burger-menu-sail-l', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+  tl.from({el: '#burger-menu-sail-r', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut', delay: 50})
+  tl.from({el: '#burger-menu-list', p: {y: [0, 223.3]}, d: 2500, e: 'Power4InOut'})
+  tl.from({el: '#burger-menu-line', p: {y: [-100, 100]}, d: 2500, e: 'Power4InOut'})
+
+  tl.from({el: '.burger-menu-link', p: {y: [-100, 0]}, d: 1600, e: 'ExpoOut', delay: 1800})
+  tl.from({el: '.burger-menu-share', p: {y: [100, 0]}, d: 1600, e: 'ExpoOut', delay: 400, 
+  cb: function() {
+    $('#burger').on("click", myFunction);
+  }})
+
+  tl.play()
+
 
 }
+  
 
 burger.hideMenu = function() {
   burger.menuVisible = false;
   burger.toggleMenuStates();
-  //overlay.toggle();
-  $(document).trigger("burger:menuWillHide");
 
-  // $(".burger-line-hover").css({
-  //   "transition-delay": "800ms"
-  // });
+  var myFunction = function(e) {
+    $('#burger').off('click');
+    e.preventDefault();
+    console.log('burger clicked!!');
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
+    
+  }
 
-  // $("#burger-line").css({
-  //   "transform": "translate3d(0,0%,0)"
-  // });
-  const tl = new S.Timeline()
-  const isObj = S.Is.object(tl)
-  tl.from({el: '#burger-menu-sail-l', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
-  tl.from({el: '#burger-menu-sail-r', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut', delay: 50})
-
+    const tl = new S.Timeline()
+    const isObj = S.Is.object(tl)
+    
+    tl.from({el: '#burger-menu-sail-l', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
+    tl.from({el: '#burger-menu-sail-r', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut', delay: 50})
   
-  tl.from({el: '#burger-menu-list', p: {y: [223.3, 0]}, d: 1500, e: 'Power4InOut'})
-  tl.from({el: '.burger-menu-share', p: {y: [0, 100]}, d: 800, e: 'ExpoOut'})
-  tl.from({el: '.burger-menu-link', p: {y: [0, -100]}, d: 1600, e: 'ExpoOut', delay: 800})
+    
+    tl.from({el: '#burger-menu-list', p: {y: [223.3, 0]}, d: 1500, e: 'Power4InOut'})
+    tl.from({el: '.burger-menu-share', p: {y: [0, 100]}, d: 800, e: 'ExpoOut'})
+    tl.from({el: '.burger-menu-link', p: {y: [0, -100]}, d: 1600, e: 'ExpoOut', delay: 800})
+  
+    tl.from({el: '.burger-close', p: {y: [0, -108]}, d: 1600, e: 'Power4InOut'})
+    tl.from({el: '.burger-line-hover', p: {x: [105, 0]}, d: 800, e: 'ExpoOut', delay: 800})
+    tl.from({el: '#burger-menu-line', p: {y: [100, -100]}, d: 1500, e: 'Power4InOut', 
+    cb: function() {
+      $('#burger').on("click", myFunction);
+    }})
+  
+    tl.play()
 
-  tl.from({el: '.burger-close', p: {y: [0, -108]}, d: 1600, e: 'Power4InOut'})
-  tl.from({el: '.burger-line-hover', p: {x: [105, 0]}, d: 800, e: 'ExpoOut', delay: 800})
-  tl.from({el: '#burger-menu-line', p: {y: [100, -100]}, d: 1500, e: 'Power4InOut'})
-
-  tl.play()
   
 }
+
+
 
 // Typically called by views that want to display something in the same 
 // position of the menu icon

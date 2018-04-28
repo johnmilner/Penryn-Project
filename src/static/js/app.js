@@ -10831,14 +10831,15 @@ Loader();
 
 var intro$1 = function intro() {
     var tl = new skylake.Timeline();
-    skylake.L('.header', 'add', 'scroll', intro);
     var isObj = skylake.Is.object(tl);
-    tl.from({ el: '.header', p: { opacity: [0, 1] }, d: 1000, e: 'ExpoIn' });
-    tl.from({ el: '.tagline', p: { y: [100, 0] }, d: 1600, e: 'Power4InOut', delay: 500 });
+    tl.from({ el: '#sail', p: { y: [-100, 100] }, d: 2000, e: 'ExpoOut', delay: 750 });
 
-    tl.from({ el: '#burger-border-wrap', p: { opacity: [0, .6] }, d: 1500, e: 'ExpoOut', delay: 250 });
-    tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 1000, e: 'ExpoOut', delay: 250 });
-    tl.from({ el: '#burger-mask', p: { y: [100, -100] }, d: 2000, e: 'ExpoOut', delay: 750 });
+    // tl.from({el: '.header', p: {opacity: [0, 1]}, d: 1000, e: 'ExpoIn'})
+    // tl.from({el: '.tagline', p: {y: [100, 0]}, d: 1600, e: 'Power4InOut', delay: 500})
+
+    // tl.from({el: '#burger-border-wrap', p: {opacity: [0, .6]}, d: 1500, e: 'ExpoOut', delay: 250})
+    // tl.from({el: '.burger-line-hover', p: {x: [105, 0]}, d: 1000, e: 'ExpoOut', delay: 250})
+    // tl.from({el: '#burger-mask', p: {y: [100, -100]}, d: 2000, e: 'ExpoOut', delay: 750})
 
     tl.play();
 };
@@ -11084,65 +11085,30 @@ var ErrorController = function () {
     return ErrorController;
 }();
 
-// class HomeController {
-
-//     preload () {
-//         Loader.run({
-//             listeners: Listeners
-//         })
-//     }
-
-//     intro () {
-//         Transition.intro({
-//             listeners: Listeners
-
-//         })
-//     }
-
-//     outro () {
-//         Transition.outro({
-//             listeners: Listeners
-//         })
-//     }
-
-// }
-
 var HomeController = function () {
-    function HomeController(Listeners$$1) {
+    function HomeController() {
         classCallCheck(this, HomeController);
-
-        Listeners$$1.init({
-            mouseenter: [{
-                el: '.header',
-                module: Over,
-                method: 'run'
-            }],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                },
-                module: Resize,
-                method: 'calculate'
-            }
-        });
     }
 
     createClass(HomeController, [{
         key: 'preload',
-        value: function preload(opts) {
-            opts.listeners.add();
+        value: function preload() {
+            Loader.run({
+                listeners: Listeners
+            });
         }
     }, {
         key: 'intro',
-        value: function intro(opts) {
-            opts.listeners.add();
+        value: function intro() {
+            Transition.intro({
+                listeners: Listeners
+            });
         }
     }, {
         key: 'outro',
-        value: function outro(done, listeners) {
-            listeners.remove({
-                destroy: true
+        value: function outro() {
+            Transition.outro({
+                listeners: Listeners
             });
         }
     }]);
@@ -11210,23 +11176,6 @@ var Route = function Route() {
   Menu Overlay
 */
 
-// const Transition = new S.Timeline()
-// Transition.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, delay: 2000, e: 'Power4InOut'})
-
-
-// const Loader = function() {
-//     var preloaderFadeOutTime = 2500;
-//     function hidePreloader() {
-//       var preloader = $("#loader");
-//       preloader.show(); //show preloader - see spinner css
-//       preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
-//     }
-//     hidePreloader(); 
-//     Transition.play() 
-//   };
-
-// Loader();
-
 var burger = {};
 burger.menuVisible = false;
 burger.keyCodeESC = 27;
@@ -11235,11 +11184,15 @@ $(function () {
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
   // Top menu
-  $('#burger').click(function (e) {
+
+  var myFunction = function myFunction(e) {
+    $('#burger').off('click');
     e.preventDefault();
     console.log('burger clicked!!');
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-  });
+  };
+
+  $('#burger').on('click', myFunction);
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function (e) {
@@ -11286,6 +11239,7 @@ burger.handleESCKey = function () {
 burger.toggleMenuStates = function () {
   //$('body').toggleClass('no-scroll');
   $('#burger').toggleClass('active');
+  //$('#burger').toggleClass('np');
   $('#burger-menu').toggleClass('active');
   $('#burger-menu-line-wrap').toggleClass('oh');
 };
@@ -11295,8 +11249,16 @@ burger.revealMenu = function () {
   //overlay.toggle();
   burger.toggleMenuStates();
 
+  var myFunction = function myFunction(e) {
+    $('#burger').off('click');
+    e.preventDefault();
+    console.log('burger clicked!!');
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
+  };
+
   var tl = new skylake.Timeline();
   var isObj = skylake.Is.object(tl);
+
   tl.from({ el: '.burger-line-hover', p: { x: [0, 105] }, d: 1600, e: 'ExpoOut', delay: 800 });
   tl.from({ el: '.burger-close', p: { y: [-108, 0] }, d: 1600, e: 'Power4InOut' });
 
@@ -11306,7 +11268,10 @@ burger.revealMenu = function () {
   tl.from({ el: '#burger-menu-line', p: { y: [-100, 100] }, d: 2500, e: 'Power4InOut' });
 
   tl.from({ el: '.burger-menu-link', p: { y: [-100, 0] }, d: 1600, e: 'ExpoOut', delay: 1800 });
-  tl.from({ el: '.burger-menu-share', p: { y: [100, 0] }, d: 1600, e: 'ExpoOut', delay: 400 });
+  tl.from({ el: '.burger-menu-share', p: { y: [100, 0] }, d: 1600, e: 'ExpoOut', delay: 400,
+    cb: function cb() {
+      $('#burger').on("click", myFunction);
+    } });
 
   tl.play();
 };
@@ -11314,18 +11279,17 @@ burger.revealMenu = function () {
 burger.hideMenu = function () {
   burger.menuVisible = false;
   burger.toggleMenuStates();
-  //overlay.toggle();
-  $(document).trigger("burger:menuWillHide");
 
-  // $(".burger-line-hover").css({
-  //   "transition-delay": "800ms"
-  // });
+  var myFunction = function myFunction(e) {
+    $('#burger').off('click');
+    e.preventDefault();
+    console.log('burger clicked!!');
+    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
+  };
 
-  // $("#burger-line").css({
-  //   "transform": "translate3d(0,0%,0)"
-  // });
   var tl = new skylake.Timeline();
   var isObj = skylake.Is.object(tl);
+
   tl.from({ el: '#burger-menu-sail-l', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
   tl.from({ el: '#burger-menu-sail-r', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 50 });
 
@@ -11335,7 +11299,10 @@ burger.hideMenu = function () {
 
   tl.from({ el: '.burger-close', p: { y: [0, -108] }, d: 1600, e: 'Power4InOut' });
   tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 800, e: 'ExpoOut', delay: 800 });
-  tl.from({ el: '#burger-menu-line', p: { y: [100, -100] }, d: 1500, e: 'Power4InOut' });
+  tl.from({ el: '#burger-menu-line', p: { y: [100, -100] }, d: 1500, e: 'Power4InOut',
+    cb: function cb() {
+      $('#burger').on("click", myFunction);
+    } });
 
   tl.play();
 };

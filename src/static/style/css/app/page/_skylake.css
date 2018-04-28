@@ -177,6 +177,10 @@ html {
   .oh {
     overflow: hidden;
   }
+
+  .np {
+    pointer-events: none;
+  }
   
   .va-0 {
     display: table;

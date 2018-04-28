@@ -1003,6 +1003,10 @@ $grid-width: 114rem;
     overflow: hidden;
   }
   
+  .np {
+    pointer-events: none;
+  }
+  
   .va-0 {
     display: table;
     width: 100%;
@@ -5866,7 +5870,7 @@ $grid-width: 114rem;
     right: 0;
     bottom: 0;
     left: 0;
-    background: #450049;
+    /* background: #450049; */
     font-family: 'GT-Eesti-Text-Thin';
     color: #fff;
 }
