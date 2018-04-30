@@ -2910,7 +2910,10 @@
             }
 
             #h-case {
-                z-index: 1
+                z-index: 1;
+                pointer-events: none;
+                opacity: 0;
+                background: #777;
             }
 
             #h-client-wrap {

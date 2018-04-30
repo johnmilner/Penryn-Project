@@ -69,7 +69,9 @@ anime.timeline({ loop: false })
       loop: true
     });
 
-const Loader = function() {
+const Loader = {}
+
+Loader.run = function() {
     var preloaderFadeOutTime = 2500;
     function hidePreloader() {
       var preloader = $(".spinner");
@@ -79,7 +81,8 @@ const Loader = function() {
     hidePreloader(); 
   };
 
-Loader();
+//Loader.run()
+console.log('run from loader.js')
 
 
 

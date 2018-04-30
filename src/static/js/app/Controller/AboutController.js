@@ -1,6 +1,6 @@
-import Loader from '../Bundle/Common/Transition/Loader.js'
-import Transition from '../Bundle/Common/Transition/Transition.js'
-import Listeners from '../Bundle/Common/Listeners/Listeners.js'
+import Loader from '../../app/Bundle/Common/Transition/Loader.js'
+import Transition from '../../app/Bundle/Common/Transition/Transition.js'
+import Listeners from '../../Engine/Listeners.js'
 
 class AboutController {
 

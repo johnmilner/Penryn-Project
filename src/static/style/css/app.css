@@ -164,7 +164,7 @@ $grid-width: 114rem;
     left: 0;
     right: 0;
     bottom: 0;
-    background: #f7f7f7;
+    background: #777;
     -webkit-transform: translate3d(0,-100%,0);
             transform: translate3d(0,-100%,0);
     opacity: 1;

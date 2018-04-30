@@ -1,36 +1,80 @@
-import Loader from '../Bundle/Common/Transition/Loader.js'
-import Transition from '../Bundle/Common/Transition/Transition.js'
-import Listeners from '../Bundle/Common/Listeners/Listeners.js'
+import Loader from '../../app/Bundle/Common/Transition/Loader.js'
+import Transition from '../../app/Bundle/Common/Transition/Transition.js'
+//import Router from '../../Engine/Router.js'
+import Listeners from '../../Engine/Listeners'
+// import Over from '../Bundle/Common/Over.js'
+// import Resize from '../Bundle/Home/Resize.js'
 
 class HomeController {
 
-    preload () {
-        Loader.run({
-            listeners: Listeners
-        })
+    constructor (Listeners) {
+        console.log('home constructor')
+
+        // Listeners.init({
+        //     mouseenter: [
+        //         // {
+        //         //     el: 'a#h-link',
+        //         //     module: Over,
+        //         //     method: 'run'
+        //         // }
+        //     ],
+        //     ro: {
+        //         throttle: {
+        //             delay: 200,
+        //             atEnd: true
+        //         }
+        //         // module: Resize,
+        //         // method: 'calculate'
+        //     }
+        // })
     }
 
-    intro () {
-        Transition.intro({
-            listeners: Listeners
-        })
+    preload (opts) {
+        Loader.run(opts)
+        console.log('Loader.run from HomeController')
     }
 
-    outro () {
-        Transition.outro({
-            listeners: Listeners
+    intro (opts) {
+        Transition.intro(opts)
+        console.log('Transition.intro from HomeController')
+    }
+
+    outro (done, listeners) {
+        listeners.remove({
+            destroy: true
         })
+
+        Transition.outro(done)
     }
 
 }
 
+const p = new HomeController()
+
+export default HomeController
+
+
+
+
+
+
+
+// import Loader from '../Bundle/Common/Transition/Loader.js'
+// import Transition from '../Bundle/Common/Transition/Transition.js'
+// import Listeners from '../Bundle/Common/Listeners/Listeners.js'
+// import S from 'skylake'
+
 // class HomeController {
+
 //     constructor (Listeners) {
+//         console.log('run from homeController listeners init')
 //         Listeners.init({
-//             mousemove: [
+//             click: [
 //                 {
-//                     el: '.header',
-//                     module: Over,
+//                     moduleInit: true,
+//                     outroM: true,
+//                     el: '#xhr',
+//                     module: Transition,
 //                     method: 'run'
 //                 }
 //             ],
@@ -46,16 +90,47 @@ class HomeController {
 //     }
 //     preload (opts) {
 //         opts.listeners.add()
+//         console.log('run from homecontroller preload')
 //     }
 //     intro (opts) {
 //         opts.listeners.add()
+//         Transition.isObj()
+//         console.log('run from homecontroller intro')
 //     }
 //     outro (done, listeners) {
+//         console.log('run from homecontroller outro')
 //         listeners.remove({
 //             destroy: true
 //         })
 //     }
+
 // }
 
-// export default new MyModule()
-export default HomeController
+// // class HomeController {
+
+// //     preload () {
+// //         Loader.run({
+// //             listeners: Listeners,
+// //             Loader: Loader
+// //         })
+// //         console.log('run from homecontroller preload')
+// //     }
+
+// //     intro () {
+// //         Transition.intro({
+// //             listeners: Listeners,
+// //             isObj: Transition
+// //         })
+// //         console.log('run from homecontroller intro')
+// //     }
+
+// //     outro () {
+// //         Transition.outro({
+// //             listeners: Listeners
+// //         })
+// //         console.log('run from homecontroller outro')
+// //     }
+
+// // }
+
+// export default HomeController

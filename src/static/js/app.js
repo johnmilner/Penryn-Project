@@ -688,6 +688,208 @@ var EventDelegation = function () {
 }();
 
 /*
+RULES
+─────
+►►► Init module method when add listeners with "moduleInit" option on "true"
+►►► Need outroM option only when initialize module
+►►► Call module destroy method when remove listeners with destroy parameter
+►►► All module callback method include 2 options : listeners & outroM
+►►► Each module need : export default new MyModule()
+►►► Arg is accessible in "init" and "destroy" methods
+EXAMPLE
+───────
+class HomeController {
+    constructor (Listeners) {
+        Listeners.init({
+            mouseenter: [
+                {
+                    el: '#h-link',
+                    module: Over,
+                    method: 'run'
+                }
+            ],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                },
+                module: Resize,
+                method: 'calculate'
+            }
+        })
+    }
+    preload (opts) {
+        opts.listeners.add()
+    }
+    intro (opts) {
+        opts.listeners.add()
+    }
+    outro (done, listeners) {
+        listeners.remove({
+            destroy: true
+        })
+    }
+}
+*/
+
+var Listeners = function () {
+    function Listeners() {
+        classCallCheck(this, Listeners);
+    }
+
+    createClass(Listeners, [{
+        key: 'init',
+        value: function init(events) {
+            var _this = this;
+
+            var evs = events;
+            var speEvs = [];
+            this.normEvs = [];
+            this.moduleArr = [];
+
+            var keys = Object.keys(evs);
+            var keysL = keys.length;
+            for (var i = 0; i < keysL; i++) {
+                var ev = keys[i];
+                var allEvContent = evs[keys[i]];
+                var isSpeEv = ev === 'scroll' || ev === 'ro';
+                var evContentL = isSpeEv ? 1 : allEvContent.length;
+                var arr = isSpeEv ? speEvs : this.normEvs;
+
+                for (var j = 0; j < evContentL; j++) {
+                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
+                    var evContentModule = evContent.module;
+                    // Normal & spe arr
+                    var obj = {
+                        event: ev,
+                        module: evContentModule,
+                        method: evContent.method
+                    };
+                    if (isSpeEv) {
+                        obj.throttle = evContent.throttle;
+                    } else {
+                        obj.el = evContent.el;
+                    }
+                    arr.push(obj);
+                    // Common arr
+                    if (this.moduleArr.indexOf(evContentModule) < 0) {
+                        this.moduleArr.push({
+                            module: evContentModule,
+                            arg: evContent.arg,
+                            alreadyCalled: this.getAlreadyCalled(evContentModule)
+                        });
+                    }
+                }
+            }
+
+            this.normEvsL = this.normEvs.length;
+            this.speEvsL = speEvs.length;
+            this.moduleArrL = this.moduleArr.length;
+            this.speEvInstance = [];
+
+            // Normal events prepare
+
+            var _loop = function _loop(_i) {
+                var normEv = _this.normEvs[_i];
+                normEv.callback = function (e) {
+                    var opts = {
+                        event: e,
+                        listeners: _this,
+                        outroM: _this.outroM
+                    };
+                    normEv.module[normEv.method](opts);
+                };
+            };
+
+            for (var _i = 0; _i < this.normEvsL; _i++) {
+                _loop(_i);
+            }
+
+            // Special events prepare
+
+            var _loop2 = function _loop2(_i2) {
+                var speEv = speEvs[_i2];
+                var speEvIsScroll = speEv.event === 'scroll';
+                var speEvSkylake = speEvIsScroll ? 'Scroll' : 'RO';
+                _this.speEvInstance[_i2] = new skylake[speEvSkylake]({
+                    callback: function callback(s, d) {
+                        var opts = {
+                            listeners: _this,
+                            outroM: _this.outroM
+                        };
+                        if (speEvIsScroll) {
+                            opts.currentScrollY = s;
+                            opts.delta = d;
+                        }
+                        speEv.module[speEv.method](opts);
+                    },
+                    throttle: speEv.throttle
+                });
+            };
+
+            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
+                _loop2(_i2);
+            }
+        }
+    }, {
+        key: 'getAlreadyCalled',
+        value: function getAlreadyCalled(module) {
+            var moduleArrL = this.moduleArr.length;
+            for (var i = 0; i < moduleArrL; i++) {
+                if (module === this.moduleArr[i].module) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }, {
+        key: 'add',
+        value: function add(opts) {
+            if (opts && opts.moduleInit) {
+                this.outroM = opts.outroM;
+                this.methodCall('init');
+            }
+            this.listen('add');
+        }
+    }, {
+        key: 'remove',
+        value: function remove(opts) {
+            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
+            if (destroy) {
+                this.methodCall('destroy');
+            }
+            this.listen('remove');
+        }
+    }, {
+        key: 'methodCall',
+        value: function methodCall(name) {
+            for (var i = 0; i < this.moduleArrL; i++) {
+                var module = this.moduleArr[i].module;
+                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
+                    module[name]({
+                        outroM: this.outroM,
+                        arg: this.moduleArr[i].arg
+                    });
+                }
+            }
+        }
+    }, {
+        key: 'listen',
+        value: function listen(action) {
+            for (var i = 0; i < this.speEvsL; i++) {
+                var state = action === 'add' ? 'on' : 'off';
+                this.speEvInstance[i][state]();
+            }
+            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
+                var _normEv = this.normEvs[_i3];
+                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
+            }
+        }
+    }]);
+    return Listeners;
+}();
+
+/*
 
 CLASS
 ─────
@@ -10798,7 +11000,9 @@ anime({
   loop: true
 });
 
-var Loader = function Loader() {
+var Loader = {};
+
+Loader.run = function () {
   var preloaderFadeOutTime = 2500;
   function hidePreloader() {
     var preloader = $(".spinner");
@@ -10808,252 +11012,18 @@ var Loader = function Loader() {
   hidePreloader();
 };
 
-Loader();
+//Loader.run()
+console.log('run from loader.js');
 
-/* eslint-disable */
+var Transition = {};
 
-// CONTROLLER
-// ──────────
+Transition.intro = new skylake.Timeline();
+var isObj = skylake.Is.object(Transition.intro);
+Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut' });
+// Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
 
-// Xhr.controller(pageName, myCallback, args);
-
-// function myCallback(response, args) {
-
-//     // Insert HTML
-//     app.insertAdjacentHTML('beforeend', response);
-
-// }
-
-// ONPOPSTATE
-// ──────────
-
-// Xhr.onPopstate()
-
-var intro$1 = function intro() {
-    var tl = new skylake.Timeline();
-    var isObj = skylake.Is.object(tl);
-    tl.from({ el: '#sail', p: { y: [-100, 100] }, d: 2000, e: 'ExpoOut', delay: 750 });
-
-    // tl.from({el: '.header', p: {opacity: [0, 1]}, d: 1000, e: 'ExpoIn'})
-    // tl.from({el: '.tagline', p: {y: [100, 0]}, d: 1600, e: 'Power4InOut', delay: 500})
-
-    // tl.from({el: '#burger-border-wrap', p: {opacity: [0, .6]}, d: 1500, e: 'ExpoOut', delay: 250})
-    // tl.from({el: '.burger-line-hover', p: {x: [105, 0]}, d: 1000, e: 'ExpoOut', delay: 250})
-    // tl.from({el: '#burger-mask', p: {y: [100, -100]}, d: 2000, e: 'ExpoOut', delay: 750})
-
-    tl.play();
-};
-
-Xhr.controller('home', tran, intro$1);
-
-function tran(response, args) {
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-}
-
-Xhr.onPopstate();
-
-/*
-RULES
-─────
-►►► Init module method when add listeners with "moduleInit" option on "true"
-►►► Need outroM option only when initialize module
-►►► Call module destroy method when remove listeners with destroy parameter
-►►► All module callback method include 2 options : listeners & outroM
-►►► Each module need : export default new MyModule()
-►►► Arg is accessible in "init" and "destroy" methods
-EXAMPLE
-───────
-class HomeController {
-    constructor (Listeners) {
-        Listeners.init({
-            mouseenter: [
-                {
-                    el: '#h-link',
-                    module: Over,
-                    method: 'run'
-                }
-            ],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                },
-                module: Resize,
-                method: 'calculate'
-            }
-        })
-    }
-    preload (opts) {
-        opts.listeners.add()
-    }
-    intro (opts) {
-        opts.listeners.add()
-    }
-    outro (done, listeners) {
-        listeners.remove({
-            destroy: true
-        })
-    }
-}
-*/
-
-var Listeners = function () {
-    function Listeners() {
-        classCallCheck(this, Listeners);
-    }
-
-    createClass(Listeners, [{
-        key: 'init',
-        value: function init(events) {
-            var _this = this;
-
-            var evs = events;
-            var speEvs = [];
-            this.normEvs = [];
-            this.moduleArr = [];
-
-            var keys = Object.keys(evs);
-            var keysL = keys.length;
-            for (var i = 0; i < keysL; i++) {
-                var ev = keys[i];
-                var allEvContent = evs[keys[i]];
-                var isSpeEv = ev === 'scroll' || ev === 'ro';
-                var evContentL = isSpeEv ? 1 : allEvContent.length;
-                var arr = isSpeEv ? speEvs : this.normEvs;
-
-                for (var j = 0; j < evContentL; j++) {
-                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
-                    var evContentModule = evContent.module;
-                    // Normal & spe arr
-                    var obj = {
-                        event: ev,
-                        module: evContentModule,
-                        method: evContent.method
-                    };
-                    if (isSpeEv) {
-                        obj.throttle = evContent.throttle;
-                    } else {
-                        obj.el = evContent.el;
-                    }
-                    arr.push(obj);
-                    // Common arr
-                    if (this.moduleArr.indexOf(evContentModule) < 0) {
-                        this.moduleArr.push({
-                            module: evContentModule,
-                            arg: evContent.arg,
-                            alreadyCalled: this.getAlreadyCalled(evContentModule)
-                        });
-                    }
-                }
-            }
-
-            this.normEvsL = this.normEvs.length;
-            this.speEvsL = speEvs.length;
-            this.moduleArrL = this.moduleArr.length;
-            this.speEvInstance = [];
-
-            // Normal events prepare
-
-            var _loop = function _loop(_i) {
-                var normEv = _this.normEvs[_i];
-                normEv.callback = function (e) {
-                    var opts = {
-                        event: e,
-                        listeners: _this,
-                        outroM: _this.outroM
-                    };
-                    normEv.module[normEv.method](opts);
-                };
-            };
-
-            for (var _i = 0; _i < this.normEvsL; _i++) {
-                _loop(_i);
-            }
-
-            // Special events prepare
-
-            var _loop2 = function _loop2(_i2) {
-                var speEv = speEvs[_i2];
-                var speEvIsScroll = speEv.event === 'scroll';
-                var speEvSkylake = speEvIsScroll ? 'Scroll' : 'RO';
-                _this.speEvInstance[_i2] = new skylake[speEvSkylake]({
-                    callback: function callback(s, d) {
-                        var opts = {
-                            listeners: _this,
-                            outroM: _this.outroM
-                        };
-                        if (speEvIsScroll) {
-                            opts.currentScrollY = s;
-                            opts.delta = d;
-                        }
-                        speEv.module[speEv.method](opts);
-                    },
-                    throttle: speEv.throttle
-                });
-            };
-
-            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
-                _loop2(_i2);
-            }
-        }
-    }, {
-        key: 'getAlreadyCalled',
-        value: function getAlreadyCalled(module) {
-            var moduleArrL = this.moduleArr.length;
-            for (var i = 0; i < moduleArrL; i++) {
-                if (module === this.moduleArr[i].module) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }, {
-        key: 'add',
-        value: function add(opts) {
-            if (opts && opts.moduleInit) {
-                this.outroM = opts.outroM;
-                this.methodCall('init');
-            }
-            this.listen('add');
-        }
-    }, {
-        key: 'remove',
-        value: function remove(opts) {
-            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
-            if (destroy) {
-                this.methodCall('destroy');
-            }
-            this.listen('remove');
-        }
-    }, {
-        key: 'methodCall',
-        value: function methodCall(name) {
-            for (var i = 0; i < this.moduleArrL; i++) {
-                var module = this.moduleArr[i].module;
-                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
-                    module[name]({
-                        outroM: this.outroM,
-                        arg: this.moduleArr[i].arg
-                    });
-                }
-            }
-        }
-    }, {
-        key: 'listen',
-        value: function listen(action) {
-            for (var i = 0; i < this.speEvsL; i++) {
-                var state = action === 'add' ? 'on' : 'off';
-                this.speEvInstance[i][state]();
-            }
-            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
-                var _normEv = this.normEvs[_i3];
-                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
-            }
-        }
-    }]);
-    return Listeners;
-}();
+//Transition.intro.play()
+console.log('run from transition.js');
 
 var ErrorController = function () {
     function ErrorController() {
@@ -11085,35 +11055,60 @@ var ErrorController = function () {
     return ErrorController;
 }();
 
+// import Over from '../Bundle/Common/Over.js'
+// import Resize from '../Bundle/Home/Resize.js'
+
 var HomeController = function () {
-    function HomeController() {
+    function HomeController(Listeners$$1) {
         classCallCheck(this, HomeController);
+
+        console.log('home constructor');
+
+        // Listeners.init({
+        //     mouseenter: [
+        //         // {
+        //         //     el: 'a#h-link',
+        //         //     module: Over,
+        //         //     method: 'run'
+        //         // }
+        //     ],
+        //     ro: {
+        //         throttle: {
+        //             delay: 200,
+        //             atEnd: true
+        //         }
+        //         // module: Resize,
+        //         // method: 'calculate'
+        //     }
+        // })
     }
 
     createClass(HomeController, [{
         key: 'preload',
-        value: function preload() {
-            Loader.run({
-                listeners: Listeners
-            });
+        value: function preload(opts) {
+            Loader.run(opts);
+            console.log('Loader.run from HomeController');
         }
     }, {
         key: 'intro',
-        value: function intro() {
-            Transition.intro({
-                listeners: Listeners
-            });
+        value: function intro(opts) {
+            Transition.intro(opts);
+            console.log('Transition.intro from HomeController');
         }
     }, {
         key: 'outro',
-        value: function outro() {
-            Transition.outro({
-                listeners: Listeners
+        value: function outro(done, listeners) {
+            listeners.remove({
+                destroy: true
             });
+
+            Transition.outro(done);
         }
     }]);
     return HomeController;
 }();
+
+var p = new HomeController();
 
 var AboutController = function () {
     function AboutController() {
