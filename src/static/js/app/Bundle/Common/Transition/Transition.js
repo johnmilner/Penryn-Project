@@ -10,7 +10,7 @@ Transition.intro.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, e: 'Power4InOu
 
 Transition.outro = new S.Timeline()
 const isObj2 = S.Is.object(Transition.outro)
-Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
+Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut', delay: 12000})
 
 // Transition.intro.play()
 console.log('transition.js')
