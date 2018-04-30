@@ -11022,6 +11022,11 @@ var isObj = skylake.Is.object(Transition.intro);
 Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
 // Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
 
+
+Transition.outro = new skylake.Timeline();
+var isObj2 = skylake.Is.object(Transition.outro);
+Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
+
 // Transition.intro.play()
 console.log('transition.js');
 
@@ -11098,15 +11103,16 @@ var HomeController = function () {
         value: function intro(opts) {
             Transition.intro.play();
             console.log('Transition.intro from HomeController');
+            this.outro();
         }
     }, {
         key: 'outro',
         value: function outro(done, listeners) {
-            listeners.remove({
-                destroy: true
-            });
-
-            Transition.outro(done);
+            // listeners.remove({
+            //     destroy: true
+            // })
+            console.log('Transition.outro from HomeController');
+            Transition.outro.play(done);
         }
     }]);
     return HomeController;

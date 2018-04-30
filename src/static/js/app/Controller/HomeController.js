@@ -38,14 +38,15 @@ class HomeController {
     intro (opts) {
         Transition.intro.play()
         console.log('Transition.intro from HomeController')
+        this.outro()
     }
 
     outro (done, listeners) {
-        listeners.remove({
-            destroy: true
-        })
-
-        Transition.outro(done)
+        // listeners.remove({
+        //     destroy: true
+        // })
+        console.log('Transition.outro from HomeController')
+        Transition.outro.play(done)
     }
 
 }
