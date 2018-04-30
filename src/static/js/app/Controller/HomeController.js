@@ -1,41 +1,42 @@
 import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
-//import Router from '../../Engine/Router.js'
+// import Router from '../../Engine/Router.js'
 import Listeners from '../../Engine/Listeners'
 // import Over from '../Bundle/Common/Over.js'
 // import Resize from '../Bundle/Home/Resize.js'
 
 class HomeController {
 
-    constructor (Listeners) {
-        console.log('home constructor')
+    // constructor (Listeners) {
+        // console.log('home constructor')
 
-        // Listeners.init({
-        //     mouseenter: [
-        //         // {
-        //         //     el: 'a#h-link',
-        //         //     module: Over,
-        //         //     method: 'run'
-        //         // }
-        //     ],
-        //     ro: {
-        //         throttle: {
-        //             delay: 200,
-        //             atEnd: true
-        //         }
-        //         // module: Resize,
-        //         // method: 'calculate'
-        //     }
-        // })
-    }
+    //     Listeners.init({
+    //         mouseenter: [
+    //             {
+    //                 el: '#h-link',
+    //                 //module: Over,
+    //                 method: 'run'
+    //             }
+    //         ],
+    //         ro: {
+    //             throttle: {
+    //                 delay: 200,
+    //                 atEnd: true
+    //             }
+    //             // module: Resize,
+    //             // method: 'calculate'
+    //         }
+    //     })
+    // }
 
     preload (opts) {
-        Loader.run(opts)
+        Loader.run({cb: this.intro()})
         console.log('Loader.run from HomeController')
+        
     }
 
     intro (opts) {
-        Transition.intro(opts)
+        Transition.intro.play()
         console.log('Transition.intro from HomeController')
     }
 
@@ -49,7 +50,7 @@ class HomeController {
 
 }
 
-const p = new HomeController()
+//const p = new HomeController()
 
 export default HomeController
 

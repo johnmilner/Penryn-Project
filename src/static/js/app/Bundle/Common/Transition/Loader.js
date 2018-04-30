@@ -82,7 +82,7 @@ Loader.run = function() {
   };
 
 //Loader.run()
-console.log('run from loader.js')
+console.log('loader.js')
 
 
 

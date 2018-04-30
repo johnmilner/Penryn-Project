@@ -11013,17 +11013,17 @@ Loader.run = function () {
 };
 
 //Loader.run()
-console.log('run from loader.js');
+console.log('loader.js');
 
 var Transition = {};
 
 Transition.intro = new skylake.Timeline();
 var isObj = skylake.Is.object(Transition.intro);
-Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut' });
+Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
 // Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
 
-//Transition.intro.play()
-console.log('run from transition.js');
+// Transition.intro.play()
+console.log('transition.js');
 
 var ErrorController = function () {
     function ErrorController() {
@@ -11059,40 +11059,44 @@ var ErrorController = function () {
 // import Resize from '../Bundle/Home/Resize.js'
 
 var HomeController = function () {
-    function HomeController(Listeners$$1) {
+    function HomeController() {
         classCallCheck(this, HomeController);
-
-        console.log('home constructor');
-
-        // Listeners.init({
-        //     mouseenter: [
-        //         // {
-        //         //     el: 'a#h-link',
-        //         //     module: Over,
-        //         //     method: 'run'
-        //         // }
-        //     ],
-        //     ro: {
-        //         throttle: {
-        //             delay: 200,
-        //             atEnd: true
-        //         }
-        //         // module: Resize,
-        //         // method: 'calculate'
-        //     }
-        // })
     }
 
     createClass(HomeController, [{
         key: 'preload',
+
+
+        // constructor (Listeners) {
+        // console.log('home constructor')
+
+        //     Listeners.init({
+        //         mouseenter: [
+        //             {
+        //                 el: '#h-link',
+        //                 //module: Over,
+        //                 method: 'run'
+        //             }
+        //         ],
+        //         ro: {
+        //             throttle: {
+        //                 delay: 200,
+        //                 atEnd: true
+        //             }
+        //             // module: Resize,
+        //             // method: 'calculate'
+        //         }
+        //     })
+        // }
+
         value: function preload(opts) {
-            Loader.run(opts);
+            Loader.run({ cb: this.intro() });
             console.log('Loader.run from HomeController');
         }
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Transition.intro(opts);
+            Transition.intro.play();
             console.log('Transition.intro from HomeController');
         }
     }, {
@@ -11107,8 +11111,6 @@ var HomeController = function () {
     }]);
     return HomeController;
 }();
-
-var p = new HomeController();
 
 var AboutController = function () {
     function AboutController() {
