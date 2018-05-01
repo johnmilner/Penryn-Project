@@ -446,6 +446,30 @@ var createClass = function () {
   };
 }();
 
+var inherits = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+var possibleConstructorReturn = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+};
+
 var Support = function () {
     function Support() {
         classCallCheck(this, Support);
@@ -687,50 +711,7 @@ var EventDelegation = function () {
     return EventDelegation;
 }();
 
-/*
-RULES
-─────
-►►► Init module method when add listeners with "moduleInit" option on "true"
-►►► Need outroM option only when initialize module
-►►► Call module destroy method when remove listeners with destroy parameter
-►►► All module callback method include 2 options : listeners & outroM
-►►► Each module need : export default new MyModule()
-►►► Arg is accessible in "init" and "destroy" methods
-EXAMPLE
-───────
-class HomeController {
-    constructor (Listeners) {
-        Listeners.init({
-            mouseenter: [
-                {
-                    el: '#h-link',
-                    module: Over,
-                    method: 'run'
-                }
-            ],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                },
-                module: Resize,
-                method: 'calculate'
-            }
-        })
-    }
-    preload (opts) {
-        opts.listeners.add()
-    }
-    intro (opts) {
-        opts.listeners.add()
-    }
-    outro (done, listeners) {
-        listeners.remove({
-            destroy: true
-        })
-    }
-}
-*/
+/* eslint-disable */
 
 var Listeners = function () {
     function Listeners() {
@@ -747,12 +728,28 @@ var Listeners = function () {
             this.normEvs = [];
             this.moduleArr = [];
 
+            var spe = {
+                scroll: {
+                    throttle: true,
+                    skylake: 'Scroll'
+                },
+                ro: {
+                    throttle: true,
+                    skylake: 'RO'
+                },
+                wt: {
+                    throttle: false,
+                    skylake: 'WT'
+                }
+            };
+
             var keys = Object.keys(evs);
             var keysL = keys.length;
             for (var i = 0; i < keysL; i++) {
                 var ev = keys[i];
                 var allEvContent = evs[keys[i]];
-                var isSpeEv = ev === 'scroll' || ev === 'ro';
+                var isSpeEv = spe[ev] !== undefined;
+                var isThrottle = isSpeEv ? spe[ev].throttle : false;
                 var evContentL = isSpeEv ? 1 : allEvContent.length;
                 var arr = isSpeEv ? speEvs : this.normEvs;
 
@@ -765,7 +762,7 @@ var Listeners = function () {
                         module: evContentModule,
                         method: evContent.method
                     };
-                    if (isSpeEv) {
+                    if (isThrottle) {
                         obj.throttle = evContent.throttle;
                     } else {
                         obj.el = evContent.el;
@@ -809,22 +806,37 @@ var Listeners = function () {
 
             var _loop2 = function _loop2(_i2) {
                 var speEv = speEvs[_i2];
-                var speEvIsScroll = speEv.event === 'scroll';
-                var speEvSkylake = speEvIsScroll ? 'Scroll' : 'RO';
-                _this.speEvInstance[_i2] = new skylake[speEvSkylake]({
-                    callback: function callback(s, d) {
-                        var opts = {
-                            listeners: _this,
-                            outroM: _this.outroM
-                        };
-                        if (speEvIsScroll) {
-                            opts.currentScrollY = s;
-                            opts.delta = d;
-                        }
-                        speEv.module[speEv.method](opts);
-                    },
-                    throttle: speEv.throttle
-                });
+                var speEvSkylake = spe[speEv.event].skylake;
+
+                var opts = void 0;
+                _this.speOpts = {
+                    listeners: _this
+                };
+                if (speEvSkylake === 'Scroll') {
+                    opts = {
+                        callback: function callback(s, d) {
+                            _this.speOpts.currentScrollY = s;
+                            _this.speOpts.delta = d;
+                            speEv.module[speEv.method](_this.speOpts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                } else if (speEvSkylake === 'WT') {
+                    opts = function opts(d, t, e) {
+                        _this.speOpts.delta = d;
+                        _this.speOpts.type = t;
+                        _this.speOpts.event = e;
+                        speEv.module[speEv.method](_this.speOpts);
+                    };
+                } else if (speEvSkylake === 'RO') {
+                    opts = {
+                        callback: function callback(_) {
+                            speEv.module[speEv.method](opts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                }
+                _this.speEvInstance[_i2] = new skylake[speEvSkylake](opts);
             };
 
             for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
@@ -846,7 +858,7 @@ var Listeners = function () {
         key: 'add',
         value: function add(opts) {
             if (opts && opts.moduleInit) {
-                this.outroM = opts.outroM;
+                this.outroM = this.speOpts.outroM = opts.outroM;
                 this.methodCall('init');
             }
             this.listen('add');
@@ -868,6 +880,7 @@ var Listeners = function () {
                 if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
                     module[name]({
                         outroM: this.outroM,
+                        listeners: this,
                         arg: this.moduleArr[i].arg
                     });
                 }
@@ -888,6 +901,8 @@ var Listeners = function () {
     }]);
     return Listeners;
 }();
+
+console.dir(Listeners);
 
 /*
 
@@ -11060,40 +11075,43 @@ var ErrorController = function () {
     return ErrorController;
 }();
 
+/* eslint-disable */
+
+//import Router from '../../Engine/Router.js'
 // import Over from '../Bundle/Common/Over.js'
 // import Resize from '../Bundle/Home/Resize.js'
+console.dir(Listeners);
 
-var HomeController = function () {
-    function HomeController() {
+var HomeController = function (_Listeners) {
+    inherits(HomeController, _Listeners);
+
+    function HomeController(Listeners$$1) {
         classCallCheck(this, HomeController);
+
+        console.dir(Listeners$$1);
+
+        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this));
+
+        console.log('home constructor');
+        _this.init({
+            scroll: [{
+                el: '.header',
+                //module: Over,
+                method: 'run'
+            }],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                    // module: Resize,
+                    // method: 'calculate'
+                } }
+        });
+        return _this;
     }
 
     createClass(HomeController, [{
         key: 'preload',
-
-
-        // constructor (Listeners) {
-        // console.log('home constructor')
-
-        //     Listeners.init({
-        //         mouseenter: [
-        //             {
-        //                 el: '#h-link',
-        //                 //module: Over,
-        //                 method: 'run'
-        //             }
-        //         ],
-        //         ro: {
-        //             throttle: {
-        //                 delay: 200,
-        //                 atEnd: true
-        //             }
-        //             // module: Resize,
-        //             // method: 'calculate'
-        //         }
-        //     })
-        // }
-
         value: function preload(opts) {
             Loader.run({ cb: this.intro() });
             console.log('Loader.run from HomeController');
@@ -11116,7 +11134,7 @@ var HomeController = function () {
         }
     }]);
     return HomeController;
-}();
+}(Listeners);
 
 var AboutController = function () {
     function AboutController() {

@@ -1,9 +1,11 @@
+/* eslint-disable */
+
 /*
 RULES
 ─────
 ►►► Init module method when add listeners with "moduleInit" option on "true"
-►►► Need outroM option only when initialize module
-►►► Call module destroy method when remove listeners with destroy parameter
+►►► Need outroM argument only when initialize module
+►►► Call module destroy method when remove listeners with destroy boolean parameter
 ►►► All module callback method include 2 options : listeners & outroM
 ►►► Each module need : export default new MyModule()
 ►►► Arg is accessible in "init" and "destroy" methods
@@ -53,12 +55,28 @@ class Listeners {
         this.normEvs = []
         this.moduleArr = []
 
+        const spe = {
+            scroll: {
+                throttle: true,
+                skylake: 'Scroll'
+            },
+            ro: {
+                throttle: true,
+                skylake: 'RO'
+            },
+            wt: {
+                throttle: false,
+                skylake: 'WT'
+            }
+        }
+
         const keys = Object.keys(evs)
         const keysL = keys.length
         for (let i = 0; i < keysL; i++) {
             const ev = keys[i]
             const allEvContent = evs[keys[i]]
-            const isSpeEv = ev === 'scroll' || ev === 'ro'
+            const isSpeEv = spe[ev] !== undefined
+            const isThrottle = isSpeEv ? spe[ev].throttle : false
             const evContentL = isSpeEv ? 1 : allEvContent.length
             const arr = isSpeEv ? speEvs : this.normEvs
 
@@ -71,7 +89,7 @@ class Listeners {
                     module: evContentModule,
                     method: evContent.method
                 }
-                if (isSpeEv) {
+                if (isThrottle) {
                     obj.throttle = evContent.throttle
                 } else {
                     obj.el = evContent.el
@@ -109,22 +127,37 @@ class Listeners {
         // Special events prepare
         for (let i = 0; i < this.speEvsL; i++) {
             const speEv = speEvs[i]
-            const speEvIsScroll = speEv.event === 'scroll'
-            const speEvSkylake = speEvIsScroll ? 'Scroll' : 'RO'
-            this.speEvInstance[i] = new S[speEvSkylake]({
-                callback: (s, d) => {
-                    const opts = {
-                        listeners: this,
-                        outroM: this.outroM
-                    }
-                    if (speEvIsScroll) {
-                        opts.currentScrollY = s
-                        opts.delta = d
-                    }
-                    speEv.module[speEv.method](opts)
-                },
-                throttle: speEv.throttle
-            })
+            const speEvSkylake = spe[speEv.event].skylake
+
+            let opts
+            this.speOpts = {
+                listeners: this
+            }
+            if (speEvSkylake === 'Scroll') {
+                opts = {
+                    callback: (s, d) => {
+                        this.speOpts.currentScrollY = s
+                        this.speOpts.delta = d
+                        speEv.module[speEv.method](this.speOpts)
+                    },
+                    throttle: speEv.throttle
+                }
+            } else if (speEvSkylake === 'WT') {
+                opts = (d, t, e) => {
+                    this.speOpts.delta = d
+                    this.speOpts.type = t
+                    this.speOpts.event = e
+                    speEv.module[speEv.method](this.speOpts)
+                }
+            } else if (speEvSkylake === 'RO') {
+                opts = {
+                    callback: _ => {
+                        speEv.module[speEv.method](opts)
+                    },
+                    throttle: speEv.throttle
+                }
+            }
+            this.speEvInstance[i] = new S[speEvSkylake](opts)
         }
     }
 
@@ -140,7 +173,7 @@ class Listeners {
 
     add (opts) {
         if (opts && opts.moduleInit) {
-            this.outroM = opts.outroM
+            this.outroM = this.speOpts.outroM = opts.outroM
             this.methodCall('init')
         }
         this.listen('add')
@@ -160,6 +193,7 @@ class Listeners {
             if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
                 module[name]({
                     outroM: this.outroM,
+                    listeners: this,
                     arg: this.moduleArr[i].arg
                 })
             }
@@ -178,5 +212,7 @@ class Listeners {
     }
 
 }
+
+console.dir(Listeners)
 
 export default Listeners
