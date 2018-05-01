@@ -1,7 +1,10 @@
 /* eslint-disable */
 
-import jQuery from "jquery";
+import jQuery from "jquery"
 //import "jquery.easing";
+import Xhr from '../../Engine/Xhr.js'
+import HomeController from '../Controller/HomeController.js'
+import AboutController from '../Controller/AboutController.js'
 import S from 'skylake'
 
 //import devicon from 'devicon'
@@ -205,6 +208,7 @@ for (var i = 0; i < navItems.length; i++) {
 /* 
 Menu Overlay End 
 */
+
 
  
 

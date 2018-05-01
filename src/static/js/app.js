@@ -11088,14 +11088,13 @@ var HomeController = function (_Listeners) {
     function HomeController() {
         classCallCheck(this, HomeController);
 
+        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
+
         console.dir(Listeners);
-
-        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this));
-
         console.log('home constructor');
         _this.init({
-            scroll: [{
-                el: '.header',
+            click: [{
+                el: '#h-link',
                 //module: Over,
                 method: 'run'
             }],
@@ -11136,35 +11135,75 @@ var HomeController = function (_Listeners) {
     return HomeController;
 }(Listeners);
 
-var AboutController = function () {
+Xhr.controller('home', myCallback, Listeners.preload);
+
+function myCallback(response, args) {
+
+    // Insert HTML
+    app.insertAdjacentHTML('beforeend', response);
+}
+
+Xhr.onPopstate();
+
+/* eslint-disable */
+
+//import Router from '../../Engine/Router.js'
+// import Over from '../Bundle/Common/Over.js'
+// import Resize from '../Bundle/Home/Resize.js'
+console.dir(Listeners);
+
+var AboutController = function (_Listeners) {
+    inherits(AboutController, _Listeners);
+
     function AboutController() {
         classCallCheck(this, AboutController);
+
+        var _this = possibleConstructorReturn(this, (AboutController.__proto__ || Object.getPrototypeOf(AboutController)).call(this, Listeners));
+
+        console.dir(Listeners);
+        console.log('home constructor');
+        _this.init({
+            click: [{
+                el: '#h-link',
+                //module: Over,
+                method: 'run'
+            }],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                    // module: Resize,
+                    // method: 'calculate'
+                } }
+        });
+        return _this;
     }
 
     createClass(AboutController, [{
         key: 'preload',
-        value: function preload() {
-            Loader.run({
-                listeners: Listeners
-            });
+        value: function preload(opts) {
+            Loader.run({ cb: this.intro() });
+            console.log('Loader.run from AboutController');
         }
     }, {
         key: 'intro',
-        value: function intro() {
-            Transition.intro({
-                listeners: Listeners
-            });
+        value: function intro(opts) {
+            Transition.intro.play();
+            console.log('Transition.intro from AboutController');
+            this.outro();
         }
     }, {
         key: 'outro',
-        value: function outro() {
-            Transition.outro({
-                listeners: Listeners
-            });
+        value: function outro(done, listeners) {
+            // listeners.remove({
+            //     destroy: true
+            // })
+            console.log('Transition.outro from AboutController');
+            Transition.outro.play(done);
         }
     }]);
     return AboutController;
-}();
+}(Listeners);
 
 /*
 

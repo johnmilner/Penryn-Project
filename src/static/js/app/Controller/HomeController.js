@@ -2,6 +2,7 @@
 
 import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
+import Xhr from '../../Engine/Xhr.js'
 import Listeners from '../../Engine/Listeners.js'
 
 //import Router from '../../Engine/Router.js'
@@ -12,13 +13,13 @@ console.dir(Listeners)
 class HomeController extends Listeners {
 
     constructor () {
+        super(Listeners)
         console.dir(Listeners)
-        super()
         console.log('home constructor')
         this.init({
-            scroll: [
+            click: [
                 {
-                    el: '.header',
+                    el: '#h-link',
                     //module: Over,
                     method: 'run'
                 }
@@ -55,6 +56,17 @@ class HomeController extends Listeners {
     }
 
 }
+
+Xhr.controller('home', myCallback, Listeners.preload);
+
+function myCallback(response, args) {
+
+    // Insert HTML
+    app.insertAdjacentHTML('beforeend', response);
+
+}
+
+Xhr.onPopstate()
 
 export default HomeController
 
