@@ -11,7 +11,7 @@ console.dir(Listeners)
 
 class HomeController extends Listeners {
 
-    constructor (Listeners) {
+    constructor () {
         console.dir(Listeners)
         super()
         console.log('home constructor')

@@ -11085,10 +11085,10 @@ console.dir(Listeners);
 var HomeController = function (_Listeners) {
     inherits(HomeController, _Listeners);
 
-    function HomeController(Listeners$$1) {
+    function HomeController() {
         classCallCheck(this, HomeController);
 
-        console.dir(Listeners$$1);
+        console.dir(Listeners);
 
         var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this));
 
