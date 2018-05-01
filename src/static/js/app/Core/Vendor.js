@@ -2,8 +2,6 @@
 
 import jQuery from "jquery"
 //import "jquery.easing";
-import HomeController from '../Controller/HomeController.js'
-import AboutController from '../Controller/AboutController.js'
 import S from 'skylake'
 
 //import devicon from 'devicon'

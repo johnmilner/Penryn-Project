@@ -28,6 +28,7 @@ class Xhr {
         const xhr = new XMLHttpRequest()
 
         xhr.open('GET', path, true)
+        console.log('Xhr class controller loaded')
 
         xhr.onreadystatechange = _ => {
             if (xhr.readyState === 4 && xhr.status === 200) {

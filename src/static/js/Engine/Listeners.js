@@ -46,6 +46,7 @@ class HomeController {
 */
 
 import S from 'skylake'
+import Xhr from './Xhr.js'
 
 class Listeners {
 
@@ -211,6 +212,19 @@ class Listeners {
         }
     }
 
+    homeXhr() {
+        Xhr.controller('/', myCallback);
+        
+        function myCallback(response, args) {
+        
+            // Insert HTML
+                xhr.insertAdjacentHTML('beforeend', response);
+                console.log('insertAdjacentHTML from Listeners.homeXhr')
+        }
+        
+        Xhr.onPopstate()
+        
+    }
 }
 
 console.dir(Listeners)

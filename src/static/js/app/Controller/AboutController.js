@@ -58,17 +58,4 @@ class AboutController extends Listeners {
 
 }
 
-// Xhr.controller('about', myCallback, Listeners.preload);
-
-// function myCallback(response, args) {
-
-//     // Insert HTML
-//     S.Listen('#h-link', 'add', 'click', function() {
-//         xhr.insertAdjacentHTML('beforeend', response);
-//         console.log('about xhr listeners click')
-//     })
-// }
-
-// Xhr.onPopstate()
-
 export default AboutController

@@ -523,6 +523,7 @@ var Xhr = function () {
             var xhr = new XMLHttpRequest();
 
             xhr.open('GET', path, true);
+            console.log('Xhr class controller loaded');
 
             xhr.onreadystatechange = function (_) {
                 if (xhr.readyState === 4 && xhr.status === 200) {
@@ -898,6 +899,20 @@ var Listeners = function () {
                 var _normEv = this.normEvs[_i3];
                 skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
             }
+        }
+    }, {
+        key: 'homeXhr',
+        value: function homeXhr() {
+            Xhr.controller('/', myCallback);
+
+            function myCallback(response, args) {
+
+                // Insert HTML
+                xhr.insertAdjacentHTML('beforeend', response);
+                console.log('insertAdjacentHTML from Listeners.homeXhr');
+            }
+
+            Xhr.onPopstate();
         }
     }]);
     return Listeners;
@@ -11113,7 +11128,7 @@ var HomeController = function (_Listeners) {
         key: 'preload',
         value: function preload(opts) {
             //Loader.run({cb: this.intro()})
-            Loader.run({ cb: homeXhr() });
+            Loader.run();
             console.log('Loader.run from HomeController');
         }
     }, {
@@ -11135,18 +11150,6 @@ var HomeController = function (_Listeners) {
     }]);
     return HomeController;
 }(Listeners);
-
-var homeXhr = function homeXhr() {
-    Xhr.controller('/', myCallback);
-
-    function myCallback(response, args) {
-
-        // Insert HTML
-        xhr.insertAdjacentHTML('beforeend', response);
-    }
-
-    Xhr.onPopstate();
-};
 
 /* eslint-disable */
 
