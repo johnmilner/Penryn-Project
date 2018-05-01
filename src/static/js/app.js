@@ -527,7 +527,7 @@ var Xhr = function () {
             xhr.onreadystatechange = function (_) {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var xhrC = JSON.parse(xhr.responseText).xhrController;
-
+                    alert('OK');
                     skylake.Geb.tag('title')[0].textContent = xhrC.title;
 
                     getHistoryUpdate();
@@ -11037,7 +11037,6 @@ var isObj = skylake.Is.object(Transition.intro);
 Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
 // Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
 
-
 Transition.outro = new skylake.Timeline();
 var isObj2 = skylake.Is.object(Transition.outro);
 Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut', delay: 12000 });
@@ -11135,7 +11134,7 @@ var HomeController = function (_Listeners) {
     return HomeController;
 }(Listeners);
 
-Xhr.controller('home', myCallback, Listeners.preload);
+Xhr.controller('/', myCallback, Listeners.preload);
 
 function myCallback(response, args) {
 
@@ -11161,7 +11160,7 @@ var AboutController = function (_Listeners) {
         var _this = possibleConstructorReturn(this, (AboutController.__proto__ || Object.getPrototypeOf(AboutController)).call(this, Listeners));
 
         console.dir(Listeners);
-        console.log('home constructor');
+        console.log('about constructor');
         _this.init({
             click: [{
                 el: '#h-link',

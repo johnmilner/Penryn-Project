@@ -57,7 +57,7 @@ class HomeController extends Listeners {
 
 }
 
-Xhr.controller('home', myCallback, Listeners.preload);
+Xhr.controller('/', myCallback, Listeners.preload);
 
 function myCallback(response, args) {
 

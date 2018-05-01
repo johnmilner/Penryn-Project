@@ -15,7 +15,7 @@ class AboutController extends Listeners {
     constructor () {
         super(Listeners)
         console.dir(Listeners)
-        console.log('home constructor')
+        console.log('about constructor')
         this.init({
             click: [
                 {
