@@ -4,6 +4,7 @@ import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
 import Listeners from '../../Engine/Listeners.js'
+import S from 'skylake'
 
 //import Router from '../../Engine/Router.js'
 // import Over from '../Bundle/Common/Over.js'
@@ -62,8 +63,10 @@ class AboutController extends Listeners {
 // function myCallback(response, args) {
 
 //     // Insert HTML
-//     app.insertAdjacentHTML('beforeend', response);
-
+//     S.Listen('#h-link', 'add', 'click', function() {
+//         xhr.insertAdjacentHTML('beforeend', response);
+//         console.log('about xhr listeners click')
+//     })
 // }
 
 // Xhr.onPopstate()

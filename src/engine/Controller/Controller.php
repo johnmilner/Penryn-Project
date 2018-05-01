@@ -37,8 +37,8 @@ class Controller {
         $this->content = $this->getContent(ROOT . 'app/View/page/' . $viewName . '.php');
         if (isset($_GET['xhr'])) {
             $xhrController['title'] = $this->head['title'];
-            $xhrController['view'] = $this->content;
-            print json_encode(array('xhrController' => $xhrController));
+            $xhrController['view'] = $this->content; 
+            print json_encode(array('xhrController' => $xhrController)); 
         } else {
             echo $this->getContent(ROOT . 'app/View/base/main.php');
         }

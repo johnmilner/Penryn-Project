@@ -11112,7 +11112,8 @@ var HomeController = function (_Listeners) {
     createClass(HomeController, [{
         key: 'preload',
         value: function preload(opts) {
-            Loader.run({ cb: this.intro() });
+            //Loader.run({cb: this.intro()})
+            Loader.run({ cb: homeXhr() });
             console.log('Loader.run from HomeController');
         }
     }, {
@@ -11135,15 +11136,17 @@ var HomeController = function (_Listeners) {
     return HomeController;
 }(Listeners);
 
-Xhr.controller('/', myCallback, Listeners.preload);
+var homeXhr = function homeXhr() {
+    Xhr.controller('/', myCallback);
 
-function myCallback(response, args) {
+    function myCallback(response, args) {
 
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-}
+        // Insert HTML
+        xhr.insertAdjacentHTML('beforeend', response);
+    }
 
-Xhr.onPopstate();
+    Xhr.onPopstate();
+};
 
 /* eslint-disable */
 

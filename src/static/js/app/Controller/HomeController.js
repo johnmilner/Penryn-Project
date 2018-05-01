@@ -4,6 +4,7 @@ import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
 import Listeners from '../../Engine/Listeners.js'
+import S from 'skylake'
 
 //import Router from '../../Engine/Router.js'
 // import Over from '../Bundle/Common/Over.js'
@@ -36,7 +37,8 @@ class HomeController extends Listeners {
     }
 
     preload (opts) {
-        Loader.run({cb: this.intro()})
+        //Loader.run({cb: this.intro()})
+        Loader.run({cb: homeXhr()})
         console.log('Loader.run from HomeController')
         
     }
@@ -56,17 +58,36 @@ class HomeController extends Listeners {
     }
 
 }
-
-Xhr.controller('/', myCallback, Listeners.preload);
+const homeXhr = function() {
+Xhr.controller('/', myCallback);
 
 function myCallback(response, args) {
 
     // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
+        xhr.insertAdjacentHTML('beforeend', response);
 
 }
 
 Xhr.onPopstate()
+
+}
+
+// const aboutXhr = function() {
+
+// S.Listen('#h-link', 'add', 'click', function() {
+
+//     Xhr.controller('about', myCallback, Listeners.preload);
+
+//     function myCallback(response, args) {
+//     // Insert HTML
+//         xhr.insertAdjacentHTML('beforeend', response);
+//         console.log('home xhr listeners click')
+//     }
+//     })
+
+//     Xhr.onPopstate()
+
+// }
 
 export default HomeController
 
