@@ -55,10 +55,10 @@
         <div id="app">
         <?php include ROOT . 'app/View/common/burger.php'; ?>
             <div id="xhr">
-                <?= $this->content; ?>
+                <!-- <?= $this->content; ?> -->
             </div>
-            <?php include ROOT . 'app/View/common/loader.php'; ?>
         </div>
+        <?php include ROOT . 'app/View/common/loader.php'; ?>
         <?php include ROOT . 'app/View/common/svg.php'; ?>
         <?php include ROOT . 'app/View/issue/browserWidth.php'; ?>
         <?php include ROOT . 'app/View/issue/updateBrowser.php'; ?>

@@ -527,13 +527,14 @@ var Xhr = function () {
             xhr.onreadystatechange = function (_) {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var xhrC = JSON.parse(xhr.responseText).xhrController;
-                    alert('OK');
+
                     skylake.Geb.tag('title')[0].textContent = xhrC.title;
 
                     getHistoryUpdate();
                     callback(xhrC.view, args);
                 }
             };
+
             xhr.send(null);
 
             // Browser history update

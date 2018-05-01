@@ -32,14 +32,14 @@ class Xhr {
         xhr.onreadystatechange = _ => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const xhrC = JSON.parse(xhr.responseText).xhrController
-                alert('OK')
+
                 S.Geb.tag('title')[0].textContent = xhrC.title
 
                 getHistoryUpdate()
                 callback(xhrC.view, args)
             }
         }
-x
+
         xhr.send(null)
 
         // Browser history update

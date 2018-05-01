@@ -1,6 +1,4 @@
-            
-
-            <header class="header">
+ <header class="header">
                 <div class="page-content">
                     <div class='header-container'>
                         <header class='header-icons'>
@@ -63,15 +61,15 @@
                 <article>
                     <div id="tagline-wrap" class="oh">
                         <div class="tagline">
-                            <h1 class="main-headline-r1">Front-End Web Developer</h1>
+                            <h1 class="main-headline-r1">About Section</h1>
                             <h1 class="main-headline-r2">John Milner</h1>
                         </div>
                     </div>
                 </article>
-                <div id="a">
+                <!-- <div id="a">
                     <div id="a-content">About</div>
                     <a id="a-link" href="/">HOME</a>
-                </div>
+                </div> -->
             </header>
 
 
