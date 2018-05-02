@@ -3,6 +3,7 @@
 import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
+//import EventDelegation from '../../Engine/EventDelegation.js'
 import Listeners from '../../Engine/Listeners.js'
 import S from 'skylake'
 //import Over from '../Bundle/Common/Over.js'
@@ -40,7 +41,7 @@ class HomeController extends Listeners {
         //Loader.run({cb: this.intro()})
         Loader.run()
         console.log('Loader.run from HomeController')
-        
+        this.destAbout()
     }
 
     intro (opts) {

@@ -47,6 +47,8 @@ class HomeController {
 
 import S from 'skylake'
 import Xhr from './Xhr.js'
+import EventDelegation from './EventDelegation.js'
+
 
 class Listeners {
 
@@ -223,11 +225,11 @@ class Listeners {
                 //xhr.insertAdjacentHTML('beforeend', response);
                 console.dir(EventDelegation)
                 EventDelegation.prototype.run()
-                EventDelegation.prototype.eventDelegation(event)
+                //EventDelegation.prototype.eventDelegation(event)
                 //EventDelegation.prototype.xhrReq()
-                EventDelegation.prototype.done()
+                //EventDelegation.prototype.done()
                 console.log('hello from homeXhr')
-                EventDelegation.prototype.xhrCallback(response)
+                //EventDelegation.prototype.xhrCallback(response)
             }
         })
     }
@@ -243,11 +245,11 @@ class Listeners {
                 //xhr.insertAdjacentHTML('beforeend', response);
                 console.dir(EventDelegation)
                 EventDelegation.prototype.run()
-                EventDelegation.prototype.eventDelegation(event)
+                //EventDelegation.prototype.eventDelegation(event)
                 //EventDelegation.prototype.xhrReq()
-                EventDelegation.prototype.done()
+                //EventDelegation.prototype.done()
                 console.log('hello from aboutXhr')
-                EventDelegation.prototype.xhrCallback(response)
+                //EventDelegation.prototype.xhrCallback(response)
             }
         })
     }

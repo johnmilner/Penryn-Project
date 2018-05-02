@@ -27,7 +27,7 @@ class EventDelegation {
         let targetIsASubmit = false
 
         while (target) {
-            if (target.tagName === '#h-link' || '#a-link') {
+            if (target.tagName === 'h-link' || 'a-link') {
                 targetIsATag = true
                 break
             } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {

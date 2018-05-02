@@ -580,7 +580,7 @@ var Xhr = function () {
     return Xhr;
 }();
 
-var EventDelegation$1 = function () {
+var EventDelegation = function () {
     function EventDelegation(getInstance) {
         classCallCheck(this, EventDelegation);
 
@@ -610,7 +610,7 @@ var EventDelegation$1 = function () {
             var targetIsASubmit = false;
 
             while (target) {
-                if (target.tagName === '#h-link' || '#a-link') {
+                if (target.tagName === 'h-link' || 'a-link') {
                     targetIsATag = true;
                     break;
                 } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
@@ -914,11 +914,11 @@ var Listeners = function () {
                     //xhr.insertAdjacentHTML('beforeend', response);
                     console.dir(EventDelegation);
                     EventDelegation.prototype.run();
-                    EventDelegation.prototype.eventDelegation(event);
+                    //EventDelegation.prototype.eventDelegation(event)
                     //EventDelegation.prototype.xhrReq()
-                    EventDelegation.prototype.done();
+                    //EventDelegation.prototype.done()
                     console.log('hello from homeXhr');
-                    EventDelegation.prototype.xhrCallback(response);
+                    //EventDelegation.prototype.xhrCallback(response)
                 }
             });
         }
@@ -935,11 +935,11 @@ var Listeners = function () {
                     //xhr.insertAdjacentHTML('beforeend', response);
                     console.dir(EventDelegation);
                     EventDelegation.prototype.run();
-                    EventDelegation.prototype.eventDelegation(event);
+                    //EventDelegation.prototype.eventDelegation(event)
                     //EventDelegation.prototype.xhrReq()
-                    EventDelegation.prototype.done();
+                    //EventDelegation.prototype.done()
                     console.log('hello from aboutXhr');
-                    EventDelegation.prototype.xhrCallback(response);
+                    //EventDelegation.prototype.xhrCallback(response)
                 }
             });
         }
@@ -988,7 +988,7 @@ var Router = function () {
         Xhr.onPopstate();
 
         // Instantiating event delegation
-        this.eventDelegation = new EventDelegation$1(this.getInstance);
+        this.eventDelegation = new EventDelegation(this.getInstance);
     }
 
     createClass(Router, [{
@@ -11159,6 +11159,7 @@ var HomeController = function (_Listeners) {
             //Loader.run({cb: this.intro()})
             Loader.run();
             console.log('Loader.run from HomeController');
+            this.destAbout();
         }
     }, {
         key: 'intro',
@@ -11220,7 +11221,8 @@ var AboutController = function (_Listeners) {
         value: function preload(opts) {
             //Loader.run({cb: this.intro()})
             Loader.run();
-            console.log('Loader.run from HomeController');
+            console.log('Loader.run from AboutController');
+            this.destHome();
         }
     }, {
         key: 'intro',
