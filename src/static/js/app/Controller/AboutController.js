@@ -5,9 +5,9 @@ import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
 import Listeners from '../../Engine/Listeners.js'
 import S from 'skylake'
+//import Over from '../Bundle/Common/Over.js'
 
 //import Router from '../../Engine/Router.js'
-// import Over from '../Bundle/Common/Over.js'
 // import Resize from '../Bundle/Home/Resize.js'
 console.dir(Listeners)
 
@@ -18,11 +18,11 @@ class AboutController extends Listeners {
         console.dir(Listeners)
         console.log('about constructor')
         this.init({
-            click: [
+            mouseenter: [
                 {
-                    el: '#h-link',
-                    //module: Over,
-                    method: 'run'
+                    el: '#a-link',
+                    module: Listeners,
+                    method: 'destHome'
                 }
             ],
             ro: {
@@ -37,14 +37,16 @@ class AboutController extends Listeners {
     }
 
     preload (opts) {
-        Loader.run({cb: this.intro()})
-        console.log('Loader.run from AboutController')
+        //Loader.run({cb: this.intro()})
+        Loader.run()
+        console.log('Loader.run from HomeController')
         
     }
 
     intro (opts) {
-        Transition.intro.play()
-        console.log('Transition.intro from AboutController')
+        Transition.intro.play({cb: this.aboutXhr()})
+        
+        console.log('Transition.intro from HomeController')
         this.outro()
     }
 
@@ -52,7 +54,7 @@ class AboutController extends Listeners {
         // listeners.remove({
         //     destroy: true
         // })
-        console.log('Transition.outro from AboutController')
+        console.log('Transition.outro from HomeController')
         Transition.outro.play(done)
     }
 

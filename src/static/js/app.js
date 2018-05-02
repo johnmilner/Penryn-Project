@@ -580,7 +580,7 @@ var Xhr = function () {
     return Xhr;
 }();
 
-var EventDelegation = function () {
+var EventDelegation$1 = function () {
     function EventDelegation(getInstance) {
         classCallCheck(this, EventDelegation);
 
@@ -606,11 +606,11 @@ var EventDelegation = function () {
         value: function eventDelegation(event) {
             var w = window;
             var target = event.target;
-            var targetIsATag = true;
+            var targetIsATag = false;
             var targetIsASubmit = false;
 
             while (target) {
-                if (target.tagName === 'A') {
+                if (target.tagName === '#h-link' || '#a-link') {
                     targetIsATag = true;
                     break;
                 } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
@@ -901,6 +901,48 @@ var Listeners = function () {
                 skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
             }
         }
+    }, {
+        key: 'destHome',
+        value: function destHome() {
+
+            skylake.Listen('#a-link', 'add', 'click', function () {
+
+                Xhr.controller('/', myCallback);
+
+                function myCallback(response, args) {
+                    // Insert HTML
+                    //xhr.insertAdjacentHTML('beforeend', response);
+                    console.dir(EventDelegation);
+                    EventDelegation.prototype.run();
+                    EventDelegation.prototype.eventDelegation(event);
+                    //EventDelegation.prototype.xhrReq()
+                    EventDelegation.prototype.done();
+                    console.log('hello from homeXhr');
+                    EventDelegation.prototype.xhrCallback(response);
+                }
+            });
+        }
+    }, {
+        key: 'destAbout',
+        value: function destAbout() {
+
+            skylake.Listen('#h-link', 'add', 'click', function () {
+
+                Xhr.controller('about', myCallback);
+
+                function myCallback(response, args) {
+                    // Insert HTML
+                    //xhr.insertAdjacentHTML('beforeend', response);
+                    console.dir(EventDelegation);
+                    EventDelegation.prototype.run();
+                    EventDelegation.prototype.eventDelegation(event);
+                    //EventDelegation.prototype.xhrReq()
+                    EventDelegation.prototype.done();
+                    console.log('hello from aboutXhr');
+                    EventDelegation.prototype.xhrCallback(response);
+                }
+            });
+        }
     }]);
     return Listeners;
 }();
@@ -946,7 +988,7 @@ var Router = function () {
         Xhr.onPopstate();
 
         // Instantiating event delegation
-        this.eventDelegation = new EventDelegation(this.getInstance);
+        this.eventDelegation = new EventDelegation$1(this.getInstance);
     }
 
     createClass(Router, [{
@@ -11078,26 +11120,7 @@ var ErrorController = function () {
 }();
 
 /* eslint-disable */
-
-var Over = {};
-
-Over.run = function () {
-
-    Xhr.controller('about', myCallback);
-
-    function myCallback(response, args) {
-        var app = document.querySelector('#app');
-        // Insert HTML
-        app.insertAdjacentHTML('beforeend', response);
-        console.log('insertAdjacentHTML from Over.js');
-    }
-
-    Xhr.onPopstate();
-};
-
-$('#h-link').on('click', Over.run);
-
-/* eslint-disable */
+//import Over from '../Bundle/Common/Over.js'
 
 //import Router from '../../Engine/Router.js'
 // import Resize from '../Bundle/Home/Resize.js'
@@ -11116,8 +11139,8 @@ var HomeController = function (_Listeners) {
         _this.init({
             mouseenter: [{
                 el: '#h-link',
-                module: Over,
-                method: 'Over.run'
+                module: Listeners,
+                method: 'destAbout'
             }],
             ro: {
                 throttle: {
@@ -11159,9 +11182,9 @@ var HomeController = function (_Listeners) {
 }(Listeners);
 
 /* eslint-disable */
+//import Over from '../Bundle/Common/Over.js'
 
 //import Router from '../../Engine/Router.js'
-// import Over from '../Bundle/Common/Over.js'
 // import Resize from '../Bundle/Home/Resize.js'
 console.dir(Listeners);
 
@@ -11176,10 +11199,10 @@ var AboutController = function (_Listeners) {
         console.dir(Listeners);
         console.log('about constructor');
         _this.init({
-            click: [{
-                el: '#h-link',
-                //module: Over,
-                method: 'run'
+            mouseenter: [{
+                el: '#a-link',
+                module: Listeners,
+                method: 'destHome'
             }],
             ro: {
                 throttle: {
@@ -11195,14 +11218,16 @@ var AboutController = function (_Listeners) {
     createClass(AboutController, [{
         key: 'preload',
         value: function preload(opts) {
-            Loader.run({ cb: this.intro() });
-            console.log('Loader.run from AboutController');
+            //Loader.run({cb: this.intro()})
+            Loader.run();
+            console.log('Loader.run from HomeController');
         }
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Transition.intro.play();
-            console.log('Transition.intro from AboutController');
+            Transition.intro.play({ cb: this.aboutXhr() });
+
+            console.log('Transition.intro from HomeController');
             this.outro();
         }
     }, {
@@ -11211,7 +11236,7 @@ var AboutController = function (_Listeners) {
             // listeners.remove({
             //     destroy: true
             // })
-            console.log('Transition.outro from AboutController');
+            console.log('Transition.outro from HomeController');
             Transition.outro.play(done);
         }
     }]);

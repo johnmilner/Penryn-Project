@@ -5,7 +5,7 @@ import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
 import Listeners from '../../Engine/Listeners.js'
 import S from 'skylake'
-import Over from '../Bundle/Common/Over.js'
+//import Over from '../Bundle/Common/Over.js'
 
 //import Router from '../../Engine/Router.js'
 // import Resize from '../Bundle/Home/Resize.js'
@@ -21,8 +21,8 @@ class HomeController extends Listeners {
             mouseenter: [
                 {
                     el: '#h-link',
-                    module: Over,
-                    method: 'Over.run'
+                    module: Listeners,
+                    method: 'destAbout'
                 }
             ],
             ro: {

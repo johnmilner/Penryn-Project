@@ -23,11 +23,11 @@ class EventDelegation {
     eventDelegation (event) {
         const w = window
         let target = event.target
-        let targetIsATag = true
+        let targetIsATag = false
         let targetIsASubmit = false
 
         while (target) {
-            if (target.tagName === 'A') {
+            if (target.tagName === '#h-link' || '#a-link') {
                 targetIsATag = true
                 break
             } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
