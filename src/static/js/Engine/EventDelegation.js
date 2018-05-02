@@ -11,6 +11,7 @@ class EventDelegation {
 
         // Parameters
         this.p = window.Penryn
+        this.xhrC = Xhr.xhrC
         this.xhr = S.Geb.id('xhr')
 
         // Bind
@@ -133,19 +134,32 @@ EventDelegation.destHome = function() {
 
     S.Listen('#a-link', 'add', 'click', function() {
 
-        Xhr.controller('/', myCallback);
+        Xhr.controller('/', myCallback(this.xhrC));
 
-        function myCallback(response, args) {
-        // Insert HTML
-            //xhr.insertAdjacentHTML('beforeend', response);
-            console.dir(EventDelegation)
-            EventDelegation.prototype.run()
-            //EventDelegation.prototype.eventDelegation(event)
-            //EventDelegation.prototype.xhrReq()
-            //EventDelegation.prototype.done()
-            console.log('hello from homeXhr')
-            //EventDelegation.prototype.xhrCallback(response)
+        function myCallback(response) {
+            
+            //const newInstance = this.getInstance(response)
+            console.log('hello from xhrCallback')
+            const xhr = S.Geb.id('xhr')
+
+
+            window.Penryn.xhr = {
+                insertNew: _ => {
+                    xhr.insertAdjacentHTML('beforeend', response)
+                },
+                removeOld: _ => {
+                    const oldXhrContent = xhr.children[0]
+                    oldXhrContent.parentNode.removeChild(oldXhrContent)
+                }
+            }
+            window.Penryn.xhr.insertNew()
+            window.Penryn.xhr.removeOld()
+            window.Penryn.outroIsOn = true
+    
+            // New intro
+            //newInstance.controller.intro()
         }
+    
     })
 }
 
@@ -153,16 +167,32 @@ EventDelegation.destAbout = function() {
 
     S.Listen('#h-link', 'add', 'click', function() {
 
-        Xhr.controller('about', myCallback);
+        Xhr.controller('about', myCallback(this.xhrC));
 
-        function myCallback(response, args) {
-        // Insert HTML
-            //xhr.insertAdjacentHTML('beforeend', response);
-            console.dir(EventDelegation)
-            EventDelegation.prototype.run()
-           
-            console.log('hello from destAbout')
+        function myCallback(response) {
+            
+            //const newInstance = this.getInstance(response)
+            console.log('hello from xhrCallback')
+            const xhr = S.Geb.id('xhr')
+
+
+            window.Penryn.xhr = {
+                insertNew: _ => {
+                    xhr.insertAdjacentHTML('beforeend', response)
+                },
+                removeOld: _ => {
+                    const oldXhrContent = xhr.children[0]
+                    oldXhrContent.parentNode.removeChild(oldXhrContent)
+                }
+            }
+            window.Penryn.xhr.insertNew()
+            window.Penryn.xhr.removeOld()
+            window.Penryn.outroIsOn = true
+    
+            // New intro
+            //newInstance.controller.intro()
         }
+    
     })
 }
 

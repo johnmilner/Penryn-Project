@@ -20,6 +20,7 @@ Xhr.onPopstate()
 */
 
 import S from 'skylake'
+import EventDelegation from './EventDelegation.js'
 
 class Xhr {
 
@@ -37,7 +38,7 @@ class Xhr {
                 S.Geb.tag('title')[0].textContent = xhrC.title
 
                 getHistoryUpdate()
-                callback(xhrC.view, args)
+                // callback(xhrC.view, args)
             }
         }
 

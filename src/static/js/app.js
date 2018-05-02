@@ -490,96 +490,6 @@ var Support = function () {
     return Support;
 }();
 
-/*
-
-CONTROLLER
-──────────
-
-Xhr.controller(pageName, myCallback, args);
-
-function myCallback(response, args) {
-
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-
-}
-
-ONPOPSTATE
-──────────
-
-Xhr.onPopstate()
-
-*/
-
-var Xhr = function () {
-    function Xhr() {
-        classCallCheck(this, Xhr);
-    }
-
-    createClass(Xhr, null, [{
-        key: 'controller',
-        value: function controller(page, callback, args) {
-            var path = 'index.php?url=' + page + '&xhr=true';
-            var xhr = new XMLHttpRequest();
-
-            xhr.open('GET', path, true);
-            console.log('Xhr class controller loaded');
-
-            xhr.onreadystatechange = function (_) {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var xhrC = JSON.parse(xhr.responseText).xhrController;
-
-                    skylake.Geb.tag('title')[0].textContent = xhrC.title;
-
-                    getHistoryUpdate();
-                    callback(xhrC.view, args);
-                }
-            };
-
-            xhr.send(null);
-
-            // Browser history update
-            function getHistoryUpdate() {
-                var pageUrl = page === 'home' ? '/' : page;
-
-                history.pushState({ key: 'value' }, 'titre', pageUrl);
-            }
-        }
-    }, {
-        key: 'onPopstate',
-        value: function onPopstate() {
-            var d = document;
-            var w = window;
-
-            var blockPopstateEvent = d.readyState !== 'complete';
-
-            skylake.Listen(w, 'add', 'load', load);
-            skylake.Listen(w, 'add', 'popstate', popstate);
-
-            function load() {
-                setTimeout(function (_) {
-                    blockPopstateEvent = false;
-                }, 0);
-            }
-
-            function popstate(e) {
-                if (blockPopstateEvent && d.readyState === 'complete') {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                }
-            }
-
-            w.onpopstate = function (e) {
-                /* state is null when change url without change page → story stream social wall for example */
-                if (e.state !== null) {
-                    w.location.href = skylake.Win.path;
-                }
-            };
-        }
-    }]);
-    return Xhr;
-}();
-
 /* eslint-disable */
 
 var EventDelegation = function () {
@@ -591,6 +501,7 @@ var EventDelegation = function () {
 
         // Parameters
         this.p = window.Penryn;
+        this.xhrC = Xhr.xhrC;
         this.xhr = skylake.Geb.id('xhr');
 
         // Bind
@@ -722,18 +633,29 @@ EventDelegation.destHome = function () {
 
     skylake.Listen('#a-link', 'add', 'click', function () {
 
-        Xhr.controller('/', myCallback);
+        Xhr.controller('/', myCallback(this.xhrC));
 
-        function myCallback(response, args) {
-            // Insert HTML
-            //xhr.insertAdjacentHTML('beforeend', response);
-            console.dir(EventDelegation);
-            EventDelegation.prototype.run();
-            //EventDelegation.prototype.eventDelegation(event)
-            //EventDelegation.prototype.xhrReq()
-            //EventDelegation.prototype.done()
-            console.log('hello from homeXhr');
-            //EventDelegation.prototype.xhrCallback(response)
+        function myCallback(response) {
+
+            //const newInstance = this.getInstance(response)
+            console.log('hello from xhrCallback');
+            var xhr = skylake.Geb.id('xhr');
+
+            window.Penryn.xhr = {
+                insertNew: function insertNew(_) {
+                    xhr.insertAdjacentHTML('beforeend', response);
+                },
+                removeOld: function removeOld(_) {
+                    var oldXhrContent = xhr.children[0];
+                    oldXhrContent.parentNode.removeChild(oldXhrContent);
+                }
+            };
+            window.Penryn.xhr.insertNew();
+            window.Penryn.xhr.removeOld();
+            window.Penryn.outroIsOn = true;
+
+            // New intro
+            //newInstance.controller.intro()
         }
     });
 };
@@ -742,18 +664,122 @@ EventDelegation.destAbout = function () {
 
     skylake.Listen('#h-link', 'add', 'click', function () {
 
-        Xhr.controller('about', myCallback);
+        Xhr.controller('about', myCallback(this.xhrC));
 
-        function myCallback(response, args) {
-            // Insert HTML
-            //xhr.insertAdjacentHTML('beforeend', response);
-            console.dir(EventDelegation);
-            EventDelegation.prototype.run();
+        function myCallback(response) {
 
-            console.log('hello from destAbout');
+            //const newInstance = this.getInstance(response)
+            console.log('hello from xhrCallback');
+            var xhr = skylake.Geb.id('xhr');
+
+            window.Penryn.xhr = {
+                insertNew: function insertNew(_) {
+                    xhr.insertAdjacentHTML('beforeend', response);
+                },
+                removeOld: function removeOld(_) {
+                    var oldXhrContent = xhr.children[0];
+                    oldXhrContent.parentNode.removeChild(oldXhrContent);
+                }
+            };
+            window.Penryn.xhr.insertNew();
+            window.Penryn.xhr.removeOld();
+            window.Penryn.outroIsOn = true;
+
+            // New intro
+            //newInstance.controller.intro()
         }
     });
 };
+
+/*
+
+CONTROLLER
+──────────
+
+Xhr.controller(pageName, myCallback, args);
+
+function myCallback(response, args) {
+
+    // Insert HTML
+    app.insertAdjacentHTML('beforeend', response);
+
+}
+
+ONPOPSTATE
+──────────
+
+Xhr.onPopstate()
+
+*/
+
+var Xhr = function () {
+    function Xhr() {
+        classCallCheck(this, Xhr);
+    }
+
+    createClass(Xhr, null, [{
+        key: 'controller',
+        value: function controller(page, callback, args) {
+            var path = 'index.php?url=' + page + '&xhr=true';
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', path, true);
+            console.log('Xhr class controller loaded');
+
+            xhr.onreadystatechange = function (_) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var xhrC = JSON.parse(xhr.responseText).xhrController;
+
+                    skylake.Geb.tag('title')[0].textContent = xhrC.title;
+
+                    getHistoryUpdate();
+                    // callback(xhrC.view, args)
+                }
+            };
+
+            xhr.send(null);
+
+            // Browser history update
+            function getHistoryUpdate() {
+                var pageUrl = page === 'home' ? '/' : page;
+
+                history.pushState({ key: 'value' }, 'titre', pageUrl);
+            }
+        }
+    }, {
+        key: 'onPopstate',
+        value: function onPopstate() {
+            var d = document;
+            var w = window;
+
+            var blockPopstateEvent = d.readyState !== 'complete';
+
+            skylake.Listen(w, 'add', 'load', load);
+            skylake.Listen(w, 'add', 'popstate', popstate);
+
+            function load() {
+                setTimeout(function (_) {
+                    blockPopstateEvent = false;
+                }, 0);
+            }
+
+            function popstate(e) {
+                if (blockPopstateEvent && d.readyState === 'complete') {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            }
+
+            w.onpopstate = function (e) {
+                /* state is null when change url without change page → story stream social wall for example */
+                if (e.state !== null) {
+                    w.location.href = skylake.Win.path;
+                }
+            };
+        }
+    }]);
+    return Xhr;
+}();
 
 /* eslint-disable */
 
@@ -11466,3 +11492,4 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
+
