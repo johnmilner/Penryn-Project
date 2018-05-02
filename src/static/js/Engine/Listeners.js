@@ -211,20 +211,7 @@ class Listeners {
             S.Listen(normEv.el, action, normEv.event, normEv.callback)
         }
     }
-
-    homeXhr() {
-        Xhr.controller('/', myCallback);
-        
-        function myCallback(response, args) {
-        
-            // Insert HTML
-                xhr.insertAdjacentHTML('beforeend', response);
-                console.log('insertAdjacentHTML from Listeners.homeXhr')
-        }
-        
-        Xhr.onPopstate()
-        
-    }
+    
 }
 
 console.dir(Listeners)

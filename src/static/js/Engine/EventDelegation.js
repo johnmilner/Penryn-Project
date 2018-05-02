@@ -17,12 +17,13 @@ class EventDelegation {
 
     run () {
         S.Listen(S.Dom.body, 'add', 'click', this.eventDelegation)
+        console.log('coming from EventDelegation run method')
     }
 
     eventDelegation (event) {
         const w = window
         let target = event.target
-        let targetIsATag = false
+        let targetIsATag = true
         let targetIsASubmit = false
 
         while (target) {
@@ -106,7 +107,7 @@ class EventDelegation {
 
     xhrCallback (response) {
         const newInstance = this.getInstance(this.path.new)
-
+        console.log('hello from xhrCallback')
         this.p.xhr = {
             insertNew: _ => {
                 this.xhr.insertAdjacentHTML('beforeend', response)

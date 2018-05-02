@@ -599,13 +599,14 @@ var EventDelegation = function () {
         key: 'run',
         value: function run() {
             skylake.Listen(skylake.Dom.body, 'add', 'click', this.eventDelegation);
+            console.log('coming from EventDelegation run method');
         }
     }, {
         key: 'eventDelegation',
         value: function eventDelegation(event) {
             var w = window;
             var target = event.target;
-            var targetIsATag = false;
+            var targetIsATag = true;
             var targetIsASubmit = false;
 
             while (target) {
@@ -694,7 +695,7 @@ var EventDelegation = function () {
             var _this = this;
 
             var newInstance = this.getInstance(this.path.new);
-
+            console.log('hello from xhrCallback');
             this.p.xhr = {
                 insertNew: function insertNew(_) {
                     _this.xhr.insertAdjacentHTML('beforeend', response);
@@ -899,20 +900,6 @@ var Listeners = function () {
                 var _normEv = this.normEvs[_i3];
                 skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
             }
-        }
-    }, {
-        key: 'homeXhr',
-        value: function homeXhr() {
-            Xhr.controller('/', myCallback);
-
-            function myCallback(response, args) {
-
-                // Insert HTML
-                xhr.insertAdjacentHTML('beforeend', response);
-                console.log('insertAdjacentHTML from Listeners.homeXhr');
-            }
-
-            Xhr.onPopstate();
         }
     }]);
     return Listeners;
@@ -11092,8 +11079,27 @@ var ErrorController = function () {
 
 /* eslint-disable */
 
+var Over = {};
+
+Over.run = function () {
+
+    Xhr.controller('about', myCallback);
+
+    function myCallback(response, args) {
+        var app = document.querySelector('#app');
+        // Insert HTML
+        app.insertAdjacentHTML('beforeend', response);
+        console.log('insertAdjacentHTML from Over.js');
+    }
+
+    Xhr.onPopstate();
+};
+
+$('#h-link').on('click', Over.run);
+
+/* eslint-disable */
+
 //import Router from '../../Engine/Router.js'
-// import Over from '../Bundle/Common/Over.js'
 // import Resize from '../Bundle/Home/Resize.js'
 console.dir(Listeners);
 
@@ -11108,10 +11114,10 @@ var HomeController = function (_Listeners) {
         console.dir(Listeners);
         console.log('home constructor');
         _this.init({
-            click: [{
+            mouseenter: [{
                 el: '#h-link',
-                //module: Over,
-                method: 'run'
+                module: Over,
+                method: 'Over.run'
             }],
             ro: {
                 throttle: {
@@ -11134,7 +11140,8 @@ var HomeController = function (_Listeners) {
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Transition.intro.play();
+            Transition.intro.play({ cb: this.aboutXhr() });
+
             console.log('Transition.intro from HomeController');
             this.outro();
         }
