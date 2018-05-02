@@ -11243,15 +11243,15 @@ var AboutController = function (_Listeners) {
     createClass(AboutController, [{
         key: 'preload',
         value: function preload(opts) {
-            //Loader.run({cb: this.intro()})
-            Loader.run();
+            Loader.run({ cb: this.intro() });
+            //Loader.run()
             console.log('Loader.run from AboutController');
-            this.destHome();
+            EventDelegation.destHome();
         }
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Transition.intro.play({ cb: this.aboutXhr() });
+            Transition.intro.play();
 
             console.log('Transition.intro from HomeController');
             this.outro();
@@ -11492,4 +11492,3 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
-

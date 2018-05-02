@@ -3,7 +3,7 @@
 import Loader from '../../app/Bundle/Common/Transition/Loader.js'
 import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
-//import EventDelegation from '../../Engine/EventDelegation.js'
+import EventDelegation from '../../Engine/EventDelegation.js'
 import Listeners from '../../Engine/Listeners.js'
 import S from 'skylake'
 //import Over from '../Bundle/Common/Over.js'
@@ -38,14 +38,14 @@ class AboutController extends Listeners {
     }
 
     preload (opts) {
-        //Loader.run({cb: this.intro()})
-        Loader.run()
+        Loader.run({cb: this.intro()})
+        //Loader.run()
         console.log('Loader.run from AboutController')
-        this.destHome()
+        EventDelegation.destHome()
     }
 
     intro (opts) {
-        Transition.intro.play({cb: this.aboutXhr()})
+        Transition.intro.play()
         
         console.log('Transition.intro from HomeController')
         this.outro()
