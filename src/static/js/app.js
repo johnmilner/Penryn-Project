@@ -501,7 +501,8 @@ var EventDelegation = function () {
 
         // Parameters
         this.p = window.Penryn;
-        this.xhrC = Xhr.xhrC;
+        this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr');
+        this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC');
         this.xhr = skylake.Geb.id('xhr');
 
         // Bind
@@ -660,11 +661,17 @@ EventDelegation.destHome = function () {
     });
 };
 
+// console.log(this.xhrObj)
+// console.log(xhrC)
+
 EventDelegation.destAbout = function () {
 
     skylake.Listen('#h-link', 'add', 'click', function () {
 
-        Xhr.controller('about', myCallback(this.xhrC));
+        console.log(xhr);
+        console.log(xhrC);
+
+        Xhr.controller('about', myCallback(xhrC), xhrC);
 
         function myCallback(response) {
 
@@ -733,7 +740,8 @@ var Xhr = function () {
                     skylake.Geb.tag('title')[0].textContent = xhrC.title;
 
                     getHistoryUpdate();
-                    // callback(xhrC.view, args)
+                    return xhrC;
+                    // callback(xhrC.view, xhrC)
                 }
             };
 
@@ -11196,7 +11204,7 @@ var HomeController = function (_Listeners) {
     }, {
         key: 'outro',
         value: function outro(done, listeners) {
-            // listeners.remove({
+            // this.remove({
             //     destroy: true
             // })
             console.log('Transition.outro from HomeController');
@@ -11259,7 +11267,7 @@ var AboutController = function (_Listeners) {
     }, {
         key: 'outro',
         value: function outro(done, listeners) {
-            // listeners.remove({
+            // this.remove({
             //     destroy: true
             // })
             console.log('Transition.outro from HomeController');

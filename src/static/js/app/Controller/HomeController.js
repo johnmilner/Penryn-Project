@@ -52,11 +52,12 @@ class HomeController extends Listeners {
     }
 
     outro (done, listeners) {
-        // listeners.remove({
+        // this.remove({
         //     destroy: true
         // })
         console.log('Transition.outro from HomeController')
         Transition.outro.play(done)
+
     }
 
 }

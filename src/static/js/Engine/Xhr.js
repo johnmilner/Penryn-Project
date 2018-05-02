@@ -38,7 +38,8 @@ class Xhr {
                 S.Geb.tag('title')[0].textContent = xhrC.title
 
                 getHistoryUpdate()
-                // callback(xhrC.view, args)
+                return xhrC
+                // callback(xhrC.view, xhrC)
             }
         }
 
@@ -85,3 +86,5 @@ class Xhr {
 }
 
 export default Xhr
+// export const controller = Xhr.controller
+// export const onPopstate = Xhr.onPopstate

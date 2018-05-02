@@ -3,6 +3,7 @@
 import S from 'skylake'
 import Xhr from './Xhr.js'
 
+
 class EventDelegation {
 
     constructor (getInstance) {
@@ -11,7 +12,8 @@ class EventDelegation {
 
         // Parameters
         this.p = window.Penryn
-        this.xhrC = Xhr.xhrC
+        this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
+        this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
         this.xhr = S.Geb.id('xhr')
 
         // Bind
@@ -163,11 +165,19 @@ EventDelegation.destHome = function() {
     })
 }
 
+// console.log(this.xhrObj)
+// console.log(xhrC)
+
 EventDelegation.destAbout = function() {
+    
 
     S.Listen('#h-link', 'add', 'click', function() {
+        
+        console.log(xhr)
+        console.log(xhrC)
 
-        Xhr.controller('about', myCallback(this.xhrC));
+
+        Xhr.controller('about', myCallback(xhrC), xhrC);
 
         function myCallback(response) {
             
