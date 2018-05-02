@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import S from 'skylake'
 import Xhr from './Xhr.js'
 
@@ -16,7 +18,9 @@ class EventDelegation {
     }
 
     run () {
+        S.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback'])
         S.Listen(S.Dom.body, 'add', 'click', this.eventDelegation)
+        
         console.log('coming from EventDelegation run method')
     }
 
@@ -27,7 +31,7 @@ class EventDelegation {
         let targetIsASubmit = false
 
         while (target) {
-            if (target.tagName === 'h-link' || 'a-link') {
+            if (target.tagName === 'A') {
                 targetIsATag = true
                 break
             } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
@@ -123,6 +127,43 @@ class EventDelegation {
         newInstance.controller.intro()
     }
 
+}
+
+EventDelegation.destHome = function() {
+
+    S.Listen('#a-link', 'add', 'click', function() {
+
+        Xhr.controller('/', myCallback);
+
+        function myCallback(response, args) {
+        // Insert HTML
+            //xhr.insertAdjacentHTML('beforeend', response);
+            console.dir(EventDelegation)
+            EventDelegation.prototype.run()
+            //EventDelegation.prototype.eventDelegation(event)
+            //EventDelegation.prototype.xhrReq()
+            //EventDelegation.prototype.done()
+            console.log('hello from homeXhr')
+            //EventDelegation.prototype.xhrCallback(response)
+        }
+    })
+}
+
+EventDelegation.destAbout = function() {
+
+    S.Listen('#h-link', 'add', 'click', function() {
+
+        Xhr.controller('about', myCallback);
+
+        function myCallback(response, args) {
+        // Insert HTML
+            //xhr.insertAdjacentHTML('beforeend', response);
+            console.dir(EventDelegation)
+            EventDelegation.prototype.run()
+           
+            console.log('hello from destAbout')
+        }
+    })
 }
 
 export default EventDelegation

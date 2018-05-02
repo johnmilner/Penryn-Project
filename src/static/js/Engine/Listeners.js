@@ -47,8 +47,6 @@ class HomeController {
 
 import S from 'skylake'
 import Xhr from './Xhr.js'
-import EventDelegation from './EventDelegation.js'
-
 
 class Listeners {
 
@@ -212,46 +210,6 @@ class Listeners {
             const normEv = this.normEvs[i]
             S.Listen(normEv.el, action, normEv.event, normEv.callback)
         }
-    }
-
-    destHome () {
-
-        S.Listen('#a-link', 'add', 'click', function() {
-    
-            Xhr.controller('/', myCallback);
-    
-            function myCallback(response, args) {
-            // Insert HTML
-                //xhr.insertAdjacentHTML('beforeend', response);
-                console.dir(EventDelegation)
-                EventDelegation.prototype.run()
-                //EventDelegation.prototype.eventDelegation(event)
-                //EventDelegation.prototype.xhrReq()
-                //EventDelegation.prototype.done()
-                console.log('hello from homeXhr')
-                //EventDelegation.prototype.xhrCallback(response)
-            }
-        })
-    }
-
-    destAbout () {
-
-        S.Listen('#h-link', 'add', 'click', function() {
-    
-            Xhr.controller('about', myCallback);
-    
-            function myCallback(response, args) {
-            // Insert HTML
-                //xhr.insertAdjacentHTML('beforeend', response);
-                console.dir(EventDelegation)
-                EventDelegation.prototype.run()
-                //EventDelegation.prototype.eventDelegation(event)
-                //EventDelegation.prototype.xhrReq()
-                //EventDelegation.prototype.done()
-                console.log('hello from aboutXhr')
-                //EventDelegation.prototype.xhrCallback(response)
-            }
-        })
     }
     
 }

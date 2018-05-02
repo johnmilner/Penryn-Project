@@ -580,6 +580,8 @@ var Xhr = function () {
     return Xhr;
 }();
 
+/* eslint-disable */
+
 var EventDelegation = function () {
     function EventDelegation(getInstance) {
         classCallCheck(this, EventDelegation);
@@ -598,7 +600,9 @@ var EventDelegation = function () {
     createClass(EventDelegation, [{
         key: 'run',
         value: function run() {
+            skylake.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback']);
             skylake.Listen(skylake.Dom.body, 'add', 'click', this.eventDelegation);
+
             console.log('coming from EventDelegation run method');
         }
     }, {
@@ -610,7 +614,7 @@ var EventDelegation = function () {
             var targetIsASubmit = false;
 
             while (target) {
-                if (target.tagName === 'h-link' || 'a-link') {
+                if (target.tagName === 'A') {
                     targetIsATag = true;
                     break;
                 } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
@@ -713,6 +717,43 @@ var EventDelegation = function () {
     }]);
     return EventDelegation;
 }();
+
+EventDelegation.destHome = function () {
+
+    skylake.Listen('#a-link', 'add', 'click', function () {
+
+        Xhr.controller('/', myCallback);
+
+        function myCallback(response, args) {
+            // Insert HTML
+            //xhr.insertAdjacentHTML('beforeend', response);
+            console.dir(EventDelegation);
+            EventDelegation.prototype.run();
+            //EventDelegation.prototype.eventDelegation(event)
+            //EventDelegation.prototype.xhrReq()
+            //EventDelegation.prototype.done()
+            console.log('hello from homeXhr');
+            //EventDelegation.prototype.xhrCallback(response)
+        }
+    });
+};
+
+EventDelegation.destAbout = function () {
+
+    skylake.Listen('#h-link', 'add', 'click', function () {
+
+        Xhr.controller('about', myCallback);
+
+        function myCallback(response, args) {
+            // Insert HTML
+            //xhr.insertAdjacentHTML('beforeend', response);
+            console.dir(EventDelegation);
+            EventDelegation.prototype.run();
+
+            console.log('hello from destAbout');
+        }
+    });
+};
 
 /* eslint-disable */
 
@@ -900,48 +941,6 @@ var Listeners = function () {
                 var _normEv = this.normEvs[_i3];
                 skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
             }
-        }
-    }, {
-        key: 'destHome',
-        value: function destHome() {
-
-            skylake.Listen('#a-link', 'add', 'click', function () {
-
-                Xhr.controller('/', myCallback);
-
-                function myCallback(response, args) {
-                    // Insert HTML
-                    //xhr.insertAdjacentHTML('beforeend', response);
-                    console.dir(EventDelegation);
-                    EventDelegation.prototype.run();
-                    //EventDelegation.prototype.eventDelegation(event)
-                    //EventDelegation.prototype.xhrReq()
-                    //EventDelegation.prototype.done()
-                    console.log('hello from homeXhr');
-                    //EventDelegation.prototype.xhrCallback(response)
-                }
-            });
-        }
-    }, {
-        key: 'destAbout',
-        value: function destAbout() {
-
-            skylake.Listen('#h-link', 'add', 'click', function () {
-
-                Xhr.controller('about', myCallback);
-
-                function myCallback(response, args) {
-                    // Insert HTML
-                    //xhr.insertAdjacentHTML('beforeend', response);
-                    console.dir(EventDelegation);
-                    EventDelegation.prototype.run();
-                    //EventDelegation.prototype.eventDelegation(event)
-                    //EventDelegation.prototype.xhrReq()
-                    //EventDelegation.prototype.done()
-                    console.log('hello from aboutXhr');
-                    //EventDelegation.prototype.xhrCallback(response)
-                }
-            });
         }
     }]);
     return Listeners;
@@ -11137,10 +11136,10 @@ var HomeController = function (_Listeners) {
         console.dir(Listeners);
         console.log('home constructor');
         _this.init({
-            mouseenter: [{
+            Scroll: [{
                 el: '#h-link',
-                module: Listeners,
-                method: 'destAbout'
+                module: EventDelegation,
+                method: 'run'
             }],
             ro: {
                 throttle: {
@@ -11156,16 +11155,15 @@ var HomeController = function (_Listeners) {
     createClass(HomeController, [{
         key: 'preload',
         value: function preload(opts) {
-            //Loader.run({cb: this.intro()})
-            Loader.run();
+            Loader.run({ cb: this.intro() });
+            //Loader.run()
             console.log('Loader.run from HomeController');
-            this.destAbout();
+            EventDelegation.destAbout();
         }
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Transition.intro.play({ cb: this.aboutXhr() });
-
+            Transition.intro.play();
             console.log('Transition.intro from HomeController');
             this.outro();
         }
