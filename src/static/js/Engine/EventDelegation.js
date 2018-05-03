@@ -12,8 +12,10 @@ class EventDelegation {
 
         // Parameters
         this.p = window.Penryn
-        this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
-        this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
+        this.copy = Object.assign({}, EventDelegation.xhrC);
+        console.log(this.copy)
+        //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
+        //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
         this.xhr = S.Geb.id('xhr')
 
         // Bind
@@ -143,7 +145,7 @@ EventDelegation.destHome = function() {
             //const newInstance = this.getInstance(response)
             console.log('hello from xhrCallback')
             const xhr = S.Geb.id('xhr')
-
+            
 
             window.Penryn.xhr = {
                 insertNew: _ => {
@@ -173,20 +175,21 @@ EventDelegation.destAbout = function() {
 
     S.Listen('#h-link', 'add', 'click', function() {
         
-        console.log(xhr)
-        console.log(xhrC)
+        // console.log(xhr)
+        // console.log(xhrObj)
 
-
-        Xhr.controller('about', myCallback(xhrC), xhrC);
+        Xhr.controller('about', myCallback(this.copy));
 
         function myCallback(response) {
-            
+            //this.response = xhrC
             //const newInstance = this.getInstance(response)
             console.log('hello from xhrCallback')
             const xhr = S.Geb.id('xhr')
 
+            const content = Object.assign({}, response);
+            console.log(content)
 
-            window.Penryn.xhr = {
+            const transit = {
                 insertNew: _ => {
                     xhr.insertAdjacentHTML('beforeend', response)
                 },
@@ -195,8 +198,8 @@ EventDelegation.destAbout = function() {
                     oldXhrContent.parentNode.removeChild(oldXhrContent)
                 }
             }
-            window.Penryn.xhr.insertNew()
-            window.Penryn.xhr.removeOld()
+            transit.removeOld()
+            xhr.insertAdjacentHTML('beforeend', content)
             window.Penryn.outroIsOn = true
     
             // New intro

@@ -38,8 +38,9 @@ class Xhr {
                 S.Geb.tag('title')[0].textContent = xhrC.title
 
                 getHistoryUpdate()
+                console.log(xhrC)
                 return xhrC
-                // callback(xhrC.view, xhrC)
+                // callback(xhrC.view, EventDelegation.destAbout(xhrC))
             }
         }
 

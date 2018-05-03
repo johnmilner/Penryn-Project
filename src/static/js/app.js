@@ -501,8 +501,10 @@ var EventDelegation = function () {
 
         // Parameters
         this.p = window.Penryn;
-        this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr');
-        this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC');
+        this.copy = Object.assign({}, EventDelegation.xhrC);
+        console.log(this.copy);
+        //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
+        //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
         this.xhr = skylake.Geb.id('xhr');
 
         // Bind
@@ -668,18 +670,21 @@ EventDelegation.destAbout = function () {
 
     skylake.Listen('#h-link', 'add', 'click', function () {
 
-        console.log(xhr);
-        console.log(xhrC);
+        // console.log(xhr)
+        // console.log(xhrObj)
 
-        Xhr.controller('about', myCallback(xhrC), xhrC);
+        Xhr.controller('about', myCallback(this.copy));
 
         function myCallback(response) {
-
+            //this.response = xhrC
             //const newInstance = this.getInstance(response)
             console.log('hello from xhrCallback');
             var xhr = skylake.Geb.id('xhr');
 
-            window.Penryn.xhr = {
+            var content = Object.assign({}, response);
+            console.log(content);
+
+            var transit = {
                 insertNew: function insertNew(_) {
                     xhr.insertAdjacentHTML('beforeend', response);
                 },
@@ -688,8 +693,8 @@ EventDelegation.destAbout = function () {
                     oldXhrContent.parentNode.removeChild(oldXhrContent);
                 }
             };
-            window.Penryn.xhr.insertNew();
-            window.Penryn.xhr.removeOld();
+            transit.removeOld();
+            xhr.insertAdjacentHTML('beforeend', content);
             window.Penryn.outroIsOn = true;
 
             // New intro
@@ -740,8 +745,9 @@ var Xhr = function () {
                     skylake.Geb.tag('title')[0].textContent = xhrC.title;
 
                     getHistoryUpdate();
+                    console.log(xhrC);
                     return xhrC;
-                    // callback(xhrC.view, xhrC)
+                    // callback(xhrC.view, EventDelegation.destAbout(xhrC))
                 }
             };
 
@@ -11170,7 +11176,7 @@ var HomeController = function (_Listeners) {
         console.dir(Listeners);
         console.log('home constructor');
         _this.init({
-            Scroll: [{
+            click: [{
                 el: '#h-link',
                 module: EventDelegation,
                 method: 'run'

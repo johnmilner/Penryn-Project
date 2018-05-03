@@ -19,7 +19,7 @@ class HomeController extends Listeners {
         console.dir(Listeners)
         console.log('home constructor')
         this.init({
-            Scroll: [
+            click: [
                 {
                     el: '#h-link',
                     module: EventDelegation,
