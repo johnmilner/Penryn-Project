@@ -70,7 +70,7 @@ class EventDelegation {
                 } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
                     prD()
 
-                    if (this.p.outroIsOn) {
+                    if (window.Penryn.outroIsOn) {
                         this.path = {
                             old: S.Win.path,
                             new: targetHref.replace(/^.*\/\/[^/]+/, '')
@@ -142,6 +142,8 @@ EventDelegation.destHome = function() {
         Xhr.controller('/', myCallback);
 
         function myCallback(response, args) {
+
+            console.log('myCallback called')
 
             // Insert HTML
             //app.insertAdjacentHTML('beforeend', response);

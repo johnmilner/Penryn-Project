@@ -21,6 +21,9 @@ Xhr.onPopstate()
 
 import S from 'skylake'
 import EventDelegation from './EventDelegation.js'
+import HomeController from '../app/Controller/HomeController.js'
+import AboutController from '../app/Controller/AboutController.js'
+
 
 class Xhr {
 
@@ -52,6 +55,12 @@ class Xhr {
                 transit.removeOld()
                 pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 window.Penryn.outroIsOn = true
+                EventDelegation.prototype.run()
+                loadJS(
+                    '/static/js/app.js', 
+                    HomeController.prototype.preload(), 
+                    console.log('error from loadJS')
+                )
                 //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
             }
         }
@@ -98,6 +107,37 @@ class Xhr {
     }
 
 }
+
+function loadJS(url,onDone,onError){ 
+      if(!onDone)onDone=function(){
+        
+     }; 
+      if(!onError)onError=function(){
+        
+     }; 
+      var xhr=new XMLHttpRequest(); 
+      xhr.onreadystatechange=function(){ 
+        if(xhr.readyState==4){ 
+          if(xhr.status==200||xhr.status==0){         
+            try{ 
+              eval(xhr.responseText); 
+            }catch(e){ 
+              onError(e); 
+              return; 
+            } 
+            onDone(); 
+          }else{ 
+            onError(xhr.status); 
+          } 
+        } 
+      }.bind(this); 
+      try{ 
+        xhr.open("GET",url,true); 
+        xhr.send(); 
+      }catch(e){ 
+        onError(e); 
+      }   
+    }
 
 export default Xhr
 

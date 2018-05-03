@@ -6,6 +6,7 @@ import Xhr from '../../Engine/Xhr.js'
 import EventDelegation from '../../Engine/EventDelegation.js'
 import Listeners from '../../Engine/Listeners.js'
 import S from 'skylake'
+import AboutController from './AboutController.js';
 //import Over from '../Bundle/Common/Over.js'
 
 //import Router from '../../Engine/Router.js'
@@ -52,11 +53,11 @@ class HomeController extends Listeners {
     }
 
     outro (done, listeners) {
-        // this.remove({
-        //     destroy: true
-        // })
+        Listeners.prototype.remove({
+            destroy: true
+        })
         console.log('Transition.outro from HomeController')
-        Transition.outro.play(done)
+        Transition.outro.play()
 
     }
 

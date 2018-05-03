@@ -562,7 +562,7 @@ var EventDelegation = function () {
                     } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
                         prD();
 
-                        if (this.p.outroIsOn) {
+                        if (window.Penryn.outroIsOn) {
                             this.path = {
                                 old: skylake.Win.path,
                                 new: targetHref.replace(/^.*\/\/[^/]+/, '')
@@ -639,11 +639,13 @@ EventDelegation.destHome = function () {
 
         Xhr.controller('/', myCallback);
 
-        function myCallback(response, args) {}
+        function myCallback(response, args) {
 
-        // Insert HTML
-        //app.insertAdjacentHTML('beforeend', response);
+            console.log('myCallback called');
 
+            // Insert HTML
+            //app.insertAdjacentHTML('beforeend', response);
+        }
         // function myCallback(response) {
 
         //     //const newInstance = this.getInstance(response)
@@ -716,443 +718,6 @@ EventDelegation.destAbout = function () {
         // }
     });
 };
-
-/*
-
-CONTROLLER
-──────────
-
-Xhr.controller(pageName, myCallback, args);
-
-function myCallback(response, args) {
-
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-
-}
-
-ONPOPSTATE
-──────────
-
-Xhr.onPopstate()
-
-*/
-
-var Xhr = function () {
-    function Xhr() {
-        classCallCheck(this, Xhr);
-    }
-
-    createClass(Xhr, null, [{
-        key: 'controller',
-        value: function controller(page, callback, args) {
-            var path = 'index.php?url=' + page + '&xhr=true';
-            var xhr = new XMLHttpRequest();
-            var pageEl = skylake.Geb.id('xhr');
-
-            xhr.open('GET', path, true);
-            console.log('Xhr class controller loaded');
-
-            xhr.onreadystatechange = function (_) {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var xhrC = JSON.parse(xhr.responseText).xhrController;
-
-                    skylake.Geb.tag('title')[0].textContent = xhrC.title;
-
-                    getHistoryUpdate();
-                    console.log(xhrC);
-                    var transit = {
-                        insertNew: function insertNew(_) {
-                            pageEl.insertAdjacentHTML('beforeend', response);
-                        },
-                        removeOld: function removeOld(_) {
-                            var oldXhrContent = pageEl.children[0];
-                            oldXhrContent.parentNode.removeChild(oldXhrContent);
-                        }
-                    };
-                    transit.removeOld();
-                    pageEl.insertAdjacentHTML('beforeend', xhrC.view);
-                    window.Penryn.outroIsOn = true;
-                    //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
-                }
-            };
-
-            xhr.send(null);
-
-            // Browser history update
-            function getHistoryUpdate() {
-                var pageUrl = page === 'home' ? '/' : page;
-
-                history.pushState({ key: 'value' }, 'titre', pageUrl);
-            }
-        }
-    }, {
-        key: 'onPopstate',
-        value: function onPopstate() {
-            var d = document;
-            var w = window;
-
-            var blockPopstateEvent = d.readyState !== 'complete';
-
-            skylake.Listen(w, 'add', 'load', load);
-            skylake.Listen(w, 'add', 'popstate', popstate);
-
-            function load() {
-                setTimeout(function (_) {
-                    blockPopstateEvent = false;
-                }, 0);
-            }
-
-            function popstate(e) {
-                if (blockPopstateEvent && d.readyState === 'complete') {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                }
-            }
-
-            w.onpopstate = function (e) {
-                /* state is null when change url without change page → story stream social wall for example */
-                if (e.state !== null) {
-                    w.location.href = skylake.Win.path;
-                }
-            };
-        }
-    }]);
-    return Xhr;
-}();
-
-/* eslint-disable */
-
-var Listeners = function () {
-    function Listeners() {
-        classCallCheck(this, Listeners);
-    }
-
-    createClass(Listeners, [{
-        key: 'init',
-        value: function init(events) {
-            var _this = this;
-
-            var evs = events;
-            var speEvs = [];
-            this.normEvs = [];
-            this.moduleArr = [];
-
-            var spe = {
-                scroll: {
-                    throttle: true,
-                    skylake: 'Scroll'
-                },
-                ro: {
-                    throttle: true,
-                    skylake: 'RO'
-                },
-                wt: {
-                    throttle: false,
-                    skylake: 'WT'
-                }
-            };
-
-            var keys = Object.keys(evs);
-            var keysL = keys.length;
-            for (var i = 0; i < keysL; i++) {
-                var ev = keys[i];
-                var allEvContent = evs[keys[i]];
-                var isSpeEv = spe[ev] !== undefined;
-                var isThrottle = isSpeEv ? spe[ev].throttle : false;
-                var evContentL = isSpeEv ? 1 : allEvContent.length;
-                var arr = isSpeEv ? speEvs : this.normEvs;
-
-                for (var j = 0; j < evContentL; j++) {
-                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
-                    var evContentModule = evContent.module;
-                    // Normal & spe arr
-                    var obj = {
-                        event: ev,
-                        module: evContentModule,
-                        method: evContent.method
-                    };
-                    if (isThrottle) {
-                        obj.throttle = evContent.throttle;
-                    } else {
-                        obj.el = evContent.el;
-                    }
-                    arr.push(obj);
-                    // Common arr
-                    if (this.moduleArr.indexOf(evContentModule) < 0) {
-                        this.moduleArr.push({
-                            module: evContentModule,
-                            arg: evContent.arg,
-                            alreadyCalled: this.getAlreadyCalled(evContentModule)
-                        });
-                    }
-                }
-            }
-
-            this.normEvsL = this.normEvs.length;
-            this.speEvsL = speEvs.length;
-            this.moduleArrL = this.moduleArr.length;
-            this.speEvInstance = [];
-
-            // Normal events prepare
-
-            var _loop = function _loop(_i) {
-                var normEv = _this.normEvs[_i];
-                normEv.callback = function (e) {
-                    var opts = {
-                        event: e,
-                        listeners: _this,
-                        outroM: _this.outroM
-                    };
-                    normEv.module[normEv.method](opts);
-                };
-            };
-
-            for (var _i = 0; _i < this.normEvsL; _i++) {
-                _loop(_i);
-            }
-
-            // Special events prepare
-
-            var _loop2 = function _loop2(_i2) {
-                var speEv = speEvs[_i2];
-                var speEvSkylake = spe[speEv.event].skylake;
-
-                var opts = void 0;
-                _this.speOpts = {
-                    listeners: _this
-                };
-                if (speEvSkylake === 'Scroll') {
-                    opts = {
-                        callback: function callback(s, d) {
-                            _this.speOpts.currentScrollY = s;
-                            _this.speOpts.delta = d;
-                            speEv.module[speEv.method](_this.speOpts);
-                        },
-                        throttle: speEv.throttle
-                    };
-                } else if (speEvSkylake === 'WT') {
-                    opts = function opts(d, t, e) {
-                        _this.speOpts.delta = d;
-                        _this.speOpts.type = t;
-                        _this.speOpts.event = e;
-                        speEv.module[speEv.method](_this.speOpts);
-                    };
-                } else if (speEvSkylake === 'RO') {
-                    opts = {
-                        callback: function callback(_) {
-                            speEv.module[speEv.method](opts);
-                        },
-                        throttle: speEv.throttle
-                    };
-                }
-                _this.speEvInstance[_i2] = new skylake[speEvSkylake](opts);
-            };
-
-            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
-                _loop2(_i2);
-            }
-        }
-    }, {
-        key: 'getAlreadyCalled',
-        value: function getAlreadyCalled(module) {
-            var moduleArrL = this.moduleArr.length;
-            for (var i = 0; i < moduleArrL; i++) {
-                if (module === this.moduleArr[i].module) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }, {
-        key: 'add',
-        value: function add(opts) {
-            if (opts && opts.moduleInit) {
-                this.outroM = this.speOpts.outroM = opts.outroM;
-                this.methodCall('init');
-            }
-            this.listen('add');
-        }
-    }, {
-        key: 'remove',
-        value: function remove(opts) {
-            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
-            if (destroy) {
-                this.methodCall('destroy');
-            }
-            this.listen('remove');
-        }
-    }, {
-        key: 'methodCall',
-        value: function methodCall(name) {
-            for (var i = 0; i < this.moduleArrL; i++) {
-                var module = this.moduleArr[i].module;
-                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
-                    module[name]({
-                        outroM: this.outroM,
-                        listeners: this,
-                        arg: this.moduleArr[i].arg
-                    });
-                }
-            }
-        }
-    }, {
-        key: 'listen',
-        value: function listen(action) {
-            for (var i = 0; i < this.speEvsL; i++) {
-                var state = action === 'add' ? 'on' : 'off';
-                this.speEvInstance[i][state]();
-            }
-            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
-                var _normEv = this.normEvs[_i3];
-                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
-            }
-        }
-    }]);
-    return Listeners;
-}();
-
-console.dir(Listeners);
-
-/*
-
-CLASS
-─────
-
-Class "_tb"     →    targetBlank W3C compatible (target blank)
-Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
-Class "_ost"    →    open link in same tab without prevent default (open same tab)
-
-PENRYN
-──────
-
-path
-target
-outroEnable
-outroArgs
-done
-xhr
-
-*/
-
-var Router = function () {
-    function Router() {
-        classCallCheck(this, Router);
-
-        // Parameters
-        this.routes = [];
-        this.p = window.Penryn;
-
-        // Bind
-        skylake.BindMaker(this, ['getInstance']);
-
-        // Outro is on : paralyse outro method during animations
-        this.p.outroIsOn = false;
-
-        // On popstate
-        Xhr.onPopstate();
-
-        // Instantiating event delegation
-        this.eventDelegation = new EventDelegation(this.getInstance);
-    }
-
-    createClass(Router, [{
-        key: 'init',
-        value: function init(path, controller) {
-            this.route = {
-                path: this.slashTrim(path),
-                controller: controller,
-                params: [],
-                instance: {},
-                args: ''
-            };
-            this.routes.push(this.route);
-
-            // Instantiating
-            var Controller = this.route.controller;
-            this.route.instance.controller = new Controller();
-
-            return this;
-        }
-    }, {
-        key: 'with',
-        value: function _with(param, regex) {
-            this.route.params[param] = regex;
-
-            return this;
-        }
-    }, {
-        key: 'error',
-        value: function error(errorController) {
-            // Instantiating
-            var ErrorController = errorController;
-            this.error.controller = new ErrorController();
-        }
-    }, {
-        key: 'run',
-        value: function run() {
-            // Event delegation
-            this.eventDelegation.run();
-
-            // Preload
-            var path = skylake.Win.path;
-            this.p.path = { new: path };
-            var instance = this.getInstance(path);
-
-            instance.controller.preload();
-        }
-    }, {
-        key: 'getInstance',
-        value: function getInstance(url) {
-            this.url = this.slashTrim(url);
-            var routesL = this.routes.length;
-
-            // Page controller
-            for (var i = 0; i < routesL; i++) {
-                if (this.match(this.routes[i])) {
-                    return {
-                        controller: this.routes[i].instance.controller
-                    };
-                }
-            }
-
-            // Error
-            return {
-                controller: this.error.controller
-            };
-        }
-    }, {
-        key: 'match',
-        value: function match(route) {
-            if (route.path === this.url) {
-                return true;
-            }
-
-            var path = route.path.replace(/:([\w]+)/g, function (total, part1) {
-                return '(' + route.params[part1] + ')';
-            });
-            path = path.replace(/\//g, '\\/');
-            var regex = new RegExp(path);
-            var matches = this.url.match(regex);
-
-            if (matches !== null) {
-                if (matches.length > 1) {
-                    matches.shift();
-                    route.args = matches;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }, {
-        key: 'slashTrim',
-        value: function slashTrim(string) {
-            return string.replace(/^\/|\/$/g, '');
-        }
-    }]);
-    return Router;
-}();
 
 /*!
  * jQuery JavaScript Library v3.3.1
@@ -11154,97 +10719,198 @@ Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4I
 // Transition.intro.play()
 console.log('transition.js');
 
-var ErrorController = function () {
-    function ErrorController() {
-        classCallCheck(this, ErrorController);
+/* eslint-disable */
+
+var Listeners = function () {
+    function Listeners() {
+        classCallCheck(this, Listeners);
     }
 
-    createClass(ErrorController, [{
-        key: 'preload',
-        value: function preload() {
-            Loader.run({
-                listeners: Listeners
-            });
+    createClass(Listeners, [{
+        key: 'init',
+        value: function init(events) {
+            var _this = this;
+
+            var evs = events;
+            var speEvs = [];
+            this.normEvs = [];
+            this.moduleArr = [];
+
+            var spe = {
+                scroll: {
+                    throttle: true,
+                    skylake: 'Scroll'
+                },
+                ro: {
+                    throttle: true,
+                    skylake: 'RO'
+                },
+                wt: {
+                    throttle: false,
+                    skylake: 'WT'
+                }
+            };
+
+            var keys = Object.keys(evs);
+            var keysL = keys.length;
+            for (var i = 0; i < keysL; i++) {
+                var ev = keys[i];
+                var allEvContent = evs[keys[i]];
+                var isSpeEv = spe[ev] !== undefined;
+                var isThrottle = isSpeEv ? spe[ev].throttle : false;
+                var evContentL = isSpeEv ? 1 : allEvContent.length;
+                var arr = isSpeEv ? speEvs : this.normEvs;
+
+                for (var j = 0; j < evContentL; j++) {
+                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
+                    var evContentModule = evContent.module;
+                    // Normal & spe arr
+                    var obj = {
+                        event: ev,
+                        module: evContentModule,
+                        method: evContent.method
+                    };
+                    if (isThrottle) {
+                        obj.throttle = evContent.throttle;
+                    } else {
+                        obj.el = evContent.el;
+                    }
+                    arr.push(obj);
+                    // Common arr
+                    if (this.moduleArr.indexOf(evContentModule) < 0) {
+                        this.moduleArr.push({
+                            module: evContentModule,
+                            arg: evContent.arg,
+                            alreadyCalled: this.getAlreadyCalled(evContentModule)
+                        });
+                    }
+                }
+            }
+
+            this.normEvsL = this.normEvs.length;
+            this.speEvsL = speEvs.length;
+            this.moduleArrL = this.moduleArr.length;
+            this.speEvInstance = [];
+
+            // Normal events prepare
+
+            var _loop = function _loop(_i) {
+                var normEv = _this.normEvs[_i];
+                normEv.callback = function (e) {
+                    var opts = {
+                        event: e,
+                        listeners: _this,
+                        outroM: _this.outroM
+                    };
+                    normEv.module[normEv.method](opts);
+                };
+            };
+
+            for (var _i = 0; _i < this.normEvsL; _i++) {
+                _loop(_i);
+            }
+
+            // Special events prepare
+
+            var _loop2 = function _loop2(_i2) {
+                var speEv = speEvs[_i2];
+                var speEvSkylake = spe[speEv.event].skylake;
+
+                var opts = void 0;
+                _this.speOpts = {
+                    listeners: _this
+                };
+                if (speEvSkylake === 'Scroll') {
+                    opts = {
+                        callback: function callback(s, d) {
+                            _this.speOpts.currentScrollY = s;
+                            _this.speOpts.delta = d;
+                            speEv.module[speEv.method](_this.speOpts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                } else if (speEvSkylake === 'WT') {
+                    opts = function opts(d, t, e) {
+                        _this.speOpts.delta = d;
+                        _this.speOpts.type = t;
+                        _this.speOpts.event = e;
+                        speEv.module[speEv.method](_this.speOpts);
+                    };
+                } else if (speEvSkylake === 'RO') {
+                    opts = {
+                        callback: function callback(_) {
+                            speEv.module[speEv.method](opts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                }
+                _this.speEvInstance[_i2] = new skylake[speEvSkylake](opts);
+            };
+
+            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
+                _loop2(_i2);
+            }
         }
     }, {
-        key: 'intro',
-        value: function intro() {
-            Transition.intro({
-                listeners: Listeners
-            });
+        key: 'getAlreadyCalled',
+        value: function getAlreadyCalled(module) {
+            var moduleArrL = this.moduleArr.length;
+            for (var i = 0; i < moduleArrL; i++) {
+                if (module === this.moduleArr[i].module) {
+                    return true;
+                }
+            }
+            return false;
         }
     }, {
-        key: 'outro',
-        value: function outro() {
-            Transition.outro({
-                listeners: Listeners
-            });
+        key: 'add',
+        value: function add(opts) {
+            if (opts && opts.moduleInit) {
+                this.outroM = this.speOpts.outroM = opts.outroM;
+                this.methodCall('init');
+            }
+            this.listen('add');
+        }
+    }, {
+        key: 'remove',
+        value: function remove(opts) {
+            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
+            if (destroy) {
+                this.methodCall('destroy');
+            }
+            this.listen('remove');
+        }
+    }, {
+        key: 'methodCall',
+        value: function methodCall(name) {
+            for (var i = 0; i < this.moduleArrL; i++) {
+                var module = this.moduleArr[i].module;
+                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
+                    module[name]({
+                        outroM: this.outroM,
+                        listeners: this,
+                        arg: this.moduleArr[i].arg
+                    });
+                }
+            }
+        }
+    }, {
+        key: 'listen',
+        value: function listen(action) {
+            for (var i = 0; i < this.speEvsL; i++) {
+                var state = action === 'add' ? 'on' : 'off';
+                this.speEvInstance[i][state]();
+            }
+            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
+                var _normEv = this.normEvs[_i3];
+                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
+            }
         }
     }]);
-    return ErrorController;
+    return Listeners;
 }();
 
-/* eslint-disable */
-//import Over from '../Bundle/Common/Over.js'
-
-//import Router from '../../Engine/Router.js'
-// import Resize from '../Bundle/Home/Resize.js'
 console.dir(Listeners);
-
-var HomeController = function (_Listeners) {
-    inherits(HomeController, _Listeners);
-
-    function HomeController() {
-        classCallCheck(this, HomeController);
-
-        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
-
-        console.dir(Listeners);
-        console.log('home constructor');
-        _this.init({
-            click: [{
-                el: '#h-link',
-                module: EventDelegation,
-                method: 'run'
-            }],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                    // module: Resize,
-                    // method: 'calculate'
-                } }
-        });
-        return _this;
-    }
-
-    createClass(HomeController, [{
-        key: 'preload',
-        value: function preload(opts) {
-            Loader.run({ cb: this.intro() });
-            //Loader.run()
-            console.log('Loader.run from HomeController');
-            EventDelegation.destAbout();
-        }
-    }, {
-        key: 'intro',
-        value: function intro(opts) {
-            Transition.intro.play();
-            console.log('Transition.intro from HomeController');
-            this.outro();
-        }
-    }, {
-        key: 'outro',
-        value: function outro(done, listeners) {
-            // this.remove({
-            //     destroy: true
-            // })
-            console.log('Transition.outro from HomeController');
-            Transition.outro.play(done);
-        }
-    }]);
-    return HomeController;
-}(Listeners);
 
 /* eslint-disable */
 //import Over from '../Bundle/Common/Over.js'
@@ -11299,15 +10965,380 @@ var AboutController = function (_Listeners) {
     }, {
         key: 'outro',
         value: function outro(done, listeners) {
-            // this.remove({
-            //     destroy: true
-            // })
+            Listeners.prototype.remove({
+                destroy: true
+            });
             console.log('Transition.outro from HomeController');
-            Transition.outro.play(done);
+            Transition.outro.play();
         }
     }]);
     return AboutController;
 }(Listeners);
+
+/* eslint-disable */
+//import Over from '../Bundle/Common/Over.js'
+
+//import Router from '../../Engine/Router.js'
+// import Resize from '../Bundle/Home/Resize.js'
+console.dir(Listeners);
+
+var HomeController = function (_Listeners) {
+    inherits(HomeController, _Listeners);
+
+    function HomeController() {
+        classCallCheck(this, HomeController);
+
+        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
+
+        console.dir(Listeners);
+        console.log('home constructor');
+        _this.init({
+            click: [{
+                el: '#h-link',
+                module: EventDelegation,
+                method: 'run'
+            }],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                    // module: Resize,
+                    // method: 'calculate'
+                } }
+        });
+        return _this;
+    }
+
+    createClass(HomeController, [{
+        key: 'preload',
+        value: function preload(opts) {
+            Loader.run({ cb: this.intro() });
+            //Loader.run()
+            console.log('Loader.run from HomeController');
+            EventDelegation.destAbout();
+        }
+    }, {
+        key: 'intro',
+        value: function intro(opts) {
+            Transition.intro.play();
+            console.log('Transition.intro from HomeController');
+            this.outro();
+        }
+    }, {
+        key: 'outro',
+        value: function outro(done, listeners) {
+            Listeners.prototype.remove({
+                destroy: true
+            });
+            console.log('Transition.outro from HomeController');
+            Transition.outro.play();
+        }
+    }]);
+    return HomeController;
+}(Listeners);
+
+/*
+
+CONTROLLER
+──────────
+
+Xhr.controller(pageName, myCallback, args);
+
+function myCallback(response, args) {
+
+    // Insert HTML
+    app.insertAdjacentHTML('beforeend', response);
+
+}
+
+ONPOPSTATE
+──────────
+
+Xhr.onPopstate()
+
+*/
+
+var Xhr = function () {
+    function Xhr() {
+        classCallCheck(this, Xhr);
+    }
+
+    createClass(Xhr, null, [{
+        key: 'controller',
+        value: function controller(page, callback, args) {
+            var path = 'index.php?url=' + page + '&xhr=true';
+            var xhr = new XMLHttpRequest();
+            var pageEl = skylake.Geb.id('xhr');
+
+            xhr.open('GET', path, true);
+            console.log('Xhr class controller loaded');
+
+            xhr.onreadystatechange = function (_) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var xhrC = JSON.parse(xhr.responseText).xhrController;
+
+                    skylake.Geb.tag('title')[0].textContent = xhrC.title;
+
+                    getHistoryUpdate();
+                    console.log(xhrC);
+                    var transit = {
+                        insertNew: function insertNew(_) {
+                            pageEl.insertAdjacentHTML('beforeend', response);
+                        },
+                        removeOld: function removeOld(_) {
+                            var oldXhrContent = pageEl.children[0];
+                            oldXhrContent.parentNode.removeChild(oldXhrContent);
+                        }
+                    };
+                    transit.removeOld();
+                    pageEl.insertAdjacentHTML('beforeend', xhrC.view);
+                    window.Penryn.outroIsOn = true;
+                    EventDelegation.prototype.run();
+                    loadJS('/static/js/app.js', HomeController.prototype.preload(), console.log('error from loadJS'));
+                    //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
+                }
+            };
+
+            xhr.send(null);
+
+            // Browser history update
+            function getHistoryUpdate() {
+                var pageUrl = page === 'home' ? '/' : page;
+
+                history.pushState({ key: 'value' }, 'titre', pageUrl);
+            }
+        }
+    }, {
+        key: 'onPopstate',
+        value: function onPopstate() {
+            var d = document;
+            var w = window;
+
+            var blockPopstateEvent = d.readyState !== 'complete';
+
+            skylake.Listen(w, 'add', 'load', load);
+            skylake.Listen(w, 'add', 'popstate', popstate);
+
+            function load() {
+                setTimeout(function (_) {
+                    blockPopstateEvent = false;
+                }, 0);
+            }
+
+            function popstate(e) {
+                if (blockPopstateEvent && d.readyState === 'complete') {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            }
+
+            w.onpopstate = function (e) {
+                /* state is null when change url without change page → story stream social wall for example */
+                if (e.state !== null) {
+                    w.location.href = skylake.Win.path;
+                }
+            };
+        }
+    }]);
+    return Xhr;
+}();
+
+function loadJS(url, onDone, onError) {
+    if (!onDone) onDone = function onDone() {};
+    if (!onError) onError = function onError() {};
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200 || xhr.status == 0) {
+                try {
+                    eval(xhr.responseText);
+                } catch (e) {
+                    onError(e);
+                    return;
+                }
+                onDone();
+            } else {
+                onError(xhr.status);
+            }
+        }
+    }.bind(this);
+    try {
+        xhr.open("GET", url, true);
+        xhr.send();
+    } catch (e) {
+        onError(e);
+    }
+}
+
+/*
+
+CLASS
+─────
+
+Class "_tb"     →    targetBlank W3C compatible (target blank)
+Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
+Class "_ost"    →    open link in same tab without prevent default (open same tab)
+
+PENRYN
+──────
+
+path
+target
+outroEnable
+outroArgs
+done
+xhr
+
+*/
+
+var Router = function () {
+    function Router() {
+        classCallCheck(this, Router);
+
+        // Parameters
+        this.routes = [];
+        this.p = window.Penryn;
+
+        // Bind
+        skylake.BindMaker(this, ['getInstance']);
+
+        // Outro is on : paralyse outro method during animations
+        this.p.outroIsOn = false;
+
+        // On popstate
+        Xhr.onPopstate();
+
+        // Instantiating event delegation
+        this.eventDelegation = new EventDelegation(this.getInstance);
+    }
+
+    createClass(Router, [{
+        key: 'init',
+        value: function init(path, controller) {
+            this.route = {
+                path: this.slashTrim(path),
+                controller: controller,
+                params: [],
+                instance: {},
+                args: ''
+            };
+            this.routes.push(this.route);
+
+            // Instantiating
+            var Controller = this.route.controller;
+            this.route.instance.controller = new Controller();
+
+            return this;
+        }
+    }, {
+        key: 'with',
+        value: function _with(param, regex) {
+            this.route.params[param] = regex;
+
+            return this;
+        }
+    }, {
+        key: 'error',
+        value: function error(errorController) {
+            // Instantiating
+            var ErrorController = errorController;
+            this.error.controller = new ErrorController();
+        }
+    }, {
+        key: 'run',
+        value: function run() {
+            // Event delegation
+            this.eventDelegation.run();
+
+            // Preload
+            var path = skylake.Win.path;
+            this.p.path = { new: path };
+            var instance = this.getInstance(path);
+
+            instance.controller.preload();
+        }
+    }, {
+        key: 'getInstance',
+        value: function getInstance(url) {
+            this.url = this.slashTrim(url);
+            var routesL = this.routes.length;
+
+            // Page controller
+            for (var i = 0; i < routesL; i++) {
+                if (this.match(this.routes[i])) {
+                    return {
+                        controller: this.routes[i].instance.controller
+                    };
+                }
+            }
+
+            // Error
+            return {
+                controller: this.error.controller
+            };
+        }
+    }, {
+        key: 'match',
+        value: function match(route) {
+            if (route.path === this.url) {
+                return true;
+            }
+
+            var path = route.path.replace(/:([\w]+)/g, function (total, part1) {
+                return '(' + route.params[part1] + ')';
+            });
+            path = path.replace(/\//g, '\\/');
+            var regex = new RegExp(path);
+            var matches = this.url.match(regex);
+
+            if (matches !== null) {
+                if (matches.length > 1) {
+                    matches.shift();
+                    route.args = matches;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }, {
+        key: 'slashTrim',
+        value: function slashTrim(string) {
+            return string.replace(/^\/|\/$/g, '');
+        }
+    }]);
+    return Router;
+}();
+
+var ErrorController = function () {
+    function ErrorController() {
+        classCallCheck(this, ErrorController);
+    }
+
+    createClass(ErrorController, [{
+        key: 'preload',
+        value: function preload() {
+            Loader.run({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'intro',
+        value: function intro() {
+            Transition.intro({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'outro',
+        value: function outro() {
+            Transition.outro({
+                listeners: Listeners
+            });
+        }
+    }]);
+    return ErrorController;
+}();
 
 /*
 
