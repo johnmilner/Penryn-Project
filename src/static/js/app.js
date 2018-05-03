@@ -11094,7 +11094,7 @@ var Xhr = function () {
                     pageEl.insertAdjacentHTML('beforeend', xhrC.view);
                     window.Penryn.outroIsOn = true;
                     EventDelegation.prototype.run();
-                    loadJS('/static/js/app.js', HomeController.prototype.preload(), console.log('error from loadJS'));
+                    loadJS('/static/js/app.js', AboutController.prototype.intro(), console.log('error from loadJS'));
                     //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
                 }
             };

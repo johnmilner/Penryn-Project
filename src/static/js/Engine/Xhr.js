@@ -58,7 +58,7 @@ class Xhr {
                 EventDelegation.prototype.run()
                 loadJS(
                     '/static/js/app.js', 
-                    HomeController.prototype.preload(), 
+                    AboutController.prototype.intro(), 
                     console.log('error from loadJS')
                 )
                 //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
