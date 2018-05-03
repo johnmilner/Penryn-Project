@@ -27,6 +27,7 @@ class Xhr {
     static controller (page, callback, args) {
         const path = 'index.php?url=' + page + '&xhr=true'
         const xhr = new XMLHttpRequest()
+        const pageEl = S.Geb.id('xhr')
 
         xhr.open('GET', path, true)
         console.log('Xhr class controller loaded')
@@ -39,13 +40,25 @@ class Xhr {
 
                 getHistoryUpdate()
                 console.log(xhrC)
-                return xhrC
-                // callback(xhrC.view, EventDelegation.destAbout(xhrC))
+                const transit = {
+                    insertNew: _ => {
+                        pageEl.insertAdjacentHTML('beforeend', response)
+                    },
+                    removeOld: _ => {
+                        const oldXhrContent = pageEl.children[0]
+                        oldXhrContent.parentNode.removeChild(oldXhrContent)
+                    }
+                }
+                transit.removeOld()
+                pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                window.Penryn.outroIsOn = true
+                //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
             }
         }
 
+       
         xhr.send(null)
-
+        
         // Browser history update
         function getHistoryUpdate () {
             const pageUrl = page === 'home' ? '/' : page
@@ -87,5 +100,4 @@ class Xhr {
 }
 
 export default Xhr
-// export const controller = Xhr.controller
-// export const onPopstate = Xhr.onPopstate
+

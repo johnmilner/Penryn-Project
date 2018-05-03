@@ -501,8 +501,9 @@ var EventDelegation = function () {
 
         // Parameters
         this.p = window.Penryn;
-        this.copy = Object.assign({}, EventDelegation.xhrC);
+        this.copy = Object.assign({}, window.Penryn.xhrC);
         console.log(this.copy);
+
         //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
         //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
         this.xhr = skylake.Geb.id('xhr');
@@ -636,30 +637,36 @@ EventDelegation.destHome = function () {
 
     skylake.Listen('#a-link', 'add', 'click', function () {
 
-        Xhr.controller('/', myCallback(this.xhrC));
+        Xhr.controller('/', myCallback);
 
-        function myCallback(response) {
+        function myCallback(response, args) {}
 
-            //const newInstance = this.getInstance(response)
-            console.log('hello from xhrCallback');
-            var xhr = skylake.Geb.id('xhr');
+        // Insert HTML
+        //app.insertAdjacentHTML('beforeend', response);
 
-            window.Penryn.xhr = {
-                insertNew: function insertNew(_) {
-                    xhr.insertAdjacentHTML('beforeend', response);
-                },
-                removeOld: function removeOld(_) {
-                    var oldXhrContent = xhr.children[0];
-                    oldXhrContent.parentNode.removeChild(oldXhrContent);
-                }
-            };
-            window.Penryn.xhr.insertNew();
-            window.Penryn.xhr.removeOld();
-            window.Penryn.outroIsOn = true;
+        // function myCallback(response) {
 
-            // New intro
-            //newInstance.controller.intro()
-        }
+        //     //const newInstance = this.getInstance(response)
+        //     console.log('hello from xhrCallback')
+        //     const xhr = S.Geb.id('xhr')
+
+
+        //     window.Penryn.xhr = {
+        //         insertNew: _ => {
+        //             xhr.insertAdjacentHTML('beforeend', response)
+        //         },
+        //         removeOld: _ => {
+        //             const oldXhrContent = xhr.children[0]
+        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
+        //         }
+        //     }
+        //     window.Penryn.xhr.insertNew()
+        //     window.Penryn.xhr.removeOld()
+        //     window.Penryn.outroIsOn = true
+
+        //     // New intro
+        //     //newInstance.controller.intro()
+        // }
     });
 };
 
@@ -673,33 +680,40 @@ EventDelegation.destAbout = function () {
         // console.log(xhr)
         // console.log(xhrObj)
 
-        Xhr.controller('about', myCallback(this.copy));
+        Xhr.controller('about', myCallback);
 
-        function myCallback(response) {
-            //this.response = xhrC
-            //const newInstance = this.getInstance(response)
-            console.log('hello from xhrCallback');
-            var xhr = skylake.Geb.id('xhr');
+        function myCallback(response, args) {
 
-            var content = Object.assign({}, response);
-            console.log(content);
-
-            var transit = {
-                insertNew: function insertNew(_) {
-                    xhr.insertAdjacentHTML('beforeend', response);
-                },
-                removeOld: function removeOld(_) {
-                    var oldXhrContent = xhr.children[0];
-                    oldXhrContent.parentNode.removeChild(oldXhrContent);
-                }
-            };
-            transit.removeOld();
-            xhr.insertAdjacentHTML('beforeend', content);
-            window.Penryn.outroIsOn = true;
-
-            // New intro
-            //newInstance.controller.intro()
+            console.log('myCallback called');
+            // Insert HTML
+            //app.insertAdjacentHTML('beforeend', response);
         }
+
+        // function myCallback(response) {
+        //     //this.response = xhrC
+        //     //const newInstance = this.getInstance(response)
+        //     console.log('hello from xhrCallback')
+        //     const xhr = S.Geb.id('xhr')
+
+        //     const content = Object.assign({}, response);
+        //     console.log(content)
+
+        //     const transit = {
+        //         insertNew: _ => {
+        //             xhr.insertAdjacentHTML('beforeend', response)
+        //         },
+        //         removeOld: _ => {
+        //             const oldXhrContent = xhr.children[0]
+        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
+        //         }
+        //     }
+        //     transit.removeOld()
+        //     xhr.insertAdjacentHTML('beforeend', content)
+        //     window.Penryn.outroIsOn = true
+
+        //     // New intro
+        //     //newInstance.controller.intro()
+        // }
     });
 };
 
@@ -734,6 +748,7 @@ var Xhr = function () {
         value: function controller(page, callback, args) {
             var path = 'index.php?url=' + page + '&xhr=true';
             var xhr = new XMLHttpRequest();
+            var pageEl = skylake.Geb.id('xhr');
 
             xhr.open('GET', path, true);
             console.log('Xhr class controller loaded');
@@ -746,8 +761,19 @@ var Xhr = function () {
 
                     getHistoryUpdate();
                     console.log(xhrC);
-                    return xhrC;
-                    // callback(xhrC.view, EventDelegation.destAbout(xhrC))
+                    var transit = {
+                        insertNew: function insertNew(_) {
+                            pageEl.insertAdjacentHTML('beforeend', response);
+                        },
+                        removeOld: function removeOld(_) {
+                            var oldXhrContent = pageEl.children[0];
+                            oldXhrContent.parentNode.removeChild(oldXhrContent);
+                        }
+                    };
+                    transit.removeOld();
+                    pageEl.insertAdjacentHTML('beforeend', xhrC.view);
+                    window.Penryn.outroIsOn = true;
+                    //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
                 }
             };
 

@@ -12,8 +12,9 @@ class EventDelegation {
 
         // Parameters
         this.p = window.Penryn
-        this.copy = Object.assign({}, EventDelegation.xhrC);
+        this.copy = Object.assign({}, window.Penryn.xhrC);
         console.log(this.copy)
+
         //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
         //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
         this.xhr = S.Geb.id('xhr')
@@ -138,31 +139,37 @@ EventDelegation.destHome = function() {
 
     S.Listen('#a-link', 'add', 'click', function() {
 
-        Xhr.controller('/', myCallback(this.xhrC));
+        Xhr.controller('/', myCallback);
 
-        function myCallback(response) {
-            
-            //const newInstance = this.getInstance(response)
-            console.log('hello from xhrCallback')
-            const xhr = S.Geb.id('xhr')
-            
+        function myCallback(response, args) {
 
-            window.Penryn.xhr = {
-                insertNew: _ => {
-                    xhr.insertAdjacentHTML('beforeend', response)
-                },
-                removeOld: _ => {
-                    const oldXhrContent = xhr.children[0]
-                    oldXhrContent.parentNode.removeChild(oldXhrContent)
-                }
-            }
-            window.Penryn.xhr.insertNew()
-            window.Penryn.xhr.removeOld()
-            window.Penryn.outroIsOn = true
-    
-            // New intro
-            //newInstance.controller.intro()
+            // Insert HTML
+            //app.insertAdjacentHTML('beforeend', response);
+        
         }
+        // function myCallback(response) {
+            
+        //     //const newInstance = this.getInstance(response)
+        //     console.log('hello from xhrCallback')
+        //     const xhr = S.Geb.id('xhr')
+            
+
+        //     window.Penryn.xhr = {
+        //         insertNew: _ => {
+        //             xhr.insertAdjacentHTML('beforeend', response)
+        //         },
+        //         removeOld: _ => {
+        //             const oldXhrContent = xhr.children[0]
+        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
+        //         }
+        //     }
+        //     window.Penryn.xhr.insertNew()
+        //     window.Penryn.xhr.removeOld()
+        //     window.Penryn.outroIsOn = true
+    
+        //     // New intro
+        //     //newInstance.controller.intro()
+        // }
     
     })
 }
@@ -178,33 +185,41 @@ EventDelegation.destAbout = function() {
         // console.log(xhr)
         // console.log(xhrObj)
 
-        Xhr.controller('about', myCallback(this.copy));
+        Xhr.controller('about', myCallback);
 
-        function myCallback(response) {
-            //this.response = xhrC
-            //const newInstance = this.getInstance(response)
-            console.log('hello from xhrCallback')
-            const xhr = S.Geb.id('xhr')
+        function myCallback(response, args) {
 
-            const content = Object.assign({}, response);
-            console.log(content)
-
-            const transit = {
-                insertNew: _ => {
-                    xhr.insertAdjacentHTML('beforeend', response)
-                },
-                removeOld: _ => {
-                    const oldXhrContent = xhr.children[0]
-                    oldXhrContent.parentNode.removeChild(oldXhrContent)
-                }
-            }
-            transit.removeOld()
-            xhr.insertAdjacentHTML('beforeend', content)
-            window.Penryn.outroIsOn = true
-    
-            // New intro
-            //newInstance.controller.intro()
+            console.log('myCallback called')
+            // Insert HTML
+            //app.insertAdjacentHTML('beforeend', response);
+        
         }
+
+        // function myCallback(response) {
+        //     //this.response = xhrC
+        //     //const newInstance = this.getInstance(response)
+        //     console.log('hello from xhrCallback')
+        //     const xhr = S.Geb.id('xhr')
+
+        //     const content = Object.assign({}, response);
+        //     console.log(content)
+
+        //     const transit = {
+        //         insertNew: _ => {
+        //             xhr.insertAdjacentHTML('beforeend', response)
+        //         },
+        //         removeOld: _ => {
+        //             const oldXhrContent = xhr.children[0]
+        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
+        //         }
+        //     }
+        //     transit.removeOld()
+        //     xhr.insertAdjacentHTML('beforeend', content)
+        //     window.Penryn.outroIsOn = true
+    
+        //     // New intro
+        //     //newInstance.controller.intro()
+        // }
     
     })
 }
