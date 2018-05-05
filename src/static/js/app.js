@@ -11331,7 +11331,7 @@ $(function () {
   var callback = function callback(e) {
 
     console.log('burger clicked!!');
-    // e.preventDefault();
+    e.preventDefault();
     // e.stopImmediatePropagation()
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
     b.removeEventListener('click', callback);
