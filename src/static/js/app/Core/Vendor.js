@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-import jQuery from "jquery"
-//import "jquery.easing";
 import S from 'skylake'
+import jQuery from "jquery"
+import Listeners from '../../Engine/Listeners.js'
 
 //import devicon from 'devicon'
 
@@ -17,19 +17,26 @@ burger.keyCodeESC = 27;
 $(function() {
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
-  // Top menu
+  const b = document.querySelector('#burger')
   
-  var myFunction = function(e) {
-    $('#burger').off('click');
-    e.preventDefault();
+ let callback = function(e) {
+
+    b.removeEventListener('click', callback);
     console.log('burger clicked!!');
+    e.preventDefault();
+    e.stopImmediatePropagation()
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
     
-    }
-
-    $('#burger').on('click', myFunction)
+  }
 
 
+  S.Listen('#burger', 'add', 'click', callback)
+  //$('#burger').on('click', myFunction)
+
+  burger.addy = function() {
+    b.addEventListener('click', callback);
+  }
+    
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function(e) {
@@ -90,12 +97,8 @@ burger.revealMenu = function() {
   //overlay.toggle();
   burger.toggleMenuStates();
 
-  var myFunction = function(e) {
-    $('#burger').off('click');
-    e.preventDefault();
-    console.log('burger clicked!!');
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
-    
+  const addy = function() {
+    b.addEventListener('click', callback);
   }
  
   const tl = new S.Timeline()
@@ -111,9 +114,8 @@ burger.revealMenu = function() {
 
   tl.from({el: '.burger-menu-link', p: {y: [-100, 0]}, d: 1600, e: 'ExpoOut', delay: 1800})
   tl.from({el: '.burger-menu-share', p: {y: [100, 0]}, d: 1600, e: 'ExpoOut', delay: 400, 
-  cb: function() {
-    $('#burger').on("click", myFunction);
-  }})
+  cb: burger.addy
+  })
 
   tl.play()
 
@@ -125,12 +127,8 @@ burger.hideMenu = function() {
   burger.menuVisible = false;
   burger.toggleMenuStates();
 
-  var myFunction = function(e) {
-    $('#burger').off('click');
-    e.preventDefault();
-    console.log('burger clicked!!');
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
-    
+  const addy = function() {
+    b.addEventListener('click', callback);
   }
 
     const tl = new S.Timeline()
@@ -147,9 +145,8 @@ burger.hideMenu = function() {
     tl.from({el: '.burger-close', p: {y: [0, -108]}, d: 1600, e: 'Power4InOut'})
     tl.from({el: '.burger-line-hover', p: {x: [105, 0]}, d: 800, e: 'ExpoOut', delay: 800})
     tl.from({el: '#burger-menu-line', p: {y: [100, -100]}, d: 1500, e: 'Power4InOut', 
-    cb: function() {
-      $('#burger').on("click", myFunction);
-    }})
+    cb: burger.addy
+    })
   
     tl.play()
 
@@ -206,7 +203,4 @@ for (var i = 0; i < navItems.length; i++) {
 Menu Overlay End 
 */
 
-
- 
-
-  
+export default Vendor  

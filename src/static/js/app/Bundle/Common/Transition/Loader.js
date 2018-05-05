@@ -55,7 +55,7 @@ anime.timeline({ loop: false })
       })
       .add({
         targets: ".ml8",
-        opacity: 0,
+        opacity: 1,
         duration: 2000,
         easing: "easeOutExpo",
         delay: 300

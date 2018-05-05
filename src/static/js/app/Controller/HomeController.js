@@ -27,6 +27,13 @@ class HomeController extends Listeners {
                     method: 'run'
                 }
             ],
+            click: [
+                {
+                    el: '#burger',
+                    module: EventDelegation,
+                    method: 'myFunction'
+                }
+            ],
             ro: {
                 throttle: {
                     delay: 200,
@@ -42,6 +49,7 @@ class HomeController extends Listeners {
         Loader.run({cb: this.intro()})
         //Loader.run()
         console.log('Loader.run from HomeController')
+        //EventDelegation.prototype.run()
         EventDelegation.destAbout()
 
     }

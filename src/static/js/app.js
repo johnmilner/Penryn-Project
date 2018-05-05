@@ -446,6 +446,21 @@ var createClass = function () {
   };
 }();
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+};
+
 var inherits = function (subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -501,11 +516,8 @@ var EventDelegation = function () {
 
         // Parameters
         this.p = window.Penryn;
-        this.copy = Object.assign({}, window.Penryn.xhrC);
-        console.log(this.copy);
-
-        //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
-        //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
+        this.b = skylake.Dom.body;
+        //this.a = S.Geb.id('a-link')
         this.xhr = skylake.Geb.id('xhr');
 
         // Bind
@@ -623,6 +635,7 @@ var EventDelegation = function () {
                     var oldXhrContent = _this.xhr.children[0];
                     oldXhrContent.parentNode.removeChild(oldXhrContent);
                 }
+
             };
             this.p.outroIsOn = true;
 
@@ -634,88 +647,22 @@ var EventDelegation = function () {
 }();
 
 EventDelegation.destHome = function () {
-
-    skylake.Listen('#a-link', 'add', 'click', function () {
-
-        Xhr.controller('/', myCallback);
+    skylake.Listen("#a-link", "add", "click", function () {
+        Xhr.controller("/", myCallback);
 
         function myCallback(response, args) {
-
-            console.log('myCallback called');
-
-            // Insert HTML
-            //app.insertAdjacentHTML('beforeend', response);
+            console.log("myCallback called");
         }
-        // function myCallback(response) {
-
-        //     //const newInstance = this.getInstance(response)
-        //     console.log('hello from xhrCallback')
-        //     const xhr = S.Geb.id('xhr')
-
-
-        //     window.Penryn.xhr = {
-        //         insertNew: _ => {
-        //             xhr.insertAdjacentHTML('beforeend', response)
-        //         },
-        //         removeOld: _ => {
-        //             const oldXhrContent = xhr.children[0]
-        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
-        //         }
-        //     }
-        //     window.Penryn.xhr.insertNew()
-        //     window.Penryn.xhr.removeOld()
-        //     window.Penryn.outroIsOn = true
-
-        //     // New intro
-        //     //newInstance.controller.intro()
-        // }
     });
 };
 
-// console.log(this.xhrObj)
-// console.log(xhrC)
-
 EventDelegation.destAbout = function () {
-
-    skylake.Listen('#h-link', 'add', 'click', function () {
-
-        // console.log(xhr)
-        // console.log(xhrObj)
-
-        Xhr.controller('about', myCallback);
+    skylake.Listen("#h-link", "add", "click", function () {
+        Xhr.controller("about", myCallback);
 
         function myCallback(response, args) {
-
-            console.log('myCallback called');
-            // Insert HTML
-            //app.insertAdjacentHTML('beforeend', response);
+            console.log("myCallback called");
         }
-
-        // function myCallback(response) {
-        //     //this.response = xhrC
-        //     //const newInstance = this.getInstance(response)
-        //     console.log('hello from xhrCallback')
-        //     const xhr = S.Geb.id('xhr')
-
-        //     const content = Object.assign({}, response);
-        //     console.log(content)
-
-        //     const transit = {
-        //         insertNew: _ => {
-        //             xhr.insertAdjacentHTML('beforeend', response)
-        //         },
-        //         removeOld: _ => {
-        //             const oldXhrContent = xhr.children[0]
-        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
-        //         }
-        //     }
-        //     transit.removeOld()
-        //     xhr.insertAdjacentHTML('beforeend', content)
-        //     window.Penryn.outroIsOn = true
-
-        //     // New intro
-        //     //newInstance.controller.intro()
-        // }
     });
 };
 
@@ -10676,7 +10623,7 @@ anime.timeline({ loop: false }).add({
   offset: "-=1000"
 }).add({
   targets: ".ml8",
-  opacity: 0,
+  opacity: 1,
   duration: 2000,
   easing: "easeOutExpo",
   delay: 300
@@ -10930,10 +10877,12 @@ var AboutController = function (_Listeners) {
         console.dir(Listeners);
         console.log('about constructor');
         _this.init({
-            mouseenter: [{
-                el: '#a-link',
-                module: Listeners,
-                method: 'destHome'
+            moduleInit: true,
+            click: [{
+                el: 'burger',
+                module: EventDelegation,
+                method: 'run',
+                outroM: _this.outroM
             }],
             ro: {
                 throttle: {
@@ -10952,6 +10901,7 @@ var AboutController = function (_Listeners) {
             Loader.run({ cb: this.intro() });
             //Loader.run()
             console.log('Loader.run from AboutController');
+            //EventDelegation.prototype.run()
             EventDelegation.destHome();
         }
     }, {
@@ -10959,7 +10909,7 @@ var AboutController = function (_Listeners) {
         value: function intro(opts) {
             Transition.intro.play();
 
-            console.log('Transition.intro from HomeController');
+            console.log('Transition.intro from AboutController');
             this.outro();
         }
     }, {
@@ -10968,7 +10918,7 @@ var AboutController = function (_Listeners) {
             Listeners.prototype.remove({
                 destroy: true
             });
-            console.log('Transition.outro from HomeController');
+            console.log('Transition.outro from AboutController');
             Transition.outro.play();
         }
     }]);
@@ -10986,26 +10936,31 @@ var HomeController = function (_Listeners) {
     inherits(HomeController, _Listeners);
 
     function HomeController() {
+        var _this$init;
+
         classCallCheck(this, HomeController);
 
         var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
 
         console.dir(Listeners);
         console.log('home constructor');
-        _this.init({
+        _this.init((_this$init = {
             click: [{
                 el: '#h-link',
                 module: EventDelegation,
                 method: 'run'
-            }],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                    // module: Resize,
-                    // method: 'calculate'
-                } }
-        });
+            }]
+        }, defineProperty(_this$init, 'click', [{
+            el: '#burger',
+            module: EventDelegation,
+            method: 'myFunction'
+        }]), defineProperty(_this$init, 'ro', {
+            throttle: {
+                delay: 200,
+                atEnd: true
+                // module: Resize,
+                // method: 'calculate'
+            } }), _this$init));
         return _this;
     }
 
@@ -11015,6 +10970,7 @@ var HomeController = function (_Listeners) {
             Loader.run({ cb: this.intro() });
             //Loader.run()
             console.log('Loader.run from HomeController');
+            //EventDelegation.prototype.run()
             EventDelegation.destAbout();
         }
     }, {
@@ -11094,8 +11050,8 @@ var Xhr = function () {
                     pageEl.insertAdjacentHTML('beforeend', xhrC.view);
                     window.Penryn.outroIsOn = true;
                     EventDelegation.prototype.run();
-                    loadJS('/static/js/app.js', AboutController.prototype.intro(), console.log('error from loadJS'));
-                    //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
+                    loadJS('/static/js/app.js', console.log('JS loaded'), console.log('error from loadJS'));
+                    //callback(EventDelegation.prototype.run(xhrC.view))
                 }
             };
 
@@ -11378,16 +11334,23 @@ burger.keyCodeESC = 27;
 $(function () {
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
-  // Top menu
+  var b = document.querySelector('#burger');
 
-  var myFunction = function myFunction(e) {
-    $('#burger').off('click');
-    e.preventDefault();
+  var callback = function callback(e) {
+
+    b.removeEventListener('click', callback);
     console.log('burger clicked!!');
+    e.preventDefault();
+    e.stopImmediatePropagation();
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
   };
 
-  $('#burger').on('click', myFunction);
+  skylake.Listen('#burger', 'add', 'click', callback);
+  //$('#burger').on('click', myFunction)
+
+  burger.addy = function () {
+    b.addEventListener('click', callback);
+  };
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function (e) {
@@ -11444,13 +11407,6 @@ burger.revealMenu = function () {
   //overlay.toggle();
   burger.toggleMenuStates();
 
-  var myFunction = function myFunction(e) {
-    $('#burger').off('click');
-    e.preventDefault();
-    console.log('burger clicked!!');
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-  };
-
   var tl = new skylake.Timeline();
   var isObj = skylake.Is.object(tl);
 
@@ -11464,9 +11420,8 @@ burger.revealMenu = function () {
 
   tl.from({ el: '.burger-menu-link', p: { y: [-100, 0] }, d: 1600, e: 'ExpoOut', delay: 1800 });
   tl.from({ el: '.burger-menu-share', p: { y: [100, 0] }, d: 1600, e: 'ExpoOut', delay: 400,
-    cb: function cb() {
-      $('#burger').on("click", myFunction);
-    } });
+    cb: burger.addy
+  });
 
   tl.play();
 };
@@ -11474,13 +11429,6 @@ burger.revealMenu = function () {
 burger.hideMenu = function () {
   burger.menuVisible = false;
   burger.toggleMenuStates();
-
-  var myFunction = function myFunction(e) {
-    $('#burger').off('click');
-    e.preventDefault();
-    console.log('burger clicked!!');
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-  };
 
   var tl = new skylake.Timeline();
   var isObj = skylake.Is.object(tl);
@@ -11495,9 +11443,8 @@ burger.hideMenu = function () {
   tl.from({ el: '.burger-close', p: { y: [0, -108] }, d: 1600, e: 'Power4InOut' });
   tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 800, e: 'ExpoOut', delay: 800 });
   tl.from({ el: '#burger-menu-line', p: { y: [100, -100] }, d: 1500, e: 'Power4InOut',
-    cb: function cb() {
-      $('#burger').on("click", myFunction);
-    } });
+    cb: burger.addy
+  });
 
   tl.play();
 };
@@ -11534,19 +11481,6 @@ for (var i = 0; i < navItems.length; i++) {
     burger.hideMenu();
   });
 }
-// for (var i = 0; i < subNavItems.length; i++) {
-//   subNavItems[i].addEventListener('click', function(){
-//     //console.log('clicked!!');
-//     if (burger.className === 'active') {
-//       return false;
-//     }
-//     burger.hideMenu();   
-//   });
-
-
-/* 
-Menu Overlay End 
-*/
 
 var App = function App() {
     classCallCheck(this, App);

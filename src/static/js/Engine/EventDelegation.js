@@ -12,11 +12,8 @@ class EventDelegation {
 
         // Parameters
         this.p = window.Penryn
-        this.copy = Object.assign({}, window.Penryn.xhrC);
-        console.log(this.copy)
-
-        //this.xhrObj = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhr')
-        //this.xhrC = Object.getOwnPropertyDescriptor(Xhr.controller, 'xhrC')
+        this.b = S.Dom.body
+        //this.a = S.Geb.id('a-link')
         this.xhr = S.Geb.id('xhr')
 
         // Bind
@@ -126,6 +123,7 @@ class EventDelegation {
                 const oldXhrContent = this.xhr.children[0]
                 oldXhrContent.parentNode.removeChild(oldXhrContent)
             }
+            
         }
         this.p.outroIsOn = true
 
@@ -136,94 +134,23 @@ class EventDelegation {
 }
 
 EventDelegation.destHome = function() {
+  S.Listen("#a-link", "add", "click", function() {
+    Xhr.controller("/", myCallback);
 
-    S.Listen('#a-link', 'add', 'click', function() {
-
-        Xhr.controller('/', myCallback);
-
-        function myCallback(response, args) {
-
-            console.log('myCallback called')
-
-            // Insert HTML
-            //app.insertAdjacentHTML('beforeend', response);
-        
-        }
-        // function myCallback(response) {
-            
-        //     //const newInstance = this.getInstance(response)
-        //     console.log('hello from xhrCallback')
-        //     const xhr = S.Geb.id('xhr')
-            
-
-        //     window.Penryn.xhr = {
-        //         insertNew: _ => {
-        //             xhr.insertAdjacentHTML('beforeend', response)
-        //         },
-        //         removeOld: _ => {
-        //             const oldXhrContent = xhr.children[0]
-        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
-        //         }
-        //     }
-        //     window.Penryn.xhr.insertNew()
-        //     window.Penryn.xhr.removeOld()
-        //     window.Penryn.outroIsOn = true
-    
-        //     // New intro
-        //     //newInstance.controller.intro()
-        // }
-    
-    })
-}
-
-// console.log(this.xhrObj)
-// console.log(xhrC)
+    function myCallback(response, args) {
+      console.log("myCallback called");
+    }
+  });
+};
 
 EventDelegation.destAbout = function() {
-    
+  S.Listen("#h-link", "add", "click", function() {
+    Xhr.controller("about", myCallback);
 
-    S.Listen('#h-link', 'add', 'click', function() {
-        
-        // console.log(xhr)
-        // console.log(xhrObj)
-
-        Xhr.controller('about', myCallback);
-
-        function myCallback(response, args) {
-
-            console.log('myCallback called')
-            // Insert HTML
-            //app.insertAdjacentHTML('beforeend', response);
-        
-        }
-
-        // function myCallback(response) {
-        //     //this.response = xhrC
-        //     //const newInstance = this.getInstance(response)
-        //     console.log('hello from xhrCallback')
-        //     const xhr = S.Geb.id('xhr')
-
-        //     const content = Object.assign({}, response);
-        //     console.log(content)
-
-        //     const transit = {
-        //         insertNew: _ => {
-        //             xhr.insertAdjacentHTML('beforeend', response)
-        //         },
-        //         removeOld: _ => {
-        //             const oldXhrContent = xhr.children[0]
-        //             oldXhrContent.parentNode.removeChild(oldXhrContent)
-        //         }
-        //     }
-        //     transit.removeOld()
-        //     xhr.insertAdjacentHTML('beforeend', content)
-        //     window.Penryn.outroIsOn = true
-    
-        //     // New intro
-        //     //newInstance.controller.intro()
-        // }
-    
-    })
-}
+    function myCallback(response, args) {
+      console.log("myCallback called");
+    }
+  });
+};
 
 export default EventDelegation

@@ -20,11 +20,13 @@ class AboutController extends Listeners {
         console.dir(Listeners)
         console.log('about constructor')
         this.init({
-            mouseenter: [
+            moduleInit: true,
+            click: [
                 {
-                    el: '#a-link',
-                    module: Listeners,
-                    method: 'destHome'
+                    el: 'burger',
+                    module: EventDelegation,
+                    method: 'run',
+                    outroM: this.outroM
                 }
             ],
             ro: {
@@ -42,13 +44,14 @@ class AboutController extends Listeners {
         Loader.run({cb: this.intro()})
         //Loader.run()
         console.log('Loader.run from AboutController')
+        //EventDelegation.prototype.run()
         EventDelegation.destHome()
     }
 
     intro (opts) {
         Transition.intro.play()
         
-        console.log('Transition.intro from HomeController')
+        console.log('Transition.intro from AboutController')
         this.outro()
     }
 
@@ -56,7 +59,7 @@ class AboutController extends Listeners {
         Listeners.prototype.remove({
             destroy: true
         })
-        console.log('Transition.outro from HomeController')
+        console.log('Transition.outro from AboutController')
         Transition.outro.play()
         
     }

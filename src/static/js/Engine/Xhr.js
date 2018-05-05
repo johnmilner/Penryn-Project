@@ -58,10 +58,10 @@ class Xhr {
                 EventDelegation.prototype.run()
                 loadJS(
                     '/static/js/app.js', 
-                    AboutController.prototype.intro(), 
+                    console.log('JS loaded'), 
                     console.log('error from loadJS')
                 )
-                //callback(EventDelegation.prototype.xhrCallback(xhrC.view))
+                //callback(EventDelegation.prototype.run(xhrC.view))
             }
         }
 
@@ -108,36 +108,32 @@ class Xhr {
 
 }
 
-function loadJS(url,onDone,onError){ 
-      if(!onDone)onDone=function(){
-        
-     }; 
-      if(!onError)onError=function(){
-        
-     }; 
-      var xhr=new XMLHttpRequest(); 
-      xhr.onreadystatechange=function(){ 
-        if(xhr.readyState==4){ 
-          if(xhr.status==200||xhr.status==0){         
-            try{ 
-              eval(xhr.responseText); 
-            }catch(e){ 
-              onError(e); 
-              return; 
-            } 
-            onDone(); 
-          }else{ 
-            onError(xhr.status); 
-          } 
-        } 
-      }.bind(this); 
-      try{ 
-        xhr.open("GET",url,true); 
-        xhr.send(); 
-      }catch(e){ 
-        onError(e); 
-      }   
+function loadJS(url, onDone, onError) {
+  if (!onDone) onDone = function() {};
+  if (!onError) onError = function() {};
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200 || xhr.status == 0) {
+        try {
+          eval(xhr.responseText);
+        } catch (e) {
+          onError(e);
+          return;
+        }
+        onDone();
+      } else {
+        onError(xhr.status);
+      }
     }
+  }.bind(this);
+  try {
+    xhr.open("GET", url, true);
+    xhr.send();
+  } catch (e) {
+    onError(e);
+  }
+}
 
 export default Xhr
 
