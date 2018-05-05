@@ -20,15 +20,15 @@ class AboutController extends Listeners {
         console.dir(Listeners)
         console.log('about constructor')
         this.init({
-            moduleInit: true,
-            click: [
-                {
-                    el: 'burger',
-                    module: EventDelegation,
-                    method: 'run',
-                    outroM: this.outroM
-                }
-            ],
+            // moduleInit: true,
+            // click: [
+            //     {
+            //         el: 'burger',
+            //         module: EventDelegation,
+            //         method: 'run',
+            //         outroM: this.outroM
+            //     }
+            // ],
             ro: {
                 throttle: {
                     delay: 200,

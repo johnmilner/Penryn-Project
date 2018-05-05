@@ -446,21 +446,6 @@ var createClass = function () {
   };
 }();
 
-var defineProperty = function (obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-};
-
 var inherits = function (subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
@@ -10877,13 +10862,15 @@ var AboutController = function (_Listeners) {
         console.dir(Listeners);
         console.log('about constructor');
         _this.init({
-            moduleInit: true,
-            click: [{
-                el: 'burger',
-                module: EventDelegation,
-                method: 'run',
-                outroM: _this.outroM
-            }],
+            // moduleInit: true,
+            // click: [
+            //     {
+            //         el: 'burger',
+            //         module: EventDelegation,
+            //         method: 'run',
+            //         outroM: this.outroM
+            //     }
+            // ],
             ro: {
                 throttle: {
                     delay: 200,
@@ -10936,31 +10923,35 @@ var HomeController = function (_Listeners) {
     inherits(HomeController, _Listeners);
 
     function HomeController() {
-        var _this$init;
-
         classCallCheck(this, HomeController);
 
         var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
 
         console.dir(Listeners);
         console.log('home constructor');
-        _this.init((_this$init = {
-            click: [{
-                el: '#h-link',
-                module: EventDelegation,
-                method: 'run'
-            }]
-        }, defineProperty(_this$init, 'click', [{
-            el: '#burger',
-            module: EventDelegation,
-            method: 'myFunction'
-        }]), defineProperty(_this$init, 'ro', {
-            throttle: {
-                delay: 200,
-                atEnd: true
-                // module: Resize,
-                // method: 'calculate'
-            } }), _this$init));
+        _this.init({
+            // click: [
+            //     {
+            //         el: '#h-link',
+            //         module: EventDelegation,
+            //         method: 'run'
+            //     }
+            // ],
+            // click: [
+            //     {
+            //         el: '#burger',
+            //         module: EventDelegation,
+            //         method: 'myFunction'
+            //     }
+            // ],
+            ro: {
+                throttle: {
+                    delay: 200,
+                    atEnd: true
+                    // module: Resize,
+                    // method: 'calculate'
+                } }
+        });
         return _this;
     }
 
@@ -11049,8 +11040,9 @@ var Xhr = function () {
                     transit.removeOld();
                     pageEl.insertAdjacentHTML('beforeend', xhrC.view);
                     window.Penryn.outroIsOn = true;
-                    EventDelegation.prototype.run();
+                    //EventDelegation.prototype.run()
                     loadJS('/static/js/app.js', console.log('JS loaded'), console.log('error from loadJS'));
+                    Xhr.onPopstate();
                     //callback(EventDelegation.prototype.run(xhrC.view))
                 }
             };
@@ -11326,30 +11318,35 @@ var Route = function Route() {
 /*
   Menu Overlay
 */
-
 var burger = {};
 burger.menuVisible = false;
 burger.keyCodeESC = 27;
 
 $(function () {
+
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
   var b = document.querySelector('#burger');
 
   var callback = function callback(e) {
 
-    b.removeEventListener('click', callback);
     console.log('burger clicked!!');
-    e.preventDefault();
-    e.stopImmediatePropagation();
+    // e.preventDefault();
+    // e.stopImmediatePropagation()
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
+    b.removeEventListener('click', callback);
   };
 
-  skylake.Listen('#burger', 'add', 'click', callback);
-  //$('#burger').on('click', myFunction)
+  function bindButtonClick() {
+    skylake.Listen('#burger', 'add', 'click', callback);
+  }
+
+  bindButtonClick();
 
   burger.addy = function () {
     b.addEventListener('click', callback);
+    //Listeners.prototype.remove('destroy')
+    console.log('hello from burger.addy callback');
   };
 
   // Hide nav if clicked outside of a menu alternative

@@ -55,12 +55,13 @@ class Xhr {
                 transit.removeOld()
                 pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 window.Penryn.outroIsOn = true
-                EventDelegation.prototype.run()
+                //EventDelegation.prototype.run()
                 loadJS(
                     '/static/js/app.js', 
                     console.log('JS loaded'), 
                     console.log('error from loadJS')
                 )
+                Xhr.onPopstate()
                 //callback(EventDelegation.prototype.run(xhrC.view))
             }
         }

@@ -9,32 +9,39 @@ import Listeners from '../../Engine/Listeners.js'
 /*
   Menu Overlay
 */
-
 var burger = {};
 burger.menuVisible = false;
 burger.keyCodeESC = 27;
 
+
 $(function() {
+
   if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
+
+  
 
   const b = document.querySelector('#burger')
   
- let callback = function(e) {
+  let callback = function(e) {
 
-    b.removeEventListener('click', callback);
-    console.log('burger clicked!!');
-    e.preventDefault();
-    e.stopImmediatePropagation()
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
+  console.log('burger clicked!!');
+  // e.preventDefault();
+  // e.stopImmediatePropagation()
+  !burger.menuVisible ? burger.revealMenu() : burger.hideMenu() 
+  b.removeEventListener('click', callback);
     
   }
 
+  function bindButtonClick(){
+    S.Listen('#burger', 'add', 'click', callback)
+  }
 
-  S.Listen('#burger', 'add', 'click', callback)
-  //$('#burger').on('click', myFunction)
+  bindButtonClick()
 
   burger.addy = function() {
     b.addEventListener('click', callback);
+    //Listeners.prototype.remove('destroy')
+    console.log('hello from burger.addy callback')
   }
     
 

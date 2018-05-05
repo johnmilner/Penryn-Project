@@ -20,20 +20,20 @@ class HomeController extends Listeners {
         console.dir(Listeners)
         console.log('home constructor')
         this.init({
-            click: [
-                {
-                    el: '#h-link',
-                    module: EventDelegation,
-                    method: 'run'
-                }
-            ],
-            click: [
-                {
-                    el: '#burger',
-                    module: EventDelegation,
-                    method: 'myFunction'
-                }
-            ],
+            // click: [
+            //     {
+            //         el: '#h-link',
+            //         module: EventDelegation,
+            //         method: 'run'
+            //     }
+            // ],
+            // click: [
+            //     {
+            //         el: '#burger',
+            //         module: EventDelegation,
+            //         method: 'myFunction'
+            //     }
+            // ],
             ro: {
                 throttle: {
                     delay: 200,
