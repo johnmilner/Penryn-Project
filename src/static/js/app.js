@@ -11330,11 +11330,11 @@ $(function () {
 
   var callback = function callback(e) {
 
+    b.removeEventListener('click', callback);
     console.log('burger clicked!!');
     e.preventDefault();
     // e.stopImmediatePropagation()
     !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-    b.removeEventListener('click', callback);
   };
 
   function bindButtonClick() {
