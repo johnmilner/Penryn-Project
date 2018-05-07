@@ -10667,6 +10667,7 @@ var Listeners = function () {
             var speEvs = [];
             this.normEvs = [];
             this.moduleArr = [];
+            console.log('init events');
 
             var spe = {
                 scroll: {
@@ -10790,9 +10791,11 @@ var Listeners = function () {
             for (var i = 0; i < moduleArrL; i++) {
                 if (module === this.moduleArr[i].module) {
                     return true;
+                    console.log('getAlreadyCalled');
                 }
             }
             return false;
+            console.log('getAlreadyCalled return false');
         }
     }, {
         key: 'add',
@@ -10802,6 +10805,7 @@ var Listeners = function () {
                 this.methodCall('init');
             }
             this.listen('add');
+            console.log('add');
         }
     }, {
         key: 'remove',
@@ -10811,6 +10815,7 @@ var Listeners = function () {
                 this.methodCall('destroy');
             }
             this.listen('remove');
+            console.log('remove');
         }
     }, {
         key: 'methodCall',
@@ -10823,6 +10828,7 @@ var Listeners = function () {
                         listeners: this,
                         arg: this.moduleArr[i].arg
                     });
+                    console.log('methodCall');
                 }
             }
         }
@@ -10837,6 +10843,7 @@ var Listeners = function () {
                 var _normEv = this.normEvs[_i3];
                 skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
             }
+            console.log('listen');
         }
     }]);
     return Listeners;
@@ -10845,10 +10852,355 @@ var Listeners = function () {
 console.dir(Listeners);
 
 /* eslint-disable */
-//import Over from '../Bundle/Common/Over.js'
 
-//import Router from '../../Engine/Router.js'
-// import Resize from '../Bundle/Home/Resize.js'
+var Vendor = function () {
+  function Vendor() {
+    classCallCheck(this, Vendor);
+
+
+    this.menuVisible = false;
+    this.keyCodeESC = 27;
+    this.el = skylake.Geb.id('burger');
+    this.elmHamburger = skylake.Geb.id('burger');
+    this.navItems = skylake.Geb.class('.burger-menu-bg');
+
+    skylake.BindMaker(this, ['callback', 'bindButtonClick', 'addy', 'revealMenu', 'hideMenu']);
+  }
+
+  // if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
+
+  createClass(Vendor, [{
+    key: "callback",
+    value: function callback(e) {
+
+      skylake.Geb.id('burger').removeEventListener("click", this.callback);
+      console.log("burger clicked!!");
+      e.preventDefault();
+      // e.stopImmediatePropagation()
+      !this.menuVisible ? Vendor.prototype.revealMenu() : Vendor.prototype.hideMenu();
+    }
+  }, {
+    key: "bindButtonClick",
+    value: function bindButtonClick() {
+      skylake.Listen("#burger", "add", "click", this.callback);
+      // S.Listen('#h-content', 'add', 'scroll', callback)
+      console.log("bindButtonClick");
+    }
+
+    // bindButtonClick()
+
+  }, {
+    key: "addy",
+    value: function addy() {
+      skylake.Geb.id('burger').addEventListener("click", this.callback);
+      //Listeners.prototype.remove('destroy')
+      console.log("hello from burger.addy callback");
+    }
+
+    // Hide nav if clicked outside of a menu alternative
+    // $('#burger-menu').click(function(e) {
+    //   burger.hideMenu();
+    // });
+
+    // Make sure that links don't close the menu
+    // $('.nav a').click(function(e) {
+    //   e.stopPropagation();
+    // });
+
+    // Listen to ESC, close menu if visible
+    // $(document).keyup(function(e) {
+    //   if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
+    // });
+
+    // burger.loadAndFadeInCaseImages = function() {
+    //   // Load background images
+    //   $("[data-image]").each(function(i, elem) {
+    //     var $elem = $(elem),
+    //     url = "/images/portfolio/" + $elem.attr('data-image');
+    //     if (url == null || url.length <= 0 ) { return; }
+
+    //     $elem.addClass('image-loading');
+    //     $('<img/>').attr('src', url).load(function() {
+    //       $(this).remove();
+    //       $bg = $('<div class="case-item-bg"/>');
+    //       $bg.css( 'background-image', 'url(' + url + ')');
+
+    //       $elem.prepend($bg);
+    //       $elem
+    //         .removeClass('image-loading')
+    //         .addClass('image-ready');
+    //     });
+    //   });
+    // }
+
+  }, {
+    key: "handleESCKey",
+    value: function handleESCKey() {
+      $(document).trigger("pressed:ESC");
+      if (burger.menuVisible) this.hideMenu();
+    }
+  }, {
+    key: "toggleMenuStates",
+    value: function toggleMenuStates() {
+      //$('body').toggleClass('no-scroll');
+      $("#burger").toggleClass("active");
+      //$('#burger').toggleClass('np');
+      $("#burger-menu").toggleClass("active");
+      $("#burger-menu-line-wrap").toggleClass("oh");
+    }
+  }, {
+    key: "revealMenu",
+    value: function revealMenu() {
+      this.menuVisible = true;
+      //overlay.toggle();
+      Vendor.prototype.toggleMenuStates();
+
+      var tl = new skylake.Timeline();
+      var isObj = skylake.Is.object(tl);
+
+      tl.from({
+        el: ".burger-line-hover",
+        p: { x: [0, 105] },
+        d: 1600,
+        e: "ExpoOut",
+        delay: 800
+      });
+      tl.from({
+        el: ".burger-close",
+        p: { y: [-108, 0] },
+        d: 1600,
+        e: "Power4InOut"
+      });
+
+      tl.from({
+        el: "#burger-menu-sail-l",
+        p: { y: [0, 100] },
+        d: 1200,
+        e: "Power4InOut"
+      });
+      tl.from({
+        el: "#burger-menu-sail-r",
+        p: { y: [0, 100] },
+        d: 1200,
+        e: "Power4InOut",
+        delay: 50
+      });
+      tl.from({
+        el: "#burger-menu-list",
+        p: { y: [0, 223.3] },
+        d: 2500,
+        e: "Power4InOut"
+      });
+      tl.from({
+        el: "#burger-menu-line",
+        p: { y: [-100, 100] },
+        d: 2500,
+        e: "Power4InOut"
+      });
+
+      tl.from({
+        el: ".burger-menu-link",
+        p: { y: [-100, 0] },
+        d: 1600,
+        e: "ExpoOut",
+        delay: 1800
+      });
+      tl.from({
+        el: ".burger-menu-share",
+        p: { y: [100, 0] },
+        d: 1600,
+        e: "ExpoOut",
+        delay: 400,
+        cb: this.addy
+      });
+
+      tl.play();
+    }
+  }, {
+    key: "hideMenu",
+    value: function hideMenu() {
+      this.menuVisible = false;
+      Vendor.prototype.toggleMenuStates();
+
+      var tl = new skylake.Timeline();
+      var isObj = skylake.Is.object(tl);
+
+      tl.from({
+        el: "#burger-menu-sail-l",
+        p: { y: [100, 0] },
+        d: 1500,
+        e: "Power4InOut"
+      });
+      tl.from({
+        el: "#burger-menu-sail-r",
+        p: { y: [100, 0] },
+        d: 1500,
+        e: "Power4InOut",
+        delay: 50
+      });
+
+      tl.from({
+        el: "#burger-menu-list",
+        p: { y: [223.3, 0] },
+        d: 1500,
+        e: "Power4InOut"
+      });
+      tl.from({
+        el: ".burger-menu-share",
+        p: { y: [0, 100] },
+        d: 800,
+        e: "ExpoOut"
+      });
+      tl.from({
+        el: ".burger-menu-link",
+        p: { y: [0, -100] },
+        d: 1600,
+        e: "ExpoOut",
+        delay: 800
+      });
+
+      tl.from({
+        el: ".burger-close",
+        p: { y: [0, -108] },
+        d: 1600,
+        e: "Power4InOut"
+      });
+      tl.from({
+        el: ".burger-line-hover",
+        p: { x: [105, 0] },
+        d: 800,
+        e: "ExpoOut",
+        delay: 800
+      });
+      tl.from({
+        el: "#burger-menu-line",
+        p: { y: [100, -100] },
+        d: 1500,
+        e: "Power4InOut",
+        cb: this.addy
+      });
+
+      tl.play();
+    }
+
+    // Typically called by views that want to display something in the same
+    // position of the menu icon
+    // burger.hideMenuIcon = function() {
+    //   $(".menu").hide();
+    // }
+
+    // burger.showMenuIcon = function() {
+    //   $(".menu").show();
+    // }
+
+    //const subNavItems = document.querySelectorAll('.nav-sublink');
+
+    // //remove global menu items
+    // function removeGlobalMenu() {
+    //   for (var i = 0; i < navItems.length; i++) {
+    //     navItems[i].classList.remove('js-nav-animate');
+    //   }
+    // }
+
+    //loop thru nav_sublinks listening for click, onclick close overlay, close hamburger menu
+    // for (let i = 0; i < navItems.length; i++) {
+    //   navItems[i].addEventListener('click', function(){
+    //     //console.log('clicked!!');
+    //     if (burger.className === 'active') {
+    //       return false;
+    //     }
+    //     hideMenu();
+    //   });
+
+    // };
+
+  }]);
+  return Vendor;
+}();
+
+/* eslint-disable */
+
+console.dir(Listeners);
+
+var HomeController = function (_Listeners) {
+    inherits(HomeController, _Listeners);
+
+    function HomeController() {
+        classCallCheck(this, HomeController);
+
+        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
+
+        console.dir(Listeners);
+        console.log('home constructor');
+        _this.init({
+            // scroll: [
+            //     {
+            //         moduleInit: true,
+            //         el: '#h-content',
+            //         module: EventDelegation,
+            //         method: 'destAbout',
+            //         outroM: this.outroM
+            //     }
+            // ],
+            // click: [
+            //     {
+            //         el: '#h-link',
+            //         module: HomeController,
+            //         method: 'outro'
+            //     }
+            // ],
+            // click: [
+            //     {
+            //         el: '#burger',
+            //         module: Vendor,
+            //         method: 'bindButtonClick'
+            //     }
+            // ],
+            // scroll: {
+            //     throttle: {
+            //         throttle: true,
+            //         skylake: 'Scroll'
+            //     }
+            //     // module: Resize,
+            //     // method: 'calculate'
+            // }
+        });
+        return _this;
+    }
+
+    createClass(HomeController, [{
+        key: 'preload',
+        value: function preload(opts) {
+            Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
+            });
+            console.log('Loader.run from HomeController');
+            Vendor.prototype.bindButtonClick();
+            //EventDelegation.prototype.run()
+            //EventDelegation.destAbout()
+        }
+    }, {
+        key: 'intro',
+        value: function intro(opts) {
+            Listeners.prototype.add({ cb: Transition.intro.play({ cb: this.outro() })
+            });
+            console.log('Transition.intro from HomeController');
+        }
+    }, {
+        key: 'outro',
+        value: function outro(done, listeners) {
+            console.log('Transition.outro from HomeController');
+            Transition.outro.play(EventDelegation.prototype.eventDelegation('about'), {
+                cb: Listeners.prototype.remove({
+                    destroy: true
+                })
+            });
+        }
+    }]);
+    return HomeController;
+}(Listeners);
+
+/* eslint-disable */
+
 console.dir(Listeners);
 
 var AboutController = function (_Listeners) {
@@ -10858,17 +11210,20 @@ var AboutController = function (_Listeners) {
         classCallCheck(this, AboutController);
 
         var _this = possibleConstructorReturn(this, (AboutController.__proto__ || Object.getPrototypeOf(AboutController)).call(this, Listeners));
-
         console.dir(Listeners);
         console.log('about constructor');
         _this.init({
-            // moduleInit: true,
+            mouseenter: [{
+                el: '#a-link',
+                module: EventDelegation,
+                method: 'destHome',
+                outroM: _this.outroM
+            }],
             // click: [
             //     {
-            //         el: 'burger',
-            //         module: EventDelegation,
-            //         method: 'run',
-            //         outroM: this.outroM
+            //         el: '#burger',
+            //         module: Vendor,
+            //         method: 'bindButtonClick'
             //     }
             // ],
             ro: {
@@ -10895,7 +11250,6 @@ var AboutController = function (_Listeners) {
         key: 'intro',
         value: function intro(opts) {
             Transition.intro.play();
-
             console.log('Transition.intro from AboutController');
             this.outro();
         }
@@ -10913,97 +11267,6 @@ var AboutController = function (_Listeners) {
 }(Listeners);
 
 /* eslint-disable */
-//import Over from '../Bundle/Common/Over.js'
-
-//import Router from '../../Engine/Router.js'
-// import Resize from '../Bundle/Home/Resize.js'
-console.dir(Listeners);
-
-var HomeController = function (_Listeners) {
-    inherits(HomeController, _Listeners);
-
-    function HomeController() {
-        classCallCheck(this, HomeController);
-
-        var _this = possibleConstructorReturn(this, (HomeController.__proto__ || Object.getPrototypeOf(HomeController)).call(this, Listeners));
-
-        console.dir(Listeners);
-        console.log('home constructor');
-        _this.init({
-            // click: [
-            //     {
-            //         el: '#h-link',
-            //         module: EventDelegation,
-            //         method: 'run'
-            //     }
-            // ],
-            // click: [
-            //     {
-            //         el: '#burger',
-            //         module: EventDelegation,
-            //         method: 'myFunction'
-            //     }
-            // ],
-            ro: {
-                throttle: {
-                    delay: 200,
-                    atEnd: true
-                    // module: Resize,
-                    // method: 'calculate'
-                } }
-        });
-        return _this;
-    }
-
-    createClass(HomeController, [{
-        key: 'preload',
-        value: function preload(opts) {
-            Loader.run({ cb: this.intro() });
-            //Loader.run()
-            console.log('Loader.run from HomeController');
-            //EventDelegation.prototype.run()
-            EventDelegation.destAbout();
-        }
-    }, {
-        key: 'intro',
-        value: function intro(opts) {
-            Transition.intro.play();
-            console.log('Transition.intro from HomeController');
-            this.outro();
-        }
-    }, {
-        key: 'outro',
-        value: function outro(done, listeners) {
-            Listeners.prototype.remove({
-                destroy: true
-            });
-            console.log('Transition.outro from HomeController');
-            Transition.outro.play();
-        }
-    }]);
-    return HomeController;
-}(Listeners);
-
-/*
-
-CONTROLLER
-──────────
-
-Xhr.controller(pageName, myCallback, args);
-
-function myCallback(response, args) {
-
-    // Insert HTML
-    app.insertAdjacentHTML('beforeend', response);
-
-}
-
-ONPOPSTATE
-──────────
-
-Xhr.onPopstate()
-
-*/
 
 var Xhr = function () {
     function Xhr() {
@@ -11310,174 +11573,6 @@ var Route = function Route() {
 
     router.run();
 };
-
-/* eslint-disable */
-
-//import devicon from 'devicon'
-
-/*
-  Menu Overlay
-*/
-var burger = {};
-burger.menuVisible = false;
-burger.keyCodeESC = 27;
-
-$(function () {
-
-  if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
-
-  var b = document.querySelector('#burger');
-
-  var callback = function callback(e) {
-
-    b.removeEventListener('click', callback);
-    console.log('burger clicked!!');
-    e.preventDefault();
-    // e.stopImmediatePropagation()
-    !burger.menuVisible ? burger.revealMenu() : burger.hideMenu();
-  };
-
-  function bindButtonClick() {
-    skylake.Listen('#burger', 'add', 'click', callback);
-  }
-
-  bindButtonClick();
-
-  burger.addy = function () {
-    b.addEventListener('click', callback);
-    //Listeners.prototype.remove('destroy')
-    console.log('hello from burger.addy callback');
-  };
-
-  // Hide nav if clicked outside of a menu alternative
-  $('#burger-menu').click(function (e) {
-    burger.hideMenu();
-  });
-
-  // Make sure that links don't close the menu
-  // $('.nav a').click(function(e) {
-  //   e.stopPropagation();
-  // });
-
-  // Listen to ESC, close menu if visible
-  $(document).keyup(function (e) {
-    if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
-  });
-});
-
-// burger.loadAndFadeInCaseImages = function() {
-//   // Load background images
-//   $("[data-image]").each(function(i, elem) {
-//     var $elem = $(elem),
-//     url = "/images/portfolio/" + $elem.attr('data-image');
-//     if (url == null || url.length <= 0 ) { return; }
-
-//     $elem.addClass('image-loading');
-//     $('<img/>').attr('src', url).load(function() {
-//       $(this).remove();
-//       $bg = $('<div class="case-item-bg"/>');
-//       $bg.css( 'background-image', 'url(' + url + ')');
-
-//       $elem.prepend($bg);
-//       $elem
-//         .removeClass('image-loading')
-//         .addClass('image-ready');
-//     });
-//   });
-// }
-
-burger.handleESCKey = function () {
-  $(document).trigger("pressed:ESC");
-  if (burger.menuVisible) burger.hideMenu();
-};
-
-burger.toggleMenuStates = function () {
-  //$('body').toggleClass('no-scroll');
-  $('#burger').toggleClass('active');
-  //$('#burger').toggleClass('np');
-  $('#burger-menu').toggleClass('active');
-  $('#burger-menu-line-wrap').toggleClass('oh');
-};
-
-burger.revealMenu = function () {
-  burger.menuVisible = true;
-  //overlay.toggle();
-  burger.toggleMenuStates();
-
-  var tl = new skylake.Timeline();
-  var isObj = skylake.Is.object(tl);
-
-  tl.from({ el: '.burger-line-hover', p: { x: [0, 105] }, d: 1600, e: 'ExpoOut', delay: 800 });
-  tl.from({ el: '.burger-close', p: { y: [-108, 0] }, d: 1600, e: 'Power4InOut' });
-
-  tl.from({ el: '#burger-menu-sail-l', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-  tl.from({ el: '#burger-menu-sail-r', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut', delay: 50 });
-  tl.from({ el: '#burger-menu-list', p: { y: [0, 223.3] }, d: 2500, e: 'Power4InOut' });
-  tl.from({ el: '#burger-menu-line', p: { y: [-100, 100] }, d: 2500, e: 'Power4InOut' });
-
-  tl.from({ el: '.burger-menu-link', p: { y: [-100, 0] }, d: 1600, e: 'ExpoOut', delay: 1800 });
-  tl.from({ el: '.burger-menu-share', p: { y: [100, 0] }, d: 1600, e: 'ExpoOut', delay: 400,
-    cb: burger.addy
-  });
-
-  tl.play();
-};
-
-burger.hideMenu = function () {
-  burger.menuVisible = false;
-  burger.toggleMenuStates();
-
-  var tl = new skylake.Timeline();
-  var isObj = skylake.Is.object(tl);
-
-  tl.from({ el: '#burger-menu-sail-l', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
-  tl.from({ el: '#burger-menu-sail-r', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 50 });
-
-  tl.from({ el: '#burger-menu-list', p: { y: [223.3, 0] }, d: 1500, e: 'Power4InOut' });
-  tl.from({ el: '.burger-menu-share', p: { y: [0, 100] }, d: 800, e: 'ExpoOut' });
-  tl.from({ el: '.burger-menu-link', p: { y: [0, -100] }, d: 1600, e: 'ExpoOut', delay: 800 });
-
-  tl.from({ el: '.burger-close', p: { y: [0, -108] }, d: 1600, e: 'Power4InOut' });
-  tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 800, e: 'ExpoOut', delay: 800 });
-  tl.from({ el: '#burger-menu-line', p: { y: [100, -100] }, d: 1500, e: 'Power4InOut',
-    cb: burger.addy
-  });
-
-  tl.play();
-};
-
-// Typically called by views that want to display something in the same 
-// position of the menu icon
-// burger.hideMenuIcon = function() {
-//   $(".menu").hide();
-// }
-
-// burger.showMenuIcon = function() {
-//   $(".menu").show();  
-// }
-
-
-var elmHamburger = document.querySelector('#burger');
-var navItems = document.querySelectorAll('.burger-menu-bg');
-//const subNavItems = document.querySelectorAll('.nav-sublink');
-
-// //remove global menu items
-// function removeGlobalMenu() {
-//   for (var i = 0; i < navItems.length; i++) {
-//     navItems[i].classList.remove('js-nav-animate');
-//   }
-// }
-
-//loop thru nav_sublinks listening for click, onclick close overlay, close hamburger menu
-for (var i = 0; i < navItems.length; i++) {
-  navItems[i].addEventListener('click', function () {
-    //console.log('clicked!!');
-    if (burger.className === 'active') {
-      return false;
-    }
-    burger.hideMenu();
-  });
-}
 
 var App = function App() {
     classCallCheck(this, App);

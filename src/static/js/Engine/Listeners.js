@@ -55,6 +55,7 @@ class Listeners {
         const speEvs = []
         this.normEvs = []
         this.moduleArr = []
+        console.log('init events')
 
         const spe = {
             scroll: {
@@ -167,9 +168,12 @@ class Listeners {
         for (let i = 0; i < moduleArrL; i++) {
             if (module === this.moduleArr[i].module) {
                 return true
+                console.log('getAlreadyCalled')
             }
         }
         return false
+        console.log('getAlreadyCalled return false')
+
     }
 
     add (opts) {
@@ -178,6 +182,8 @@ class Listeners {
             this.methodCall('init')
         }
         this.listen('add')
+        console.log('add')
+
     }
 
     remove (opts) {
@@ -186,6 +192,8 @@ class Listeners {
             this.methodCall('destroy')
         }
         this.listen('remove')
+        console.log('remove')
+
     }
 
     methodCall (name) {
@@ -197,6 +205,7 @@ class Listeners {
                     listeners: this,
                     arg: this.moduleArr[i].arg
                 })
+                console.log('methodCall')
             }
         }
     }
@@ -210,6 +219,8 @@ class Listeners {
             const normEv = this.normEvs[i]
             S.Listen(normEv.el, action, normEv.event, normEv.callback)
         }
+        console.log('listen')
+
     }
     
 }
