@@ -3,7 +3,7 @@
 import S from "skylake";
 import jQuery from "jquery";
 
-class Vendor {
+class Menu {
 
   constructor() {
 
@@ -21,16 +21,16 @@ class Vendor {
 
   callback(e) {
     
-    S.Geb.id('burger').removeEventListener("click", this.callback);
+    S.Geb.id('burger').removeEventListener("click", Menu.prototype.callback);
     console.log("burger clicked!!");
     e.preventDefault();
     // e.stopImmediatePropagation()
-    !this.menuVisible ? Vendor.prototype.revealMenu() : Vendor.prototype.hideMenu();
+    !Menu.menuVisible ? Menu.prototype.revealMenu() : Menu.prototype.hideMenu();
 
   }
 
   bindButtonClick() {
-    S.Listen("#burger", "add", "click", this.callback);
+    S.Listen("#burger", "add", "click", Menu.prototype.callback);
     // S.Listen('#h-content', 'add', 'scroll', callback)
     console.log("bindButtonClick");
   }
@@ -38,7 +38,7 @@ class Vendor {
   // bindButtonClick()
 
   addy() {
-    S.Geb.id('burger').addEventListener("click", this.callback);
+    S.Geb.id('burger').addEventListener("click", Menu.prototype.callback);
     //Listeners.prototype.remove('destroy')
     console.log("hello from burger.addy callback");
   }
@@ -93,13 +93,9 @@ class Vendor {
   }
 
   revealMenu() {
-    this.menuVisible = true;
+    Menu.menuVisible = true;
     //overlay.toggle();
-    Vendor.prototype.toggleMenuStates();
-
-    const addy = function() {
-      S.Geb.id('burger').addEventListener("click", this.callback);
-    };
+    Menu.prototype.toggleMenuStates();
 
     const tl = new S.Timeline();
     const isObj = S.Is.object(tl);
@@ -157,19 +153,15 @@ class Vendor {
       d: 1600,
       e: "ExpoOut",
       delay: 400,
-      cb: this.addy
+      cb: Menu.prototype.addy
     });
 
     tl.play();
   }
 
   hideMenu() {
-    this.menuVisible = false;
-    Vendor.prototype.toggleMenuStates();
-
-    const addy = function() {
-      S.Geb.id('burger').addEventListener("click", this.callback);
-    };
+    Menu.menuVisible = false;
+    Menu.prototype.toggleMenuStates();
 
     const tl = new S.Timeline();
     const isObj = S.Is.object(tl);
@@ -226,7 +218,7 @@ class Vendor {
       p: { y: [100, -100] },
       d: 1500,
       e: "Power4InOut",
-      cb: this.addy
+      cb: Menu.prototype.addy
     });
 
     tl.play();
@@ -264,4 +256,4 @@ class Vendor {
   // };
 }
 
-export default Vendor;
+export default Menu;

@@ -5,7 +5,7 @@ import Transition from '../../app/Bundle/Common/Transition/Transition.js'
 import Xhr from '../../Engine/Xhr.js'
 import EventDelegation from '../../Engine/EventDelegation.js'
 import Listeners from '../../Engine/Listeners.js'
-import Vendor from '../Core/Vendor.js'
+import Menu from '../../app/Bundle/Common/Transition/Menu.js'
 import S from 'skylake'
 
 console.dir(Listeners)
@@ -56,7 +56,7 @@ class HomeController extends Listeners {
             Loader.run({cb: this.intro()})
         })
         console.log('Loader.run from HomeController')
-        Vendor.prototype.bindButtonClick()
+        Menu.prototype.bindButtonClick()
         //EventDelegation.prototype.run()
         //EventDelegation.destAbout()
 

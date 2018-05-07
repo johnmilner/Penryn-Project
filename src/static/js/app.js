@@ -10853,9 +10853,9 @@ console.dir(Listeners);
 
 /* eslint-disable */
 
-var Vendor = function () {
-  function Vendor() {
-    classCallCheck(this, Vendor);
+var Menu = function () {
+  function Menu() {
+    classCallCheck(this, Menu);
 
 
     this.menuVisible = false;
@@ -10869,20 +10869,20 @@ var Vendor = function () {
 
   // if ($("body").hasClass("body-content-wrapper") || $("body").hasClass("single-page")) burger.loadAndFadeInCaseImages();
 
-  createClass(Vendor, [{
+  createClass(Menu, [{
     key: "callback",
     value: function callback(e) {
 
-      skylake.Geb.id('burger').removeEventListener("click", this.callback);
+      skylake.Geb.id('burger').removeEventListener("click", Menu.prototype.callback);
       console.log("burger clicked!!");
       e.preventDefault();
       // e.stopImmediatePropagation()
-      !this.menuVisible ? Vendor.prototype.revealMenu() : Vendor.prototype.hideMenu();
+      !Menu.menuVisible ? Menu.prototype.revealMenu() : Menu.prototype.hideMenu();
     }
   }, {
     key: "bindButtonClick",
     value: function bindButtonClick() {
-      skylake.Listen("#burger", "add", "click", this.callback);
+      skylake.Listen("#burger", "add", "click", Menu.prototype.callback);
       // S.Listen('#h-content', 'add', 'scroll', callback)
       console.log("bindButtonClick");
     }
@@ -10892,7 +10892,7 @@ var Vendor = function () {
   }, {
     key: "addy",
     value: function addy() {
-      skylake.Geb.id('burger').addEventListener("click", this.callback);
+      skylake.Geb.id('burger').addEventListener("click", Menu.prototype.callback);
       //Listeners.prototype.remove('destroy')
       console.log("hello from burger.addy callback");
     }
@@ -10951,9 +10951,9 @@ var Vendor = function () {
   }, {
     key: "revealMenu",
     value: function revealMenu() {
-      this.menuVisible = true;
+      Menu.menuVisible = true;
       //overlay.toggle();
-      Vendor.prototype.toggleMenuStates();
+      Menu.prototype.toggleMenuStates();
 
       var tl = new skylake.Timeline();
       var isObj = skylake.Is.object(tl);
@@ -11011,7 +11011,7 @@ var Vendor = function () {
         d: 1600,
         e: "ExpoOut",
         delay: 400,
-        cb: this.addy
+        cb: Menu.prototype.addy
       });
 
       tl.play();
@@ -11019,8 +11019,8 @@ var Vendor = function () {
   }, {
     key: "hideMenu",
     value: function hideMenu() {
-      this.menuVisible = false;
-      Vendor.prototype.toggleMenuStates();
+      Menu.menuVisible = false;
+      Menu.prototype.toggleMenuStates();
 
       var tl = new skylake.Timeline();
       var isObj = skylake.Is.object(tl);
@@ -11077,7 +11077,7 @@ var Vendor = function () {
         p: { y: [100, -100] },
         d: 1500,
         e: "Power4InOut",
-        cb: this.addy
+        cb: Menu.prototype.addy
       });
 
       tl.play();
@@ -11115,7 +11115,7 @@ var Vendor = function () {
     // };
 
   }]);
-  return Vendor;
+  return Menu;
 }();
 
 /* eslint-disable */
@@ -11174,7 +11174,7 @@ var HomeController = function (_Listeners) {
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
             });
             console.log('Loader.run from HomeController');
-            Vendor.prototype.bindButtonClick();
+            Menu.prototype.bindButtonClick();
             //EventDelegation.prototype.run()
             //EventDelegation.destAbout()
         }
