@@ -490,167 +490,6 @@ var Support = function () {
     return Support;
 }();
 
-/* eslint-disable */
-
-var EventDelegation = function () {
-    function EventDelegation(getInstance) {
-        classCallCheck(this, EventDelegation);
-
-        // Opts
-        this.getInstance = getInstance;
-
-        // Parameters
-        this.p = window.Penryn;
-        this.b = skylake.Dom.body;
-        //this.a = S.Geb.id('a-link')
-        this.xhr = skylake.Geb.id('xhr');
-
-        // Bind
-        skylake.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback']);
-    }
-
-    createClass(EventDelegation, [{
-        key: 'run',
-        value: function run() {
-            skylake.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback']);
-            skylake.Listen(skylake.Dom.body, 'add', 'click', this.eventDelegation);
-
-            console.log('coming from EventDelegation run method');
-        }
-    }, {
-        key: 'eventDelegation',
-        value: function eventDelegation(event) {
-            var w = window;
-            var target = event.target;
-            var targetIsATag = false;
-            var targetIsASubmit = false;
-
-            while (target) {
-                if (target.tagName === 'A') {
-                    targetIsATag = true;
-                    break;
-                } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
-                    targetIsASubmit = true;
-                    break;
-                }
-                target = target.parentNode;
-            }
-
-            if (targetIsATag) {
-                var targetHref = target.dataset.href === undefined ? target.href : target.dataset.href;
-
-                if (target.classList.contains('_tb')) {
-                    prD();
-                    w.open(targetHref);
-                } else if (target.classList.contains('_tbs')) {
-                    prD();
-
-                    if (this.isTouch && this.isSafari) {
-                        w.location.href = targetHref;
-                    } else {
-                        w.open(targetHref);
-                    }
-                } else {
-                    var hrefBeginByHash = targetHref.charAt(targetHref.length - 1) === '#';
-                    var hrefIsMailto = targetHref.substring(0, 6) === 'mailto';
-
-                    if (hrefBeginByHash) {
-                        prD();
-                    } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
-                        prD();
-
-                        if (window.Penryn.outroIsOn) {
-                            this.path = {
-                                old: skylake.Win.path,
-                                new: targetHref.replace(/^.*\/\/[^/]+/, '')
-                            };
-
-                            if (this.path.old !== this.path.new) {
-                                this.p.outroIsOn = false;
-
-                                this.target = target;
-                                this.xhrReq();
-                            }
-                        }
-                    } else if (hrefIsMailto) {
-                        prD();
-                        var myWindow = w.open(targetHref);
-                        setTimeout(function (_) {
-                            myWindow.close();
-                        }, 300);
-                    }
-                }
-            } else if (targetIsASubmit) {
-                prD();
-            }
-
-            function prD() {
-                event.preventDefault();
-            }
-        }
-    }, {
-        key: 'xhrReq',
-        value: function xhrReq() {
-            var oldInstance = this.getInstance(this.path.old);
-
-            this.p.done = this.done;
-            this.p.target = this.target;
-            this.p.path = this.path;
-
-            // Old outro
-            oldInstance.controller.outro();
-        }
-    }, {
-        key: 'done',
-        value: function done() {
-            Xhr.controller(this.path.new, this.xhrCallback);
-        }
-    }, {
-        key: 'xhrCallback',
-        value: function xhrCallback(response) {
-            var _this = this;
-
-            var newInstance = this.getInstance(this.path.new);
-            console.log('hello from xhrCallback');
-            this.p.xhr = {
-                insertNew: function insertNew(_) {
-                    _this.xhr.insertAdjacentHTML('beforeend', response);
-                },
-                removeOld: function removeOld(_) {
-                    var oldXhrContent = _this.xhr.children[0];
-                    oldXhrContent.parentNode.removeChild(oldXhrContent);
-                }
-
-            };
-            this.p.outroIsOn = true;
-
-            // New intro
-            newInstance.controller.intro();
-        }
-    }]);
-    return EventDelegation;
-}();
-
-EventDelegation.destHome = function () {
-    skylake.Listen("#a-link", "add", "click", function () {
-        Xhr.controller("/", myCallback);
-
-        function myCallback(response, args) {
-            console.log("myCallback called");
-        }
-    });
-};
-
-EventDelegation.destAbout = function () {
-    skylake.Listen("#h-link", "add", "click", function () {
-        Xhr.controller("about", myCallback);
-
-        function myCallback(response, args) {
-            console.log("myCallback called");
-        }
-    });
-};
-
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -11175,25 +11014,26 @@ var HomeController = function (_Listeners) {
             });
             console.log('Loader.run from HomeController');
             Menu.prototype.bindButtonClick();
+            EventDelegation.destAbout();
             //EventDelegation.prototype.run()
-            //EventDelegation.destAbout()
         }
     }, {
         key: 'intro',
         value: function intro(opts) {
-            Listeners.prototype.add({ cb: Transition.intro.play({ cb: this.outro() })
-            });
+            Listeners.prototype.add({ cb: Transition.intro.play() });
+            // {cb: this.outro()}
             console.log('Transition.intro from HomeController');
         }
     }, {
         key: 'outro',
         value: function outro(done, listeners) {
             console.log('Transition.outro from HomeController');
-            Transition.outro.play(EventDelegation.prototype.eventDelegation('about'), {
-                cb: Listeners.prototype.remove({
-                    destroy: true
-                })
-            });
+            Transition.outro.play({ cb: Xhr.controller("about", myCallback), cbDelay: 3000 }, Listeners.prototype.remove({
+                destroy: true
+            }));
+            function myCallback(response, args) {
+                console.log("myCallback called");
+            }
         }
     }]);
     return HomeController;
@@ -11201,9 +11041,215 @@ var HomeController = function (_Listeners) {
 
 /* eslint-disable */
 
+var EventDelegation = function () {
+    function EventDelegation(getInstance) {
+        classCallCheck(this, EventDelegation);
+
+        // Opts
+        this.getInstance = getInstance;
+
+        // Parameters
+        this.p = window.Penryn;
+        this.b = skylake.Dom.body;
+        //this.a = S.Geb.id('a-link')
+        this.xhr = skylake.Geb.id('xhr');
+
+        // Bind
+        skylake.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback']);
+    }
+
+    createClass(EventDelegation, [{
+        key: 'getInstance',
+        value: function getInstance() {
+            var instance;
+
+            function createInstance() {
+                if (this.new.path === 'about') {
+                    var newInstance = new AboutController();
+                } else {
+                    var newInstance = new HomeController();
+                }
+                return newInstance;
+            }
+
+            return {
+                getInstance: function getInstance() {
+                    if (!instance) {
+                        instance = createInstance();
+                    }
+                    return instance;
+                }
+            };
+        }
+    }, {
+        key: 'run',
+        value: function run() {
+            skylake.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback']);
+            skylake.Listen(skylake.Dom.body, 'add', 'click', this.eventDelegation);
+            // S.Listen('#h-link', 'add', 'click', this.eventDelegation)
+            // S.Listen('#a-link', 'add', 'click', this.eventDelegation)
+
+            console.log('coming from EventDelegation run method');
+        }
+    }, {
+        key: 'eventDelegation',
+        value: function eventDelegation(event) {
+            var w = window;
+            var target = event.target;
+            var targetIsATag = false;
+            var targetIsASubmit = false;
+
+            while (target) {
+                if (target.tagName === 'A') {
+                    targetIsATag = true;
+                    break;
+                } else if ((target.tagName === 'INPUT' || target.tagName === 'BUTTON') && target.type === 'submit') {
+                    targetIsASubmit = true;
+                    break;
+                }
+                target = target.parentNode;
+            }
+
+            if (targetIsATag) {
+                var targetHref = target.dataset.href === undefined ? target.href : target.dataset.href;
+
+                if (target.classList.contains('_tb')) {
+                    prD();
+                    w.open(targetHref);
+                } else if (target.classList.contains('_tbs')) {
+                    prD();
+
+                    if (this.isTouch && this.isSafari) {
+                        w.location.href = targetHref;
+                    } else {
+                        w.open(targetHref);
+                    }
+                } else {
+                    var hrefBeginByHash = targetHref.charAt(targetHref.length - 1) === '#';
+                    var hrefIsMailto = targetHref.substring(0, 6) === 'mailto';
+
+                    if (hrefBeginByHash) {
+                        prD();
+                    } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
+                        prD();
+
+                        if (window.Penryn.isOutroOn) {
+                            this.path = {
+                                old: skylake.Win.path,
+                                new: targetHref.replace(/^.*\/\/[^/]+/, '')
+                            };
+
+                            if (this.path.old !== this.path.new) {
+                                this.p.outroIsOn = false;
+
+                                this.target = target;
+                                this.xhrReq();
+                            }
+                        }
+                    } else if (hrefIsMailto) {
+                        prD();
+                        var myWindow = w.open(targetHref);
+                        setTimeout(function (_) {
+                            myWindow.close();
+                        }, 300);
+                    }
+                }
+            } else if (targetIsASubmit) {
+                prD();
+            }
+
+            function prD() {
+                event.preventDefault();
+            }
+        }
+    }, {
+        key: 'xhrReq',
+        value: function xhrReq() {
+            var oldInstance = this.getInstance(this.path.old);
+
+            this.p.done = this.done;
+            this.p.target = this.target;
+            this.p.path = this.path;
+
+            // Old outro
+            oldInstance.controller.outro();
+        }
+    }, {
+        key: 'done',
+        value: function done() {
+            var target = event.target;
+            var targetHref = target.dataset.href === undefined ? target.href : target.dataset.href;
+            this.path = {
+                old: skylake.Win.path,
+                new: targetHref.replace(/^.*\/\/[^/]+/, '')
+            };
+            Xhr.controller(this.path.new, EventDelegation.prototype.xhrCallback());
+        }
+    }, {
+        key: 'xhrCallback',
+        value: function xhrCallback(response) {
+            console.log('hello from xhrCallback');
+            var transit = {
+                insertNew: function insertNew(_) {
+                    skylake.Geb.id('xhr').insertAdjacentHTML('beforeend', response);
+                },
+                removeOld: function removeOld(_) {
+                    var oldXhrContent = skylake.Geb.id('xhr').children[0];
+                    oldXhrContent.parentNode.removeChild(oldXhrContent);
+                }
+            };
+            transit.removeOld();
+            // pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+            skylake.Geb.id('xhr').insertAdjacentHTML('beforeend', response);
+            EventDelegation.loadJS('/static/js/app.js', console.log('JS loaded'), console.log('error from loadJS'));
+            // this.p.xhr = {
+            //     insertNew: _ => {
+            //         this.xhr.insertAdjacentHTML('beforeend', response)
+            //     },
+            //     removeOld: _ => {
+            //         const oldXhrContent = this.xhr.children[0]
+            //         oldXhrContent.parentNode.removeChild(oldXhrContent)
+            //     }
+
+            // }
+            // this.p.outroIsOn = true
+            // const newInstance = EventDelegation.prototype.getInstance(this.path.new)
+            // // New intro
+            // newInstance.prototype.intro()
+        }
+    }]);
+    return EventDelegation;
+}();
+
+EventDelegation.destHome = function () {
+    skylake.Listen("#a-link", "add", "click", function () {
+        Xhr.controller("/", myCallback);
+        // EventDelegation.prototype.eventDelegation('/')
+        // EventDelegation.prototype.done()
+        // EventDelegation.prototype.xhrCallback()
+
+        function myCallback(response, args) {
+            console.log("myCallback called");
+        }
+    });
+};
+
+EventDelegation.destAbout = function () {
+    console.dir(HomeController);
+    skylake.Listen("#h-link", "add", "click", function () {
+        HomeController.prototype.outro();
+        // window.Penryn.isOutroOn = true
+        // EventDelegation.prototype.eventDelegation('about')
+        // EventDelegation.prototype.done()
+        // EventDelegation.prototype.xhrCallback()
+    });
+};
+
+/* eslint-disable */
+
 console.dir(Listeners);
 
-var AboutController = function (_Listeners) {
+var AboutController$1 = function (_Listeners) {
     inherits(AboutController, _Listeners);
 
     function AboutController() {
@@ -11293,7 +11339,7 @@ var Xhr = function () {
                     console.log(xhrC);
                     var transit = {
                         insertNew: function insertNew(_) {
-                            pageEl.insertAdjacentHTML('beforeend', response);
+                            pageEl.insertAdjacentHTML('beforeend', xhrC.view);
                         },
                         removeOld: function removeOld(_) {
                             var oldXhrContent = pageEl.children[0];
@@ -11301,9 +11347,10 @@ var Xhr = function () {
                         }
                     };
                     transit.removeOld();
-                    pageEl.insertAdjacentHTML('beforeend', xhrC.view);
+                    // pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                    transit.insertNew();
                     window.Penryn.outroIsOn = true;
-                    //EventDelegation.prototype.run()
+                    EventDelegation.prototype.run();
                     loadJS('/static/js/app.js', console.log('JS loaded'), console.log('error from loadJS'));
                     Xhr.onPopstate();
                     //callback(EventDelegation.prototype.run(xhrC.view))
@@ -11567,7 +11614,7 @@ var Route = function Route() {
     var router = new Router();
 
     router.init('/', HomeController);
-    router.init('/about', AboutController);
+    router.init('/about', AboutController$1);
 
     router.error(ErrorController);
 

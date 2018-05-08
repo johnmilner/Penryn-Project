@@ -47,7 +47,7 @@ class Xhr {
                 console.log(xhrC)
                 const transit = {
                     insertNew: _ => {
-                        pageEl.insertAdjacentHTML('beforeend', response)
+                        pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                     },
                     removeOld: _ => {
                         const oldXhrContent = pageEl.children[0]
@@ -55,9 +55,10 @@ class Xhr {
                     }
                 }
                 transit.removeOld()
-                pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                // pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                transit.insertNew()
                 window.Penryn.outroIsOn = true
-                //EventDelegation.prototype.run()
+                EventDelegation.prototype.run()
                 loadJS(
                     '/static/js/app.js', 
                     console.log('JS loaded'), 

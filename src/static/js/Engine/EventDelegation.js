@@ -2,6 +2,7 @@
 
 import S from 'skylake'
 import Xhr from './Xhr.js'
+import HomeController from '../app/Controller/HomeController.js'
 
 
 class EventDelegation {
@@ -18,12 +19,39 @@ class EventDelegation {
 
         // Bind
         S.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback'])
+
+    }
+
+    
+
+    getInstance () {
+        var instance;
+     
+        function createInstance() {
+            if (this.new.path === 'about') {
+            var newInstance = new AboutController();
+            } else {
+                var newInstance = new HomeController();
+            }
+            return newInstance;
+        }
+     
+        return {
+            getInstance: function () {
+                if (!instance) {
+                    instance = createInstance();
+                }
+                return instance;
+            }
+        };
     }
 
     run () {
         S.BindMaker(this, ['eventDelegation', 'done', 'xhrCallback'])
         S.Listen(S.Dom.body, 'add', 'click', this.eventDelegation)
-        
+        // S.Listen('#h-link', 'add', 'click', this.eventDelegation)
+        // S.Listen('#a-link', 'add', 'click', this.eventDelegation)
+
         console.log('coming from EventDelegation run method')
     }
 
@@ -67,12 +95,12 @@ class EventDelegation {
                 } else if (!hrefIsMailto && !target.classList.contains('_ost') && targetHref !== '' && target.getAttribute('target') !== '_blank') {
                     prD()
 
-                    if (window.Penryn.outroIsOn) {
+                    if (window.Penryn.isOutroOn) {
                         this.path = {
                             old: S.Win.path,
                             new: targetHref.replace(/^.*\/\/[^/]+/, '')
                         }
-
+                    
                         if (this.path.old !== this.path.new) {
                             this.p.outroIsOn = false
 
@@ -109,26 +137,48 @@ class EventDelegation {
     }
 
     done () {
-        Xhr.controller(this.path.new, this.xhrCallback)
+        let target = event.target
+        const targetHref = target.dataset.href === undefined ? target.href : target.dataset.href
+        this.path = {
+            old: S.Win.path,
+            new: targetHref.replace(/^.*\/\/[^/]+/, '')
+        }
+        Xhr.controller(this.path.new, EventDelegation.prototype.xhrCallback())
     }
 
     xhrCallback (response) {
-        const newInstance = this.getInstance(this.path.new)
         console.log('hello from xhrCallback')
-        this.p.xhr = {
-            insertNew: _ => {
-                this.xhr.insertAdjacentHTML('beforeend', response)
-            },
-            removeOld: _ => {
-                const oldXhrContent = this.xhr.children[0]
-                oldXhrContent.parentNode.removeChild(oldXhrContent)
-            }
+        const transit = {
+                    insertNew: _ => {
+                        S.Geb.id('xhr').insertAdjacentHTML('beforeend', response)
+                    },
+                    removeOld: _ => {
+                        const oldXhrContent = S.Geb.id('xhr').children[0]
+                        oldXhrContent.parentNode.removeChild(oldXhrContent)
+                    }
+                }
+        transit.removeOld()
+        // pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+        S.Geb.id('xhr').insertAdjacentHTML('beforeend', response)
+        EventDelegation.loadJS(
+            '/static/js/app.js', 
+            console.log('JS loaded'), 
+            console.log('error from loadJS')
+        )
+        // this.p.xhr = {
+        //     insertNew: _ => {
+        //         this.xhr.insertAdjacentHTML('beforeend', response)
+        //     },
+        //     removeOld: _ => {
+        //         const oldXhrContent = this.xhr.children[0]
+        //         oldXhrContent.parentNode.removeChild(oldXhrContent)
+        //     }
             
-        }
-        this.p.outroIsOn = true
-
-        // New intro
-        newInstance.controller.intro()
+        // }
+        // this.p.outroIsOn = true
+        // const newInstance = EventDelegation.prototype.getInstance(this.path.new)
+        // // New intro
+        // newInstance.prototype.intro()
     }
 
 }
@@ -136,6 +186,9 @@ class EventDelegation {
 EventDelegation.destHome = function() {
   S.Listen("#a-link", "add", "click", function() {
     Xhr.controller("/", myCallback);
+    // EventDelegation.prototype.eventDelegation('/')
+    // EventDelegation.prototype.done()
+    // EventDelegation.prototype.xhrCallback()
 
     function myCallback(response, args) {
       console.log("myCallback called");
@@ -144,12 +197,14 @@ EventDelegation.destHome = function() {
 };
 
 EventDelegation.destAbout = function() {
+    console.dir(HomeController)
   S.Listen("#h-link", "add", "click", function() {
-    Xhr.controller("about", myCallback);
-
-    function myCallback(response, args) {
-      console.log("myCallback called");
-    }
+    HomeController.prototype.outro()
+    // window.Penryn.isOutroOn = true
+    // EventDelegation.prototype.eventDelegation('about')
+    // EventDelegation.prototype.done()
+    // EventDelegation.prototype.xhrCallback()
+    
   });
 };
 

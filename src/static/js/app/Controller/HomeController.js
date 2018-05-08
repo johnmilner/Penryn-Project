@@ -57,27 +57,28 @@ class HomeController extends Listeners {
         })
         console.log('Loader.run from HomeController')
         Menu.prototype.bindButtonClick()
+        EventDelegation.destAbout()  
         //EventDelegation.prototype.run()
-        //EventDelegation.destAbout()
-
+        
     }
 
     intro (opts) {
-        Listeners.prototype.add({cb:
-            Transition.intro.play({cb: this.outro()})
-        })
+        Listeners.prototype.add({cb:Transition.intro.play()})
+        // {cb: this.outro()}
         console.log('Transition.intro from HomeController')
     }
 
     outro (done, listeners) {
         console.log('Transition.outro from HomeController')
-        Transition.outro.play(EventDelegation.prototype.eventDelegation('about'), {
-            cb: Listeners.prototype.remove({
-                destroy: true
-            })
+        Transition.outro.play({cb: Xhr.controller("about", myCallback), cbDelay: 3000},
+        Listeners.prototype.remove({
+            destroy: true
         })
+    )
+    function myCallback(response, args) {
+        console.log("myCallback called");
+      }
     }
-
 }
 
 export default HomeController
