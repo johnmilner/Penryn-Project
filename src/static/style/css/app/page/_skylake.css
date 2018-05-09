@@ -34,7 +34,7 @@ html {
     pointer-events: auto;
   }
   
-  a {
+  /* a {
     text-decoration: none;
     color: #fff;
     outline: 0;
@@ -46,7 +46,7 @@ html {
     outline: 0;
     text-decoration: none;
     // transition: all 100ms ease;
-  }
+  } */
   
   ul {
     margin: 0;

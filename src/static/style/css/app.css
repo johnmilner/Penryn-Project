@@ -858,7 +858,7 @@ $grid-width: 114rem;
     pointer-events: auto;
   }
   
-  a {
+  /* a {
     text-decoration: none;
     color: #fff;
     outline: 0;
@@ -870,7 +870,7 @@ $grid-width: 114rem;
     outline: 0;
     text-decoration: none;
     // transition: all 100ms ease;
-  }
+  } */
   
   ul {
     margin: 0;

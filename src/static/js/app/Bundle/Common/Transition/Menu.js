@@ -219,31 +219,24 @@ $(function(){
   });
 
   // Make sure that links don't close the menu
-  $('.nav a').click(function(e) {
-    e.stopPropagation();
-  });
+  // $('.nav a').click(function(e) {
+  //   e.stopPropagation();
+  // });
 
   // Listen to ESC, close menu if visible
   $(document).keyup(function(e) {
-    if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
+    if (e.keyCode == this.keyCodeESC) this.handleESCKey();
   });
 
-  function handleESCKey() {
+  Menu.handleESCKey = function () {
     $(document).trigger("pressed:ESC");
-    if (burger.menuVisible) this.hideMenu();
+    if (this.menuVisible) Menu.hideMenu();
   }
 
-  Menu.toggleMenuStates = function() {
-    //$('body').toggleClass('no-scroll');
-    $("#burger").toggleClass("active");
-    //$('#burger').toggleClass('np');
-    $("#burger-menu").toggleClass("active");
-    //$("#burger-menu-link").toggleClass("active");
-    //$("#burger-menu-line-wrap").toggleClass("oh");
-  }
+
 
   const elmHamburger = document.querySelector('#burger');
-  const navItems = document.querySelectorAll('.burger-menu-link');
+  const navItems = document.querySelectorAll('.burger-menu-link-wrap');
   //const subNavItems = document.querySelectorAll('.nav-sublink');
   
     // //remove global menu items
@@ -255,17 +248,27 @@ $(function(){
   
   //loop thru nav_sublinks listening for click, onclick close overlay, close hamburger menu
   for (var i = 0; i < navItems.length; i++) {
-    navItems[i].addEventListener('click', function(){
-      //console.log('clicked!!');
-      if (elmHamburger.className === 'active') {
-        return false;
+         navItems[i].classList.add('active');
+         console.log('adding active to burger-menu-link-wrap')
       }
-      Menu.prototype.hideMenu();
-    });
-    
-  };
+    // navItems[i].addEventListener('click', function(){
+    //   //console.log('clicked!!');
+    //   if (elmHamburger.className === 'active') {
+    //     return false;
+    //   }
+      // Menu.prototype.hideMenu();
 
   });
+
+  Menu.toggleMenuStates = function() {
+    //$('body').toggleClass('no-scroll');
+    $("#burger").toggleClass("active");
+    //$('#burger').toggleClass('np');
+    $("#burger-menu").toggleClass("active");
+
+    $(".burger-menu-link:hover").toggleClass("active");
+    // $("#burger-menu-line-wrap").toggleClass("oh");
+  }
 
 
 export default Menu;
