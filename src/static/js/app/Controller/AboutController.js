@@ -45,28 +45,30 @@ class AboutController extends Listeners {
     }
 
     preload (opts) {
-        Loader.run({cb: this.intro()})
-        //Loader.run()
-        console.log('Loader.run from AboutController')
+        Transition.outro.play()
+        console.log('Transition.outro from HomeController')
+        Listeners.prototype.add({cb:
+            Loader.run({cb: this.intro()})
+        })
+        console.log('Loader.run from HomeController')
+        Menu.prototype.bindButtonClick()
+        EventDelegation.destHome()  
         //EventDelegation.prototype.run()
-        EventDelegation.destHome()
-
+        
     }
 
     intro (opts) {
-        Transition.intro.play()
-        console.log('Transition.intro from AboutController')
-        this.outro()
+        Listeners.prototype.add({cb:Transition.intro.play()})
+        // {cb: this.outro()}
+        console.log('Transition.intro from HomeController')
     }
 
     outro (done, listeners) {
         Listeners.prototype.remove({
             destroy: true
         })
-        console.log('Transition.outro from AboutController')
-        Transition.outro.play()
-
-    }
+        
+        }
 
 }
 

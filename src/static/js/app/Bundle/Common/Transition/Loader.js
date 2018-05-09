@@ -24,7 +24,7 @@ anime.timeline({ loop: false })
         easing: "easeInOutExpo",
         rotateZ: 360,
         duration: 1100,
-        delay: 1000
+        delay: 3000
       })
       .add({
         targets: ".ml8 .circle-container",
@@ -75,7 +75,7 @@ Loader.run = function() {
     var preloaderFadeOutTime = 2500;
     function hidePreloader() {
       var preloader = $(".spinner");
-      preloader.show(); //show preloader - see spinner css
+      preloader.delay(2300).show(); //show preloader - see spinner css
       preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
     }
     hidePreloader(); 

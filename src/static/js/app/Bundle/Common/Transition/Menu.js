@@ -43,20 +43,7 @@ class Menu {
     console.log("hello from burger.addy callback");
   }
 
-  // Hide nav if clicked outside of a menu alternative
-  // $('#burger-menu').click(function(e) {
-  //   burger.hideMenu();
-  // });
-
-  // Make sure that links don't close the menu
-  // $('.nav a').click(function(e) {
-  //   e.stopPropagation();
-  // });
-
-  // Listen to ESC, close menu if visible
-  // $(document).keyup(function(e) {
-  //   if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
-  // });
+  
 
   // burger.loadAndFadeInCaseImages = function() {
   //   // Load background images
@@ -79,23 +66,10 @@ class Menu {
   //   });
   // }
 
-  handleESCKey() {
-    $(document).trigger("pressed:ESC");
-    if (burger.menuVisible) this.hideMenu();
-  }
-
-  toggleMenuStates() {
-    //$('body').toggleClass('no-scroll');
-    $("#burger").toggleClass("active");
-    //$('#burger').toggleClass('np');
-    $("#burger-menu").toggleClass("active");
-    $("#burger-menu-line-wrap").toggleClass("oh");
-  }
-
   revealMenu() {
     Menu.menuVisible = true;
     //overlay.toggle();
-    Menu.prototype.toggleMenuStates();
+    Menu.toggleMenuStates();
 
     const tl = new S.Timeline();
     const isObj = S.Is.object(tl);
@@ -161,7 +135,7 @@ class Menu {
 
   hideMenu() {
     Menu.menuVisible = false;
-    Menu.prototype.toggleMenuStates();
+    Menu.toggleMenuStates();
 
     const tl = new S.Timeline();
     const isObj = S.Is.object(tl);
@@ -255,5 +229,38 @@ class Menu {
 
   // };
 }
+
+$(function(){
+
+  // Hide nav if clicked outside of a menu alternative
+  $('#burger-menu').click(function(e) {
+    burger.hideMenu();
+  });
+
+  // Make sure that links don't close the menu
+  $('.nav a').click(function(e) {
+    e.stopPropagation();
+  });
+
+  // Listen to ESC, close menu if visible
+  $(document).keyup(function(e) {
+    if (e.keyCode == burger.keyCodeESC) burger.handleESCKey();
+  });
+
+  function handleESCKey() {
+    $(document).trigger("pressed:ESC");
+    if (burger.menuVisible) this.hideMenu();
+  }
+
+  Menu.toggleMenuStates = function() {
+    //$('body').toggleClass('no-scroll');
+    $("#burger").toggleClass("active");
+    //$('#burger').toggleClass('np');
+    $("#burger-menu").toggleClass("active");
+    //$("#burger-menu-line-wrap").toggleClass("oh");
+  }
+
+  });
+
 
 export default Menu;

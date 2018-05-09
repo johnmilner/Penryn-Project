@@ -29,22 +29,30 @@ import AboutController from '../app/Controller/AboutController.js'
 
 class Xhr {
 
-    static controller (page, callback, args) {
+    constructor () {
+
+        
+
+    }
+
+    controller(page, callback, args) {
         const path = 'index.php?url=' + page + '&xhr=true'
         const xhr = new XMLHttpRequest()
         const pageEl = S.Geb.id('xhr')
+        
 
         xhr.open('GET', path, true)
         console.log('Xhr class controller loaded')
 
         xhr.onreadystatechange = _ => {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                const xhrC = JSON.parse(xhr.responseText).xhrController
+                let xhrC = JSON.parse(xhr.responseText).xhrController
+              
 
                 S.Geb.tag('title')[0].textContent = xhrC.title
+                // EventDelegation.prototype.xhrCallback(xhrC)
 
                 getHistoryUpdate()
-                console.log(xhrC)
                 const transit = {
                     insertNew: _ => {
                         pageEl.insertAdjacentHTML('beforeend', xhrC.view)
@@ -55,18 +63,15 @@ class Xhr {
                     }
                 }
                 transit.removeOld()
-                // pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 transit.insertNew()
                 window.Penryn.outroIsOn = true
                 EventDelegation.prototype.run()
-                loadJS(
-                    '/static/js/app.js', 
-                    console.log('JS loaded'), 
-                    console.log('error from loadJS')
-                )
-                Xhr.onPopstate()
-                //callback(EventDelegation.prototype.run(xhrC.view))
+                loadjscssfile("/static/js/app.js", "js") //dynamically load and add this .js file
+                loadjscssfile("/static/style/css/app.css", "css") ////dynamically load and add this .css file
+                Xhr.prototype.onPopstate()
             }
+            
         }
 
        
@@ -80,7 +85,12 @@ class Xhr {
         }
     }
 
-    static onPopstate () {
+    process() {
+        console.log(global.myXhr)
+        EventDelegation.prototype.xhrCallback(xhrC)
+    }
+
+    onPopstate() {
         const d = document
         const w = window
 
@@ -110,34 +120,24 @@ class Xhr {
         }
     }
 
+
 }
 
-function loadJS(url, onDone, onError) {
-  if (!onDone) onDone = function() {};
-  if (!onError) onError = function() {};
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200 || xhr.status == 0) {
-        try {
-          eval(xhr.responseText);
-        } catch (e) {
-          onError(e);
-          return;
-        }
-        onDone();
-      } else {
-        onError(xhr.status);
-      }
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
     }
-  }.bind(this);
-  try {
-    xhr.open("GET", url, true);
-    xhr.send();
-  } catch (e) {
-    onError(e);
-  }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
 }
-
+ 
 export default Xhr
 

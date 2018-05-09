@@ -39,7 +39,7 @@
                     <div class="burger-menu-bg"><img id="burger-menu-bg-3" class="burger-menu-bg-no" src="/static/media/img/im3.jpg" alt=""></div>
                     <div class="burger-menu-bg"><img id="burger-menu-bg-4" class="burger-menu-bg-no" src="/static/media/img/im4.jpg" alt=""></div>
                 </div>
-                <div id="burger-menu-line-wrap" class="oh">
+                <div id="burger-menu-line-wrap">
                     <div id="burger-menu-line"></div>
                 </div>
                 <ul id="burger-menu-list">

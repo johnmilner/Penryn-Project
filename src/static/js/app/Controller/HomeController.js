@@ -52,6 +52,8 @@ class HomeController extends Listeners {
     }
 
     preload (opts) {
+        Transition.outro.play()
+        console.log('Transition.outro from HomeController')
         Listeners.prototype.add({cb:
             Loader.run({cb: this.intro()})
         })
@@ -69,16 +71,11 @@ class HomeController extends Listeners {
     }
 
     outro (done, listeners) {
-        console.log('Transition.outro from HomeController')
-        Transition.outro.play({cb: Xhr.controller("about", myCallback), cbDelay: 3000},
         Listeners.prototype.remove({
             destroy: true
         })
-    )
-    function myCallback(response, args) {
-        console.log("myCallback called");
-      }
-    }
+        
+        }
 }
 
 export default HomeController

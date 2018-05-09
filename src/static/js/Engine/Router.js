@@ -38,7 +38,7 @@ class Router {
         this.p.outroIsOn = false
 
         // On popstate
-        Xhr.onPopstate()
+        Xhr.prototype.onPopstate()
 
         // Instantiating event delegation
         this.eventDelegation = new EventDelegation(this.getInstance)
