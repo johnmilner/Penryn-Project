@@ -208,33 +208,14 @@ class Menu {
   //   $(".menu").show();
   // }
 
-  //const subNavItems = document.querySelectorAll('.nav-sublink');
 
-  // //remove global menu items
-  // function removeGlobalMenu() {
-  //   for (var i = 0; i < navItems.length; i++) {
-  //     navItems[i].classList.remove('js-nav-animate');
-  //   }
-  // }
-
-  //loop thru nav_sublinks listening for click, onclick close overlay, close hamburger menu
-  // for (let i = 0; i < navItems.length; i++) {
-  //   navItems[i].addEventListener('click', function(){
-  //     //console.log('clicked!!');
-  //     if (burger.className === 'active') {
-  //       return false;
-  //     }
-  //     hideMenu();
-  //   });
-
-  // };
 }
 
 $(function(){
 
   // Hide nav if clicked outside of a menu alternative
   $('#burger-menu').click(function(e) {
-    burger.hideMenu();
+    Menu.prototype.hideMenu();
   });
 
   // Make sure that links don't close the menu
@@ -257,8 +238,32 @@ $(function(){
     $("#burger").toggleClass("active");
     //$('#burger').toggleClass('np');
     $("#burger-menu").toggleClass("active");
+    //$("#burger-menu-link").toggleClass("active");
     //$("#burger-menu-line-wrap").toggleClass("oh");
   }
+
+  const elmHamburger = document.querySelector('#burger');
+  const navItems = document.querySelectorAll('.burger-menu-link');
+  //const subNavItems = document.querySelectorAll('.nav-sublink');
+  
+    // //remove global menu items
+    // function removeGlobalMenu() {
+    //   for (var i = 0; i < navItems.length; i++) {
+    //     navItems[i].classList.remove('js-nav-animate');
+    //   }
+    // }
+  
+  //loop thru nav_sublinks listening for click, onclick close overlay, close hamburger menu
+  for (var i = 0; i < navItems.length; i++) {
+    navItems[i].addEventListener('click', function(){
+      //console.log('clicked!!');
+      if (elmHamburger.className === 'active') {
+        return false;
+      }
+      Menu.prototype.hideMenu();
+    });
+    
+  };
 
   });
 
