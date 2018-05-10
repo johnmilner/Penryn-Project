@@ -23,8 +23,6 @@ Xhr.onPopstate()
 
 import S from 'skylake'
 import EventDelegation from './EventDelegation.js'
-import HomeController from '../app/Controller/HomeController.js'
-import AboutController from '../app/Controller/AboutController.js'
 
 
 class Xhr {
