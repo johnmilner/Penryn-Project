@@ -11113,6 +11113,8 @@ Loader.run = function () {
 //Loader.run()
 console.log('loader.js');
 
+/* eslint-disable */
+
 var Transition = {};
 
 Transition.intro = new skylake.Timeline();
@@ -11123,6 +11125,66 @@ Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4I
 Transition.outro = new skylake.Timeline();
 var isObj2 = skylake.Is.object(Transition.outro);
 Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
+
+// const classes = {
+// pinned: 'header-pin',
+// unpinned: 'header-unpin',
+// };
+
+
+// function onScroll() {
+// currentScrollY = window.pageYOffset;
+// console.log(currentScrollY)
+// requestTick();
+// }
+
+
+// function requestTick() {
+// if (!ticking) {
+//     requestAnimationFrame(update);
+// }
+// ticking = true;
+// }
+
+// function update() {
+// if (currentScrollY < lastKnownScrollY) {
+//     pin();
+// } else if (currentScrollY > lastKnownScrollY) {
+//     unpin();
+// }
+// lastKnownScrollY = currentScrollY;
+// ticking = false;
+// }
+
+
+Transition.headerUp = new skylake.Timeline();
+var isObj3 = skylake.Is.object(Transition.headerUp);
+Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1600, e: 'Power4InOut', delay: 500 });
+
+Transition.headerDown = new skylake.Timeline();
+var isObj4 = skylake.Is.object(Transition.headerDown);
+Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1600, e: 'Power4InOut', delay: 500 });
+
+window.onload = function () {
+
+    window.addEventListener('wheel', function (e) {
+        if (e.deltaY < 0) {
+            console.log('scrolling up');
+            Transition.headerDown.play();
+            // document.getElementById('status').innerHTML = 'scrolling up';
+        }
+        if (e.deltaY > 0) {
+            console.log('scrolling down');
+            Transition.headerUp.play();
+            // document.getElementById('status').innerHTML = 'scrolling down';
+        }
+    });
+
+    // const eleHeader = document.querySelector('.header');
+    // console.log(eleHeader);
+
+    // document.addEventListener('wheel', onScroll, false);
+};
 
 // Transition.intro.play()
 console.log('transition.js');
@@ -11368,6 +11430,7 @@ var Menu = function () {
     // burger.showMenuIcon = function() {
     //   $(".menu").show();
     // }
+    //this.scroll.off()
 
 
   }]);

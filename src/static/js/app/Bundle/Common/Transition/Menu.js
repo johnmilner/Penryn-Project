@@ -207,10 +207,11 @@ class Menu {
   // burger.showMenuIcon = function() {
   //   $(".menu").show();
   // }
+  //this.scroll.off()
 
-
+  
 }
-
+  
 $(function(){
 
   // Hide nav if clicked outside of a menu alternative
@@ -269,6 +270,5 @@ $(function(){
     $(".burger-menu-link:hover").toggleClass("active");
     // $("#burger-menu-line-wrap").toggleClass("oh");
   }
-
 
 export default Menu;
