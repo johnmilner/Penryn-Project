@@ -17,9 +17,10 @@ Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOu
 
 // window.onload = function() {
 
-var ticking = false;
+var ticking = false
 var startScrollY = pageYOffset
-var isMoving = false;
+var isMoving = false
+var menuVisible = true
 console.log(pageYOffset)
 Transition.callback = function() {
 
@@ -27,32 +28,35 @@ window.addEventListener('wheel', function(e) {
     var lastKnownScrollY = 0;
     var currentScrollY = e.deltaY;
     var header = document.querySelector('.header')
+    
 
-    // header.classList.contains('')
     if (isMoving) return;
-    if (e.deltaY < 0 && !isMoving) {
+    // if (menuVisible) return;
+    if (e.deltaY < 0 && !menuVisible) {
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'ExpoOut'})
         Transition.headerDown.play({delay: 500})
-        
-    }
-    if (e.deltaY > 0 && currentScrollY > lastKnownScrollY) {
+        menuVisible = true
+    } 
+    if (e.deltaY > 0 && menuVisible) {
         console.log('scrolling down');
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'ExpoOut'})
         Transition.headerUp.play({delay: 500})
         console.log(currentScrollY)
+        menuVisible = false
     }
-    navigateTo();
+    navigateTo()
     });
 }
 let st
 
 function navigateTo(){
     isMoving = true;
+    menuVisible ? false : true
     // currentScrollY = pageYOffset
     let st = setTimeout(function() {
     isMoving = false;

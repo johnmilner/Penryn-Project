@@ -11129,30 +11129,32 @@ Transition.outro = new skylake.Timeline();
 var isObj2 = skylake.Is.object(Transition.outro);
 Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
 var isMoving = false;
+var menuVisible = true;
 console.log(pageYOffset);
 Transition.callback = function () {
 
     window.addEventListener('wheel', function (e) {
-        var lastKnownScrollY = 0;
         var currentScrollY = e.deltaY;
         var header = document.querySelector('.header');
 
-        header.classList.contains('');
         if (isMoving) return;
-        if (e.deltaY < 0 && !isMoving) {
+        // if (menuVisible) return;
+        if (e.deltaY < 0 && !menuVisible) {
             console.log('scrolling up');
             Transition.headerDown = new skylake.Timeline();
             var isObj4 = skylake.Is.object(Transition.headerDown);
             Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'ExpoOut' });
             Transition.headerDown.play({ delay: 500 });
+            menuVisible = true;
         }
-        if (e.deltaY > 0 && currentScrollY > lastKnownScrollY) {
+        if (e.deltaY > 0 && menuVisible) {
             console.log('scrolling down');
             Transition.headerUp = new skylake.Timeline();
             var isObj3 = skylake.Is.object(Transition.headerUp);
             Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'ExpoOut' });
             Transition.headerUp.play({ delay: 500 });
             console.log(currentScrollY);
+            menuVisible = false;
         }
         navigateTo();
     });
