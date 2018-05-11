@@ -1,4 +1,4 @@
- <header class="header">
+<header class="header">
                 <div class="page-content">
                     <div class='header-container'>
                         <header class='header-icons'>
@@ -67,10 +67,7 @@
                     </div>
                 </article>
                 <div id="a">
-                    <div id="a-content">About</div>
+                    <!-- <div id="a-content">About</div> -->
                     <a id="a-link" href="/">HOME</a>
                 </div>
             </header>
-
-
-

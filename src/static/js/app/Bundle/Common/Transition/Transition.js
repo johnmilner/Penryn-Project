@@ -15,132 +15,57 @@ Transition.outro = new S.Timeline()
 const isObj2 = S.Is.object(Transition.outro)
 Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
 
+// window.onload = function() {
 
-
-  
-var lastKnownScrollY = 0;
-var currentScrollY = 0;
 var ticking = false;
-var idOfHeader = '.header';
-var eleHeader = null;
+var startScrollY = pageYOffset
+var isMoving = false;
+console.log(pageYOffset)
+Transition.callback = function() {
 
+window.addEventListener('wheel', function(e) {
+    var lastKnownScrollY = 0;
+    var currentScrollY = e.deltaY;
+    var header = document.querySelector('.header')
 
-// const classes = {
-// pinned: 'header-pin',
-// unpinned: 'header-unpin',
-// };
-
-
-// function onScroll() {
-// currentScrollY = window.pageYOffset;
-// console.log(currentScrollY)
-// requestTick();
-// }
-
-
-// function requestTick() {
-// if (!ticking) {
-//     requestAnimationFrame(update);
-// }
-// ticking = true;
-// }
-
-// function update() {
-// if (currentScrollY < lastKnownScrollY) {
-//     pin();
-// } else if (currentScrollY > lastKnownScrollY) {
-//     unpin();
-// }
-// lastKnownScrollY = currentScrollY;
-// ticking = false;
-// }
-
-
-
-    Transition.headerUp = new S.Timeline()
-    const isObj3 = S.Is.object(Transition.headerUp)
-    Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'ExpoOut'})
-    // Transition.headerUp.from({el: '.header', p: {y: [-50, -100]}, d: 800, e: 'ExpoOut'})
-
-    // Transition.headerUp.from(".header", "3dy", -100, -50, 500, "Power4In"), e.from("#.header", "3dy", -50, 0, 800, "ExpoOut", {
-    //     delay: 500
-    //    })
-    
-
-
-
-    Transition.headerDown = new S.Timeline()
-    const isObj4 = S.Is.object(Transition.headerDown)
-    Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'ExpoOut'})
-    
-    
-
-window.onload = function() {
-
-    var isMoving = false;
-
-    window.addEventListener('wheel', function(e) {
-        if (isMoving) return;
-        if (e.deltaY < 0) {
-          console.log('scrolling up');
-          Transition.headerUp.play({delay: 500})
-        }
-        if (e.deltaY > 0) {
-          console.log('scrolling down');
-          Transition.headerDown.play({delay: 500})        
-        }
-        navigateTo();
-      });
-    // $('body').bind("mousewheel DOMMouseScroll MozMousePixelScroll", function(event, delta) {
-    //    event.preventDefault();
-    //    //if (isMoving) return;
-    // //    if (event.deltaY > 0) {
-    // //     Transition.headerDown.play({delay: 500})
-    // //    } else {
-    // //     Transition.headerUp.play({delay: 500})
-    // //    }
-    // if (event.deltaY < 0) {
-    //     console.log('scrolling up');
-    //     Transition.headerDown.play({delay: 500}) 
-          
-    // }
-    //   if (event.deltaY > 0) {
-    //     console.log('scrolling down');
-    //     Transition.headerUp.play({delay: 500})   
-          
-    // }
-    //    //!isMoving ? Transition.headerUp.play({delay: 500}) : Transition.headerDown.play()
-    //    if (isMoving) return;
-    //    navigateTo();
-    //    console.log('scrolling')
-    // });
-    
-    function navigateTo(){
-       isMoving = true;
-       setTimeout(function() {
-        isMoving = false;
-       },2000);
+    // header.classList.contains('')
+    if (isMoving) return;
+    if (e.deltaY < 0 && !isMoving) {
+        console.log('scrolling up');
+        Transition.headerDown = new S.Timeline()
+        const isObj4 = S.Is.object(Transition.headerDown)
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'ExpoOut'})
+        Transition.headerDown.play({delay: 500})
+        
     }
-
-// window.addEventListener('wheel', function(e) {
-//     if (e.deltaY < 0) {
-//         console.log('scrolling up');
-//         Transition.headerDown.play()
-//         // document.getElementById('status').innerHTML = 'scrolling up';
-//     }
-//     if (e.deltaY > 0) {
-//         console.log('scrolling down');
-//         Transition.headerUp.play()
-//         // document.getElementById('status').innerHTML = 'scrolling down';
-//     }
-//     });
-
-// const eleHeader = document.querySelector('.header');
-// console.log(eleHeader);
-
-// document.addEventListener('wheel', onScroll, false);
-
+    if (e.deltaY > 0 && currentScrollY > lastKnownScrollY) {
+        console.log('scrolling down');
+        Transition.headerUp = new S.Timeline()
+        const isObj3 = S.Is.object(Transition.headerUp)
+        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'ExpoOut'})
+        Transition.headerUp.play({delay: 500})
+        console.log(currentScrollY)
+    }
+    navigateTo();
+    });
 }
+let st
+
+function navigateTo(){
+    isMoving = true;
+    // currentScrollY = pageYOffset
+    let st = setTimeout(function() {
+    isMoving = false;
+    }, 2000);
+}
+
+function myStopFunction() {
+    clearTimeout(st);
+}
+
+myStopFunction()
+
+// }
 
 // Transition.intro.play()
 console.log('transition.js')

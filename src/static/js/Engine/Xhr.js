@@ -56,13 +56,16 @@ class Xhr {
                         pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                     },
                     removeOld: _ => {
-                        const oldXhrContent = pageEl.children[0]
-                        oldXhrContent.parentNode.removeChild(oldXhrContent)
+                        while (pageEl.hasChildNodes()) {
+                            pageEl.removeChild(pageEl.lastChild);
+                          }
+                        // const oldXhrContent = pageEl.children[0]
+                        // oldXhrContent.parentNode.removeChild(oldXhrContent)
                     }
                 }
                 transit.removeOld()
-                //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 transit.insertNew()
+                //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 window.Penryn.outroIsOn = true
                 EventDelegation.prototype.run()
                 loadjscssfile("/static/js/app.js", "js") //dynamically load and add this .js file

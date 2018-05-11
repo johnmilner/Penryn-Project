@@ -706,13 +706,16 @@ var Xhr = function () {
                             pageEl.insertAdjacentHTML('beforeend', _xhrC.view);
                         },
                         removeOld: function removeOld(_) {
-                            var oldXhrContent = pageEl.children[0];
-                            oldXhrContent.parentNode.removeChild(oldXhrContent);
+                            while (pageEl.hasChildNodes()) {
+                                pageEl.removeChild(pageEl.lastChild);
+                            }
+                            // const oldXhrContent = pageEl.children[0]
+                            // oldXhrContent.parentNode.removeChild(oldXhrContent)
                         }
                     };
                     transit.removeOld();
-                    //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                     transit.insertNew();
+                    //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                     window.Penryn.outroIsOn = true;
                     EventDelegation.prototype.run();
                     loadjscssfile("/static/js/app.js", "js"); //dynamically load and add this .js file
@@ -11125,117 +11128,52 @@ Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4I
 Transition.outro = new skylake.Timeline();
 var isObj2 = skylake.Is.object(Transition.outro);
 Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
+var isMoving = false;
+console.log(pageYOffset);
+Transition.callback = function () {
 
-// const classes = {
-// pinned: 'header-pin',
-// unpinned: 'header-unpin',
-// };
+    window.addEventListener('wheel', function (e) {
+        var lastKnownScrollY = 0;
+        var currentScrollY = e.deltaY;
+        var header = document.querySelector('.header');
 
-
-// function onScroll() {
-// currentScrollY = window.pageYOffset;
-// console.log(currentScrollY)
-// requestTick();
-// }
-
-
-// function requestTick() {
-// if (!ticking) {
-//     requestAnimationFrame(update);
-// }
-// ticking = true;
-// }
-
-// function update() {
-// if (currentScrollY < lastKnownScrollY) {
-//     pin();
-// } else if (currentScrollY > lastKnownScrollY) {
-//     unpin();
-// }
-// lastKnownScrollY = currentScrollY;
-// ticking = false;
-// }
-
-
-Transition.headerUp = new skylake.Timeline();
-var isObj3 = skylake.Is.object(Transition.headerUp);
-Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'ExpoOut' });
-// Transition.headerUp.from({el: '.header', p: {y: [-50, -100]}, d: 800, e: 'ExpoOut'})
-
-// Transition.headerUp.from(".header", "3dy", -100, -50, 500, "Power4In"), e.from("#.header", "3dy", -50, 0, 800, "ExpoOut", {
-//     delay: 500
-//    })
-
-
-Transition.headerDown = new skylake.Timeline();
-var isObj4 = skylake.Is.object(Transition.headerDown);
-Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'ExpoOut' });
-
-window.onload = function () {
-
-  var isMoving = false;
-
-  window.addEventListener('wheel', function (e) {
-    if (isMoving) return;
-    if (e.deltaY < 0) {
-      console.log('scrolling up');
-      Transition.headerUp.play({ delay: 500 });
-    }
-    if (e.deltaY > 0) {
-      console.log('scrolling down');
-      Transition.headerDown.play({ delay: 500 });
-    }
-    navigateTo();
-  });
-  // $('body').bind("mousewheel DOMMouseScroll MozMousePixelScroll", function(event, delta) {
-  //    event.preventDefault();
-  //    //if (isMoving) return;
-  // //    if (event.deltaY > 0) {
-  // //     Transition.headerDown.play({delay: 500})
-  // //    } else {
-  // //     Transition.headerUp.play({delay: 500})
-  // //    }
-  // if (event.deltaY < 0) {
-  //     console.log('scrolling up');
-  //     Transition.headerDown.play({delay: 500}) 
-
-  // }
-  //   if (event.deltaY > 0) {
-  //     console.log('scrolling down');
-  //     Transition.headerUp.play({delay: 500})   
-
-  // }
-  //    //!isMoving ? Transition.headerUp.play({delay: 500}) : Transition.headerDown.play()
-  //    if (isMoving) return;
-  //    navigateTo();
-  //    console.log('scrolling')
-  // });
-
-  function navigateTo() {
-    isMoving = true;
-    setTimeout(function () {
-      isMoving = false;
-    }, 2000);
-  }
-
-  // window.addEventListener('wheel', function(e) {
-  //     if (e.deltaY < 0) {
-  //         console.log('scrolling up');
-  //         Transition.headerDown.play()
-  //         // document.getElementById('status').innerHTML = 'scrolling up';
-  //     }
-  //     if (e.deltaY > 0) {
-  //         console.log('scrolling down');
-  //         Transition.headerUp.play()
-  //         // document.getElementById('status').innerHTML = 'scrolling down';
-  //     }
-  //     });
-
-  // const eleHeader = document.querySelector('.header');
-  // console.log(eleHeader);
-
-  // document.addEventListener('wheel', onScroll, false);
+        header.classList.contains('');
+        if (isMoving) return;
+        if (e.deltaY < 0 && !isMoving) {
+            console.log('scrolling up');
+            Transition.headerDown = new skylake.Timeline();
+            var isObj4 = skylake.Is.object(Transition.headerDown);
+            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'ExpoOut' });
+            Transition.headerDown.play({ delay: 500 });
+        }
+        if (e.deltaY > 0 && currentScrollY > lastKnownScrollY) {
+            console.log('scrolling down');
+            Transition.headerUp = new skylake.Timeline();
+            var isObj3 = skylake.Is.object(Transition.headerUp);
+            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'ExpoOut' });
+            Transition.headerUp.play({ delay: 500 });
+            console.log(currentScrollY);
+        }
+        navigateTo();
+    });
 };
+var st = void 0;
+
+function navigateTo() {
+    isMoving = true;
+    // currentScrollY = pageYOffset
+    var st = setTimeout(function () {
+        isMoving = false;
+    }, 2000);
+}
+
+function myStopFunction() {
+    clearTimeout(st);
+}
+
+myStopFunction();
+
+// }
 
 // Transition.intro.play()
 console.log('transition.js');
@@ -11597,6 +11535,7 @@ var HomeController = function (_Listeners) {
     createClass(HomeController, [{
         key: 'preload',
         value: function preload(opts) {
+            Transition.callback();
             Transition.outro.play();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
