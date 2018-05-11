@@ -11131,8 +11131,8 @@ Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4I
 var isMoving = false;
 var menuVisible = true;
 console.log(pageYOffset);
-Transition.callback = function () {
 
+Transition.callback = function () {
     window.addEventListener('wheel', function (e) {
         var currentScrollY = e.deltaY;
         var header = document.querySelector('.header');
@@ -11143,7 +11143,7 @@ Transition.callback = function () {
             console.log('scrolling up');
             Transition.headerDown = new skylake.Timeline();
             var isObj4 = skylake.Is.object(Transition.headerDown);
-            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'ExpoOut' });
+            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
             Transition.headerDown.play({ delay: 500 });
             menuVisible = true;
         }
@@ -11151,7 +11151,7 @@ Transition.callback = function () {
             console.log('scrolling down');
             Transition.headerUp = new skylake.Timeline();
             var isObj3 = skylake.Is.object(Transition.headerUp);
-            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'ExpoOut' });
+            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
             Transition.headerUp.play({ delay: 500 });
             console.log(currentScrollY);
             menuVisible = false;

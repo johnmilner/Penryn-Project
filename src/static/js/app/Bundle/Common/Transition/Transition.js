@@ -22,8 +22,8 @@ var startScrollY = pageYOffset
 var isMoving = false
 var menuVisible = true
 console.log(pageYOffset)
-Transition.callback = function() {
 
+Transition.callback = function() {
 window.addEventListener('wheel', function(e) {
     var lastKnownScrollY = 0;
     var currentScrollY = e.deltaY;
@@ -36,7 +36,7 @@ window.addEventListener('wheel', function(e) {
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'ExpoOut'})
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         Transition.headerDown.play({delay: 500})
         menuVisible = true
     } 
@@ -44,7 +44,7 @@ window.addEventListener('wheel', function(e) {
         console.log('scrolling down');
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'ExpoOut'})
+        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
         console.log(currentScrollY)
         menuVisible = false
