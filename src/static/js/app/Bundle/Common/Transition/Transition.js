@@ -17,41 +17,112 @@ Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOu
 
 // window.onload = function() {
 
+// var ticking = false
+// var startScrollY = pageYOffset
+// var isMoving = false
+// var menuVisible = true
+// console.log(pageYOffset)
+
+// Transition.callback = function() {
+// window.addEventListener('wheel', function(e) {
+//     var lastKnownScrollY = 0;
+//     var currentScrollY = e.deltaY;
+//     var header = document.querySelector('.header')
+    
+
+//     if (isMoving) return;
+//     // if (menuVisible) return;
+//     if (e.deltaY < 0 && !menuVisible) {
+//         console.log('scrolling up');
+//         Transition.headerDown = new S.Timeline()
+//         const isObj4 = S.Is.object(Transition.headerDown)
+//         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+//         Transition.headerDown.play({delay: 500})
+//         menuVisible = true
+//     } 
+//     if (e.deltaY > 0 && menuVisible) {
+//         console.log('scrolling down');
+//         Transition.headerUp = new S.Timeline()
+//         const isObj3 = S.Is.object(Transition.headerUp)
+//         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
+//         Transition.headerUp.play({delay: 500})
+//         console.log(currentScrollY)
+//         menuVisible = false
+//     }
+//     navigateTo()
+//     });
+// }
+// let st
+
+// function navigateTo(){
+//     isMoving = true;
+//     menuVisible ? false : true
+//     // currentScrollY = pageYOffset
+//     let st = setTimeout(function() {
+//     isMoving = false;
+//     }, 2000);
+// }
+
+// function myStopFunction() {
+//     clearTimeout(st);
+// }
+
+// myStopFunction()
+
 var ticking = false
 var startScrollY = pageYOffset
 var isMoving = false
 var menuVisible = true
 console.log(pageYOffset)
 
-Transition.callback = function() {
-window.addEventListener('wheel', function(e) {
-    var lastKnownScrollY = 0;
-    var currentScrollY = e.deltaY;
-    var header = document.querySelector('.header')
-    
+function detectMouseWheelDirection( e )
+{
+    var delta = null,
+        direction = false
+    ;
+    if ( !e ) { // if the event is not provided, we get it from the window object
+        e = window.event;
+    }
+    if ( e.wheelDelta ) { // will work in most cases
+        delta = e.wheelDelta / 60;
+    } else if ( e.detail ) { // fallback for Firefox
+        delta = -e.detail / 2;
+    }
+    if ( delta !== null ) {
+        direction = delta > 0 ? 'up' : 'down';
+    }
 
-    if (isMoving) return;
-    // if (menuVisible) return;
-    if (e.deltaY < 0 && !menuVisible) {
+    return direction;
+}
+function handleMouseWheelDirection( direction )
+{
+    console.log( direction ); // see the direction in the console
+    if ( direction === 'down' && menuVisible) {
+        // do something, like show the next page
+        console.log('scrolling down');
+        Transition.headerUp = new S.Timeline()
+        const isObj3 = S.Is.object(Transition.headerUp)
+        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerUp.play({delay: 500})
+        menuVisible = false
+    } else if ( direction === 'up' && !menuVisible ) {
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         Transition.headerDown.play({delay: 500})
         menuVisible = true
-    } 
-    if (e.deltaY > 0 && menuVisible) {
-        console.log('scrolling down');
-        Transition.headerUp = new S.Timeline()
-        const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerUp.play({delay: 500})
-        console.log(currentScrollY)
-        menuVisible = false
+    } else if ( direction === 'down' && !menuVisible ) {
+        Transition.headerDown = new S.Timeline()
+        const isObj4 = S.Is.object(Transition.headerDown)
+        Transition.headerDown.from({el: '.h-txt-title', p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerDown.play({delay: 500})
+    } else {
+        // this means the direction of the mouse wheel could not be determined
     }
     navigateTo()
-    });
 }
+
 let st
 
 function navigateTo(){
@@ -68,6 +139,15 @@ function myStopFunction() {
 }
 
 myStopFunction()
+
+document.onmousewheel = function( e ) {
+    handleMouseWheelDirection( detectMouseWheelDirection( e ) );
+};
+if ( window.addEventListener ) {
+    document.addEventListener( 'DOMMouseScroll', function( e ) {
+        handleMouseWheelDirection( detectMouseWheelDirection( e ) );
+    });
+}
 
 // }
 

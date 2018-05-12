@@ -3022,10 +3022,11 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1;
   }
   
   #h-intro {
-    z-index: 20;
+    
     background-color: #1b1a25;
     background-image: url(static/media/img/home/intro/img.jpg);
     background-size: cover;

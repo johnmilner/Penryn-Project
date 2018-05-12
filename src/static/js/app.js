@@ -11128,44 +11128,62 @@ Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4I
 Transition.outro = new skylake.Timeline();
 var isObj2 = skylake.Is.object(Transition.outro);
 Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
-var isMoving = false;
 var menuVisible = true;
 console.log(pageYOffset);
 
-Transition.callback = function () {
-    window.addEventListener('wheel', function (e) {
-        var currentScrollY = e.deltaY;
-        var header = document.querySelector('.header');
+function detectMouseWheelDirection(e) {
+    var delta = null,
+        direction = false;
+    if (!e) {
+        // if the event is not provided, we get it from the window object
+        e = window.event;
+    }
+    if (e.wheelDelta) {
+        // will work in most cases
+        delta = e.wheelDelta / 60;
+    } else if (e.detail) {
+        // fallback for Firefox
+        delta = -e.detail / 2;
+    }
+    if (delta !== null) {
+        direction = delta > 0 ? 'up' : 'down';
+    }
 
-        if (isMoving) return;
-        // if (menuVisible) return;
-        if (e.deltaY < 0 && !menuVisible) {
-            console.log('scrolling up');
-            Transition.headerDown = new skylake.Timeline();
-            var isObj4 = skylake.Is.object(Transition.headerDown);
-            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.headerDown.play({ delay: 500 });
-            menuVisible = true;
-        }
-        if (e.deltaY > 0 && menuVisible) {
-            console.log('scrolling down');
-            Transition.headerUp = new skylake.Timeline();
-            var isObj3 = skylake.Is.object(Transition.headerUp);
-            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-            Transition.headerUp.play({ delay: 500 });
-            console.log(currentScrollY);
-            menuVisible = false;
-        }
-        navigateTo();
-    });
-};
+    return direction;
+}
+function handleMouseWheelDirection(direction) {
+    console.log(direction); // see the direction in the console
+    if (direction === 'down' && menuVisible) {
+        // do something, like show the next page
+        console.log('scrolling down');
+        Transition.headerUp = new skylake.Timeline();
+        var isObj3 = skylake.Is.object(Transition.headerUp);
+        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerUp.play({ delay: 500 });
+        menuVisible = false;
+    } else if (direction === 'up' && !menuVisible) {
+        console.log('scrolling up');
+        Transition.headerDown = new skylake.Timeline();
+        var isObj4 = skylake.Is.object(Transition.headerDown);
+        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.play({ delay: 500 });
+        menuVisible = true;
+    } else if (direction === 'down' && !menuVisible) {
+        Transition.headerDown = new skylake.Timeline();
+        var _isObj = skylake.Is.object(Transition.headerDown);
+        Transition.headerDown.from({ el: '.h-txt-title', p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.play({ delay: 500 });
+    } else {
+        // this means the direction of the mouse wheel could not be determined
+    }
+    navigateTo();
+}
+
 var st = void 0;
 
 function navigateTo() {
-    isMoving = true;
     // currentScrollY = pageYOffset
     var st = setTimeout(function () {
-        isMoving = false;
     }, 2000);
 }
 
@@ -11174,6 +11192,15 @@ function myStopFunction() {
 }
 
 myStopFunction();
+
+document.onmousewheel = function (e) {
+    handleMouseWheelDirection(detectMouseWheelDirection(e));
+};
+if (window.addEventListener) {
+    document.addEventListener('DOMMouseScroll', function (e) {
+        handleMouseWheelDirection(detectMouseWheelDirection(e));
+    });
+}
 
 // }
 
@@ -11537,7 +11564,7 @@ var HomeController = function (_Listeners) {
     createClass(HomeController, [{
         key: 'preload',
         value: function preload(opts) {
-            Transition.callback();
+            // Transition.callback()
             Transition.outro.play();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })

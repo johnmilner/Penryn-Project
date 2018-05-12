@@ -52,7 +52,7 @@ class HomeController extends Listeners {
     }
 
     preload (opts) {
-        Transition.callback()
+        // Transition.callback()
         Transition.outro.play()
         console.log('Transition.outro from HomeController')
         Listeners.prototype.add({cb:
