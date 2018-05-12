@@ -131,8 +131,12 @@ function handleMouseWheelDirection( direction )
     } else if ( direction === 'down' && !menuVisible ) {
 
         console.log('hello from mouse down else if')
+        var active = false;
+        function tickForward() {
+            if (!active) {
+                active = true;
 
-            // Array.prototype.forEach.call(text, function(elements, index) {
+        // your function code goes here
                 var divs = document.querySelectorAll('.h-txt-title')
 
                 for (let i = 0; i < divs.length; i++) {
@@ -145,8 +149,16 @@ function handleMouseWheelDirection( direction )
                     console.log('for loop through h-txt-title')
                     console.log(divs[i])
                 }
-            // });
+        // remember to change active to false once you're done
+                    active = false;
+                } else {
+                    // if you want to skip if active = true you don't need this else
+                    // if you want to call your method later use something like this
+                    setTimeout(tickForward, 1000);
+                }
+            }
  
+        
     }
 
      else {

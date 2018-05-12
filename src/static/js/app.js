@@ -11187,24 +11187,9 @@ function handleMouseWheelDirection(direction) {
     } else if (direction === 'down' && !menuVisible) {
 
         console.log('hello from mouse down else if');
-
-        // Array.prototype.forEach.call(text, function(elements, index) {
-        var divs = document.querySelectorAll('.h-txt-title');
-
-        for (var i = 0; i < divs.length; i++) {
-            // let divAni = divs.length
-            Transition.textIn = new skylake.Timeline();
-            var isObj5 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: divs[i], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-            // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-            Transition.textIn.play({ delay: 500 });
-            console.log('for loop through h-txt-title');
-            console.log(divs[i]);
-        }
-        // });
     } else {
-            // this means the direction of the mouse wheel could not be determined
-        }
+        // this means the direction of the mouse wheel could not be determined
+    }
     navigateTo();
 }
 
