@@ -94,6 +94,22 @@ function detectMouseWheelDirection( e )
 
     return direction;
 }
+
+// function toggle() {
+//     var elements = document.querySelectorAll('h-txt-title'), i;
+
+//     for (i = 0; i < elements.length; i++) {
+//         //divs[i].style.color = "green";
+//         console.log('looping through h-txt-title')
+//         Transition.textIn = new S.Timeline()
+//         const isObj5 = S.Is.object(Transition.textIn)
+//         // Transition.textIn.from({el: elements[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+//         Transition.textIn.from(elements[i], "3dy", 100, 0, 500, "Power4Out")
+//         Transition.textIn.play({delay: 500})
+//     }
+    
+// }
+
 function handleMouseWheelDirection( direction )
 {
     console.log( direction ); // see the direction in the console
@@ -114,12 +130,26 @@ function handleMouseWheelDirection( direction )
         menuVisible = true
     } else if ( direction === 'down' && !menuVisible ) {
 
-        var txt = S.Geb.class("h-txt-title")[0]
-        Transition.headerDown = new S.Timeline()
-        const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: txt, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerDown.play({delay: 500})
-    } else {
+        console.log('hello from mouse down else if')
+
+            // Array.prototype.forEach.call(text, function(elements, index) {
+                var divs = document.querySelectorAll('.h-txt-title')
+
+                for (let i = 0; i < divs.length; i++) {
+                    // let divAni = divs.length
+                    Transition.textIn = new S.Timeline()
+                    const isObj5 = S.Is.object(Transition.textIn)
+                    Transition.textIn.from({el: divs[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                    // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+                    Transition.textIn.play({delay: 500})
+                    console.log('for loop through h-txt-title')
+                    console.log(divs[i])
+                }
+            // });
+ 
+    }
+
+     else {
         // this means the direction of the mouse wheel could not be determined
     }
     navigateTo()
@@ -132,7 +162,9 @@ function navigateTo(){
     //menuVisible ? false : true
     // currentScrollY = pageYOffset
     let st = setTimeout(function() {
+
     isMoving = false;
+
     }, 2000);
 }
 
