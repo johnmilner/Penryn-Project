@@ -11169,9 +11169,11 @@ function handleMouseWheelDirection(direction) {
         Transition.headerDown.play({ delay: 500 });
         menuVisible = true;
     } else if (direction === 'down' && !menuVisible) {
+
+        var txt = skylake.Geb.class("h-txt-title")[0];
         Transition.headerDown = new skylake.Timeline();
         var _isObj = skylake.Is.object(Transition.headerDown);
-        Transition.headerDown.from({ el: '.h-txt-title', p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.from({ el: txt, p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
         Transition.headerDown.play({ delay: 500 });
     } else {
         // this means the direction of the mouse wheel could not be determined
@@ -11182,6 +11184,7 @@ function handleMouseWheelDirection(direction) {
 var st = void 0;
 
 function navigateTo() {
+    //menuVisible ? false : true
     // currentScrollY = pageYOffset
     var st = setTimeout(function () {
     }, 2000);
