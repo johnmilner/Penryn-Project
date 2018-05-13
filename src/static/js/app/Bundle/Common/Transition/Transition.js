@@ -95,23 +95,9 @@ function detectMouseWheelDirection( e )
     return direction;
 }
 
-// function toggle() {
-//     var elements = document.querySelectorAll('h-txt-title'), i;
+function handleMouseWheelDirection( direction ) {
 
-//     for (i = 0; i < elements.length; i++) {
-//         //divs[i].style.color = "green";
-//         console.log('looping through h-txt-title')
-//         Transition.textIn = new S.Timeline()
-//         const isObj5 = S.Is.object(Transition.textIn)
-//         // Transition.textIn.from({el: elements[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-//         Transition.textIn.from(elements[i], "3dy", 100, 0, 500, "Power4Out")
-//         Transition.textIn.play({delay: 500})
-//     }
-    
-// }
-
-function handleMouseWheelDirection( direction )
-{
+        // var divsL = divs.length 
     console.log( direction ); // see the direction in the console
     if ( direction === 'down' && menuVisible) {
         // do something, like show the next page
@@ -122,42 +108,69 @@ function handleMouseWheelDirection( direction )
         Transition.headerUp.play({delay: 500})
         menuVisible = false
     } else if ( direction === 'up' && !menuVisible ) {
+
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         Transition.headerDown.play({delay: 500})
         menuVisible = true
+
     } else if ( direction === 'down' && !menuVisible ) {
+        
+       // var divs = document.querySelectorAll('.h-txt-title')
+        
+        document.addEventListener("wheel", ColorLi);
 
-        console.log('hello from mouse down else if')
-        var active = false;
-        function tickForward() {
-            if (!active) {
-                active = true;
-
-        // your function code goes here
-                var divs = document.querySelectorAll('.h-txt-title')
-
-                for (let i = 0; i < divs.length; i++) {
-                    // let divAni = divs.length
+        function ColorLi(e) {
+            // let i = 0
+            //let divs = [].slice.call(document.querySelectorAll(".h-txt-title"))
+            const divs = [...document.querySelectorAll(".h-txt-title")];
+            let length = divs.length
+            console.log(divs)
+            //reset colors
+            
+            //calculate index
+            if(e.wheelDelta < 0) {
+                
+                for(var j = 0; j < length; j++) {
                     Transition.textIn = new S.Timeline()
                     const isObj5 = S.Is.object(Transition.textIn)
-                    Transition.textIn.from({el: divs[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                    console.log(divs[j])
+                    Transition.textIn.from({el: divs[j], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
                     // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
                     Transition.textIn.play({delay: 500})
+                    break; 
+                }
+                i++
+                j++
+                console.log(i)
+                console.log(j)
+            }
+            else {
+                for(var i = 0; i < length; i++) {
+                    Transition.textOut = new S.Timeline()
+                    const isObj6 = S.Is.object(Transition.textOut)
+                    Transition.textOut.from({el: divs[i], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                    // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+                    Transition.textOut.play({delay: 500})
                     console.log('for loop through h-txt-title')
                     console.log(divs[i])
+                    console.log(i)
+                    console.log(j)
+                   
                 }
-        // remember to change active to false once you're done
-                    active = false;
-                } else {
-                    // if you want to skip if active = true you don't need this else
-                    // if you want to call your method later use something like this
-                    setTimeout(tickForward, 1000);
-                }
+                i--
+                j--
             }
- 
+            //fix index out of range
+            i = i < 0 ? 0 : i;
+            i = i > length-1 ? length-1 : i;
+            //set outro transition
+            
+            
+        }
+
         
     }
 
