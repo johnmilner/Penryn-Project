@@ -11173,55 +11173,116 @@ function handleMouseWheelDirection(direction) {
         Transition.headerDown.play({ delay: 500 });
         menuVisible = true;
     } else if (direction === 'down' && !menuVisible) {
-        var ColorLi = function ColorLi(e) {
-            // let i = 0
-            //let divs = [].slice.call(document.querySelectorAll(".h-txt-title"))
-            // const divs = [...document.querySelectorAll(".h-txt-title")];
-            var divs = document.querySelectorAll('.h-txt-title');
-            var length = divs.length;
-            // console.log(divs)
+        // const divs = [...document.querySelectorAll(".h-txt-title")];
+        //const divs = document.querySelectorAll('.h-txt-title')
+        // let length = divs.length
+        // console.log(divs)
 
-            Array.prototype.forEach.call(divs, function (child) {
-                if (e.wheelDelta < 0) {
-                    Transition.textIn = new skylake.Timeline();
-                    var isObj5 = skylake.Is.object(Transition.textIn);
-                    Transition.textIn.from({ el: child, p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textIn.play({ delay: 500 });
-                } else if (e.wheelDelta > 0) {
-                    Transition.textOut = new skylake.Timeline();
-                    var isObj6 = skylake.Is.object(Transition.textOut);
-                    Transition.textOut.from({ el: child, p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-                    // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-                    Transition.textOut.play({ delay: 500 });
-                }
-            });
-
-            // var boxArray = []; 
-            // let i = 0
-
-            // $('.h-txt-title').toArray().map((x, y, z) => {
-            // if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
-            // });
-
-            // boxArray.forEach(box => {
-            // if (e.wheelDelta < 0 ) {
-            //         Transition.textIn = new S.Timeline()
-            //         const isObj5 = S.Is.object(Transition.textIn)
-            //         Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            //         Transition.textIn.play({delay: 500})
-            // } else if ( e.wheelDelta > 0 ) {
-            //         Transition.textOut = new S.Timeline()
-            //         const isObj6 = S.Is.object(Transition.textOut)
-            //         Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-            //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-            //         Transition.textOut.play({delay: 500})
-
-            // }
-            // });
-
+        var nextItem = function nextItem() {
+            i = i + 1; // increase i by one
+            i = i % arr.length; // if we've gone too high, start from `0` again
+            return arr[i]; // give us back the item of where we are now
         };
 
-        document.addEventListener("wheel", ColorLi);
+        var prevItem = function prevItem() {
+            if (i === 0) {
+                // i would become 0
+                i = arr.length; // so put it at the other end of the array
+            }
+            i = i - 1; // decrease by one
+            return arr[i]; // give us back the item of where we are now
+        };
+
+        //document.addEventListener("wheel", ColorLi);
+
+        //function ColorLi(e) {
+        // let i = 0
+        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        var i = 0;
+        document.querySelectorAll('.h-txt-title').textContent = arr[0];
+
+        document.addEventListener('wheel', function (e) {
+            if (e.wheelDelta < 0) {
+                console.log('scrolling down - nextItem');
+                document.querySelector('.h-txt-title').textContent = nextItem();
+                Transition.textIn = new skylake.Timeline();
+                var isObj5 = skylake.Is.object(Transition.textIn);
+                Transition.textIn.from({ el: arr[i], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn.play({ delay: 500 });
+            }
+        });
+
+        document.addEventListener('wheel', function (e) {
+            if (e.wheelDelta > 0) {
+                console.log('scrolling up - prevItem');
+                document.querySelector('.h-txt-title').textContent = prevItem();
+                Transition.textOut = new skylake.Timeline();
+                var isObj6 = skylake.Is.object(Transition.textOut);
+                Transition.textOut.from({ el: arr[i], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut.play({ delay: 500 });
+            }
+        });
+
+        //     var slides = document.getElementsByClassName("h-txt-title");
+        //     Array.prototype.forEach.call(slides, function(slide, index) {
+        //         //Distribute(slides.item(index));
+        //     if (e.wheelDelta < 0 ) {
+        //             Transition.textIn = new S.Timeline()
+        //             const isObj5 = S.Is.object(Transition.textIn)
+        //             Transition.textIn.from({el: slides.item(index), p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //             Transition.textIn.play({delay: 500})
+        //     } else if ( e.wheelDelta > 0 ) {
+        //             Transition.textOut = new S.Timeline()
+        //             const isObj6 = S.Is.object(Transition.textOut)
+        //             Transition.textOut.from({el: slides.item(index), p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        //             // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+        //             Transition.textOut.play({delay: 500})
+
+        //     // }
+        //     }
+        // })
+
+        // Array.prototype.forEach.call(divs, function(child) {
+        //     if (e.wheelDelta < 0 ) {
+        //         Transition.textIn = new S.Timeline()
+        //         const isObj5 = S.Is.object(Transition.textIn)
+        //         Transition.textIn.from({el: child, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //         Transition.textIn.play({delay: 500})
+        // } else if ( e.wheelDelta > 0 ) {
+        //         Transition.textOut = new S.Timeline()
+        //         const isObj6 = S.Is.object(Transition.textOut)
+        //         Transition.textOut.from({el: child, p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+        //         Transition.textOut.play({delay: 500})
+
+        // }
+        // });
+
+        // var boxArray = []; 
+        // let i = 0
+
+        // $('.h-txt-title').toArray().map((x, y, z) => {
+        // if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
+        // });
+
+        // boxArray.forEach(box => {
+        // if (e.wheelDelta < 0 ) {
+        //         Transition.textIn = new S.Timeline()
+        //         const isObj5 = S.Is.object(Transition.textIn)
+        //         Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //         Transition.textIn.play({delay: 500})
+        // } else if ( e.wheelDelta > 0 ) {
+        //         Transition.textOut = new S.Timeline()
+        //         const isObj6 = S.Is.object(Transition.textOut)
+        //         Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+        //         Transition.textOut.play({delay: 500})
+
+        // }
+        // });
+
+
+        // }
     } else {
             // this means the direction of the mouse wheel could not be determined
         }
