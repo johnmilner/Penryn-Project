@@ -117,9 +117,7 @@ function handleMouseWheelDirection( direction ) {
         menuVisible = true
 
     } else if ( direction === 'down' && !menuVisible ) {
-        
-       // var divs = document.querySelectorAll('.h-txt-title')
-        
+                
         document.addEventListener("wheel", ColorLi);
 
         function ColorLi(e) {
@@ -127,46 +125,30 @@ function handleMouseWheelDirection( direction ) {
             //let divs = [].slice.call(document.querySelectorAll(".h-txt-title"))
             const divs = [...document.querySelectorAll(".h-txt-title")];
             let length = divs.length
-            console.log(divs)
-            //reset colors
-            
-            //calculate index
-            if(e.wheelDelta < 0) {
-                
-                for(var j = 0; j < length; j++) {
+            // console.log(divs)
+
+            var boxArray = []; 
+            let i = 0
+
+            $('.h-txt-title').toArray().map((x, y, z) => {
+            if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
+            });
+
+            boxArray.forEach(box => {
+            if (e.wheelDelta < 0 ) {
                     Transition.textIn = new S.Timeline()
                     const isObj5 = S.Is.object(Transition.textIn)
-                    console.log(divs[j])
-                    Transition.textIn.from({el: divs[j], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                    // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+                    Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
                     Transition.textIn.play({delay: 500})
-                    break; 
-                }
-                i++
-                j++
-                console.log(i)
-                console.log(j)
-            }
-            else {
-                for(var i = 0; i < length; i++) {
+            } else if ( e.wheelDelta > 0 ) {
                     Transition.textOut = new S.Timeline()
                     const isObj6 = S.Is.object(Transition.textOut)
-                    Transition.textOut.from({el: divs[i], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                    Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
                     // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
                     Transition.textOut.play({delay: 500})
-                    console.log('for loop through h-txt-title')
-                    console.log(divs[i])
-                    console.log(i)
-                    console.log(j)
-                   
-                }
-                i--
-                j--
+
             }
-            //fix index out of range
-            i = i < 0 ? 0 : i;
-            i = i > length-1 ? length-1 : i;
-            //set outro transition
+            });
             
             
         }
