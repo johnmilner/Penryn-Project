@@ -124,7 +124,7 @@ function handleMouseWheelDirection( direction ) {
             // let i = 0
             let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
             let i = 0
-            document.querySelectorAll('.h-txt-title').textContent = arr[0]
+            // document.querySelectorAll('.h-txt-title').textContent = arr[i]
             // const divs = [...document.querySelectorAll(".h-txt-title")];
             //const divs = document.querySelectorAll('.h-txt-title')
             // let length = divs.length
@@ -149,10 +149,11 @@ function handleMouseWheelDirection( direction ) {
             document.addEventListener('wheel', function (e) {
                     if (e.wheelDelta < 0 ) {
                         console.log('scrolling down - nextItem')
-                        document.querySelector('.h-txt-title').textContent = nextItem()
+                        nextItem()
+                        let val = nextItem()
                         Transition.textIn = new S.Timeline()
                         const isObj5 = S.Is.object(Transition.textIn)
-                        Transition.textIn.from({el: arr[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                        Transition.textIn.from({el: val, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
                         Transition.textIn.play({delay: 500})
                     }
                     
@@ -162,10 +163,11 @@ function handleMouseWheelDirection( direction ) {
             document.addEventListener('wheel', function (e) {
                 if (e.wheelDelta > 0 ) {
                     console.log('scrolling up - prevItem')
-                    document.querySelector('.h-txt-title').textContent = prevItem()
+                    prevItem()
+                    let val2 = prevItem()
                     Transition.textOut = new S.Timeline()
                     const isObj6 = S.Is.object(Transition.textOut)
-                    Transition.textOut.from({el: arr[i], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                    Transition.textOut.from({el: val2, p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
                     Transition.textOut.play({delay: 500})
                 
                 }

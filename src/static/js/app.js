@@ -11173,6 +11173,7 @@ function handleMouseWheelDirection(direction) {
         Transition.headerDown.play({ delay: 500 });
         menuVisible = true;
     } else if (direction === 'down' && !menuVisible) {
+        // document.querySelectorAll('.h-txt-title').textContent = arr[i]
         // const divs = [...document.querySelectorAll(".h-txt-title")];
         //const divs = document.querySelectorAll('.h-txt-title')
         // let length = divs.length
@@ -11199,15 +11200,15 @@ function handleMouseWheelDirection(direction) {
         // let i = 0
         var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
         var i = 0;
-        document.querySelectorAll('.h-txt-title').textContent = arr[0];
 
         document.addEventListener('wheel', function (e) {
             if (e.wheelDelta < 0) {
                 console.log('scrolling down - nextItem');
-                document.querySelector('.h-txt-title').textContent = nextItem();
+                nextItem();
+                var val = nextItem();
                 Transition.textIn = new skylake.Timeline();
                 var isObj5 = skylake.Is.object(Transition.textIn);
-                Transition.textIn.from({ el: arr[i], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn.from({ el: val, p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                 Transition.textIn.play({ delay: 500 });
             }
         });
@@ -11215,10 +11216,11 @@ function handleMouseWheelDirection(direction) {
         document.addEventListener('wheel', function (e) {
             if (e.wheelDelta > 0) {
                 console.log('scrolling up - prevItem');
-                document.querySelector('.h-txt-title').textContent = prevItem();
+                prevItem();
+                var val2 = prevItem();
                 Transition.textOut = new skylake.Timeline();
                 var isObj6 = skylake.Is.object(Transition.textOut);
-                Transition.textOut.from({ el: arr[i], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut.from({ el: val2, p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
                 Transition.textOut.play({ delay: 500 });
             }
         });
