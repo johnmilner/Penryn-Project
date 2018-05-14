@@ -11180,17 +11180,17 @@ function handleMouseWheelDirection(direction) {
         // console.log(divs)
 
         var nextItem = function nextItem() {
-            i = i + 1; // increase i by one
-            i = i % arr.length; // if we've gone too high, start from `0` again
+            //scrollCount++;
+            i += 1;
+
+            // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
             return arr[i]; // give us back the item of where we are now
         };
 
         var prevItem = function prevItem() {
-            if (i === 0) {
-                // i would become 0
-                i = arr.length; // so put it at the other end of the array
-            }
-            i = i - 1; // decrease by one
+            //scrollCount--;
+            i -= 1;
+            //scrollCounter = arr[i] // decrease by one
             return arr[i]; // give us back the item of where we are now
         };
 
@@ -11200,27 +11200,31 @@ function handleMouseWheelDirection(direction) {
         // let i = 0
         var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
         var i = 0;
+        var scrollCount = false;
 
         document.addEventListener('wheel', function (e) {
-            if (e.wheelDelta < 0) {
+            if (e.wheelDelta < 0 && !scrollCount) {
+
                 console.log('scrolling down - nextItem');
-                nextItem();
                 var val = nextItem();
+
                 Transition.textIn = new skylake.Timeline();
                 var isObj5 = skylake.Is.object(Transition.textIn);
-                Transition.textIn.from({ el: val, p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn.from({ el: arr[i], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                 Transition.textIn.play({ delay: 500 });
             }
+            //scrollCount = true
         });
 
         document.addEventListener('wheel', function (e) {
-            if (e.wheelDelta > 0) {
+            if (e.wheelDelta > 0 && !scrollCount) {
+
                 console.log('scrolling up - prevItem');
-                prevItem();
                 var val2 = prevItem();
+
                 Transition.textOut = new skylake.Timeline();
                 var isObj6 = skylake.Is.object(Transition.textOut);
-                Transition.textOut.from({ el: val2, p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut.from({ el: arr[i], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
                 Transition.textOut.play({ delay: 500 });
             }
         });
