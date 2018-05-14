@@ -123,41 +123,98 @@ function handleMouseWheelDirection( direction ) {
         //function ColorLi(e) {
             // let i = 0
             let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-            let i = 0
-            var scrollCount = false            
+            // let len = arr.length;
+            // let index = 0
+            var scrollCount = 1
+            const length = arr.length
+            let titleVis = false
+            // var current=arr[i];
+           
             // document.querySelectorAll('.h-txt-title').textContent = arr[i]
             // const divs = [...document.querySelectorAll(".h-txt-title")];
             //const divs = document.querySelectorAll('.h-txt-title')
             // let length = divs.length
             // console.log(divs)
 
-            function nextItem() {
-                //scrollCount++;
-                i += 1
+            // function nextItem() {
+            //     // scrollCount++;
+            //     //i += 1
+            //     var next=arr[(i+1)%len];
 
-                // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
-                return arr[i]; // give us back the item of where we are now
+            //     // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
+            //     return next; // give us back the item of where we are now
            
+            // }
+
+            // function prevItem() {
+            //     // scrollCount--;
+            //     //i -= 1 
+            //     var prev=arr[(i+len-1)%len];
+
+            //     //scrollCounter = arr[i] // decrease by one
+            //     return prev; // give us back the item of where we are now
+
+            // }
+
+            // let getNextIndex = () => {
+            //     if (nextIndex === arr.length || index === 0) {
+            //        return 0;
+            //     } else {
+            //        var nextIndex = index++;
+            //        return nextIndex;
+            //     }
+            // }
+            // let getPreviousIndex = () => {
+            //     var previousIndex = index - 1;
+            //     if (previousIndex === -1) {
+            //        return arr.length - 1;
+            //     } else {
+            //          return previousIndex;
+            //     }
+            // }
+
+            const getNextIdx = (idx = 0, length, direction) => {
+                switch (direction) {
+                  case 'next': return (idx + 1) % length;
+                  case 'prev': return (idx == 0) && length - 1 || idx - 1;
+                  default:     return idx;
+                }
+             }
+
+            let updateViewIn = (idx) => {
+                titleVis = true
+                Transition.textIn = new S.Timeline()
+                const isObj5 = S.Is.object(Transition.textIn)
+                Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                Transition.textIn.play({delay: 500})
             }
 
-            function prevItem() {
-                //scrollCount--;
-                i -= 1 
-                //scrollCounter = arr[i] // decrease by one
-                return arr[i]; // give us back the item of where we are now
-
+            let updateViewOut = (idx) => {
+                titleVis = false
+                Transition.textIn = new S.Timeline()
+                const isObj5 = S.Is.object(Transition.textIn)
+                Transition.textIn.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                Transition.textIn.play({delay: 500})
             }
+
+            let idx; // idx is undefined, so getNextIdx will take 0 as default
+             const getNewIndexAndRender = (direction) => {
+                idx = getNextIdx(idx, length, direction);
+                //result.innerHTML = messages[idx]
+                !titleVis ? updateViewIn(idx) : updateViewOut(idx)
+             }
 
             document.addEventListener('wheel', function (e) {
-                    if (e.wheelDelta < 0 && !scrollCount) {
+                    if (e.wheelDelta < 0) {
+                        //scrollCount++;
+                        // console.log('scrolling down - nextItem')
+                        // let val = nextItem()
+
+                        //let idx = getNextIndex();
+                        // getNextIdx()
+                        // updateViewIn(idx)
+                        getNewIndexAndRender('next')
                         
-                        console.log('scrolling down - nextItem')
-                        let val = nextItem()
-                        
-                        Transition.textIn = new S.Timeline()
-                        const isObj5 = S.Is.object(Transition.textIn)
-                        Transition.textIn.from({el: arr[i], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                        Transition.textIn.play({delay: 500})
                     }
                     //scrollCount = true
 
@@ -165,15 +222,15 @@ function handleMouseWheelDirection( direction ) {
             );
             
             document.addEventListener('wheel', function (e) {
-                if (e.wheelDelta > 0 && !scrollCount) {
+                if (e.wheelDelta > 0) {
+                    //scrollCount--;
+                    // console.log('scrolling up - prevItem')
+                    // let val2 = prevItem()
 
-                    console.log('scrolling up - prevItem')
-                    let val2 = prevItem()
-
-                    Transition.textOut = new S.Timeline()
-                    const isObj6 = S.Is.object(Transition.textOut)
-                    Transition.textOut.from({el: arr[i], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-                    Transition.textOut.play({delay: 500})
+                    //let idx = getPreviousIndex();
+                    // getNextIdx()
+                    // updateViewOut(idx)
+                    getNewIndexAndRender('prev')
 
                 }
              }

@@ -11173,59 +11173,121 @@ function handleMouseWheelDirection(direction) {
         Transition.headerDown.play({ delay: 500 });
         menuVisible = true;
     } else if (direction === 'down' && !menuVisible) {
-        // document.querySelectorAll('.h-txt-title').textContent = arr[i]
-        // const divs = [...document.querySelectorAll(".h-txt-title")];
-        //const divs = document.querySelectorAll('.h-txt-title')
-        // let length = divs.length
-        // console.log(divs)
-
-        var nextItem = function nextItem() {
-            //scrollCount++;
-            i += 1;
-
-            // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
-            return arr[i]; // give us back the item of where we are now
-        };
-
-        var prevItem = function prevItem() {
-            //scrollCount--;
-            i -= 1;
-            //scrollCounter = arr[i] // decrease by one
-            return arr[i]; // give us back the item of where we are now
-        };
 
         //document.addEventListener("wheel", ColorLi);
 
         //function ColorLi(e) {
         // let i = 0
         var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-        var i = 0;
-        var scrollCount = false;
+        var length = arr.length;
+        var titleVis = false;
+        // var current=arr[i];
+
+        // document.querySelectorAll('.h-txt-title').textContent = arr[i]
+        // const divs = [...document.querySelectorAll(".h-txt-title")];
+        //const divs = document.querySelectorAll('.h-txt-title')
+        // let length = divs.length
+        // console.log(divs)
+
+        // function nextItem() {
+        //     // scrollCount++;
+        //     //i += 1
+        //     var next=arr[(i+1)%len];
+
+        //     // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
+        //     return next; // give us back the item of where we are now
+
+        // }
+
+        // function prevItem() {
+        //     // scrollCount--;
+        //     //i -= 1 
+        //     var prev=arr[(i+len-1)%len];
+
+        //     //scrollCounter = arr[i] // decrease by one
+        //     return prev; // give us back the item of where we are now
+
+        // }
+
+        // let getNextIndex = () => {
+        //     if (nextIndex === arr.length || index === 0) {
+        //        return 0;
+        //     } else {
+        //        var nextIndex = index++;
+        //        return nextIndex;
+        //     }
+        // }
+        // let getPreviousIndex = () => {
+        //     var previousIndex = index - 1;
+        //     if (previousIndex === -1) {
+        //        return arr.length - 1;
+        //     } else {
+        //          return previousIndex;
+        //     }
+        // }
+
+        var getNextIdx = function getNextIdx() {
+            var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var length = arguments[1];
+            var direction = arguments[2];
+
+            switch (direction) {
+                case 'next':
+                    return (idx + 1) % length;
+                case 'prev':
+                    return idx == 0 && length - 1 || idx - 1;
+                default:
+                    return idx;
+            }
+        };
+
+        var updateViewIn = function updateViewIn(idx) {
+            titleVis = true;
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
+        };
+
+        var updateViewOut = function updateViewOut(idx) {
+            titleVis = false;
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
+        };
+
+        var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
+        var getNewIndexAndRender = function getNewIndexAndRender(direction) {
+            idx = getNextIdx(idx, length, direction);
+            //result.innerHTML = messages[idx]
+            !titleVis ? updateViewIn(idx) : updateViewOut(idx);
+        };
 
         document.addEventListener('wheel', function (e) {
-            if (e.wheelDelta < 0 && !scrollCount) {
+            if (e.wheelDelta < 0) {
+                //scrollCount++;
+                // console.log('scrolling down - nextItem')
+                // let val = nextItem()
 
-                console.log('scrolling down - nextItem');
-                var val = nextItem();
-
-                Transition.textIn = new skylake.Timeline();
-                var isObj5 = skylake.Is.object(Transition.textIn);
-                Transition.textIn.from({ el: arr[i], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textIn.play({ delay: 500 });
+                //let idx = getNextIndex();
+                // getNextIdx()
+                // updateViewIn(idx)
+                getNewIndexAndRender('next');
             }
             //scrollCount = true
         });
 
         document.addEventListener('wheel', function (e) {
-            if (e.wheelDelta > 0 && !scrollCount) {
+            if (e.wheelDelta > 0) {
+                //scrollCount--;
+                // console.log('scrolling up - prevItem')
+                // let val2 = prevItem()
 
-                console.log('scrolling up - prevItem');
-                var val2 = prevItem();
-
-                Transition.textOut = new skylake.Timeline();
-                var isObj6 = skylake.Is.object(Transition.textOut);
-                Transition.textOut.from({ el: arr[i], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut.play({ delay: 500 });
+                //let idx = getPreviousIndex();
+                // getNextIdx()
+                // updateViewOut(idx)
+                getNewIndexAndRender('prev');
             }
         });
 
