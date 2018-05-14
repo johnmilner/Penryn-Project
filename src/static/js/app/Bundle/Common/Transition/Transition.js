@@ -123,32 +123,49 @@ function handleMouseWheelDirection( direction ) {
         function ColorLi(e) {
             // let i = 0
             //let divs = [].slice.call(document.querySelectorAll(".h-txt-title"))
-            const divs = [...document.querySelectorAll(".h-txt-title")];
+            // const divs = [...document.querySelectorAll(".h-txt-title")];
+            const divs = document.querySelectorAll('.h-txt-title')
             let length = divs.length
             // console.log(divs)
 
-            var boxArray = []; 
-            let i = 0
-
-            $('.h-txt-title').toArray().map((x, y, z) => {
-            if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
-            });
-
-            boxArray.forEach(box => {
-            if (e.wheelDelta < 0 ) {
+            Array.prototype.forEach.call(divs, function(child) {
+                if (e.wheelDelta < 0 ) {
                     Transition.textIn = new S.Timeline()
                     const isObj5 = S.Is.object(Transition.textIn)
-                    Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                    Transition.textIn.from({el: child, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
                     Transition.textIn.play({delay: 500})
             } else if ( e.wheelDelta > 0 ) {
                     Transition.textOut = new S.Timeline()
                     const isObj6 = S.Is.object(Transition.textOut)
-                    Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                    Transition.textOut.from({el: child, p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
                     // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
                     Transition.textOut.play({delay: 500})
 
             }
             });
+
+            // var boxArray = []; 
+            // let i = 0
+
+            // $('.h-txt-title').toArray().map((x, y, z) => {
+            // if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
+            // });
+
+            // boxArray.forEach(box => {
+            // if (e.wheelDelta < 0 ) {
+            //         Transition.textIn = new S.Timeline()
+            //         const isObj5 = S.Is.object(Transition.textIn)
+            //         Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            //         Transition.textIn.play({delay: 500})
+            // } else if ( e.wheelDelta > 0 ) {
+            //         Transition.textOut = new S.Timeline()
+            //         const isObj6 = S.Is.object(Transition.textOut)
+            //         Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+            //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
+            //         Transition.textOut.play({delay: 500})
+
+            // }
+            // });
             
             
         }
