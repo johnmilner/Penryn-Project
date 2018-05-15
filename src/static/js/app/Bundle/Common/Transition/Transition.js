@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import S from 'skylake'
-import jQuery from "jquery";
+import jQuery from "jquery"
 
 
 const Transition = {}
@@ -107,7 +107,7 @@ function handleMouseWheelDirection( direction ) {
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
         menuVisible = false
-    } else if ( direction === 'up' && !menuVisible ) {
+    } else if ( direction === 'up' && !menuVisible && !titleVis ) {
 
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
@@ -130,53 +130,10 @@ function handleMouseWheelDirection( direction ) {
             let titleVis = false
             // var current=arr[i];
            
-            // document.querySelectorAll('.h-txt-title').textContent = arr[i]
-            // const divs = [...document.querySelectorAll(".h-txt-title")];
-            //const divs = document.querySelectorAll('.h-txt-title')
-            // let length = divs.length
-            // console.log(divs)
-
-            // function nextItem() {
-            //     // scrollCount++;
-            //     //i += 1
-            //     var next=arr[(i+1)%len];
-
-            //     // scrollCounter = arr[i]// i = i % arr.length; // if we've gone too high, start from `0` again
-            //     return next; // give us back the item of where we are now
-           
-            // }
-
-            // function prevItem() {
-            //     // scrollCount--;
-            //     //i -= 1 
-            //     var prev=arr[(i+len-1)%len];
-
-            //     //scrollCounter = arr[i] // decrease by one
-            //     return prev; // give us back the item of where we are now
-
-            // }
-
-            // let getNextIndex = () => {
-            //     if (nextIndex === arr.length || index === 0) {
-            //        return 0;
-            //     } else {
-            //        var nextIndex = index++;
-            //        return nextIndex;
-            //     }
-            // }
-            // let getPreviousIndex = () => {
-            //     var previousIndex = index - 1;
-            //     if (previousIndex === -1) {
-            //        return arr.length - 1;
-            //     } else {
-            //          return previousIndex;
-            //     }
-            // }
-
             const getNextIdx = (idx = 0, length, direction) => {
                 switch (direction) {
-                  case 'next': return (idx + 1) % length;
-                  case 'prev': return (idx == 0) && length - 1 || idx - 1;
+                  case 'next': return (idx + 1); //% length
+                  case 'prev': return (idx - 1); //(idx === 0) && length - 1 || 
                   default:     return idx;
                 }
              }
@@ -200,42 +157,83 @@ function handleMouseWheelDirection( direction ) {
             let idx; // idx is undefined, so getNextIdx will take 0 as default
              const getNewIndexAndRender = (direction) => {
                 idx = getNextIdx(idx, length, direction);
-                //result.innerHTML = messages[idx]
                 !titleVis ? updateViewIn(idx) : updateViewOut(idx)
+                // result.innerHTML = messages[idx]
+
              }
 
-            document.addEventListener('wheel', function (e) {
-                    if (e.wheelDelta < 0) {
-                        //scrollCount++;
-                        // console.log('scrolling down - nextItem')
-                        // let val = nextItem()
+             // Returns a function, that, as long as it continues to be invoked, will not
+            // be triggered. The function will be called after it stops being called for
+            // N milliseconds. If `immediate` is passed, trigger the function on the
+            // leading edge, instead of the trailing.
+            function debounce(func, wait, immediate) {
+                var timeout;
+                return function() {
+                    var context = this, args = arguments;
+                    var later = function() {
+                        timeout = null;
+                        if (!immediate) func.apply(context, args);
+                    };
+                    var callNow = immediate && !timeout;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                    if (callNow) func.apply(context, args);
+                };
+};
 
-                        //let idx = getNextIndex();
-                        // getNextIdx()
-                        // updateViewIn(idx)
-                        getNewIndexAndRender('next')
+
+            // const next = document.addEventListener('wheel', function (e) {
+            //         if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
+            //             scrollCount++;
+            //             console.log('scrolling down - nextItem')
                         
-                    }
-                    //scrollCount = true
+            //             getNewIndexAndRender('next')
+                        
+            //         }
+            //         //scrollCount = true
 
-                }
-            );
+            //     }
+            // );
+
             
-            document.addEventListener('wheel', function (e) {
-                if (e.wheelDelta > 0) {
-                    //scrollCount--;
-                    // console.log('scrolling up - prevItem')
-                    // let val2 = prevItem()
+            // const prev = document.addEventListener('wheel', function (e) {
+            //     if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
+            //         scrollCount--;
+            //         console.log('scrolling up - prevItem')
+            //         // let val2 = prevItem()
 
-                    //let idx = getPreviousIndex();
-                    // getNextIdx()
-                    // updateViewOut(idx)
-                    getNewIndexAndRender('prev')
+            //         //let idx = getPreviousIndex();
+            //         // getNextIdx()
+            //         // updateViewOut(idx)
+            //         getNewIndexAndRender('prev')
 
+            //     }
+            //  }
+            // );
+
+            var next = debounce(function(e) {
+                // All the taxing stuff you do
+                if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
+                    scrollCount++;
+                    console.log('scrolling down - nextItem')
+                    
+                    getNewIndexAndRender('next')
+                    titleVis = true
                 }
-             }
-            );
+            }, 2250);
 
+            var prev = debounce(function(e) {
+                // All the taxing stuff you do
+                if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
+                    scrollCount--;
+                    console.log('scrolling up - prevItem')
+                    getNewIndexAndRender('prev')
+                    titleVis = true
+                }
+            }, 2250);
+            
+            window.addEventListener('wheel', next);
+            window.addEventListener('wheel', prev);
 
 
 
