@@ -70,7 +70,8 @@ Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOu
 // myStopFunction()
 
 var ticking = false
-var startScrollY = pageYOffset
+var header = document.querySelector('.header')
+var result = document.querySelector('.h-txt-title')
 var isMoving = false
 var menuVisible = true
 console.log(pageYOffset)
@@ -108,18 +109,22 @@ function handleMouseWheelDirection( direction ) {
         Transition.headerUp.play({delay: 500})
         menuVisible = false
 
+        var screenRelativeTop =  $(".header").offset().top - (window.scrollY || 
+            window.pageYOffset || document.body.scrollTop);
+        console.log(screenRelativeTop)
+
         let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        // let len = arr.length;
-        // let index = 0
-        var scrollCount = 1
+
+        var scrollCount = 0
         const length = arr.length
         let titleVis = false
-        // var current=arr[i];
         
         const getNextIdx = (idx = 0, length, direction) => {
             switch (direction) {
-                case 'next': return (idx + 1) % length;
-                case 'prev': return (idx == 0) && length - 1 || idx - 1;
+                case 'next': return idx === 0 ? idx + 1 : (idx + 1) % length;
+                case 'prev': return (idx === 3) && length - 1 || idx - 1;;
+                // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
+                // case 'prev': return (idx === 0) && length - 1 || idx - 1;
                 default:     return idx;
                 }
             }
@@ -144,7 +149,7 @@ function handleMouseWheelDirection( direction ) {
             const getNewIndexAndRender = (direction) => {
             idx = getNextIdx(idx, length, direction);
             !titleVis ? updateViewIn(idx) : updateViewOut(idx)
-            // result.innerHTML = messages[idx]
+            //result.innerHTML = arr[idx]
 
             }
 
@@ -152,7 +157,7 @@ function handleMouseWheelDirection( direction ) {
             getNewIndexAndRender('next')  
         }
 
-        sectionInit({delay: 2000})
+        sectionInit({delay: 3000})
 
             // Returns a function, that, as long as it continues to be invoked, will not
         // be triggered. The function will be called after it stops being called for
@@ -191,28 +196,28 @@ function handleMouseWheelDirection( direction ) {
 
         var next = debounce(function() {
             // All the taxing stuff you do
-            if (direction === 'down' && scrollCount < 4 && !menuVisible) {
+            if (direction === 'down' && scrollCount <= 4 && !menuVisible) {
                 scrollCount++;
                 console.log('scrolling down - nextItem')
                 getNewIndexAndRender('next')   
             }
-        }, 250);
+        }, 100);
 
         var prev = debounce(function() {
             // All the taxing stuff you do
-            if (direction === 'up' && scrollCount >= 1 && !menuVisible) {
+            if (direction === 'up' && scrollCount >= 0 && !menuVisible) {
                 scrollCount--;
                 console.log('scrolling up - prevItem')
                 getNewIndexAndRender('prev')
             }
-        }, 250);
+        }, 100);
         
         window.addEventListener('wheel', prev);
         window.addEventListener('wheel', next);
 
 
-    } else if ( direction === 'up' && !menuVisible && !titleVis ) {
-
+    } else if ( direction === 'up' && !menuVisible && screenRelativeTop < -100 ) {
+        
         console.log('scrolling up');
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
@@ -224,7 +229,7 @@ function handleMouseWheelDirection( direction ) {
      else {
         // this means the direction of the mouse wheel could not be determined
     }
-    navigateTo()
+    // navigateTo()
 }
 
 let st
