@@ -11278,7 +11278,7 @@ function handleMouseWheelDirection(direction) {
 
         window.addEventListener('wheel', prev);
         window.addEventListener('wheel', next);
-    } else if (direction === 'up' && !menuVisible) {
+    } else if (direction === 'up' && !menuVisible && screenRelativeTop < -100) {
 
         console.log('scrolling up');
         Transition.headerDown = new skylake.Timeline();
