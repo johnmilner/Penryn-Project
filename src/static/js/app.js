@@ -11156,30 +11156,83 @@ function detectMouseWheelDirection(e) {
 
 function handleMouseWheelDirection(direction) {
 
-    // var divsL = divs.length 
-    console.log(direction); // see the direction in the console
-    if (direction === 'down' && menuVisible) {
+    var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+    var length = arr.length;
+    var titleVis = false;
+    var currentStep = 0,
+        nextStep;
 
-        // Returns a function, that, as long as it continues to be invoked, will not
-        // be triggered. The function will be called after it stops being called for
-        // N milliseconds. If `immediate` is passed, trigger the function on the
-        // leading edge, instead of the trailing.
-        var debounce = function debounce(func, wait, immediate) {
-            var timeout;
-            return function () {
-                var context = this,
-                    args = arguments;
-                var later = function later() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                };
-                var callNow = immediate && !timeout;
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-                if (callNow) func.apply(context, args);
+    var getNextIdx = function getNextIdx() {
+        var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+        var length = arguments[1];
+        var direction = arguments[2];
+
+        switch (direction) {
+            case 'init':
+                return idx;
+            case 'next':
+                return (idx + 1) % length;
+            case 'prev':
+                return idx === 3 && length - 1 || idx - 1;
+            // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
+            // case 'prev': return (idx === 0) && length - 1 || idx - 1;
+            default:
+                return idx;
+        }
+    };
+
+    var updateViewIn = function updateViewIn(idx) {
+        titleVis = true;
+        Transition.textIn = new skylake.Timeline();
+        var isObj5 = skylake.Is.object(Transition.textIn);
+        Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.textIn.play({ delay: 500 });
+    };
+
+    var updateViewOut = function updateViewOut(idx) {
+        titleVis = false;
+        Transition.textIn = new skylake.Timeline();
+        var isObj5 = skylake.Is.object(Transition.textIn);
+        Transition.textIn.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textIn.play({ delay: 500 });
+    };
+
+    var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
+    var getNewIndexAndRender = function getNewIndexAndRender(direction) {
+        idx = getNextIdx(idx, length, direction);
+        !titleVis ? updateViewIn(idx) : updateViewOut(idx) ? idx : sectionInit();
+        //result.innerHTML = arr[idx]
+    };
+
+    var sectionInit = function sectionInit() {
+        getNewIndexAndRender('init');
+    };
+
+    // sectionInit({delay: 3000})
+
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this,
+                args = arguments;
+            var later = function later() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
             };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
         };
+    }
+    console.log(direction); // see the direction in the console
 
+    if (direction === 'down' && menuVisible) {
         // do something, like show the next page
         console.log('scrolling down');
         Transition.headerUp = new skylake.Timeline();
@@ -11191,57 +11244,6 @@ function handleMouseWheelDirection(direction) {
         var screenRelativeTop = $(".header").offset().top - (window.scrollY || window.pageYOffset || document.body.scrollTop);
         console.log(screenRelativeTop);
 
-        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-
-        var scrollCount = 0;
-        var length = arr.length;
-        var titleVis = false;
-
-        var getNextIdx = function getNextIdx() {
-            var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-            var length = arguments[1];
-            var direction = arguments[2];
-
-            switch (direction) {
-                case 'next':
-                    return idx === 0 ? idx + 1 : (idx + 1) % length;
-                case 'prev':
-                    return idx === 3 && length - 1 || idx - 1;
-                // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
-                // case 'prev': return (idx === 0) && length - 1 || idx - 1;
-                default:
-                    return idx;
-            }
-        };
-
-        var updateViewIn = function updateViewIn(idx) {
-            titleVis = true;
-            Transition.textIn = new skylake.Timeline();
-            var isObj5 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.textIn.play({ delay: 500 });
-        };
-
-        var updateViewOut = function updateViewOut(idx) {
-            titleVis = false;
-            Transition.textIn = new skylake.Timeline();
-            var isObj5 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-            Transition.textIn.play({ delay: 500 });
-        };
-
-        var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
-        var getNewIndexAndRender = function getNewIndexAndRender(direction) {
-            idx = getNextIdx(idx, length, direction);
-            !titleVis ? updateViewIn(idx) : updateViewOut(idx);
-            //result.innerHTML = arr[idx]
-        };
-
-        var sectionInit = function sectionInit() {
-            getNewIndexAndRender('next');
-        };
-
-        sectionInit({ delay: 3000 });
         // document.addEventListener('wheel', function (e) {
         //     if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
         //         scrollCount++;
@@ -11258,38 +11260,42 @@ function handleMouseWheelDirection(direction) {
         //         }
         // });
 
+
         var next = debounce(function () {
             // All the taxing stuff you do
-            if (direction === 'down' && scrollCount <= 4 && !menuVisible) {
-                scrollCount++;
+            nextStep = currentStep + 1;
+            if (direction === 'down' && nextStep < length) {
                 console.log('scrolling down - nextItem');
                 getNewIndexAndRender('next');
+                currentStep = nextStep;
             }
         }, 100);
+
+        window.addEventListener('wheel', next);
+    } else if (direction === 'up' && !menuVisible) {
 
         var prev = debounce(function () {
             // All the taxing stuff you do
-            if (direction === 'up' && scrollCount >= 0 && !menuVisible) {
-                scrollCount--;
-                console.log('scrolling up - prevItem');
-                getNewIndexAndRender('prev');
-            }
+            nextStep = currentStep - 1;
+            console.log('scrolling up - prevItem');
+            getNewIndexAndRender('prev');
+            currentStep = nextStep;
+            //}
         }, 100);
 
         window.addEventListener('wheel', prev);
-        window.addEventListener('wheel', next);
-    } else if (direction === 'up' && !menuVisible && screenRelativeTop < -100) {
 
-        console.log('scrolling up');
-        Transition.headerDown = new skylake.Timeline();
-        var isObj4 = skylake.Is.object(Transition.headerDown);
-        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerDown.play({ delay: 500 });
-        menuVisible = true;
+        // console.log('scrolling up');
+        // Transition.headerDown = new S.Timeline()
+        // const isObj4 = S.Is.object(Transition.headerDown)
+        // Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+        // Transition.headerDown.play({delay: 500})
+        // menuVisible = true
     } else {}
-    // this means the direction of the mouse wheel could not be determined
 
-    // navigateTo()
+        // this means the direction of the mouse wheel could not be determined
+
+        // navigateTo()
 }
 
 var st = void 0;
