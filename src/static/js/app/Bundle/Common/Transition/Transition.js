@@ -107,6 +107,110 @@ function handleMouseWheelDirection( direction ) {
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
         menuVisible = false
+
+        let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        // let len = arr.length;
+        // let index = 0
+        var scrollCount = 1
+        const length = arr.length
+        let titleVis = false
+        // var current=arr[i];
+        
+        const getNextIdx = (idx = 0, length, direction) => {
+            switch (direction) {
+                case 'next': return (idx + 1) % length;
+                case 'prev': return (idx == 0) && length - 1 || idx - 1;
+                default:     return idx;
+                }
+            }
+
+        let updateViewIn = (idx) => {
+            titleVis = true
+            Transition.textIn = new S.Timeline()
+            const isObj5 = S.Is.object(Transition.textIn)
+            Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn.play({delay: 500})
+        }
+
+        let updateViewOut = (idx) => {
+            titleVis = false
+            Transition.textIn = new S.Timeline()
+            const isObj5 = S.Is.object(Transition.textIn)
+            Transition.textIn.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn.play({delay: 500})
+        }
+
+        let idx; // idx is undefined, so getNextIdx will take 0 as default
+            const getNewIndexAndRender = (direction) => {
+            idx = getNextIdx(idx, length, direction);
+            !titleVis ? updateViewIn(idx) : updateViewOut(idx)
+            // result.innerHTML = messages[idx]
+
+            }
+
+        let sectionInit = () => {
+            getNewIndexAndRender('next')  
+        }
+
+        sectionInit({delay: 2000})
+
+            // Returns a function, that, as long as it continues to be invoked, will not
+        // be triggered. The function will be called after it stops being called for
+        // N milliseconds. If `immediate` is passed, trigger the function on the
+        // leading edge, instead of the trailing.
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function() {
+                var context = this, args = arguments;
+                var later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+                };
+            };
+
+        // document.addEventListener('wheel', function (e) {
+        //     if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
+        //         scrollCount++;
+        //         console.log('scrolling down - nextItem')
+        //         getNewIndexAndRender('next')   
+        //     }
+        // });
+    
+        // document.addEventListener('wheel', function (e) {
+        //     if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
+        //         scrollCount--;
+        //         console.log('scrolling up - prevItem')
+        //         getNewIndexAndRender('prev')
+        //         }
+        // });
+
+        var next = debounce(function() {
+            // All the taxing stuff you do
+            if (direction === 'down' && scrollCount < 4 && !menuVisible) {
+                scrollCount++;
+                console.log('scrolling down - nextItem')
+                getNewIndexAndRender('next')   
+            }
+        }, 250);
+
+        var prev = debounce(function() {
+            // All the taxing stuff you do
+            if (direction === 'up' && scrollCount >= 1 && !menuVisible) {
+                scrollCount--;
+                console.log('scrolling up - prevItem')
+                getNewIndexAndRender('prev')
+            }
+        }, 250);
+        
+        window.addEventListener('wheel', prev);
+        window.addEventListener('wheel', next);
+
+
     } else if ( direction === 'up' && !menuVisible && !titleVis ) {
 
         console.log('scrolling up');
@@ -116,191 +220,7 @@ function handleMouseWheelDirection( direction ) {
         Transition.headerDown.play({delay: 500})
         menuVisible = true
 
-    } else if ( direction === 'down' && !menuVisible ) {
-                
-        //document.addEventListener("wheel", ColorLi);
-
-        //function ColorLi(e) {
-            // let i = 0
-            let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-            // let len = arr.length;
-            // let index = 0
-            var scrollCount = 1
-            const length = arr.length
-            let titleVis = false
-            // var current=arr[i];
-           
-            const getNextIdx = (idx = 0, length, direction) => {
-                switch (direction) {
-                  case 'next': return (idx + 1); //% length
-                  case 'prev': return (idx - 1); //(idx === 0) && length - 1 || 
-                  default:     return idx;
-                }
-             }
-
-            let updateViewIn = (idx) => {
-                titleVis = true
-                Transition.textIn = new S.Timeline()
-                const isObj5 = S.Is.object(Transition.textIn)
-                Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                Transition.textIn.play({delay: 500})
-            }
-
-            let updateViewOut = (idx) => {
-                titleVis = false
-                Transition.textIn = new S.Timeline()
-                const isObj5 = S.Is.object(Transition.textIn)
-                Transition.textIn.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-                Transition.textIn.play({delay: 500})
-            }
-
-            let idx; // idx is undefined, so getNextIdx will take 0 as default
-             const getNewIndexAndRender = (direction) => {
-                idx = getNextIdx(idx, length, direction);
-                !titleVis ? updateViewIn(idx) : updateViewOut(idx)
-                // result.innerHTML = messages[idx]
-
-             }
-
-             // Returns a function, that, as long as it continues to be invoked, will not
-            // be triggered. The function will be called after it stops being called for
-            // N milliseconds. If `immediate` is passed, trigger the function on the
-            // leading edge, instead of the trailing.
-            function debounce(func, wait, immediate) {
-                var timeout;
-                return function() {
-                    var context = this, args = arguments;
-                    var later = function() {
-                        timeout = null;
-                        if (!immediate) func.apply(context, args);
-                    };
-                    var callNow = immediate && !timeout;
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                    if (callNow) func.apply(context, args);
-                };
-};
-
-
-            // const next = document.addEventListener('wheel', function (e) {
-            //         if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
-            //             scrollCount++;
-            //             console.log('scrolling down - nextItem')
-                        
-            //             getNewIndexAndRender('next')
-                        
-            //         }
-            //         //scrollCount = true
-
-            //     }
-            // );
-
-            
-            // const prev = document.addEventListener('wheel', function (e) {
-            //     if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
-            //         scrollCount--;
-            //         console.log('scrolling up - prevItem')
-            //         // let val2 = prevItem()
-
-            //         //let idx = getPreviousIndex();
-            //         // getNextIdx()
-            //         // updateViewOut(idx)
-            //         getNewIndexAndRender('prev')
-
-            //     }
-            //  }
-            // );
-
-            var next = debounce(function(e) {
-                // All the taxing stuff you do
-                if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
-                    scrollCount++;
-                    console.log('scrolling down - nextItem')
-                    
-                    getNewIndexAndRender('next')
-                    titleVis = true
-                }
-            }, 2250);
-
-            var prev = debounce(function(e) {
-                // All the taxing stuff you do
-                if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
-                    scrollCount--;
-                    console.log('scrolling up - prevItem')
-                    getNewIndexAndRender('prev')
-                    titleVis = true
-                }
-            }, 2250);
-            
-            window.addEventListener('wheel', next);
-            window.addEventListener('wheel', prev);
-
-
-
-        //     var slides = document.getElementsByClassName("h-txt-title");
-        //     Array.prototype.forEach.call(slides, function(slide, index) {
-        //         //Distribute(slides.item(index));
-        //     if (e.wheelDelta < 0 ) {
-        //             Transition.textIn = new S.Timeline()
-        //             const isObj5 = S.Is.object(Transition.textIn)
-        //             Transition.textIn.from({el: slides.item(index), p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //             Transition.textIn.play({delay: 500})
-        //     } else if ( e.wheelDelta > 0 ) {
-        //             Transition.textOut = new S.Timeline()
-        //             const isObj6 = S.Is.object(Transition.textOut)
-        //             Transition.textOut.from({el: slides.item(index), p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        //             // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-        //             Transition.textOut.play({delay: 500})
-
-        //     // }
-        //     }
-        // })
-
-            // Array.prototype.forEach.call(divs, function(child) {
-            //     if (e.wheelDelta < 0 ) {
-            //         Transition.textIn = new S.Timeline()
-            //         const isObj5 = S.Is.object(Transition.textIn)
-            //         Transition.textIn.from({el: child, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            //         Transition.textIn.play({delay: 500})
-            // } else if ( e.wheelDelta > 0 ) {
-            //         Transition.textOut = new S.Timeline()
-            //         const isObj6 = S.Is.object(Transition.textOut)
-            //         Transition.textOut.from({el: child, p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-            //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-            //         Transition.textOut.play({delay: 500})
-
-            // }
-            // });
-
-            // var boxArray = []; 
-            // let i = 0
-
-            // $('.h-txt-title').toArray().map((x, y, z) => {
-            // if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
-            // });
-
-            // boxArray.forEach(box => {
-            // if (e.wheelDelta < 0 ) {
-            //         Transition.textIn = new S.Timeline()
-            //         const isObj5 = S.Is.object(Transition.textIn)
-            //         Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            //         Transition.textIn.play({delay: 500})
-            // } else if ( e.wheelDelta > 0 ) {
-            //         Transition.textOut = new S.Timeline()
-            //         const isObj6 = S.Is.object(Transition.textOut)
-            //         Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-            //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-            //         Transition.textOut.play({delay: 500})
-
-            // }
-            // });
-            
-            
-        
-    // }
-        
-    }
-
+    } 
      else {
         // this means the direction of the mouse wheel could not be determined
     }
@@ -330,9 +250,11 @@ document.onmousewheel = function( e ) {
     handleMouseWheelDirection( detectMouseWheelDirection( e ) );
 };
 if ( window.addEventListener ) {
+
     document.addEventListener( 'DOMMouseScroll', function( e ) {
         handleMouseWheelDirection( detectMouseWheelDirection( e ) );
     });
+
 }
 
 // }

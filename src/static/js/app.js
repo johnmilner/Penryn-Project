@@ -11157,22 +11157,6 @@ function handleMouseWheelDirection(direction) {
     // var divsL = divs.length 
     console.log(direction); // see the direction in the console
     if (direction === 'down' && menuVisible) {
-        // do something, like show the next page
-        console.log('scrolling down');
-        Transition.headerUp = new skylake.Timeline();
-        var isObj3 = skylake.Is.object(Transition.headerUp);
-        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerUp.play({ delay: 500 });
-        menuVisible = false;
-    } else if (direction === 'up' && !menuVisible && !titleVis) {
-
-        console.log('scrolling up');
-        Transition.headerDown = new skylake.Timeline();
-        var isObj4 = skylake.Is.object(Transition.headerDown);
-        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerDown.play({ delay: 500 });
-        menuVisible = true;
-    } else if (direction === 'down' && !menuVisible) {
 
         // Returns a function, that, as long as it continues to be invoked, will not
         // be triggered. The function will be called after it stops being called for
@@ -11194,10 +11178,14 @@ function handleMouseWheelDirection(direction) {
             };
         };
 
-        //document.addEventListener("wheel", ColorLi);
+        // do something, like show the next page
+        console.log('scrolling down');
+        Transition.headerUp = new skylake.Timeline();
+        var isObj3 = skylake.Is.object(Transition.headerUp);
+        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerUp.play({ delay: 500 });
+        menuVisible = false;
 
-        //function ColorLi(e) {
-        // let i = 0
         var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
         // let len = arr.length;
         // let index = 0
@@ -11208,13 +11196,14 @@ function handleMouseWheelDirection(direction) {
 
         var getNextIdx = function getNextIdx() {
             var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var length = arguments[1];
             var direction = arguments[2];
 
             switch (direction) {
                 case 'next':
-                    return idx + 1; //% length
+                    return (idx + 1) % length;
                 case 'prev':
-                    return idx - 1; //(idx === 0) && length - 1 || 
+                    return idx == 0 && length - 1 || idx - 1;
                 default:
                     return idx;
             }
@@ -11242,122 +11231,59 @@ function handleMouseWheelDirection(direction) {
             !_titleVis ? updateViewIn(idx) : updateViewOut(idx);
             // result.innerHTML = messages[idx]
         };
-        // const next = document.addEventListener('wheel', function (e) {
-        //         if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
-        //             scrollCount++;
-        //             console.log('scrolling down - nextItem')
 
-        //             getNewIndexAndRender('next')
+        var sectionInit = function sectionInit() {
+            getNewIndexAndRender('next');
+        };
 
-        //         }
-        //         //scrollCount = true
-
+        sectionInit({ delay: 2000 });
+        // document.addEventListener('wheel', function (e) {
+        //     if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
+        //         scrollCount++;
+        //         console.log('scrolling down - nextItem')
+        //         getNewIndexAndRender('next')   
         //     }
-        // );
+        // });
 
-
-        // const prev = document.addEventListener('wheel', function (e) {
+        // document.addEventListener('wheel', function (e) {
         //     if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
         //         scrollCount--;
         //         console.log('scrolling up - prevItem')
-        //         // let val2 = prevItem()
-
-        //         //let idx = getPreviousIndex();
-        //         // getNextIdx()
-        //         // updateViewOut(idx)
         //         getNewIndexAndRender('prev')
+        //         }
+        // });
 
-        //     }
-        //  }
-        // );
-
-        var next = debounce(function (e) {
+        var next = debounce(function () {
             // All the taxing stuff you do
-            if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
+            if (direction === 'down' && scrollCount < 4 && !menuVisible) {
                 scrollCount++;
                 console.log('scrolling down - nextItem');
-
                 getNewIndexAndRender('next');
-                _titleVis = true;
             }
-        }, 2250);
+        }, 250);
 
-        var prev = debounce(function (e) {
+        var prev = debounce(function () {
             // All the taxing stuff you do
-            if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
+            if (direction === 'up' && scrollCount >= 1 && !menuVisible) {
                 scrollCount--;
                 console.log('scrolling up - prevItem');
                 getNewIndexAndRender('prev');
-                _titleVis = true;
             }
-        }, 2250);
+        }, 250);
 
-        window.addEventListener('wheel', next);
         window.addEventListener('wheel', prev);
+        window.addEventListener('wheel', next);
+    } else if (direction === 'up' && !menuVisible && !titleVis) {
 
-        //     var slides = document.getElementsByClassName("h-txt-title");
-        //     Array.prototype.forEach.call(slides, function(slide, index) {
-        //         //Distribute(slides.item(index));
-        //     if (e.wheelDelta < 0 ) {
-        //             Transition.textIn = new S.Timeline()
-        //             const isObj5 = S.Is.object(Transition.textIn)
-        //             Transition.textIn.from({el: slides.item(index), p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //             Transition.textIn.play({delay: 500})
-        //     } else if ( e.wheelDelta > 0 ) {
-        //             Transition.textOut = new S.Timeline()
-        //             const isObj6 = S.Is.object(Transition.textOut)
-        //             Transition.textOut.from({el: slides.item(index), p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        //             // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-        //             Transition.textOut.play({delay: 500})
-
-        //     // }
-        //     }
-        // })
-
-        // Array.prototype.forEach.call(divs, function(child) {
-        //     if (e.wheelDelta < 0 ) {
-        //         Transition.textIn = new S.Timeline()
-        //         const isObj5 = S.Is.object(Transition.textIn)
-        //         Transition.textIn.from({el: child, p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //         Transition.textIn.play({delay: 500})
-        // } else if ( e.wheelDelta > 0 ) {
-        //         Transition.textOut = new S.Timeline()
-        //         const isObj6 = S.Is.object(Transition.textOut)
-        //         Transition.textOut.from({el: child, p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-        //         Transition.textOut.play({delay: 500})
-
-        // }
-        // });
-
-        // var boxArray = []; 
-        // let i = 0
-
-        // $('.h-txt-title').toArray().map((x, y, z) => {
-        // if (y === 0 || y === 1 || y === 2 || y === 3) boxArray.push($(x));
-        // });
-
-        // boxArray.forEach(box => {
-        // if (e.wheelDelta < 0 ) {
-        //         Transition.textIn = new S.Timeline()
-        //         const isObj5 = S.Is.object(Transition.textIn)
-        //         Transition.textIn.from({el: box[0], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //         Transition.textIn.play({delay: 500})
-        // } else if ( e.wheelDelta > 0 ) {
-        //         Transition.textOut = new S.Timeline()
-        //         const isObj6 = S.Is.object(Transition.textOut)
-        //         Transition.textOut.from({el: box[0], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        //         // Transition.textIn.from(divAni, "3dy", 100, 0, 500)
-        //         Transition.textOut.play({delay: 500})
-
-        // }
-        // });
-
-
-        // }
+        console.log('scrolling up');
+        Transition.headerDown = new skylake.Timeline();
+        var isObj4 = skylake.Is.object(Transition.headerDown);
+        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.play({ delay: 500 });
+        menuVisible = true;
     } else {
-            // this means the direction of the mouse wheel could not be determined
-        }
+        // this means the direction of the mouse wheel could not be determined
+    }
     navigateTo();
 }
 
@@ -11380,6 +11306,7 @@ document.onmousewheel = function (e) {
     handleMouseWheelDirection(detectMouseWheelDirection(e));
 };
 if (window.addEventListener) {
+
     document.addEventListener('DOMMouseScroll', function (e) {
         handleMouseWheelDirection(detectMouseWheelDirection(e));
     });
