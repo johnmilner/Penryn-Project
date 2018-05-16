@@ -139,13 +139,14 @@ function handleMouseWheelDirection( direction ) {
         const getNewIndexAndRender = (direction) => {
         idx = getNextIdx(idx, length, direction);
         !titleVis ? updateViewIn(idx) : updateViewOut(idx)
-        ? idx : sectionInit()
+                  ? idx : sectionInit()
         //result.innerHTML = arr[idx]
 
         }
 
         let sectionInit = () => {
             getNewIndexAndRender('init')
+            console.log('hello from section init')
         }
 
         // sectionInit({delay: 3000})
@@ -181,13 +182,13 @@ function handleMouseWheelDirection( direction ) {
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
         menuVisible = false
+        
+        sectionInit({delay: 3000})
+
 
         var screenRelativeTop =  $(".header").offset().top - (window.scrollY || 
             window.pageYOffset || document.body.scrollTop);
         console.log(screenRelativeTop)
-
-
-        
 
         // document.addEventListener('wheel', function (e) {
         //     if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
@@ -216,24 +217,23 @@ function handleMouseWheelDirection( direction ) {
             }
         }, 100);
 
+        var prev = debounce(function() {
+            // All the taxing stuff you do
+            nextStep = currentStep - 1
+            if (direction === 'up' && !menuVisible && nextStep <= length) {
+                console.log('scrolling up - prevItem')
+                getNewIndexAndRender('prev')
+                currentStep = nextStep   
+            }
+        }, 100);
         
+        window.addEventListener('wheel', prev);
         window.addEventListener('wheel', next);
 
 
     } else if (direction === 'up' && !menuVisible) {
 
-        var prev = debounce(function() {
-            // All the taxing stuff you do
-            nextStep = currentStep - 1
-            //if (direction === 'up' && !menuVisible && nextStep <= length) {
-                scrollCount--;
-                console.log('scrolling up - prevItem')
-                getNewIndexAndRender('prev')
-                currentStep = nextStep   
-            //}
-        }, 100);
         
-        window.addEventListener('wheel', prev);
 
 
         // console.log('scrolling up');

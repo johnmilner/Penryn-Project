@@ -11206,6 +11206,7 @@ function handleMouseWheelDirection(direction) {
 
     var sectionInit = function sectionInit() {
         getNewIndexAndRender('init');
+        console.log('hello from section init');
     };
 
     // sectionInit({delay: 3000})
@@ -11241,6 +11242,8 @@ function handleMouseWheelDirection(direction) {
         Transition.headerUp.play({ delay: 500 });
         menuVisible = false;
 
+        sectionInit({ delay: 3000 });
+
         var screenRelativeTop = $(".header").offset().top - (window.scrollY || window.pageYOffset || document.body.scrollTop);
         console.log(screenRelativeTop);
 
@@ -11271,19 +11274,19 @@ function handleMouseWheelDirection(direction) {
             }
         }, 100);
 
-        window.addEventListener('wheel', next);
-    } else if (direction === 'up' && !menuVisible) {
-
         var prev = debounce(function () {
             // All the taxing stuff you do
             nextStep = currentStep - 1;
-            console.log('scrolling up - prevItem');
-            getNewIndexAndRender('prev');
-            currentStep = nextStep;
-            //}
+            if (direction === 'up' && !menuVisible && nextStep <= length) {
+                console.log('scrolling up - prevItem');
+                getNewIndexAndRender('prev');
+                currentStep = nextStep;
+            }
         }, 100);
 
         window.addEventListener('wheel', prev);
+        window.addEventListener('wheel', next);
+    } else if (direction === 'up' && !menuVisible) {
 
         // console.log('scrolling up');
         // Transition.headerDown = new S.Timeline()
@@ -11291,6 +11294,7 @@ function handleMouseWheelDirection(direction) {
         // Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         // Transition.headerDown.play({delay: 500})
         // menuVisible = true
+
     } else {}
 
         // this means the direction of the mouse wheel could not be determined
