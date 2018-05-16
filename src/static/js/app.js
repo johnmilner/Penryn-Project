@@ -11165,6 +11165,7 @@ function handleMouseWheelDirection(dir) {
         var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var length = arguments[1];
         var direction = arguments[2];
+        var currentStep = arguments[3];
 
         switch (direction) {
             case 'init':
@@ -11172,16 +11173,14 @@ function handleMouseWheelDirection(dir) {
             case 'next':
                 updateViewIn(idx);
                 return (idx + 1) % length;
-
             case 'prev':
-                if (idx === 0 || length - 1) {
-                    idx = length - 1;
+                while (idx === 0 && length - 1) {
+                    console.log(currentStep);
+                    idx = currentStep;
                     updateViewOut(idx);
-                } else if (idx === 0 && idx < length) {
-                    idx = idx - 1;
-                    updateViewOut(idx);
+                    return (idx - 1) % length;
                 }
-                return idx;
+            //return (idx === 0) || length - 1 ? idx - 1 : idx - 1;
             // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
             // case 'prev': return (idx === 0) && length - 1 || idx - 1;
             default:
@@ -11205,7 +11204,7 @@ function handleMouseWheelDirection(dir) {
 
     var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
     var getNewIndexAndRender = function getNewIndexAndRender(direction) {
-        idx = getNextIdx(idx, length, direction);
+        idx = getNextIdx(idx, length, direction, currentStep);
         //titleVis ? updateViewOut(idx) : updateViewOut(idx)
         //result.innerHTML = arr[idx]
     };
@@ -11247,7 +11246,6 @@ function handleMouseWheelDirection(dir) {
         Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
         Transition.headerUp.play({ delay: 500 });
         menuVisible = false;
-
         sectionInit({ delay: 3000 });
 
         var screenRelativeTop = $(".header").offset().top - (window.scrollY || window.pageYOffset || document.body.scrollTop);
@@ -11275,8 +11273,8 @@ function handleMouseWheelDirection(dir) {
             nextStep = currentStep + 1;
             if (dir === 'down' && nextStep <= length) {
                 console.log('scrolling down - nextItem');
-                getNewIndexAndRender('next');
                 currentStep = nextStep;
+                getNewIndexAndRender('next');
             }
         }, 100);
 
@@ -11290,8 +11288,8 @@ function handleMouseWheelDirection(dir) {
             nextStep = currentStep - 1;
             if (dir === 'up' && !menuVisible && nextStep <= length) {
                 console.log('scrolling up - prevItem');
-                getNewIndexAndRender('prev');
                 currentStep = nextStep;
+                getNewIndexAndRender('prev', currentStep);
             }
         }, 100);
 

@@ -108,20 +108,18 @@ function handleMouseWheelDirection( dir ) {
         
 
 
-        const getNextIdx = (idx = 0, length, direction) => {
+        const getNextIdx = (idx = 0, length, direction, currentStep) => {
             switch (direction) {
                 case 'init': return idx
-                case 'next': updateViewIn(idx) 
+                case 'next': updateViewIn(idx);
                              return (idx + 1) % length;
-
-                case 'prev': if (idx === 0 || length - 1) {
-                                idx = length - 1
-                                updateViewOut(idx);
-                             } else if (idx === 0 && idx < length) {
-                                idx = idx - 1
-                                updateViewOut(idx);
-                             }
-                             return idx;
+                case 'prev': while (idx === 0 && length - 1) {
+                             console.log(currentStep)
+                             idx = currentStep
+                             updateViewOut(idx);
+                             return (idx - 1) % length
+                            }
+                             //return (idx === 0) || length - 1 ? idx - 1 : idx - 1;
                 // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
                 // case 'prev': return (idx === 0) && length - 1 || idx - 1;
                 default:     return idx;
@@ -144,7 +142,7 @@ function handleMouseWheelDirection( dir ) {
 
         let idx; // idx is undefined, so getNextIdx will take 0 as default
         const getNewIndexAndRender = (direction) => {
-        idx = getNextIdx(idx, length, direction);
+        idx = getNextIdx(idx, length, direction, currentStep);
         //titleVis ? updateViewOut(idx) : updateViewOut(idx)
         //result.innerHTML = arr[idx]
 
@@ -188,7 +186,6 @@ function handleMouseWheelDirection( dir ) {
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
         menuVisible = false
-        
         sectionInit({delay: 3000})
 
 
@@ -218,8 +215,9 @@ function handleMouseWheelDirection( dir ) {
             nextStep = currentStep + 1
             if (dir === 'down' && nextStep <= length) {
                 console.log('scrolling down - nextItem')
+                currentStep = nextStep  
                 getNewIndexAndRender('next')
-                currentStep = nextStep   
+ 
             }
         }, 100);
 
@@ -236,8 +234,9 @@ function handleMouseWheelDirection( dir ) {
             nextStep = currentStep - 1
             if (dir === 'up' && !menuVisible && nextStep <= length) {
                 console.log('scrolling up - prevItem')
-                getNewIndexAndRender('prev')
                 currentStep = nextStep   
+                getNewIndexAndRender('prev', currentStep)
+
             }
         }, 100);
         
