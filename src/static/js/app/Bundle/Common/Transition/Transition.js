@@ -115,7 +115,7 @@ function handleMouseWheelDirection( direction ) {
                              return (idx + 1) % length;
 
                 case 'prev': updateViewOut(idx) 
-                             return (idx === 0) && length - 1 || idx - 1;;
+                             return idx - 1; 
                 // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
                 // case 'prev': return (idx === 0) && length - 1 || idx - 1;
                 default:     return idx;
@@ -130,8 +130,10 @@ function handleMouseWheelDirection( direction ) {
         }
 
         let updateViewOut = (idx) => {
-            Transition.textIn.play({reverse: true})
-
+            Transition.textOut = new S.Timeline()
+            const isObj6 = S.Is.object(Transition.textOut)
+            Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+            Transition.textOut.play({delay: 500})
         }
 
         let idx; // idx is undefined, so getNextIdx will take 0 as default
