@@ -11158,7 +11158,6 @@ function handleMouseWheelDirection(direction) {
 
     var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
     var length = arr.length;
-    var titleVis = false;
     var currentStep = 0,
         nextStep;
 
@@ -11171,9 +11170,12 @@ function handleMouseWheelDirection(direction) {
             case 'init':
                 return idx;
             case 'next':
+                updateViewIn(idx);
                 return (idx + 1) % length;
+
             case 'prev':
-                return idx === 3 && length - 1 || idx - 1;
+                updateViewOut(idx);
+                return idx === 0 && length - 1 || idx - 1;
             // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
             // case 'prev': return (idx === 0) && length - 1 || idx - 1;
             default:
@@ -11182,7 +11184,6 @@ function handleMouseWheelDirection(direction) {
     };
 
     var updateViewIn = function updateViewIn(idx) {
-        titleVis = true;
         Transition.textIn = new skylake.Timeline();
         var isObj5 = skylake.Is.object(Transition.textIn);
         Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
@@ -11190,17 +11191,13 @@ function handleMouseWheelDirection(direction) {
     };
 
     var updateViewOut = function updateViewOut(idx) {
-        titleVis = false;
-        Transition.textIn = new skylake.Timeline();
-        var isObj5 = skylake.Is.object(Transition.textIn);
-        Transition.textIn.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-        Transition.textIn.play({ delay: 500 });
+        Transition.textIn.play({ reverse: true });
     };
 
     var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
     var getNewIndexAndRender = function getNewIndexAndRender(direction) {
         idx = getNextIdx(idx, length, direction);
-        !titleVis ? updateViewIn(idx) : updateViewOut(idx) ? idx : sectionInit();
+        //!titleVis ? updateViewIn(idx) : updateViewOut(idx)
         //result.innerHTML = arr[idx]
     };
 
@@ -11267,15 +11264,19 @@ function handleMouseWheelDirection(direction) {
         var next = debounce(function () {
             // All the taxing stuff you do
             nextStep = currentStep + 1;
-            if (direction === 'down' && nextStep < length) {
+            if (direction === 'down' && nextStep <= length) {
                 console.log('scrolling down - nextItem');
                 getNewIndexAndRender('next');
                 currentStep = nextStep;
             }
         }, 100);
 
+        window.addEventListener('wheel', next);
+    } else if (direction === 'up') {
+
         var prev = debounce(function () {
             // All the taxing stuff you do
+            menuVisible = false;
             nextStep = currentStep - 1;
             if (direction === 'up' && !menuVisible && nextStep <= length) {
                 console.log('scrolling up - prevItem');
@@ -11285,8 +11286,6 @@ function handleMouseWheelDirection(direction) {
         }, 100);
 
         window.addEventListener('wheel', prev);
-        window.addEventListener('wheel', next);
-    } else if (direction === 'up' && !menuVisible) {
 
         // console.log('scrolling up');
         // Transition.headerDown = new S.Timeline()
@@ -11294,7 +11293,6 @@ function handleMouseWheelDirection(direction) {
         // Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         // Transition.headerDown.play({delay: 500})
         // menuVisible = true
-
     } else {}
 
         // this means the direction of the mouse wheel could not be determined

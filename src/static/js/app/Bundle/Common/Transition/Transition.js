@@ -111,8 +111,11 @@ function handleMouseWheelDirection( direction ) {
         const getNextIdx = (idx = 0, length, direction) => {
             switch (direction) {
                 case 'init': return idx
-                case 'next': return (idx + 1) % length;
-                case 'prev': return (idx === 3) && length - 1 || idx - 1;;
+                case 'next': updateViewIn(idx) 
+                             return (idx + 1) % length;
+
+                case 'prev': updateViewOut(idx) 
+                             return (idx === 0) && length - 1 || idx - 1;;
                 // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
                 // case 'prev': return (idx === 0) && length - 1 || idx - 1;
                 default:     return idx;
@@ -120,7 +123,6 @@ function handleMouseWheelDirection( direction ) {
             }
 
         let updateViewIn = (idx) => {
-            titleVis = true
             Transition.textIn = new S.Timeline()
             const isObj5 = S.Is.object(Transition.textIn)
             Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
@@ -128,18 +130,14 @@ function handleMouseWheelDirection( direction ) {
         }
 
         let updateViewOut = (idx) => {
-            titleVis = false
-            Transition.textIn = new S.Timeline()
-            const isObj5 = S.Is.object(Transition.textIn)
-            Transition.textIn.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn.play({delay: 500})
+            Transition.textIn.play({reverse: true})
+
         }
 
         let idx; // idx is undefined, so getNextIdx will take 0 as default
         const getNewIndexAndRender = (direction) => {
         idx = getNextIdx(idx, length, direction);
-        !titleVis ? updateViewIn(idx) : updateViewOut(idx)
-                  ? idx : sectionInit()
+        //!titleVis ? updateViewIn(idx) : updateViewOut(idx)
         //result.innerHTML = arr[idx]
 
         }
@@ -210,15 +208,22 @@ function handleMouseWheelDirection( direction ) {
         var next = debounce(function() {
             // All the taxing stuff you do
             nextStep = currentStep + 1
-            if (direction === 'down' && nextStep < length) {
+            if (direction === 'down' && nextStep <= length) {
                 console.log('scrolling down - nextItem')
                 getNewIndexAndRender('next')
                 currentStep = nextStep   
             }
         }, 100);
 
+        
+        window.addEventListener('wheel', next);
+
+
+    } else if (direction === 'up') {
+
         var prev = debounce(function() {
             // All the taxing stuff you do
+            menuVisible = false
             nextStep = currentStep - 1
             if (direction === 'up' && !menuVisible && nextStep <= length) {
                 console.log('scrolling up - prevItem')
@@ -228,12 +233,6 @@ function handleMouseWheelDirection( direction ) {
         }, 100);
         
         window.addEventListener('wheel', prev);
-        window.addEventListener('wheel', next);
-
-
-    } else if (direction === 'up' && !menuVisible) {
-
-        
 
 
         // console.log('scrolling up');
