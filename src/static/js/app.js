@@ -11135,7 +11135,7 @@ console.log(pageYOffset);
 
 function detectMouseWheelDirection(e) {
     var delta = null,
-        direction = false;
+        dir = false;
     if (!e) {
         // if the event is not provided, we get it from the window object
         e = window.event;
@@ -11148,13 +11148,13 @@ function detectMouseWheelDirection(e) {
         delta = -e.detail / 2;
     }
     if (delta !== null) {
-        direction = delta > 0 ? 'up' : 'down';
+        dir = delta > 0 ? 'up' : 'down';
     }
 
-    return direction;
+    return dir;
 }
 
-function handleMouseWheelDirection(direction) {
+function handleMouseWheelDirection(dir) {
 
     var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
     var length = arr.length;
@@ -11174,8 +11174,14 @@ function handleMouseWheelDirection(direction) {
                 return (idx + 1) % length;
 
             case 'prev':
-                updateViewOut(idx);
-                return idx - 1;
+                if (idx === 0 || length - 1) {
+                    idx = length - 1;
+                    updateViewOut(idx);
+                } else if (idx === 0 && idx < length) {
+                    idx = idx - 1;
+                    updateViewOut(idx);
+                }
+                return idx;
             // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
             // case 'prev': return (idx === 0) && length - 1 || idx - 1;
             default:
@@ -11200,7 +11206,7 @@ function handleMouseWheelDirection(direction) {
     var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
     var getNewIndexAndRender = function getNewIndexAndRender(direction) {
         idx = getNextIdx(idx, length, direction);
-        //!titleVis ? updateViewIn(idx) : updateViewOut(idx)
+        //titleVis ? updateViewOut(idx) : updateViewOut(idx)
         //result.innerHTML = arr[idx]
     };
 
@@ -11231,9 +11237,9 @@ function handleMouseWheelDirection(direction) {
             if (callNow) func.apply(context, args);
         };
     }
-    console.log(direction); // see the direction in the console
+    console.log(dir); // see the direction in the console
 
-    if (direction === 'down' && menuVisible) {
+    if (dir === 'down' && menuVisible) {
         // do something, like show the next page
         console.log('scrolling down');
         Transition.headerUp = new skylake.Timeline();
@@ -11267,7 +11273,7 @@ function handleMouseWheelDirection(direction) {
         var next = debounce(function () {
             // All the taxing stuff you do
             nextStep = currentStep + 1;
-            if (direction === 'down' && nextStep <= length) {
+            if (dir === 'down' && nextStep <= length) {
                 console.log('scrolling down - nextItem');
                 getNewIndexAndRender('next');
                 currentStep = nextStep;
@@ -11275,13 +11281,14 @@ function handleMouseWheelDirection(direction) {
         }, 100);
 
         window.addEventListener('wheel', next);
-    } else if (direction === 'up') {
+    } else if (dir === 'up') {
 
         var prev = debounce(function () {
             // All the taxing stuff you do
             menuVisible = false;
+            currentStep = length;
             nextStep = currentStep - 1;
-            if (direction === 'up' && !menuVisible && nextStep <= length) {
+            if (dir === 'up' && !menuVisible && nextStep <= length) {
                 console.log('scrolling up - prevItem');
                 getNewIndexAndRender('prev');
                 currentStep = nextStep;
