@@ -11118,80 +11118,192 @@ console.log('loader.js');
 
 /* eslint-disable */
 
-var Transition = {};
+var Transition = function () {
+    function Transition() {
+        classCallCheck(this, Transition);
 
-Transition.intro = new skylake.Timeline();
-var isObj = skylake.Is.object(Transition.intro);
-Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
-// Transition.from({el: '#about', p: {x: [0, 600, 'px'], rotate: [0, 360]}, d: 5000, e: 'linear', delay: 300})
 
-Transition.outro = new skylake.Timeline();
-var isObj2 = skylake.Is.object(Transition.outro);
-Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
-var header = document.querySelector('.header');
-var result = document.querySelector('.h-txt-title');
-console.log(pageYOffset);
+        this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        var body = skylake.Dom.body;
+        this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
+        var length = arr.length;
 
-var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-var body = skylake.Dom.body;
-var length = arr.length;
-
-var getNextIdx = function getNextIdx() {
-    var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var length = arguments[1];
-    var direction = arguments[2];
-
-    switch (direction) {
-        case 'init':
-            return idx;
-        case 'next':
-            updateViewIn(idx);
-            return (idx + 1) % length;
-        case 'prev':
-            updateViewOut(idx);
-            return idx == 0 && length - 1 || idx - 1;
-
-        // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
-        // case 'prev': return (idx === 0) && length - 1 || idx - 1;
-        default:
-            return idx;
+        skylake.BindMaker(this, ['sctionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut']);
     }
-};
 
-var updateViewIn = function updateViewIn(idx) {
-    Transition.textIn = new skylake.Timeline();
-    var isObj5 = skylake.Is.object(Transition.textIn);
-    Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-    Transition.textIn.play({ delay: 500 });
-    Transition.textIn.pause();
-};
+    createClass(Transition, [{
+        key: "init",
+        value: function init(t) {
+            // console.log("init")
+            this.first = !1;
+            this.listeners("add");
+        }
+    }, {
+        key: "listeners",
+        value: function listeners(t) {
+            // console.log(homesticky.listeners)
+            skylake.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen);
+            skylake.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose);
+        }
+    }, {
+        key: "open",
+        value: function open(t) {
 
-var updateViewOut = function updateViewOut(idx) {
-    Transition.textOut = new skylake.Timeline();
-    var isObj6 = skylake.Is.object(Transition.textOut);
-    Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-    Transition.textOut.play({ delay: 500 });
-};
+            Transition.intro = new skylake.Timeline();
+            var isObj = skylake.Is.object(Transition.intro);
+            Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
 
-var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
-var getNewIndexAndRender = function getNewIndexAndRender(direction) {
-    idx = getNextIdx(idx, length, direction);
-};
+            Transition.outro = new skylake.Timeline();
+            var isObj2 = skylake.Is.object(Transition.outro);
+            Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
 
-var sectionInit = function sectionInit() {
-    getNewIndexAndRender('init');
-    console.log('hello from section init');
-};
+            this.sectionInit();
+        }
+    }, {
+        key: "detectMouseWheelDirection",
+        value: function detectMouseWheelDirection(e) {
+            var delta = null,
+                dir = false;
+            if (!e) {
+                // if the event is not provided, we get it from the window object
+                e = window.event;
+            }
+            if (e.wheelDelta) {
+                // will work in most cases
+                delta = e.wheelDelta / 60;
+            } else if (e.detail) {
+                // fallback for Firefox
+                delta = -e.detail / 2;
+            }
+            if (delta !== null) {
+                dir = delta > 0 ? 'up' : 'down';
+            }
 
-var headerInit = function headerInit() {
-    Transition.headerUp = new skylake.Timeline();
-    var isObj3 = skylake.Is.object(Transition.headerUp);
-    Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-    Transition.headerUp.play({ delay: 500 });
-    sectionInit();
-};
+            return dir;
+        }
+    }, {
+        key: "getNextIdx",
+        value: function getNextIdx() {
+            var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var length = arguments[1];
+            var direction = arguments[2];
 
-skylake.Listen(body, 'add', 'mouseWheel', headerInit);
+            switch (direction) {
+                case 'init':
+                    this.updateViewIn(idx);
+                    return idx;
+                case 'next':
+                    this.updateViewIn(idx);
+                    return (idx + 1) % length;
+                case 'prev':
+                    this.updateViewOut(idx);
+                    return idx == 0 && length - 1 || idx - 1;
+
+                // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
+                // case 'prev': return (idx === 0) && length - 1 || idx - 1;
+                default:
+                    return idx;
+            }
+        }
+    }, {
+        key: "updateViewIn",
+        value: function updateViewIn(idx) {
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: this.arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
+            Transition.textIn.pause();
+        }
+    }, {
+        key: "updateViewOut",
+        value: function updateViewOut(idx) {
+            Transition.textOut = new skylake.Timeline();
+            var isObj6 = skylake.Is.object(Transition.textOut);
+            Transition.textOut.from({ el: this.arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textOut.play({ delay: 500 });
+        }
+    }, {
+        key: "getNewIndexAndRender",
+        value: function getNewIndexAndRender(direction) {
+            this.idx = this.getNextIdx(this.idx, length, direction);
+        }
+    }, {
+        key: "sectionInit",
+        value: function sectionInit() {
+            this.getNewIndexAndRender('init');
+            console.log('hello from section init');
+        }
+    }, {
+        key: "headerInit",
+        value: function headerInit() {
+            Transition.headerUp = new skylake.Timeline();
+            var isObj3 = skylake.Is.object(Transition.headerUp);
+            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+            Transition.headerUp.play({ delay: 500 });
+            menuVisible = false;
+        }
+
+        // Returns a function, that, as long as it continues to be invoked, will not
+        // be triggered. The function will be called after it stops being called for
+        // N milliseconds. If `immediate` is passed, trigger the function on the
+        // leading edge, instead of the trailing.
+
+    }, {
+        key: "debounce",
+        value: function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this,
+                    args = arguments;
+                var later = function later() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+    }, {
+        key: "scrollCb",
+        value: function scrollCb(currentScrollY, delta, event) {
+
+            var delta = null,
+                dir = false;
+            if (!e) {
+                // if the event is not provided, we get it from the window object
+                e = window.event;
+            }
+            if (e.wheelDelta) {
+                // will work in most cases
+                delta = e.wheelDelta / 60;
+            } else if (e.detail) {
+                // fallback for Firefox
+                delta = -e.detail / 2;
+            }
+            if (delta !== null) {
+                dir = delta > 0 ? 'up' : 'down';
+            }
+
+            return dir;
+        }
+    }, {
+        key: "scrollInit",
+        value: function scrollInit() {
+            skylake.BindMaker(this, ['scrollCb']);
+
+            this.scroll = new skylake.Scroll(this.scrollCb);
+
+            scrollCb.scroll.run();
+            // this.scroll.off()
+
+
+            skylake.Listen(body, 'add', 'mouseWheel', headerInit, scrollCb('down'));
+        }
+    }]);
+    return Transition;
+}();
 
 console.log('transition.js');
 
@@ -11550,7 +11662,7 @@ var HomeController = function (_Listeners) {
         key: 'preload',
         value: function preload(opts) {
             // Transition.callback()
-            Transition.outro.play();
+            Transition.prototype.open();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
             });

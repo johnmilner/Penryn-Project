@@ -53,7 +53,7 @@ class HomeController extends Listeners {
 
     preload (opts) {
         // Transition.callback()
-        Transition.outro.play()
+        Transition.prototype.open()
         console.log('Transition.outro from HomeController')
         Listeners.prototype.add({cb:
             Loader.run({cb: this.intro()})
