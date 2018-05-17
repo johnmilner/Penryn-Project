@@ -17,15 +17,15 @@ class HomeController extends Listeners {
         console.dir(Listeners)
         console.log('home constructor')
         this.init({
-            // scroll: [
-            //     {
-            //         moduleInit: true,
-            //         el: '#h-content',
-            //         module: EventDelegation,
-            //         method: 'destAbout',
-            //         outroM: this.outroM
-            //     }
-            // ],
+            mouseWheel: [
+                {
+                    moduleInit: true,
+                    el: 'body',
+                    module: Transition,
+                    method: 'headerInit',
+                    outroM: this.outroM
+                }
+            ],
             // click: [
             //     {
             //         el: '#h-link',
@@ -40,14 +40,14 @@ class HomeController extends Listeners {
             //         method: 'bindButtonClick'
             //     }
             // ],
-            // scroll: {
-            //     throttle: {
-            //         throttle: true,
-            //         skylake: 'Scroll'
-            //     }
-            //     // module: Resize,
-            //     // method: 'calculate'
-            // }
+            scroll: {
+                throttle: {
+                    throttle: true,
+                    skylake: 'Scroll'
+                }
+                // module: Resize,
+                // method: 'calculate'
+            }
         })
     }
 

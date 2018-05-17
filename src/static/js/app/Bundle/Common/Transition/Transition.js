@@ -15,59 +15,9 @@ Transition.outro = new S.Timeline()
 const isObj2 = S.Is.object(Transition.outro)
 Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
 
-// window.onload = function() {
 
-// var ticking = false
-// var startScrollY = pageYOffset
-// var isMoving = false
-// var menuVisible = true
-// console.log(pageYOffset)
 
-// Transition.callback = function() {
-// window.addEventListener('wheel', function(e) {
-//     var lastKnownScrollY = 0;
-//     var currentScrollY = e.deltaY;
-//     var header = document.querySelector('.header')
-    
 
-//     if (isMoving) return;
-//     // if (menuVisible) return;
-//     if (e.deltaY < 0 && !menuVisible) {
-//         console.log('scrolling up');
-//         Transition.headerDown = new S.Timeline()
-//         const isObj4 = S.Is.object(Transition.headerDown)
-//         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
-//         Transition.headerDown.play({delay: 500})
-//         menuVisible = true
-//     } 
-//     if (e.deltaY > 0 && menuVisible) {
-//         console.log('scrolling down');
-//         Transition.headerUp = new S.Timeline()
-//         const isObj3 = S.Is.object(Transition.headerUp)
-//         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
-//         Transition.headerUp.play({delay: 500})
-//         console.log(currentScrollY)
-//         menuVisible = false
-//     }
-//     navigateTo()
-//     });
-// }
-// let st
-
-// function navigateTo(){
-//     isMoving = true;
-//     menuVisible ? false : true
-//     // currentScrollY = pageYOffset
-//     let st = setTimeout(function() {
-//     isMoving = false;
-//     }, 2000);
-// }
-
-// function myStopFunction() {
-//     clearTimeout(st);
-// }
-
-// myStopFunction()
 
 var ticking = false
 var header = document.querySelector('.header')
@@ -96,28 +46,25 @@ function detectMouseWheelDirection( e )
     return dir;
 }
 
-function handleMouseWheelDirection( dir ) {
+let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+const body = S.Dom.body 
 
-        let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-
-        var scrollCount = 0
-        const length = arr.length
-        let titleVis = false
-        var currentStep = 0,
-        nextStep;
-        let count = 3
+var scrollCount = 0
+const length = arr.length
+let titleVis = false
+var currentStep = 0,
+nextStep;
+        
 
 
         const getNextIdx = (idx = 0, length, direction) => {
             switch (direction) {
-                case 'init': return idx
+                case 'init': return idx 
                 case 'next': updateViewIn(idx);
                              return (idx + 1) % length;
                 case 'prev': updateViewOut(idx);
-                             return (idx === 0) && length - 1 || idx - 1;
-                            // : condition2 ? value2
-                            // : condition3 ? value3
-                            // :              value4
+                             return (idx == 0) && length - 1 || idx - 1;
+
 
                 // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
                 // case 'prev': return (idx === 0) && length - 1 || idx - 1;
@@ -134,7 +81,6 @@ function handleMouseWheelDirection( dir ) {
         }
 
         let updateViewOut = (idx) => {
-            Transition.textIn.play({reverse: true})
             Transition.textOut = new S.Timeline()
             const isObj6 = S.Is.object(Transition.textOut)
             Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
@@ -144,13 +90,20 @@ function handleMouseWheelDirection( dir ) {
         let idx; // idx is undefined, so getNextIdx will take 0 as default
         const getNewIndexAndRender = (direction) => {
         idx = getNextIdx(idx, length, direction);
-        arr.innerHTML = arr[idx]
 
         }
 
         let sectionInit = () => {
             getNewIndexAndRender('init')
             console.log('hello from section init')
+        }
+
+        let headerInit = () => {
+            Transition.headerUp = new S.Timeline()
+            const isObj3 = S.Is.object(Transition.headerUp)
+            Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
+            Transition.headerUp.play({delay: 500})
+            menuVisible = false
         }
 
         // sectionInit({delay: 3000})
@@ -175,123 +128,13 @@ function handleMouseWheelDirection( dir ) {
                 if (callNow) func.apply(context, args);
                 };
             };
-
-    console.log( dir ); // see the direction in the console
-
-    if ( dir === 'down' && menuVisible) {
-        // do something, like show the next page
-        console.log('scrolling down');
-        Transition.headerUp = new S.Timeline()
-        const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerUp.play({delay: 500})
-        menuVisible = false
+        
+        
         sectionInit({delay: 3000})
+        //headerInit()
 
+S.Listen(body, 'add', 'mouseWheel', headerInit)
 
-        var screenRelativeTop =  $(".header").offset().top - (window.scrollY || 
-            window.pageYOffset || document.body.scrollTop);
-        console.log(screenRelativeTop)
-
-        // document.addEventListener('wheel', function (e) {
-        //     if (e.wheelDelta < 0 && scrollCount < 4 && !menuVisible) {
-        //         scrollCount++;
-        //         console.log('scrolling down - nextItem')
-        //         getNewIndexAndRender('next')   
-        //     }
-        // });
-    
-        // document.addEventListener('wheel', function (e) {
-        //     if (e.wheelDelta > 0 && scrollCount >= 1 && !menuVisible) {
-        //         scrollCount--;
-        //         console.log('scrolling up - prevItem')
-        //         getNewIndexAndRender('prev')
-        //         }
-        // });
-        
-
-        var next = debounce(function() {
-            // All the taxing stuff you do
-            nextStep = currentStep + 1
-            if (dir === 'down' && nextStep <= length) {
-                console.log('scrolling down - nextItem')
-                currentStep = nextStep  
-                getNewIndexAndRender('next')
- 
-            }
-        }, 100);
-
-        
-        window.addEventListener('wheel', next);
-
-
-    } else if (dir === 'up') {
-
-        var prev = debounce(function() {
-            // All the taxing stuff you do
-            nextStep = currentStep - 1
-            if (dir === 'up' && nextStep <= length) {
-                console.log('scrolling up - prevItem')
-                currentStep = nextStep 
-                getNewIndexAndRender('prev')
-
-            }
-        }, 100);
-        
-        window.addEventListener('wheel', prev);
-
-
-        // console.log('scrolling up');
-        // Transition.headerDown = new S.Timeline()
-        // const isObj4 = S.Is.object(Transition.headerDown)
-        // Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
-        // Transition.headerDown.play({delay: 500})
-        // menuVisible = true
-
-    } 
-     else {
-
-        
-        // this means the direction of the mouse wheel could not be determined
-    }
-    // navigateTo()
-}
-
-let st
-
-function navigateTo(){
-    isMoving = true;
-    //menuVisible ? false : true
-    // currentScrollY = pageYOffset
-    let st = setTimeout(function() {
-
-    isMoving = false;
-
-    }, 2000);
-}
-
-function myStopFunction() {
-    clearTimeout(st);
-}
-
-myStopFunction()
-
-document.onmousewheel = function( e ) {
-    handleMouseWheelDirection( detectMouseWheelDirection( e ) );
-};
-if ( window.addEventListener ) {
-
-    document.addEventListener( 'DOMMouseScroll', function( e ) {
-        handleMouseWheelDirection( detectMouseWheelDirection( e ) );
-    });
-
-}
-
-// }
-
-// Transition.intro.play()
 console.log('transition.js')
-// Transition.pause()
-// Transition.play({reverse: true})
 
 export default Transition
