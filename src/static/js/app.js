@@ -11188,10 +11188,8 @@ var headerInit = function headerInit() {
     var isObj3 = skylake.Is.object(Transition.headerUp);
     Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
     Transition.headerUp.play({ delay: 500 });
+    sectionInit();
 };
-
-sectionInit({ delay: 3000 });
-//headerInit()
 
 skylake.Listen(body, 'add', 'mouseWheel', headerInit);
 

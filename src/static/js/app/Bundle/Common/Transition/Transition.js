@@ -57,81 +57,79 @@ nextStep;
         
 
 
-        const getNextIdx = (idx = 0, length, direction) => {
-            switch (direction) {
-                case 'init': return idx 
-                case 'next': updateViewIn(idx);
-                             return (idx + 1) % length;
-                case 'prev': updateViewOut(idx);
-                             return (idx == 0) && length - 1 || idx - 1;
+const getNextIdx = (idx = 0, length, direction) => {
+    switch (direction) {
+        case 'init': return idx 
+        case 'next': updateViewIn(idx);
+                        return (idx + 1) % length;
+        case 'prev': updateViewOut(idx);
+                        return (idx == 0) && length - 1 || idx - 1;
 
 
-                // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
-                // case 'prev': return (idx === 0) && length - 1 || idx - 1;
-                default:     return idx;
-                }
-            }
-
-        let updateViewIn = (idx) => {
-            Transition.textIn = new S.Timeline()
-            const isObj5 = S.Is.object(Transition.textIn)
-            Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn.play({delay: 500})
-            Transition.textIn.pause()
+        // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
+        // case 'prev': return (idx === 0) && length - 1 || idx - 1;
+        default:     return idx;
         }
+    }
 
-        let updateViewOut = (idx) => {
-            Transition.textOut = new S.Timeline()
-            const isObj6 = S.Is.object(Transition.textOut)
-            Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-            Transition.textOut.play({delay: 500})
-        }
+let updateViewIn = (idx) => {
+    Transition.textIn = new S.Timeline()
+    const isObj5 = S.Is.object(Transition.textIn)
+    Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+    Transition.textIn.play({delay: 500})
+    Transition.textIn.pause()
+}
 
-        let idx; // idx is undefined, so getNextIdx will take 0 as default
-        const getNewIndexAndRender = (direction) => {
-        idx = getNextIdx(idx, length, direction);
+let updateViewOut = (idx) => {
+    Transition.textOut = new S.Timeline()
+    const isObj6 = S.Is.object(Transition.textOut)
+    Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+    Transition.textOut.play({delay: 500})
+}
 
-        }
+let idx; // idx is undefined, so getNextIdx will take 0 as default
+const getNewIndexAndRender = (direction) => {
+idx = getNextIdx(idx, length, direction);
 
-        let sectionInit = () => {
-            getNewIndexAndRender('init')
-            console.log('hello from section init')
-        }
+}
 
-        let headerInit = () => {
-            Transition.headerUp = new S.Timeline()
-            const isObj3 = S.Is.object(Transition.headerUp)
-            Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
-            Transition.headerUp.play({delay: 500})
-            menuVisible = false
-        }
+ let sectionInit = () => {
+    getNewIndexAndRender('init')
+    console.log('hello from section init')
+}
 
-        // sectionInit({delay: 3000})
+let headerInit = () => {
+    Transition.headerUp = new S.Timeline()
+    const isObj3 = S.Is.object(Transition.headerUp)
+    Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
+    Transition.headerUp.play({delay: 500})
+    sectionInit()
+    menuVisible = false
+}
 
-        
+// sectionInit({delay: 3000})
 
-            // Returns a function, that, as long as it continues to be invoked, will not
-        // be triggered. The function will be called after it stops being called for
-        // N milliseconds. If `immediate` is passed, trigger the function on the
-        // leading edge, instead of the trailing.
-        function debounce(func, wait, immediate) {
-            var timeout;
-            return function() {
-                var context = this, args = arguments;
-                var later = function() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                };
-                var callNow = immediate && !timeout;
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-                if (callNow) func.apply(context, args);
-                };
-            };
-        
-        
-        sectionInit({delay: 3000})
-        //headerInit()
+
+
+    // Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+        };
+    };
+
 
 S.Listen(body, 'add', 'mouseWheel', headerInit)
 
