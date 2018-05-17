@@ -7,18 +7,20 @@ import jQuery from "jquery"
 class Transition {
     constructor() {
 
-    let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-    this.arr = arr
-    const body = S.Dom.body 
+
+    const body = S.Dom.body
+
+    //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = idx // idx is undefined, so getNextIdx will take 0 as default
     var scrollCount = 0
-    const length = arr.length
+    this.length = this.arr.length
     let titleVis = false
     var currentStep = 0,
     nextStep;
 
-      S.BindMaker(this, ['sctionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut'])
+      S.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut'])
     }
+
 
     init(t) {
         // console.log("init")
@@ -82,6 +84,7 @@ getNextIdx(idx = 0, length, direction) {
     }
 
 updateViewIn(idx) {
+    this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     Transition.textIn = new S.Timeline()
     const isObj5 = S.Is.object(Transition.textIn)
     Transition.textIn.from({el: this.arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})

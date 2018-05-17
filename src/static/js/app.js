@@ -11123,30 +11123,31 @@ var Transition = function () {
         classCallCheck(this, Transition);
 
 
-        this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
         var body = skylake.Dom.body;
-        this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
-        var length = arr.length;
 
-        skylake.BindMaker(this, ['sctionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut']);
+        //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
+        this.length = this.arr.length;
+
+        skylake.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut']);
     }
 
     createClass(Transition, [{
-        key: "init",
+        key: 'init',
         value: function init(t) {
             // console.log("init")
             this.first = !1;
             this.listeners("add");
         }
     }, {
-        key: "listeners",
+        key: 'listeners',
         value: function listeners(t) {
             // console.log(homesticky.listeners)
             skylake.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen);
             skylake.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose);
         }
     }, {
-        key: "open",
+        key: 'open',
         value: function open(t) {
 
             Transition.intro = new skylake.Timeline();
@@ -11160,7 +11161,7 @@ var Transition = function () {
             this.sectionInit();
         }
     }, {
-        key: "detectMouseWheelDirection",
+        key: 'detectMouseWheelDirection',
         value: function detectMouseWheelDirection(e) {
             var delta = null,
                 dir = false;
@@ -11182,7 +11183,7 @@ var Transition = function () {
             return dir;
         }
     }, {
-        key: "getNextIdx",
+        key: 'getNextIdx',
         value: function getNextIdx() {
             var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
             var length = arguments[1];
@@ -11206,8 +11207,9 @@ var Transition = function () {
             }
         }
     }, {
-        key: "updateViewIn",
+        key: 'updateViewIn',
         value: function updateViewIn(idx) {
+            this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
             Transition.textIn = new skylake.Timeline();
             var isObj5 = skylake.Is.object(Transition.textIn);
             Transition.textIn.from({ el: this.arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
@@ -11215,7 +11217,7 @@ var Transition = function () {
             Transition.textIn.pause();
         }
     }, {
-        key: "updateViewOut",
+        key: 'updateViewOut',
         value: function updateViewOut(idx) {
             Transition.textOut = new skylake.Timeline();
             var isObj6 = skylake.Is.object(Transition.textOut);
@@ -11223,18 +11225,18 @@ var Transition = function () {
             Transition.textOut.play({ delay: 500 });
         }
     }, {
-        key: "getNewIndexAndRender",
+        key: 'getNewIndexAndRender',
         value: function getNewIndexAndRender(direction) {
             this.idx = this.getNextIdx(this.idx, length, direction);
         }
     }, {
-        key: "sectionInit",
+        key: 'sectionInit',
         value: function sectionInit() {
             this.getNewIndexAndRender('init');
             console.log('hello from section init');
         }
     }, {
-        key: "headerInit",
+        key: 'headerInit',
         value: function headerInit() {
             Transition.headerUp = new skylake.Timeline();
             var isObj3 = skylake.Is.object(Transition.headerUp);
@@ -11249,7 +11251,7 @@ var Transition = function () {
         // leading edge, instead of the trailing.
 
     }, {
-        key: "debounce",
+        key: 'debounce',
         value: function debounce(func, wait, immediate) {
             var timeout;
             return function () {
@@ -11266,7 +11268,7 @@ var Transition = function () {
             };
         }
     }, {
-        key: "scrollCb",
+        key: 'scrollCb',
         value: function scrollCb(currentScrollY, delta, event) {
 
             var delta = null,
@@ -11289,7 +11291,7 @@ var Transition = function () {
             return dir;
         }
     }, {
-        key: "scrollInit",
+        key: 'scrollInit',
         value: function scrollInit() {
             skylake.BindMaker(this, ['scrollCb']);
 
