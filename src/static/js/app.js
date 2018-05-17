@@ -11165,7 +11165,6 @@ function handleMouseWheelDirection(dir) {
         var idx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var length = arguments[1];
         var direction = arguments[2];
-        var currentStep = arguments[3];
 
         switch (direction) {
             case 'init':
@@ -11174,13 +11173,12 @@ function handleMouseWheelDirection(dir) {
                 updateViewIn(idx);
                 return (idx + 1) % length;
             case 'prev':
-                while (idx === 0 && length - 1) {
-                    console.log(currentStep);
-                    idx = currentStep;
-                    updateViewOut(idx);
-                    return (idx - 1) % length;
-                }
-            //return (idx === 0) || length - 1 ? idx - 1 : idx - 1;
+                updateViewOut(idx);
+                return idx === 0 && length - 1 || idx - 1;
+            // : condition2 ? value2
+            // : condition3 ? value3
+            // :              value4
+
             // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
             // case 'prev': return (idx === 0) && length - 1 || idx - 1;
             default:
@@ -11193,9 +11191,11 @@ function handleMouseWheelDirection(dir) {
         var isObj5 = skylake.Is.object(Transition.textIn);
         Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
         Transition.textIn.play({ delay: 500 });
+        Transition.textIn.pause();
     };
 
     var updateViewOut = function updateViewOut(idx) {
+        Transition.textIn.play({ reverse: true });
         Transition.textOut = new skylake.Timeline();
         var isObj6 = skylake.Is.object(Transition.textOut);
         Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
@@ -11204,9 +11204,8 @@ function handleMouseWheelDirection(dir) {
 
     var idx = void 0; // idx is undefined, so getNextIdx will take 0 as default
     var getNewIndexAndRender = function getNewIndexAndRender(direction) {
-        idx = getNextIdx(idx, length, direction, currentStep);
-        //titleVis ? updateViewOut(idx) : updateViewOut(idx)
-        //result.innerHTML = arr[idx]
+        idx = getNextIdx(idx, length, direction);
+        arr.innerHTML = arr[idx];
     };
 
     var sectionInit = function sectionInit() {
@@ -11283,13 +11282,11 @@ function handleMouseWheelDirection(dir) {
 
         var prev = debounce(function () {
             // All the taxing stuff you do
-            menuVisible = false;
-            currentStep = length;
             nextStep = currentStep - 1;
-            if (dir === 'up' && !menuVisible && nextStep <= length) {
+            if (dir === 'up' && nextStep <= length) {
                 console.log('scrolling up - prevItem');
                 currentStep = nextStep;
-                getNewIndexAndRender('prev', currentStep);
+                getNewIndexAndRender('prev');
             }
         }, 100);
 
