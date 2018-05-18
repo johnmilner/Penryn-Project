@@ -7,8 +7,7 @@ import jQuery from "jquery"
 class Transition {
     constructor() {
 
-
-    const body = S.Dom.body
+    // const body = S.Dom.body
 
     //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = idx // idx is undefined, so getNextIdx will take 0 as default
@@ -22,28 +21,29 @@ class Transition {
     }
 
 
-    init(t) {
-        // console.log("init")
-        this.first = !1
-        this.listeners("add")
-      }
-      listeners(t) {
-        // console.log(homesticky.listeners)
-        S.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen)
-        S.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose)
-      }
+init(t) {
+    // console.log("init")
+    this.first = !1
+    this.listeners("add")
+    }
+    listeners(t) {
+    // console.log(homesticky.listeners)
+    S.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen)
+    S.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose)
+    }
 
-    open(t) {
+open(t) {
 
-    Transition.intro = new S.Timeline()
-    const isObj = S.Is.object(Transition.intro)
-    Transition.intro.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, e: 'Power4InOut', delay: 7000})
+Transition.intro = new S.Timeline()
+const isObj = S.Is.object(Transition.intro)
+Transition.intro.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, e: 'Power4InOut', delay: 7000})
 
-    Transition.outro = new S.Timeline()
-    const isObj2 = S.Is.object(Transition.outro)
-    Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
+Transition.outro = new S.Timeline()
+const isObj2 = S.Is.object(Transition.outro)
+Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
 
-    this.sectionInit()
+this.sectionInit()
+this.scrollInit()
 
 }
 
@@ -160,15 +160,16 @@ scrollCb(currentScrollY, delta, event) {
 }
 
 scrollInit() {
+    const body = S.Dom.body
     S.BindMaker(this, ['scrollCb'])
 
     this.scroll = new S.Scroll(this.scrollCb)
 
-    scrollCb.scroll.run()
+    //scrollCb.scroll.on()
     // this.scroll.off()
 
 
-    S.Listen(body, 'add', 'mouseWheel', headerInit, scrollCb('down'))
+    S.Listen(body, 'add', 'mouseWheel', this.headerInit, this.scroll)
 }
 
 

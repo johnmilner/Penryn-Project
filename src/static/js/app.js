@@ -11123,7 +11123,7 @@ var Transition = function () {
         classCallCheck(this, Transition);
 
 
-        var body = skylake.Dom.body;
+        // const body = S.Dom.body
 
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
@@ -11159,6 +11159,7 @@ var Transition = function () {
             Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
 
             this.sectionInit();
+            this.scrollInit();
         }
     }, {
         key: 'detectMouseWheelDirection',
@@ -11293,15 +11294,16 @@ var Transition = function () {
     }, {
         key: 'scrollInit',
         value: function scrollInit() {
+            var body = skylake.Dom.body;
             skylake.BindMaker(this, ['scrollCb']);
 
             this.scroll = new skylake.Scroll(this.scrollCb);
 
-            scrollCb.scroll.run();
+            //scrollCb.scroll.on()
             // this.scroll.off()
 
 
-            skylake.Listen(body, 'add', 'mouseWheel', headerInit, scrollCb('down'));
+            skylake.Listen(body, 'add', 'mouseWheel', this.headerInit, this.scroll);
         }
     }]);
     return Transition;
