@@ -11215,6 +11215,12 @@ var Transition = function () {
             console.log('hello from section init');
         }
     }, {
+        key: 'sectionChange',
+        value: function sectionChange() {
+            Transition.prototype.getNewIndexAndRender('next');
+            console.log('hello from section init');
+        }
+    }, {
         key: 'headerScroll',
         value: function headerScroll(currentScrollY, delta, event) {
 
@@ -11239,14 +11245,17 @@ var Transition = function () {
                     Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
                         cb: Transition.prototype.sectionInit });
                     Transition.headerUp.play({ delay: 500 });
-                    this.menuVisible = !1;
+                    this.menuVisible = !this.menuVisible;
                 } else if (delta > 0 && this.menuVisible === !1) {
 
                     Transition.headerDown = new skylake.Timeline();
                     var isObj4 = skylake.Is.object(Transition.headerDown);
                     Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.headerDown.play({ delay: 500 });
-                    this.menuVisible = !0;
+                    this.menuVisible = !this.menuVisible;
+                } else if (delta < 0 && this.menuVisible === !1) {
+
+                    Transition.prototype.sectionChange();
                 }
             }
         }
@@ -11321,22 +11330,6 @@ var Transition = function () {
             // this.scroll.off()
             console.log('hello from scroll init');
         }
-
-        // handleMouseWheelDirection( currentScrollY )
-        // {
-        //     if ( currentScrollY === 'down' && !menuVisible) {
-        //         // do something, like show the next page
-        //         S.Listen(body, 'add', 'mouseWheel', this.headerUp, this.scroll)
-        //         //this.scroll.on()
-        //     } else if ( currentScrollY === 'up' && menuVisible) {
-        //         // do something, like show the previous page
-        //         S.Listen(body, 'add', 'mouseWheel', this.headerDown, this.scroll)
-        //         //this.scroll.off()
-        //     } else {
-        //         // this means the direction of the mouse wheel could not be determined
-        //     }
-        // }
-
     }]);
     return Transition;
 }();
@@ -11345,6 +11338,25 @@ var Transition = function () {
 // value: function(e) {
 //  this.canChangePage && (this.getCanNotChangePage(), this.currentNo = this.getCurrentNo(), e.deltaY < 0 ? (this.direction = "next", this.no = this.currentNo === this.limit ? this.limit : this.currentNo + 1) : (this.direction = "prev", this.no = 0 === this.currentNo ? 0 : this.currentNo - 1), this.changePart())
 // }
+
+// {
+//     key: "getFirstCase",
+//     value: function() {
+//      this.canChangePage && (this.getCanNotChangePage(), this.direction = "next", this.currentNo = 0, this.no = 1, this.changePart())
+//     }
+// }
+
+// {
+// key: "getCanChangePage",
+// value: function() {
+//     this.pagiOverTop.getCanChangePage(!0), this.pagiOverBottom.getCanChangePage(!0), this.canChangePage = !0
+// }
+// }, {
+// key: "getCanNotChangePage",
+// value: function() {
+//     this.pagiOverTop.getCanChangePage(), this.pagiOverBottom.getCanChangePage(), this.canChangePage = !1
+// }
+// },
 
 console.log('transition.js');
 
