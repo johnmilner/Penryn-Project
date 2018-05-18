@@ -11245,18 +11245,17 @@ var Transition = function () {
                     Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
                         cb: Transition.prototype.sectionInit });
                     Transition.headerUp.play({ delay: 500 });
-                    this.menuVisible = !this.menuVisible;
                 } else if (delta > 0 && this.menuVisible === !1) {
 
                     Transition.headerDown = new skylake.Timeline();
                     var isObj4 = skylake.Is.object(Transition.headerDown);
                     Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.headerDown.play({ delay: 500 });
-                    this.menuVisible = !this.menuVisible;
                 } else if (delta < 0 && this.menuVisible === !1) {
 
                     Transition.prototype.sectionChange();
                 }
+                this.menuVisible = !this.menuVisible;
             }
         }
 
@@ -11357,6 +11356,81 @@ var Transition = function () {
 //     this.pagiOverTop.getCanChangePage(), this.pagiOverBottom.getCanChangePage(), this.canChangePage = !1
 // }
 // },
+
+// return createClass(e, [{
+//     key: "showFirstTime",
+//     value: function(e, t) {
+//      var i = index.Geb.class("h-bottom-value-" + e),
+//       n = "ExpoOut",
+//       o = new index.Timeline;
+//      o.from("#h-client-" + e, "3dy", 100, 0, 1200, n, {
+//       delay: 1100
+//      }), o.from(this.txtTitle[e], "3dy", 100, 0, 1200, n, {
+//       delay: 300
+//      }), o.from("#h-txt-desc-line", "3dx", -110, 0, 1200, n), o.from(this.txtDescTxt[e], "3dy", 100, 0, 1200, n), o.from(this.bottomTitle[0], "3dy", 100, 0, 1200, n, {
+//       delay: 300
+//      }), o.from(i[0], "3dy", 100, 0, 1200, n), o.from(this.bottomTitle[1], "3dy", 100, 0, 1200, n, {
+//       delay: 100
+//      }), o.from(i[1], "3dy", 100, 0, 1600, n), o.from(this.bottomTitle[2], "3dy", 100, 0, 1600, n, {
+//       delay: 100
+//      }), o.from(i[2], "3dy", 100, 0, 1600, n), o.from(this.img[e + 1], "3dx", 16, 0, 1200, n), 0 === e && (o.from(this.img[e], "3dx", 16, 0, 1200, n, {
+//       delay: 40
+//      }), o.from(this.img[e], "opacity", 0, 1, 600, "linear")), o.from(this.img[e + 1], "opacity", 0, 1, 600, "linear"), o.from("#h-btn-container", "3dy", 300, 0, {
+//       delay: 160
+//      }), o.from(this.btnCover[e], "3dy", 105, 0, 600, "Power3In"), o.from(this.btn[e], "3dy", 100, 0), o.from(this.btn[e], "opacity", 0, 1, {
+//       delay: 600,
+//       callbackDelay: 800,
+//       callback: t
+//      }), o.from(this.btnCover[e], "3dy", 0, -105, 1200, n), o.play()
+//     }
+//    },
+
+// {
+//     key: "hide",
+//     value: function(e, t) {
+//      var i = index.Geb.class("h-bottom-value-" + e),
+//       n = "Power3In",
+//       o = new index.Timeline;
+//      o.from("#h-client-" + e, "3dy", 0, 100, 500, n), o.from(this.txtTitle[e], "3dy", 0, 100, 500, n), o.from("#h-txt-desc-line", "3dx", 0, -110 * t, 500, n), o.from(this.txtDescTxt[e], "3dy", 0, 100, 500, n), o.from(i[0], "3dy", 0, 100, 500, n), o.from(i[1], "3dy", 0, 100, 500, n), o.from(i[2], "3dy", 0, 100, 500, n), o.from(this.img[e + 1], "3dx", 0, 16, 500, n), 0 === e && (o.from(this.img[e], "3dx", 0, 16, 500, n, {
+//       delay: 40
+//      }), o.from(this.img[e], "opacity", 1, 0, 500, "linear")), o.from(this.img[e + 1], "opacity", 1, 0, 500, "linear"), o.from(this.btn[e], "3dy", 0, 100, 500, n), o.from(this.btn[e], "opacity", 1, 0, {
+//       delay: 500
+//      }), o.from(this.btnCover[e], "3dy", 0, 105), o.play()
+//     }
+//    }, {
+//     key: "hideComplete",
+//     value: function(e) {
+//      var t = "Power3In";
+//      this.hide(e, 1);
+//      var i = new index.Timeline;
+//      i.from(this.bottomTitle[0], "3dy", 0, 100, 500, t), i.from(this.bottomTitle[1], "3dy", 0, 100, 500, t), i.from(this.bottomTitle[2], "3dy", 0, 100, 500, t), i.from("#h-btn-container", "3dy", 0, 300, {
+//       delay: 1e3
+//      }), i.play()
+//     }
+//    }, {
+//     key: "reset",
+//     value: function(e) {
+//      var t = new index.Timeline;
+//      t.from("#h-txt-desc-line", "3dx", 0, -100, {
+//       delay: 1300
+//      }), t.from(".h-img", "3dx", 0, 16), t.from(".h-img", "opacity", 1, 0), t.from(".h-btn", "opacity", 1, 0), t.from(".h-btn", "3dy", 0, 100), t.from(".h-btn-cover", "3dy", 0, 105), t.from(".h-txt-title", "3dy", 0, 100), t.from(".h-txt-desc-txt", "3dy", 0, 100), t.from(".h-client", "3dy", 0, 100), t.from(".h-bottom-value", "3dy", 0, 100), t.from(".h-bottom-title", "3dy", 0, 100, {
+//       callback: e
+//      }), t.play()
+//     }
+//    }, {
+//     key: "geSize",
+//     value: function() {
+//      for (var e = 0; e < this.txtDescTxtL; e++) this.txtDescTxtWrap[e].style.height = this.txtDescTxt[e].offsetHeight + "px";
+//      this.btnContainer.style.left = Math.round(index.Win.w / 2 - this.btnContainer.offsetWidth / 2) + "px"
+//     }
+//    }, {
+//     key: "destroy",
+//     value: function() {
+//      this.RO.off()
+//     }
+//    }]), e
+//   }
+
 
 console.log('transition.js');
 
