@@ -11128,7 +11128,7 @@ var Transition = function () {
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
-        this.menuVisible = false;
+        this.menuVisible = true;
 
         skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
@@ -11215,23 +11215,37 @@ var Transition = function () {
             console.log('hello from section init');
         }
     }, {
-        key: 'headerUp',
-        value: function headerUp() {
-            Transition.headerUp = new skylake.Timeline();
-            var isObj3 = skylake.Is.object(Transition.headerUp);
-            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                cb: this.sectionInit });
-            Transition.headerUp.play({ delay: 500 });
-            this.menuVisible = false;
-        }
-    }, {
-        key: 'headerDown',
-        value: function headerDown() {
-            Transition.headerDown = new skylake.Timeline();
-            var isObj3 = skylake.Is.object(Transition.headerDown);
-            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.headerDown.play({ delay: 500 });
-            this.menuVisible = true;
+        key: 'headerScroll',
+        value: function headerScroll(currentScrollY, delta, event) {
+
+            var delta = null;
+            if (!event) {
+                // if the event is not provided, we get it from the window object
+                event = window.event;
+            }
+            if (event.wheelDelta) {
+                // will work in most cases
+                delta = event.wheelDelta / 60;
+            } else if (event.detail) {
+                // fallback for Firefox
+                delta = -event.detail / 2;
+            }
+            if (delta !== null) {
+                if (delta > 0) {
+                    Transition.headerUp = new skylake.Timeline();
+                    var isObj3 = skylake.Is.object(Transition.headerUp);
+                    Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
+                        cb: this.sectionInit });
+                    Transition.headerUp.play({ delay: 500 });
+                } else {
+                    this.menuVisible = false;
+                    Transition.headerDown = new skylake.Timeline();
+                    var isObj4 = skylake.Is.object(Transition.headerDown);
+                    Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.headerDown.play({ delay: 500 });
+                    this.menuVisible = true;
+                }
+            }
         }
 
         // Returns a function, that, as long as it continues to be invoked, will not
@@ -11263,8 +11277,7 @@ var Transition = function () {
         // scrollCb(currentScrollY, delta, event, direction) {
         value: function scrollCb(currentScrollY, delta, event) {
 
-            var delta = null,
-                currentScrollY = false;
+            var delta = null;
             if (!event) {
                 // if the event is not provided, we get it from the window object
                 event = window.event;
@@ -11277,21 +11290,21 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
-                currentScrollY = delta > 0 ? 'up' : 'down';
+                delta > 0 ? this.headerDown : this.headerUp;
             }
 
-            if (currentScrollY === 'down' && !menuVisible) {
-                // do something, like show the next page
-                //S.Listen(body, 'add', 'mouseWheel', this.headerUp)
-                this.scroll.on();
-            } else if (currentScrollY === 'up' && menuVisible) {
-                // do something, like show the previous page
-                //S.Listen(body, 'add', 'mouseWheel', this.headerDown)
-                //this.scroll.off()
-            } else {}
-                // this means the direction of the mouse wheel could not be determined
-
-                //return currentScrollY;
+            // if ( currentScrollY === 'down' && this.menuVisible) {
+            //     // do something, like show the next page
+            //     //S.Listen(body, 'add', 'mouseWheel', this.headerUp)
+            //     this.scroll.on()
+            // } else if ( currentScrollY === 'up' && this.menuVisible === !1) {
+            //     // do something, like show the previous page
+            //     //S.Listen(body, 'add', 'mouseWheel', this.headerDown)
+            //     //this.scroll.off()
+            // } else {
+            //     // this means the direction of the mouse wheel could not be determined
+            // }
+            //return currentScrollY;
         }
     }, {
         key: 'scrollInit',
@@ -11300,7 +11313,8 @@ var Transition = function () {
             skylake.BindMaker(this, ['scrollCb']);
 
             this.scroll = new skylake.Scroll(this.scrollCb);
-            skylake.Listen(body, 'add', 'mouseWheel', this.headerUp);
+            this.scroll.on();
+            skylake.Listen(body, 'add', 'mouseWheel', this.headerScroll);
             // this.scroll.on()
             // this.scroll.off()
         }
@@ -11654,7 +11668,7 @@ var HomeController = function (_Listeners) {
                 moduleInit: true,
                 el: 'body',
                 module: Transition,
-                method: 'headerInit',
+                method: 'scrollInit',
                 outroM: _this.outroM
             }],
             // click: [

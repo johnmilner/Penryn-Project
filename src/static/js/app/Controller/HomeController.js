@@ -22,7 +22,7 @@ class HomeController extends Listeners {
                     moduleInit: true,
                     el: 'body',
                     module: Transition,
-                    method: 'headerInit',
+                    method: 'scrollInit',
                     outroM: this.outroM
                 }
             ],
