@@ -11128,8 +11128,9 @@ var Transition = function () {
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
+        this.menuVisible = false;
 
-        skylake.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
+        skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
 
     createClass(Transition, [{
@@ -11158,9 +11159,7 @@ var Transition = function () {
             var isObj2 = skylake.Is.object(Transition.outro);
             Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
 
-            this.sectionInit();
             this.scrollInit();
-            this.handleMouseWheelDirection();
         }
     }, {
         key: 'getNextIdx',
@@ -11216,13 +11215,23 @@ var Transition = function () {
             console.log('hello from section init');
         }
     }, {
-        key: 'headerInit',
-        value: function headerInit() {
+        key: 'headerUp',
+        value: function headerUp() {
             Transition.headerUp = new skylake.Timeline();
             var isObj3 = skylake.Is.object(Transition.headerUp);
-            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+            Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
+                cb: this.sectionInit });
             Transition.headerUp.play({ delay: 500 });
-            menuVisible = false;
+            this.menuVisible = false;
+        }
+    }, {
+        key: 'headerDown',
+        value: function headerDown() {
+            Transition.headerDown = new skylake.Timeline();
+            var isObj3 = skylake.Is.object(Transition.headerDown);
+            Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.headerDown.play({ delay: 500 });
+            this.menuVisible = true;
         }
 
         // Returns a function, that, as long as it continues to be invoked, will not
@@ -11254,7 +11263,8 @@ var Transition = function () {
         // scrollCb(currentScrollY, delta, event, direction) {
         value: function scrollCb(currentScrollY, delta, event) {
 
-            var delta = null;
+            var delta = null,
+                currentScrollY = false;
             if (!event) {
                 // if the event is not provided, we get it from the window object
                 event = window.event;
@@ -11270,7 +11280,18 @@ var Transition = function () {
                 currentScrollY = delta > 0 ? 'up' : 'down';
             }
 
-            return currentScrollY;
+            if (currentScrollY === 'down' && !menuVisible) {
+                // do something, like show the next page
+                //S.Listen(body, 'add', 'mouseWheel', this.headerUp)
+                this.scroll.on();
+            } else if (currentScrollY === 'up' && menuVisible) {
+                // do something, like show the previous page
+                //S.Listen(body, 'add', 'mouseWheel', this.headerDown)
+                //this.scroll.off()
+            } else {}
+                // this means the direction of the mouse wheel could not be determined
+
+                //return currentScrollY;
         }
     }, {
         key: 'scrollInit',
@@ -11279,26 +11300,34 @@ var Transition = function () {
             skylake.BindMaker(this, ['scrollCb']);
 
             this.scroll = new skylake.Scroll(this.scrollCb);
-
+            skylake.Listen(body, 'add', 'mouseWheel', this.headerUp);
+            // this.scroll.on()
             // this.scroll.off()
-            skylake.Listen(body, 'add', 'mouseWheel', this.headerInit, this.scroll);
         }
-    }, {
-        key: 'handleMouseWheelDirection',
-        value: function handleMouseWheelDirection(currentScrollY) {
-            if (currentScrollY === 'down') {
-                // do something, like show the next page
-                this.scroll.on();
-            } else if (currentScrollY === 'up') {
-                // do something, like show the previous page
 
-            } else {
-                    // this means the direction of the mouse wheel could not be determined
-                }
-        }
+        // handleMouseWheelDirection( currentScrollY )
+        // {
+        //     if ( currentScrollY === 'down' && !menuVisible) {
+        //         // do something, like show the next page
+        //         S.Listen(body, 'add', 'mouseWheel', this.headerUp, this.scroll)
+        //         //this.scroll.on()
+        //     } else if ( currentScrollY === 'up' && menuVisible) {
+        //         // do something, like show the previous page
+        //         S.Listen(body, 'add', 'mouseWheel', this.headerDown, this.scroll)
+        //         //this.scroll.off()
+        //     } else {
+        //         // this means the direction of the mouse wheel could not be determined
+        //     }
+        // }
+
     }]);
     return Transition;
 }();
+
+// key: "WTGestion",
+// value: function(e) {
+//  this.canChangePage && (this.getCanNotChangePage(), this.currentNo = this.getCurrentNo(), e.deltaY < 0 ? (this.direction = "next", this.no = this.currentNo === this.limit ? this.limit : this.currentNo + 1) : (this.direction = "prev", this.no = 0 === this.currentNo ? 0 : this.currentNo - 1), this.changePart())
+// }
 
 console.log('transition.js');
 
@@ -11725,7 +11754,7 @@ var AboutController = function (_Listeners) {
     createClass(AboutController, [{
         key: 'preload',
         value: function preload(opts) {
-            Transition.outro.play();
+            Transition.prototype.open();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
             });
