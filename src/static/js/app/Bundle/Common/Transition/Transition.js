@@ -17,7 +17,7 @@ class Transition {
     var currentStep = 0,
     nextStep;
 
-      S.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut'])
+      S.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection'])
     }
 
 
@@ -44,27 +44,8 @@ Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOu
 
 this.sectionInit()
 this.scrollInit()
+this.handleMouseWheelDirection()
 
-}
-
-detectMouseWheelDirection( e )
-{
-    var delta = null,
-        dir = false
-    ;
-    if ( !e ) { // if the event is not provided, we get it from the window object
-        e = window.event;
-    }
-    if ( e.wheelDelta ) { // will work in most cases
-        delta = e.wheelDelta / 60;
-    } else if ( e.detail ) { // fallback for Firefox
-        delta = -e.detail / 2;
-    }
-    if ( delta !== null ) {
-        dir = delta > 0 ? 'up' : 'down';
-    }
-
-    return dir;
 }
 
 getNextIdx(idx = 0, length, direction) {
@@ -139,24 +120,25 @@ debounce(func, wait, immediate) {
     };
 
 
+// scrollCb(currentScrollY, delta, event, direction) {
 scrollCb(currentScrollY, delta, event) {
 
     var delta = null,
         dir = false
     ;
-    if ( !e ) { // if the event is not provided, we get it from the window object
-        e = window.event;
+    if ( !event ) { // if the event is not provided, we get it from the window object
+        event = window.event;
     }
-    if ( e.wheelDelta ) { // will work in most cases
-        delta = e.wheelDelta / 60;
-    } else if ( e.detail ) { // fallback for Firefox
-        delta = -e.detail / 2;
+    if ( event.wheelDelta ) { // will work in most cases
+        delta = event.wheelDelta / 60;
+    } else if ( event.detail ) { // fallback for Firefox
+        delta = -event.detail / 2;
     }
     if ( delta !== null ) {
-        dir = delta > 0 ? 'up' : 'down';
+        currentScrollY = delta > 0 ? 'up' : 'down';
     }
 
-    return dir;
+    return currentScrollY;
 }
 
 scrollInit() {
@@ -165,13 +147,25 @@ scrollInit() {
 
     this.scroll = new S.Scroll(this.scrollCb)
 
-    //scrollCb.scroll.on()
     // this.scroll.off()
-
-
     S.Listen(body, 'add', 'mouseWheel', this.headerInit, this.scroll)
+
+
+
 }
 
+handleMouseWheelDirection( currentScrollY )
+{
+    if ( currentScrollY === 'down' ) {
+        // do something, like show the next page
+        this.scroll.on()
+    } else if ( currentScrollY === 'up' ) {
+        // do something, like show the previous page
+
+    } else {
+        // this means the direction of the mouse wheel could not be determined
+    }
+}
 
 }
 

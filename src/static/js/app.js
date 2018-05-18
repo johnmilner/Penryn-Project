@@ -11129,7 +11129,7 @@ var Transition = function () {
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
 
-        skylake.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut']);
+        skylake.BindMaker(this, ['sectionInit', 'headerInit', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
 
     createClass(Transition, [{
@@ -11160,28 +11160,7 @@ var Transition = function () {
 
             this.sectionInit();
             this.scrollInit();
-        }
-    }, {
-        key: 'detectMouseWheelDirection',
-        value: function detectMouseWheelDirection(e) {
-            var delta = null,
-                dir = false;
-            if (!e) {
-                // if the event is not provided, we get it from the window object
-                e = window.event;
-            }
-            if (e.wheelDelta) {
-                // will work in most cases
-                delta = e.wheelDelta / 60;
-            } else if (e.detail) {
-                // fallback for Firefox
-                delta = -e.detail / 2;
-            }
-            if (delta !== null) {
-                dir = delta > 0 ? 'up' : 'down';
-            }
-
-            return dir;
+            this.handleMouseWheelDirection();
         }
     }, {
         key: 'getNextIdx',
@@ -11270,26 +11249,28 @@ var Transition = function () {
         }
     }, {
         key: 'scrollCb',
+
+
+        // scrollCb(currentScrollY, delta, event, direction) {
         value: function scrollCb(currentScrollY, delta, event) {
 
-            var delta = null,
-                dir = false;
-            if (!e) {
+            var delta = null;
+            if (!event) {
                 // if the event is not provided, we get it from the window object
-                e = window.event;
+                event = window.event;
             }
-            if (e.wheelDelta) {
+            if (event.wheelDelta) {
                 // will work in most cases
-                delta = e.wheelDelta / 60;
-            } else if (e.detail) {
+                delta = event.wheelDelta / 60;
+            } else if (event.detail) {
                 // fallback for Firefox
-                delta = -e.detail / 2;
+                delta = -event.detail / 2;
             }
             if (delta !== null) {
-                dir = delta > 0 ? 'up' : 'down';
+                currentScrollY = delta > 0 ? 'up' : 'down';
             }
 
-            return dir;
+            return currentScrollY;
         }
     }, {
         key: 'scrollInit',
@@ -11299,11 +11280,21 @@ var Transition = function () {
 
             this.scroll = new skylake.Scroll(this.scrollCb);
 
-            //scrollCb.scroll.on()
             // this.scroll.off()
-
-
             skylake.Listen(body, 'add', 'mouseWheel', this.headerInit, this.scroll);
+        }
+    }, {
+        key: 'handleMouseWheelDirection',
+        value: function handleMouseWheelDirection(currentScrollY) {
+            if (currentScrollY === 'down') {
+                // do something, like show the next page
+                this.scroll.on();
+            } else if (currentScrollY === 'up') {
+                // do something, like show the previous page
+
+            } else {
+                    // this means the direction of the mouse wheel could not be determined
+                }
         }
     }]);
     return Transition;
