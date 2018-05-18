@@ -11128,7 +11128,7 @@ var Transition = function () {
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
-        this.menuVisible = true;
+        this.menuVisible = !0;
 
         skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
@@ -11211,7 +11211,7 @@ var Transition = function () {
     }, {
         key: 'sectionInit',
         value: function sectionInit() {
-            this.getNewIndexAndRender('init');
+            Transition.prototype.getNewIndexAndRender('init');
             console.log('hello from section init');
         }
     }, {
@@ -11219,6 +11219,7 @@ var Transition = function () {
         value: function headerScroll(currentScrollY, delta, event) {
 
             var delta = null;
+
             if (!event) {
                 // if the event is not provided, we get it from the window object
                 event = window.event;
@@ -11231,19 +11232,21 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
-                if (delta > 0) {
+                if (delta < 0) {
+
                     Transition.headerUp = new skylake.Timeline();
                     var isObj3 = skylake.Is.object(Transition.headerUp);
                     Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                        cb: this.sectionInit });
+                        cb: Transition.prototype.sectionInit });
                     Transition.headerUp.play({ delay: 500 });
-                } else {
-                    this.menuVisible = false;
+                    this.menuVisible = !1;
+                } else if (delta > 0 && this.menuVisible === !1) {
+
                     Transition.headerDown = new skylake.Timeline();
                     var isObj4 = skylake.Is.object(Transition.headerDown);
                     Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.headerDown.play({ delay: 500 });
-                    this.menuVisible = true;
+                    this.menuVisible = !0;
                 }
             }
         }
@@ -11310,13 +11313,13 @@ var Transition = function () {
         key: 'scrollInit',
         value: function scrollInit() {
             var body = skylake.Dom.body;
-            skylake.BindMaker(this, ['scrollCb']);
-
-            this.scroll = new skylake.Scroll(this.scrollCb);
-            this.scroll.on();
+            // S.BindMaker(this, ['headerScroll'])
+            // this.scroll = new S.Scroll(this.headerScroll)
+            // this.scroll.on()
             skylake.Listen(body, 'add', 'mouseWheel', this.headerScroll);
             // this.scroll.on()
             // this.scroll.off()
+            console.log('hello from scroll init');
         }
 
         // handleMouseWheelDirection( currentScrollY )

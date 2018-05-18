@@ -11,12 +11,9 @@ class Transition {
 
     //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = idx // idx is undefined, so getNextIdx will take 0 as default
-    var scrollCount = 0
     this.length = this.arr.length
-    let titleVis = false
-    this.menuVisible = true
-    var currentStep = 0,
-    nextStep;
+    this.menuVisible = !0
+ 
 
       S.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection'])
     }
@@ -85,7 +82,7 @@ getNewIndexAndRender(direction) {
 }
 
 sectionInit() {
-    this.getNewIndexAndRender('init')
+    Transition.prototype.getNewIndexAndRender('init')
     console.log('hello from section init')
 }
 
@@ -95,6 +92,7 @@ headerScroll(currentScrollY, delta, event) {
 
     var delta = null,
     currentScrollY = false;
+
     if ( !event ) { // if the event is not provided, we get it from the window object
         event = window.event;
     }
@@ -103,26 +101,27 @@ headerScroll(currentScrollY, delta, event) {
     } else if ( event.detail ) { // fallback for Firefox
         delta = -event.detail / 2;
     }
-    if ( delta !== null ) {
-        if (delta > 0) {
-        Transition.headerUp = new S.Timeline()
-        const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
-        cb: this.sectionInit})
-        Transition.headerUp.play({delay: 500})
-        } else {
-        this.menuVisible = false 
-        Transition.headerDown = new S.Timeline()
-        const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerDown.play({delay: 500})
-        this.menuVisible = true
+    if ( delta !== null) {
+        if (delta < 0) {
+
+            Transition.headerUp = new S.Timeline()
+            const isObj3 = S.Is.object(Transition.headerUp)
+            Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
+            cb: Transition.prototype.sectionInit})
+            Transition.headerUp.play({delay: 500})
+            this.menuVisible = !1
+
+        } else if (delta > 0 && this.menuVisible === !1) {
+
+            Transition.headerDown = new S.Timeline()
+            const isObj4 = S.Is.object(Transition.headerDown)
+            Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.headerDown.play({delay: 500})
+            this.menuVisible = !0
         }
     }
    
 }
-
-
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -178,14 +177,13 @@ scrollCb(currentScrollY, delta, event) {
 
 scrollInit() {
     const body = S.Dom.body
-    S.BindMaker(this, ['scrollCb'])
-
-    this.scroll = new S.Scroll(this.scrollCb)
-    this.scroll.on()
+    // S.BindMaker(this, ['headerScroll'])
+    // this.scroll = new S.Scroll(this.headerScroll)
+    // this.scroll.on()
     S.Listen(body, 'add', 'mouseWheel', this.headerScroll)
     // this.scroll.on()
     // this.scroll.off()
-
+    console.log('hello from scroll init')
 }
 
 // handleMouseWheelDirection( currentScrollY )
