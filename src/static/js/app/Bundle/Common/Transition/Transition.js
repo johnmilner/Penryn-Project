@@ -109,17 +109,17 @@ headerScroll(currentScrollY, delta, event) {
     //         };
     // };
 
-    // function throttled(delay, fn) {
-    //     let lastCall = 0;
-    //     return function (...args) {
-    //       const now = (new Date).getTime();
-    //       if (now - lastCall < delay) {
-    //         return;
-    //       }
-    //       lastCall = now;
-    //       return fn(...args);
-    //     }
-    //   }
+    function throttled(delay, fn) {
+        let lastCall = 0;
+        return function (...args) {
+          const now = (new Date).getTime();
+          if (now - lastCall < delay) {
+            return;
+          }
+          lastCall = now;
+          return fn(...args);
+        }
+      }
 
 
     let headerUp = function() {
@@ -138,8 +138,8 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerDown.play({delay: 500})
     };
 
-    // const huHandler = throttled(2000, headerUp)
-    // const hdHandler = throttled(2000, headerDown)
+    const huHandler = throttled(2000, headerUp)
+    const hdHandler = throttled(2000, headerDown)
 
     var delta = null,
     currentScrollY = false,
@@ -156,12 +156,13 @@ headerScroll(currentScrollY, delta, event) {
     if ( delta !== null) {
         if (delta < 0 && this.headerVisible === !0) {
             
-            headerUp()
-            //huHandler()
+            //headerUp()
+            huHandler()
+
         } else if (delta > 0 && this.headerVisible === !1) {
 
-            headerDown()
-            //hdHandler()
+            //headerDown()
+            hdHandler()
 
         } else if (delta > 0 && this.headerVisible === !0) {
 
