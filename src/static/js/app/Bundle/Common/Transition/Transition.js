@@ -77,7 +77,7 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
-        cb: sectionChangeNext})
+        cb: sectionInit})
         Transition.headerUp.play({delay: 500})
 
     };
@@ -162,14 +162,16 @@ headerScroll(currentScrollY, delta, event) {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
+        this.headerVisible = true
         if (delta < 0 && this.headerVisible) {
             
             huHandler()
-
+            return !this.headerVisible
 
         } else if (delta > 0 && !this.headerVisible) {
 
             hdHandler()
+            return false;
 
         } else if (delta > 0 && this.headerVisible) {
 
@@ -177,10 +179,11 @@ headerScroll(currentScrollY, delta, event) {
 
         } else if (delta < 0 && !this.headerVisible) {
 
-            //sectionChangeNext()
+            sectionChangeNext()
+            return false;
+
         }
     }
-    this.headerVisible = !this.headerVisible
 }
 
 

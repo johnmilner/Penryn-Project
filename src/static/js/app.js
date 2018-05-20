@@ -11196,7 +11196,7 @@ var Transition = function () {
                 Transition.headerUp = new skylake.Timeline();
                 var isObj3 = skylake.Is.object(Transition.headerUp);
                 Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                    cb: sectionChangeNext });
+                    cb: sectionInit });
                 Transition.headerUp.play({ delay: 500 });
             };
 
@@ -11260,6 +11260,11 @@ var Transition = function () {
                 idx = getNextIdx(idx, length, direction);
             }
 
+            function sectionInit() {
+                getNewIndexAndRender('init');
+                console.log('hello from section init');
+            }
+
             function sectionChangeNext() {
                 getNewIndexAndRender('next');
                 console.log('hello from section next');
@@ -11282,21 +11287,24 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
+                this.headerVisible = true;
                 if (delta < 0 && this.headerVisible) {
 
                     huHandler();
+                    return !this.headerVisible;
                 } else if (delta > 0 && !this.headerVisible) {
 
                     hdHandler();
+                    return false;
                 } else if (delta > 0 && this.headerVisible) {
 
                     return false;
                 } else if (delta < 0 && !this.headerVisible) {
 
-                    //sectionChangeNext()
+                    sectionChangeNext();
+                    return false;
                 }
             }
-            this.headerVisible = !this.headerVisible;
         }
 
         // scrollCb(currentScrollY, delta, event, direction) {
