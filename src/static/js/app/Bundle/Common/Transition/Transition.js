@@ -53,14 +53,28 @@ getNextIdx(idx = 0, length, direction) {
     }
 }
 
+
 getNewIndexAndRender(direction) {
      let idx
      const title = document.getElementById('h-txt-title-wrap')
      const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+     console.log(arr)
      const length = arr.length;
      idx = Transition.prototype.getNextIdx(idx, length, direction);
-     title.innerHTML = arr[idx]
+     //title.innerHTML = arr[idx]
+    if (direction === 'next') {
+        Transition.textIn = new S.Timeline()
+        const isObj5 = S.Is.object(Transition.textIn)
+        Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.textIn.play({delay: 500})
+    } else if (direction === 'prev') {
+        Transition.textOut = new S.Timeline()
+        const isObj6 = S.Is.object(Transition.textOut)
+        Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        Transition.textOut.play({delay: 500})
+    }
 }
+
 
 sectionInit() {
     Transition.prototype.getNewIndexAndRender('init')
@@ -71,23 +85,23 @@ sectionInit() {
     Transition.textIn.play({delay: 500})
 }
 
-sectionNext() {
-    Transition.prototype.getNewIndexAndRender('next')
-    console.log('hello from section next')
-    Transition.textIn = new S.Timeline()
-    const isObj5 = S.Is.object(Transition.textIn)
-    Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-    Transition.textIn.play({delay: 500})
-}
+// sectionNext() {
+//     Transition.prototype.getNewIndexAndRender('next')
+//     console.log('hello from section next')
+//     Transition.textIn = new S.Timeline()
+//     const isObj5 = S.Is.object(Transition.textIn)
+//     Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+//     Transition.textIn.play({delay: 500})
+// }
 
-sectionPrev() {
-    Transition.prototype.getNewIndexAndRender('prev')
-    console.log('hello from section prev')
-    Transition.textOut = new S.Timeline()
-    const isObj6 = S.Is.object(Transition.textOut)
-    Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-    Transition.textOut.play({delay: 500})
-}
+// sectionPrev() {
+//     Transition.prototype.getNewIndexAndRender('prev')
+//     console.log('hello from section prev')
+//     Transition.textOut = new S.Timeline()
+//     const isObj6 = S.Is.object(Transition.textOut)
+//     Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+//     Transition.textOut.play({delay: 500})
+// }
 
 
 headerScroll(currentScrollY, delta, event) {
@@ -107,17 +121,17 @@ headerScroll(currentScrollY, delta, event) {
     //         };
     // };
 
-    // function throttled(delay, fn) {
-    //     let lastCall = 0;
-    //     return function (...args) {
-    //       const now = (new Date).getTime();
-    //       if (now - lastCall < delay) {
-    //         return;
-    //       }
-    //       lastCall = now;
-    //       return fn(...args);
-    //     }
-    //   }
+    function throttled(delay, fn) {
+        let lastCall = 0;
+        return function (...args) {
+          const now = (new Date).getTime();
+          if (now - lastCall < delay) {
+            return;
+          }
+          lastCall = now;
+          return fn(...args);
+        }
+      }
 
 
     let headerUp = function() {
@@ -138,8 +152,8 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerDown.play({delay: 500})
     };
 
-    // const huHandler = throttled(2000, headerUp)
-    // const hdHandler = throttled(2000, headerDown)
+    const huHandler = throttled(2000, headerUp)
+    const hdHandler = throttled(2000, headerDown)
 
     var delta = null,
     currentScrollY = false,
@@ -156,13 +170,13 @@ headerScroll(currentScrollY, delta, event) {
     if ( delta !== null) {
         if (delta < 0 && this.headerVisible === !0) {
             
-            headerUp()
-            //huHandler()
+            //headerUp()
+            huHandler()
         } else if (delta > 0 && this.headerVisible === !1) {
 
-            headerDown()
+            //headerDown()
 
-            //hdHandler()
+            hdHandler()
 
         } else if (delta > 0 && this.headerVisible === !0) {
 
