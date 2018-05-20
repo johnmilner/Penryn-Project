@@ -11170,7 +11170,7 @@ var Transition = function () {
 
             switch (direction) {
                 case 'init':
-                    this.updateViewIn(idx);
+                    this.updateViewInit(idx);
                     return idx;
                 case 'next':
                     this.updateViewIn(idx);
@@ -11186,14 +11186,20 @@ var Transition = function () {
             }
         }
     }, {
-        key: 'updateViewIn',
-        value: function updateViewIn(idx) {
-            this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        key: 'updateViewInit',
+        value: function updateViewInit(idx) {
             Transition.textIn = new skylake.Timeline();
             var isObj5 = skylake.Is.object(Transition.textIn);
             Transition.textIn.from({ el: this.arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
             Transition.textIn.play({ delay: 500 });
-            Transition.textIn.pause();
+        }
+    }, {
+        key: 'updateViewIn',
+        value: function updateViewIn(idx) {
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: this.arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
         }
     }, {
         key: 'updateViewOut',
@@ -11206,6 +11212,7 @@ var Transition = function () {
     }, {
         key: 'getNewIndexAndRender',
         value: function getNewIndexAndRender(direction) {
+            this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
             this.idx = this.getNextIdx(this.idx, length, direction);
         }
     }, {
@@ -11215,10 +11222,16 @@ var Transition = function () {
             console.log('hello from section init');
         }
     }, {
-        key: 'sectionChange',
-        value: function sectionChange() {
+        key: 'sectionNext',
+        value: function sectionNext() {
             Transition.prototype.getNewIndexAndRender('next');
-            console.log('hello from section init');
+            console.log('hello from section next');
+        }
+    }, {
+        key: 'sectionPrev',
+        value: function sectionPrev() {
+            Transition.prototype.getNewIndexAndRender('prev');
+            console.log('hello from section prev');
         }
     }, {
         key: 'headerScroll',
@@ -11264,7 +11277,8 @@ var Transition = function () {
             var headerDown = function headerDown() {
                 Transition.headerDown = new skylake.Timeline();
                 var isObj4 = skylake.Is.object(Transition.headerDown);
-                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut',
+                    cb: Transition.prototype.sectionPrev });
                 Transition.headerDown.play({ delay: 500 });
             };
 
@@ -11299,6 +11313,7 @@ var Transition = function () {
                     return false;
                 } else if (delta < 0 && this.headerVisible === !1) {
 
+                    Transition.prototype.sectionNext();
                     return false;
                 }
                 this.headerVisible = !this.headerVisible;

@@ -46,7 +46,7 @@ this.scrollInit()
 
 getNextIdx(idx = 0, length, direction) {
     switch (direction) {
-        case 'init': this.updateViewIn(idx);
+        case 'init': this.updateViewInit(idx);
                      return idx 
         case 'next': this.updateViewIn(idx);
                      return (idx + 1) % length;
@@ -60,13 +60,19 @@ getNextIdx(idx = 0, length, direction) {
         }
     }
 
-updateViewIn(idx) {
-    this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+
+updateViewInit(idx) {
     Transition.textIn = new S.Timeline()
     const isObj5 = S.Is.object(Transition.textIn)
     Transition.textIn.from({el: this.arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
     Transition.textIn.play({delay: 500})
-    Transition.textIn.pause()
+}
+
+updateViewIn(idx) {
+    Transition.textIn = new S.Timeline()
+    const isObj5 = S.Is.object(Transition.textIn)
+    Transition.textIn.from({el: this.arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+    Transition.textIn.play({delay: 500})
 }
 
 updateViewOut(idx) {
@@ -77,6 +83,7 @@ updateViewOut(idx) {
 }
 
 getNewIndexAndRender(direction) {
+    this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = this.getNextIdx(this.idx, length, direction);
 
 }
@@ -86,9 +93,14 @@ sectionInit() {
     console.log('hello from section init')
 }
 
-sectionChange() {
+sectionNext() {
     Transition.prototype.getNewIndexAndRender('next')
-    console.log('hello from section init')
+    console.log('hello from section next')
+}
+
+sectionPrev() {
+    Transition.prototype.getNewIndexAndRender('prev')
+    console.log('hello from section prev')
 }
 
 
@@ -134,7 +146,8 @@ headerScroll(currentScrollY, delta, event) {
     let headerDown = function() {
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut',
+        cb: Transition.prototype.sectionPrev})
         Transition.headerDown.play({delay: 500})
     };
 
@@ -169,6 +182,7 @@ headerScroll(currentScrollY, delta, event) {
 
         } else if (delta < 0 && this.headerVisible === !1) {
 
+            Transition.prototype.sectionNext()
             return false;
         }
         this.headerVisible = !this.headerVisible
