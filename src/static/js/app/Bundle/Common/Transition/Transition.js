@@ -12,7 +12,6 @@ class Transition {
     //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
     this.length = this.arr.length;
-    this.headerVisible = !0
 
 
       S.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll','scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection'])
@@ -162,16 +161,15 @@ headerScroll(currentScrollY, delta, event) {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
+        this.headerVisible = !0
         if (delta < 0 && this.headerVisible === !0) {
             
-            sectionInit()
-            //huHandler()
-
+            huHandler()
+            return false
 
         } else if (delta > 0 && this.headerVisible === !1) {
 
-            //hdHandler()
-            sectionChangePrev()
+            hdHandler()
 
 
         } else if (delta > 0 && this.headerVisible === !0) {

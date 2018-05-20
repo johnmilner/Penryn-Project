@@ -11128,7 +11128,6 @@ var Transition = function () {
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
-        this.headerVisible = !0;
 
         skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
@@ -11164,6 +11163,53 @@ var Transition = function () {
     }, {
         key: 'headerScroll',
         value: function headerScroll(currentScrollY, delta, event) {
+
+            // let debounce = function(func, wait, immediate) {
+            //     var timeout;
+            //     return function() {
+            //         var context = this, args = arguments;
+            //         var later = function() {
+            //             timeout = null;
+            //             if (!immediate) func.apply(context, args);
+            //         };
+            //         var callNow = immediate && !timeout;
+            //         clearTimeout(timeout);
+            //         timeout = setTimeout(later, wait);
+            //         if (callNow) func.apply(context, args);
+            //         };
+            // };
+
+            function throttled(delay, fn) {
+                var lastCall = 0;
+                return function () {
+                    var now = new Date().getTime();
+                    if (now - lastCall < delay) {
+                        return;
+                    }
+                    lastCall = now;
+                    return fn.apply(undefined, arguments);
+                };
+            }
+
+            var headerUp = function headerUp() {
+                // All the taxing stuff you do
+                Transition.headerUp = new skylake.Timeline();
+                var isObj3 = skylake.Is.object(Transition.headerUp);
+                Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
+                    cb: sectionInit });
+                Transition.headerUp.play({ delay: 500 });
+            };
+
+            var headerDown = function headerDown() {
+                Transition.headerDown = new skylake.Timeline();
+                var isObj4 = skylake.Is.object(Transition.headerDown);
+                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut',
+                    cb: sectionChangePrev });
+                Transition.headerDown.play({ delay: 500 });
+            };
+
+            var huHandler = throttled(2000, headerUp);
+            var hdHandler = throttled(2000, headerDown);
 
             var delta = null,
                 event = window.event;
@@ -11241,15 +11287,14 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
+                this.headerVisible = !0;
                 if (delta < 0 && this.headerVisible === !0) {
 
-                    sectionInit();
-                    //huHandler()
-
+                    huHandler();
+                    return false;
                 } else if (delta > 0 && this.headerVisible === !1) {
 
-                    //hdHandler()
-                    sectionChangePrev();
+                    hdHandler();
                 } else if (delta > 0 && this.headerVisible === !0) {
 
                     return false;
