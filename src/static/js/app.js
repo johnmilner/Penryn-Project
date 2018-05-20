@@ -11169,72 +11169,54 @@ var Transition = function () {
             var length = arguments[1];
             var direction = arguments[2];
 
-            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-            length = arr.length;
-
             switch (direction) {
-                case 'init':
-                    Transition.prototype.updateViewInit(arr, idx);
-                    return idx;
                 case 'next':
-                    Transition.prototype.updateViewIn(arr, idx);
                     return (idx + 1) % length;
                 case 'prev':
-                    Transition.prototype.updateViewOut(arr, idx);
                     return idx == 0 && length - 1 || idx - 1;
-
-                // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
-                // case 'prev': return (idx === 0) && length - 1 || idx - 1;
                 default:
                     return idx;
             }
         }
     }, {
-        key: 'updateViewInit',
-        value: function updateViewInit(arr, idx) {
-            Transition.textIn = new skylake.Timeline();
-            var isObj5 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.textIn.play({ delay: 500 });
-        }
-    }, {
-        key: 'updateViewIn',
-        value: function updateViewIn(arr, idx) {
-            Transition.textIn = new skylake.Timeline();
-            var isObj5 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.textIn.play({ delay: 500 });
-        }
-    }, {
-        key: 'updateViewOut',
-        value: function updateViewOut(arr, idx) {
-            Transition.textOut = new skylake.Timeline();
-            var isObj6 = skylake.Is.object(Transition.textOut);
-            Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-            Transition.textOut.play({ delay: 500 });
-        }
-    }, {
         key: 'getNewIndexAndRender',
         value: function getNewIndexAndRender(direction) {
-            this.idx = this.getNextIdx(this.idx, length, direction);
+            var idx = void 0;
+            var title = document.getElementById('h-txt-title-wrap');
+            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+            var length = arr.length;
+            idx = Transition.prototype.getNextIdx(idx, length, direction);
+            title.innerHTML = arr[idx];
         }
     }, {
         key: 'sectionInit',
         value: function sectionInit() {
             Transition.prototype.getNewIndexAndRender('init');
             console.log('hello from section init');
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
         }
     }, {
         key: 'sectionNext',
         value: function sectionNext() {
             Transition.prototype.getNewIndexAndRender('next');
             console.log('hello from section next');
+            Transition.textIn = new skylake.Timeline();
+            var isObj5 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
         }
     }, {
         key: 'sectionPrev',
         value: function sectionPrev() {
             Transition.prototype.getNewIndexAndRender('prev');
             console.log('hello from section prev');
+            Transition.textOut = new skylake.Timeline();
+            var isObj6 = skylake.Is.object(Transition.textOut);
+            Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textOut.play({ delay: 500 });
         }
     }, {
         key: 'headerScroll',
@@ -11273,7 +11255,8 @@ var Transition = function () {
                 Transition.headerUp = new skylake.Timeline();
                 var isObj3 = skylake.Is.object(Transition.headerUp);
                 Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                    cb: Transition.prototype.sectionInit });
+                    cb: Transition.prototype.getNewIndexAndRender('next')
+                });
                 Transition.headerUp.play({ delay: 500 });
             };
 
@@ -11281,7 +11264,7 @@ var Transition = function () {
                 Transition.headerDown = new skylake.Timeline();
                 var isObj4 = skylake.Is.object(Transition.headerDown);
                 Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut',
-                    cb: Transition.prototype.sectionPrev });
+                    cb: Transition.prototype.getNewIndexAndRender('prev') });
                 Transition.headerDown.play({ delay: 500 });
             };
 
@@ -11306,7 +11289,6 @@ var Transition = function () {
                 if (delta < 0 && this.headerVisible === !0) {
 
                     headerUp();
-
                     //huHandler()
                 } else if (delta > 0 && this.headerVisible === !1) {
 
@@ -11318,7 +11300,7 @@ var Transition = function () {
                     return false;
                 } else if (delta < 0 && this.headerVisible === !1) {
 
-                    Transition.prototype.sectionNext();
+                    Transition.prototype.getNewIndexAndRender('next');
                     return false;
                 }
                 this.headerVisible = !this.headerVisible;
