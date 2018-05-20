@@ -11196,7 +11196,7 @@ var Transition = function () {
                 Transition.headerUp = new skylake.Timeline();
                 var isObj3 = skylake.Is.object(Transition.headerUp);
                 Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                    cb: sectionInit });
+                    cb: sectionChangeNext });
                 Transition.headerUp.play({ delay: 500 });
             };
 
@@ -11260,19 +11260,14 @@ var Transition = function () {
                 idx = getNextIdx(idx, length, direction);
             }
 
-            function sectionInit() {
-                getNewIndexAndRender('init');
-                console.log('hello from section init');
-            }
-
             function sectionChangeNext() {
                 getNewIndexAndRender('next');
-                console.log('hello from section init');
+                console.log('hello from section next');
             }
 
             function sectionChangePrev() {
                 getNewIndexAndRender('prev');
-                console.log('hello from section init');
+                console.log('hello from section prev');
             }
 
             if (!event) {
@@ -11287,23 +11282,21 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
-                this.headerVisible = !0;
-                if (delta < 0 && this.headerVisible === !0) {
+                if (delta < 0 && this.headerVisible) {
 
                     huHandler();
-                    return false;
-                } else if (delta > 0 && this.headerVisible === !1) {
+                } else if (delta > 0 && !this.headerVisible) {
 
                     hdHandler();
-                } else if (delta > 0 && this.headerVisible === !0) {
+                } else if (delta > 0 && this.headerVisible) {
 
                     return false;
-                } else if (delta < 0 && this.headerVisible === !1) {
+                } else if (delta < 0 && !this.headerVisible) {
 
-                    sectionChangeNext();
+                    //sectionChangeNext()
                 }
-                this.headerVisible = !this.headerVisible;
             }
+            this.headerVisible = !this.headerVisible;
         }
 
         // scrollCb(currentScrollY, delta, event, direction) {

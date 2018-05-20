@@ -77,8 +77,9 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
-        cb: sectionInit})
+        cb: sectionChangeNext})
         Transition.headerUp.play({delay: 500})
+
     };
     
     let headerDown = function() {
@@ -87,6 +88,7 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut',
         cb: sectionChangePrev})
         Transition.headerDown.play({delay: 500})
+
     };
 
     const huHandler = throttled(2000, headerUp)
@@ -97,7 +99,6 @@ headerScroll(currentScrollY, delta, event) {
     event = window.event;
     let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     let idx
-
 
     function getNextIdx(idx = 0, length, direction) {
         switch (direction) {
@@ -144,12 +145,12 @@ headerScroll(currentScrollY, delta, event) {
     
     function sectionChangeNext() {
         getNewIndexAndRender('next')
-        console.log('hello from section init')
+        console.log('hello from section next')
     }
     
     function sectionChangePrev() {
         getNewIndexAndRender('prev')
-        console.log('hello from section init')
+        console.log('hello from section prev')
     }
 
     if ( !event ) { // if the event is not provided, we get it from the window object
@@ -161,29 +162,25 @@ headerScroll(currentScrollY, delta, event) {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
-        this.headerVisible = !0
-        if (delta < 0 && this.headerVisible === !0) {
+        if (delta < 0 && this.headerVisible) {
             
             huHandler()
-            return false
 
-        } else if (delta > 0 && this.headerVisible === !1) {
+
+        } else if (delta > 0 && !this.headerVisible) {
 
             hdHandler()
 
-
-        } else if (delta > 0 && this.headerVisible === !0) {
+        } else if (delta > 0 && this.headerVisible) {
 
             return false;
 
-        } else if (delta < 0 && this.headerVisible === !1) {
+        } else if (delta < 0 && !this.headerVisible) {
 
-            sectionChangeNext()
-
+            //sectionChangeNext()
         }
-        this.headerVisible = !this.headerVisible
     }
-
+    this.headerVisible = !this.headerVisible
 }
 
 
