@@ -12,8 +12,8 @@ class Transition {
     //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
     this.length = this.arr.length;
-    this.headerVisible = !0;
- 
+    this.headerVisible = !0
+
 
       S.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll','scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection'])
     }
@@ -44,60 +44,6 @@ this.scrollInit()
 
 }
 
-getNextIdx(idx = 0, length, direction) {
-    switch (direction) {
-        case 'init': this.updateViewIn(idx);
-                     return idx 
-        case 'next': this.updateViewIn(idx);
-                     return (idx + 1) % length;
-        case 'prev': this.updateViewOut(idx);
-                     return (idx == 0) && length - 1 || idx - 1;
-
-
-        // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
-        // case 'prev': return (idx === 0) && length - 1 || idx - 1;
-        default:     return idx;
-        }
-    }
-
-updateViewIn(idx) {
-    this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-    Transition.textIn = new S.Timeline()
-    const isObj5 = S.Is.object(Transition.textIn)
-    Transition.textIn.from({el: this.arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-    Transition.textIn.play({delay: 500})
-    Transition.textIn.pause()
-}
-
-updateViewOut(idx) {
-    Transition.textOut = new S.Timeline()
-    const isObj6 = S.Is.object(Transition.textOut)
-    Transition.textOut.from({el: this.arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-    Transition.textOut.play({delay: 500})
-}
-
-getNewIndexAndRender(direction) {
-    this.idx = this.getNextIdx(this.idx, length, direction);
-
-}
-
-sectionInit() {
-    Transition.prototype.getNewIndexAndRender('init')
-    console.log('hello from section init')
-}
-
-sectionChangeNext() {
-    Transition.prototype.getNewIndexAndRender('next')
-    console.log('hello from section init')
-}
-
-sectionChangePrev() {
-    Transition.prototype.getNewIndexAndRender('prev')
-    console.log('hello from section init')
-}
-
-
-
 headerScroll(currentScrollY, delta, event) {
 
     // let debounce = function(func, wait, immediate) {
@@ -127,13 +73,12 @@ headerScroll(currentScrollY, delta, event) {
         }
       }
 
-
     let headerUp = function() {
         // All the taxing stuff you do
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
-        cb: Transition.prototype.sectionInit})
+        cb: sectionInit})
         Transition.headerUp.play({delay: 500})
     };
     
@@ -141,7 +86,7 @@ headerScroll(currentScrollY, delta, event) {
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut',
-        cb: Transition.prototype.sectionChangePrev})
+        cb: sectionChangePrev})
         Transition.headerDown.play({delay: 500})
     };
 
@@ -151,6 +96,62 @@ headerScroll(currentScrollY, delta, event) {
     var delta = null,
     currentScrollY = false,
     event = window.event;
+    let arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+    let idx
+
+
+    function getNextIdx(idx = 0, length, direction) {
+        switch (direction) {
+            case 'init': Transition.textInit = new S.Timeline()
+                         const isObj5 = S.Is.object(Transition.textInit)
+                         Transition.textInit.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e:  'Power4InOut'})
+                         Transition.textInit.play({delay: 500})
+                         return idx 
+            case 'next': Transition.textIn = new S.Timeline()
+                         const isObj6 = S.Is.object(Transition.textIn)
+                         Transition.textIn.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e:  'Power4InOut'})
+                         Transition.textIn.play({delay: 500})
+                         return (idx + 1) % length;
+            case 'prev': Transition.textOut = new S.Timeline()
+                         const isObj7 = S.Is.object(Transition.textOut)
+                         Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                         Transition.textOut.play({delay: 500})
+                         return (idx == 0) && length - 1 || idx - 1;
+    
+    
+            // case 'next': return idx === 0 ? idx === 0 : (idx + 1) % length;
+            // case 'prev': return (idx === 0) && length - 1 || idx - 1;
+            default:     return idx;
+            }
+        }
+    
+    // function updateViewIn(idx) {
+        
+    // }
+    
+    // function updateViewOut(idx) {
+        
+    // }
+    
+    function getNewIndexAndRender(direction) {
+        idx = getNextIdx(idx, length, direction);
+        
+    }
+    
+    function sectionInit() {
+        getNewIndexAndRender('init')
+        console.log('hello from section init')
+    }
+    
+    function sectionChangeNext() {
+        getNewIndexAndRender('next')
+        console.log('hello from section init')
+    }
+    
+    function sectionChangePrev() {
+        getNewIndexAndRender('prev')
+        console.log('hello from section init')
+    }
 
     if ( !event ) { // if the event is not provided, we get it from the window object
         event = window.event;
@@ -163,13 +164,15 @@ headerScroll(currentScrollY, delta, event) {
     if ( delta !== null) {
         if (delta < 0 && this.headerVisible === !0) {
             
-            //headerUp()
-            huHandler()
+            sectionInit()
+            //huHandler()
+
 
         } else if (delta > 0 && this.headerVisible === !1) {
 
-            //headerDown()
-            hdHandler()
+            //hdHandler()
+            sectionChangePrev()
+
 
         } else if (delta > 0 && this.headerVisible === !0) {
 
@@ -177,12 +180,12 @@ headerScroll(currentScrollY, delta, event) {
 
         } else if (delta < 0 && this.headerVisible === !1) {
 
-            return false;
+            sectionChangeNext()
+
         }
         this.headerVisible = !this.headerVisible
-        //Transition.prototype.sectionChange()
     }
-   
+
 }
 
 
