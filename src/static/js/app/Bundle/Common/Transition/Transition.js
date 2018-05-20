@@ -86,10 +86,16 @@ sectionInit() {
     console.log('hello from section init')
 }
 
-sectionChange() {
+sectionChangeNext() {
     Transition.prototype.getNewIndexAndRender('next')
     console.log('hello from section init')
 }
+
+sectionChangePrev() {
+    Transition.prototype.getNewIndexAndRender('prev')
+    console.log('hello from section init')
+}
+
 
 
 headerScroll(currentScrollY, delta, event) {
@@ -134,7 +140,8 @@ headerScroll(currentScrollY, delta, event) {
     let headerDown = function() {
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut',
+        cb: Transition.prototype.sectionChangePrev})
         Transition.headerDown.play({delay: 500})
     };
 
