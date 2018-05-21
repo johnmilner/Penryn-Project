@@ -11169,28 +11169,37 @@ var Transition = function () {
             var direction = arguments[2];
 
             var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-            //console.log(arr)
-            //const length = arr.length;
+            var currentStep = 0;
+            var nextStep = void 0;
             switch (direction) {
                 case 'init':
                     Transition.textInit = new skylake.Timeline();
                     var isObj5 = skylake.Is.object(Transition.textInit);
-                    Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textInit.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.textInit.play({ delay: 500 });
                     console.log('hello from Transition.prototype.getNewIndexAndRender(init)');
-                    return idx;
+                    return;
                 case 'next':
+                    nextStep = currentStep + 1;
+                    if (nextStep === arr.length) {
+                        alert("You reached the end");
+                        return;
+                    }
                     Transition.textIn = new skylake.Timeline();
                     var isObj6 = skylake.Is.object(Transition.textIn);
-                    Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textIn.from({ el: arr[nextStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.textIn.play({ delay: 500 });
                     console.log('hello from Transition.prototype.getNewIndexAndRender(next)');
-                    return (idx + 1) % length;
+                    currentStep = nextStep;
+                    //return (idx + 1) % length;
+                    return;
                 case 'prev':
-                    Transition.textOut = new skylake.Timeline();
-                    var isObj7 = skylake.Is.object(Transition.textOut);
-                    Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textOut.play({ delay: 500 });
+                    arr.slice(1);
+                    Transition.textIn.play({ reverse: true });
+                    // Transition.textOut = new S.Timeline()
+                    // const isObj7 = S.Is.object(Transition.textOut)
+                    // Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+                    // Transition.textOut.play({delay: 500}) 
                     console.log('hello from Transition.prototype.getNewIndexAndRender(prev)');
                     return idx == 0 && length - 1 || idx - 1;
                 default:
@@ -11203,8 +11212,26 @@ var Transition = function () {
             var idx = void 0;
             var title = document.getElementById('h-txt-title-wrap');
             var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-            //console.log(arr)
-            var length = arr.length;
+
+            var length = arr.length - 1;
+
+            //idx ? (idx + 1) % length : (idx == 0) && length - 1 || idx - 1
+            //  if (direction === 'init') {
+
+            //     idx = (arr[0] + 1) % length
+            //     Transition.prototype.getNextIdx(idx, length, direction, arr)
+
+            //  } else if (direction === 'next') {
+
+            //     idx = (arr[idx] + 1) % length
+            //     Transition.prototype.getNextIdx(idx, length, direction, arr)
+
+            //  } else if (direction === 'prev') {
+
+            //     idx = (arr[idx] == 0) && length - 1 || arr[idx] - 1
+            //     Transition.prototype.getNextIdx(idx, length, direction, arr)
+
+            //  }
             idx = Transition.prototype.getNextIdx(idx, length, direction);
             //title.innerHTML = arr[idx]
         }
@@ -11294,27 +11321,6 @@ var Transition = function () {
                 //Transition.prototype.sectionChange()
             }
         }
-
-        // scrollCb(currentScrollY, delta, event, direction) {
-        // scrollCb(currentScrollY, delta, event) {
-
-        //     var delta = null,
-        //         currentScrollY = false
-        //     ;
-        //     if ( !event ) { // if the event is not provided, we get it from the window object
-        //         event = window.event;
-        //     }
-        //     if ( event.wheelDelta ) { // will work in most cases
-        //         delta = event.wheelDelta / 60;
-        //     } else if ( event.detail ) { // fallback for Firefox
-        //         delta = -event.detail / 2;
-        //     }
-        //     if ( delta !== null ) {
-        //         delta > 0 ? this.headerDown : this.headerUp;
-        //     }
-
-        // }
-
     }, {
         key: 'scrollInit',
         value: function scrollInit() {
