@@ -11129,7 +11129,6 @@ var Transition = function () {
         this.arr = arr;
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
-        this.headerVisible = !0;
 
         skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
@@ -11169,12 +11168,28 @@ var Transition = function () {
             var length = arguments[1];
             var direction = arguments[2];
 
+            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+            //console.log(arr)
+            //const length = arr.length;
             switch (direction) {
                 case 'init':
+                    Transition.textInit = new skylake.Timeline();
+                    var isObj5 = skylake.Is.object(Transition.textInit);
+                    Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textInit.play({ delay: 500 });
                     return idx;
                 case 'next':
+                    Transition.textIn = new skylake.Timeline();
+                    var isObj6 = skylake.Is.object(Transition.textIn);
+                    Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textIn.play({ delay: 500 });
+                    console.log('hello from Transition.prototype.getNewIndexAndRender(next)');
                     return (idx + 1) % length;
                 case 'prev':
+                    Transition.textOut = new skylake.Timeline();
+                    var isObj7 = skylake.Is.object(Transition.textOut);
+                    Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textOut.play({ delay: 500 });
                     return idx == 0 && length - 1 || idx - 1;
                 default:
                     return idx;
@@ -11186,31 +11201,16 @@ var Transition = function () {
             var idx = void 0;
             var title = document.getElementById('h-txt-title-wrap');
             var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-            console.log(arr);
+            //console.log(arr)
             var length = arr.length;
             idx = Transition.prototype.getNextIdx(idx, length, direction);
             //title.innerHTML = arr[idx]
-            if (direction === 'next' && this.headerVisible === !1) {
-                Transition.textIn = new skylake.Timeline();
-                var isObj5 = skylake.Is.object(Transition.textIn);
-                Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textIn.play({ delay: 500 });
-                console.log('next');
-            } else if (direction === 'prev') {
-                Transition.textOut = new skylake.Timeline();
-                var isObj6 = skylake.Is.object(Transition.textOut);
-                Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut.play({ delay: 500 });
-            } else if (direction === 'init') {
-                Transition.textIn = new skylake.Timeline();
-                var _isObj = skylake.Is.object(Transition.textIn);
-                Transition.textIn.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textIn.play({ delay: 500 });
-            }
         }
     }, {
         key: 'headerScroll',
         value: function headerScroll(currentScrollY, delta, event) {
+
+            var isOff = false;
 
             function throttled(delay, fn) {
                 var lastCall = 0;
@@ -11231,6 +11231,7 @@ var Transition = function () {
                     cb: Transition.prototype.getNewIndexAndRender('init') });
                 Transition.headerUp.play({ delay: 500 });
                 console.log('headerUp init');
+                isOff = true;
             };
 
             var headerDown = function headerDown() {
@@ -11240,6 +11241,7 @@ var Transition = function () {
                     cb: Transition.prototype.getNewIndexAndRender('prev') });
                 Transition.headerDown.play({ delay: 500 });
                 console.log('headerDown prev');
+                isOff = false;
             };
 
             var huHandler = throttled(250, headerUp);
@@ -11260,21 +11262,24 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
-                if (delta < 0 && this.headerVisible === !0) {
+                if (delta < 0 && isOff === false) {
 
                     huHandler();
-                } else if (delta > 0 && this.headerVisible === !1) {
-
-                    hdHandler();
-                } else if (delta > 0 && this.headerVisible === !0) {
-
-                    return false;
-                } else if (delta < 0 && this.headerVisible === !1) {
+                } else if (delta < 0 && isOff === true) {
 
                     Transition.prototype.getNewIndexAndRender('next');
                     return false;
+                } else {
+
+                    hdHandler();
                 }
-                this.headerVisible = !this.headerVisible;
+
+                if (delta > 0 && isOff === false) {
+
+                    return false;
+                }
+
+                //this.headerVisible = !this.headerVisible
             }
         }
     }, {
