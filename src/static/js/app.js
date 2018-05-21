@@ -11126,9 +11126,9 @@ var Transition = function () {
         // const body = S.Dom.body
 
         //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        this.arr = arr;
         this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
         this.length = this.arr.length;
+        this.headerVisible = !0;
 
         skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
     }
@@ -11177,6 +11177,7 @@ var Transition = function () {
                     var isObj5 = skylake.Is.object(Transition.textInit);
                     Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                     Transition.textInit.play({ delay: 500 });
+                    console.log('hello from Transition.prototype.getNewIndexAndRender(init)');
                     return idx;
                 case 'next':
                     Transition.textIn = new skylake.Timeline();
@@ -11190,6 +11191,7 @@ var Transition = function () {
                     var isObj7 = skylake.Is.object(Transition.textOut);
                     Transition.textOut.from({ el: arr[idx], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
                     Transition.textOut.play({ delay: 500 });
+                    console.log('hello from Transition.prototype.getNewIndexAndRender(prev)');
                     return idx == 0 && length - 1 || idx - 1;
                 default:
                     return idx;
@@ -11210,7 +11212,20 @@ var Transition = function () {
         key: 'headerScroll',
         value: function headerScroll(currentScrollY, delta, event) {
 
-            var isOff = false;
+            // let debounce = function(func, wait, immediate) {
+            //     var timeout;
+            //     return function() {
+            //         var context = this, args = arguments;
+            //         var later = function() {
+            //             timeout = null;
+            //             if (!immediate) func.apply(context, args);
+            //         };
+            //         var callNow = immediate && !timeout;
+            //         clearTimeout(timeout);
+            //         timeout = setTimeout(later, wait);
+            //         if (callNow) func.apply(context, args);
+            //         };
+            // };
 
             function throttled(delay, fn) {
                 var lastCall = 0;
@@ -11225,13 +11240,12 @@ var Transition = function () {
             }
 
             var headerUp = function headerUp() {
+                // All the taxing stuff you do
                 Transition.headerUp = new skylake.Timeline();
                 var isObj3 = skylake.Is.object(Transition.headerUp);
                 Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
                     cb: Transition.prototype.getNewIndexAndRender('init') });
                 Transition.headerUp.play({ delay: 500 });
-                console.log('headerUp init');
-                isOff = true;
             };
 
             var headerDown = function headerDown() {
@@ -11240,16 +11254,13 @@ var Transition = function () {
                 Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut',
                     cb: Transition.prototype.getNewIndexAndRender('prev') });
                 Transition.headerDown.play({ delay: 500 });
-                console.log('headerDown prev');
-                isOff = false;
             };
 
-            var huHandler = throttled(250, headerUp);
-            var hdHandler = throttled(250, headerDown);
+            var huHandler = throttled(2000, headerUp);
+            var hdHandler = throttled(2000, headerDown);
 
             var delta = null,
                 event = window.event;
-            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
 
             if (!event) {
                 // if the event is not provided, we get it from the window object
@@ -11263,26 +11274,47 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
-                if (delta < 0 && isOff === false) {
+                if (delta < 0 && this.headerVisible === !0) {
 
+                    //headerUp()
                     huHandler();
-                } else if (delta < 0 && isOff === true) {
+                } else if (delta > 0 && this.headerVisible === !1) {
+
+                    //headerDown()
+                    hdHandler();
+                } else if (delta > 0 && this.headerVisible === !0) {
+
+                    return false;
+                } else if (delta < 0 && this.headerVisible === !1) {
 
                     Transition.prototype.getNewIndexAndRender('next');
                     return false;
-                } else {
-
-                    hdHandler();
                 }
-
-                if (delta > 0 && isOff === false) {
-
-                    return false;
-                }
-
-                return false;
+                this.headerVisible = !this.headerVisible;
+                //Transition.prototype.sectionChange()
             }
         }
+
+        // scrollCb(currentScrollY, delta, event, direction) {
+        // scrollCb(currentScrollY, delta, event) {
+
+        //     var delta = null,
+        //         currentScrollY = false
+        //     ;
+        //     if ( !event ) { // if the event is not provided, we get it from the window object
+        //         event = window.event;
+        //     }
+        //     if ( event.wheelDelta ) { // will work in most cases
+        //         delta = event.wheelDelta / 60;
+        //     } else if ( event.detail ) { // fallback for Firefox
+        //         delta = -event.detail / 2;
+        //     }
+        //     if ( delta !== null ) {
+        //         delta > 0 ? this.headerDown : this.headerUp;
+        //     }
+
+        // }
+
     }, {
         key: 'scrollInit',
         value: function scrollInit() {
