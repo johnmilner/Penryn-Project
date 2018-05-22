@@ -11169,56 +11169,59 @@ var Transition = function () {
 
         // }
 
-    }, {
-        key: 'getNextIdx',
-        value: function getNextIdx() {
-            var direction = arguments[2];
+        // getNextIdx(idx = 0, length, direction) {
+        //         const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        //         let currentStep = 0
+        //         let nextStep
+        //             if (direction === 'init') {
 
-            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-            var currentStep = 0;
-            switch (direction) {
-                case 'init':
-                    Transition.textInit = new skylake.Timeline();
-                    var isObj5 = skylake.Is.object(Transition.textInit);
-                    Transition.textInit.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textInit.play({ delay: 500 });
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(init)');
-                    return;
-                case 'next':
-                    if (currentStep === 0 || currentStep === 1 || currentStep === 2) {
-                        currentStep++;
-                    }
-                    Transition.textIn = new skylake.Timeline();
-                    var isObj6 = skylake.Is.object(Transition.textIn);
-                    Transition.textIn.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textIn.play({ delay: 500 });
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(next)');
-                    return;
-                case 'prev':
-                    Transition.textIn.play({ reverse: true });
-                    // Transition.textOut = new S.Timeline()
-                    // const isObj7 = S.Is.object(Transition.textOut)
-                    // Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-                    // Transition.textOut.play({delay: 500}) 
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(prev)');
-                    //return (idx == 0) && length - 1 || idx - 1;
-                    return;
-                default: //return idx;
-            }
-        }
-    }, {
-        key: 'getNewIndexAndRender',
-        value: function getNewIndexAndRender(direction) {
-            var idx = void 0;
-            var title = document.getElementById('h-txt-title-wrap');
-            var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        //                 Transition.textInit = new S.Timeline()
+        //                 const isObj5 = S.Is.object(Transition.textInit)
+        //                 Transition.textInit.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //                 Transition.textInit.play({delay: 500})
+        //                 currentStep++
+        //                 nextStep = currentStep
+        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(init)')
 
-            var length = arr.length - 1;
+        //             } else if (direction === 'next' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
 
-            Transition.prototype.getNextIdx(idx, length, direction);
-            //idx = Transition.prototype.getNextIdx(idx, length, direction, currentStep, nextStep);
-            //title.innerHTML = arr[idx]
-        }
+        //                 Transition.textIn = new S.Timeline()
+        //                 const isObj6 = S.Is.object(Transition.textIn)
+        //                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //                 Transition.textIn.play({delay: 500})
+        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(next)')
+        //                 currentStep++
+        //                 nextStep = currentStep
+
+
+        //             } else if (direction === 'prev' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
+
+        //                 currentStep--
+        //                 Transition.textIn = new S.Timeline()
+        //                 const isObj6 = S.Is.object(Transition.textIn)
+        //                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        //                 Transition.textIn.play({reverse: true})
+        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(prev)')
+        //                 currentStep = nextStep
+
+        //             }
+
+        //     }
+
+
+        // getNewIndexAndRender(direction) {
+        //      let idx
+        //      const title = document.getElementById('h-txt-title-wrap')
+        //      const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+
+        //      const length = arr.length - 1;
+
+        //      Transition.prototype.getNextIdx(idx, length, direction)
+        //      //idx = Transition.prototype.getNextIdx(idx, length, direction, currentStep, nextStep);
+        //      //title.innerHTML = arr[idx]
+
+        // }
+
     }, {
         key: 'headerScroll',
         value: function headerScroll(currentScrollY, delta, event) {
@@ -11250,20 +11253,29 @@ var Transition = function () {
                 };
             }
 
+            var titleInit = function titleInit() {
+                // All the taxing stuff you do
+                var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+                var idx = 0;
+
+                Transition.textInit = new skylake.Timeline();
+                var isObj5 = skylake.Is.object(Transition.textInit);
+                Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textInit.play({ delay: 500 });
+            };
+
             var headerUp = function headerUp() {
                 // All the taxing stuff you do
                 Transition.headerUp = new skylake.Timeline();
                 var isObj3 = skylake.Is.object(Transition.headerUp);
-                Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut',
-                    cb: Transition.prototype.getNewIndexAndRender('init') });
+                Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
                 Transition.headerUp.play({ delay: 500 });
             };
 
             var headerDown = function headerDown() {
                 Transition.headerDown = new skylake.Timeline();
                 var isObj4 = skylake.Is.object(Transition.headerDown);
-                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut',
-                    cb: Transition.prototype.getNewIndexAndRender('prev') });
+                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
                 Transition.headerDown.play({ delay: 500 });
             };
 
@@ -11285,24 +11297,38 @@ var Transition = function () {
                 delta = -event.detail / 2;
             }
             if (delta !== null) {
+                var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+                var currentStep = 0;
+                var _nextStep = void 0;
                 if (delta < 0 && this.headerVisible === !0) {
 
                     //headerUp()
                     huHandler();
+                    titleInit();
                 } else if (delta > 0 && this.headerVisible === !1) {
 
                     //headerDown()
                     hdHandler();
+                    Transition.textOut = new skylake.Timeline();
+                    var isObj6 = skylake.Is.object(Transition.textOut);
+                    Transition.textOut.from({ el: arr[currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textOut.play({ delay: 500 });
+                    currentStep++;
+                    _nextStep = currentStep;
                 } else if (delta > 0 && this.headerVisible === !0) {
 
                     return false;
                 } else if (delta < 0 && this.headerVisible === !1) {
 
-                    Transition.prototype.getNewIndexAndRender('next');
+                    currentStep--;
+                    Transition.textIn = new skylake.Timeline();
+                    var isObj7 = skylake.Is.object(Transition.textIn);
+                    Transition.textIn.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                    Transition.textIn.play({ delay: 500 });
+                    currentStep = _nextStep;
                     return false;
                 }
                 this.headerVisible = !this.headerVisible;
-                //Transition.prototype.sectionChange()
             }
         }
     }, {

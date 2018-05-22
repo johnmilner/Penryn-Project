@@ -50,53 +50,59 @@ this.scrollInit()
     
 // }
 
-getNextIdx(idx = 0, length, direction) {
-    const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-    let currentStep = 0
-    let nextStep
-    switch (direction) {
-        case 'init':
-                    Transition.textInit = new S.Timeline()
-                    const isObj5 = S.Is.object(Transition.textInit)
-                    Transition.textInit.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                    Transition.textInit.play({delay: 500}) 
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(init)')
-                    return;
-        case 'next':if (currentStep === 0 || currentStep === 1 || currentStep === 2) {
-                        currentStep++
-                    }
-                    Transition.textIn = new S.Timeline()
-                    const isObj6 = S.Is.object(Transition.textIn)
-                    Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                    Transition.textIn.play({delay: 500})
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(next)')
-                    return
-        case 'prev':
-                    Transition.textIn.play({reverse: true})
-                    // Transition.textOut = new S.Timeline()
-                    // const isObj7 = S.Is.object(Transition.textOut)
-                    // Transition.textOut.from({el: arr[idx], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-                    // Transition.textOut.play({delay: 500}) 
-                    console.log('hello from Transition.prototype.getNewIndexAndRender(prev)')
-                    //return (idx == 0) && length - 1 || idx - 1;
-                    return
-        default:    //return idx;
-    }
-}
+// getNextIdx(idx = 0, length, direction) {
+//         const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+//         let currentStep = 0
+//         let nextStep
+//             if (direction === 'init') {
+
+//                 Transition.textInit = new S.Timeline()
+//                 const isObj5 = S.Is.object(Transition.textInit)
+//                 Transition.textInit.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+//                 Transition.textInit.play({delay: 500})
+//                 currentStep++
+//                 nextStep = currentStep
+//                 console.log('hello from Transition.prototype.getNewIndexAndRender(init)')
+
+//             } else if (direction === 'next' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
+
+//                 Transition.textIn = new S.Timeline()
+//                 const isObj6 = S.Is.object(Transition.textIn)
+//                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+//                 Transition.textIn.play({delay: 500})
+//                 console.log('hello from Transition.prototype.getNewIndexAndRender(next)')
+//                 currentStep++
+//                 nextStep = currentStep
+                
+
+//             } else if (direction === 'prev' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
+
+//                 currentStep--
+//                 Transition.textIn = new S.Timeline()
+//                 const isObj6 = S.Is.object(Transition.textIn)
+//                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+//                 Transition.textIn.play({reverse: true})
+//                 console.log('hello from Transition.prototype.getNewIndexAndRender(prev)')
+//                 currentStep = nextStep
+
+//             }
+                
+//     }
 
 
-getNewIndexAndRender(direction) {
-     let idx
-     const title = document.getElementById('h-txt-title-wrap')
-     const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+
+// getNewIndexAndRender(direction) {
+//      let idx
+//      const title = document.getElementById('h-txt-title-wrap')
+//      const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
      
-     const length = arr.length - 1;
+//      const length = arr.length - 1;
      
-     Transition.prototype.getNextIdx(idx, length, direction)
-     //idx = Transition.prototype.getNextIdx(idx, length, direction, currentStep, nextStep);
-     //title.innerHTML = arr[idx]
+//      Transition.prototype.getNextIdx(idx, length, direction)
+//      //idx = Transition.prototype.getNextIdx(idx, length, direction, currentStep, nextStep);
+//      //title.innerHTML = arr[idx]
     
-}
+// }
 
 headerScroll(currentScrollY, delta, event) {
 
@@ -128,20 +134,30 @@ headerScroll(currentScrollY, delta, event) {
       }
 
 
+    let titleInit = function() {
+        // All the taxing stuff you do
+        const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        const idx = 0;
+
+        Transition.textInit = new S.Timeline()
+        const isObj5 = S.Is.object(Transition.textInit)
+        Transition.textInit.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.textInit.play({delay: 500})
+
+    };
+
     let headerUp = function() {
         // All the taxing stuff you do
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut', 
-        cb: Transition.prototype.getNewIndexAndRender('init')})
+        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
     };
     
     let headerDown = function() {
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut',
-        cb: Transition.prototype.getNewIndexAndRender('prev')})
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         Transition.headerDown.play({delay: 500})
     };
 
@@ -161,15 +177,25 @@ headerScroll(currentScrollY, delta, event) {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
+        const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        let currentStep = 0
+        let nextStep
         if (delta < 0 && this.headerVisible === !0) {
             
             //headerUp()
             huHandler()
+            titleInit()
 
         } else if (delta > 0 && this.headerVisible === !1) {
 
             //headerDown()
             hdHandler()
+            Transition.textOut = new S.Timeline()
+            const isObj6 = S.Is.object(Transition.textOut)
+            Transition.textOut.from({el: arr[currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+            Transition.textOut.play({delay: 500})
+            currentStep++
+            nextStep = currentStep
 
         } else if (delta > 0 && this.headerVisible === !0) {
 
@@ -177,15 +203,19 @@ headerScroll(currentScrollY, delta, event) {
 
         } else if (delta < 0 && this.headerVisible === !1) {
 
-            Transition.prototype.getNewIndexAndRender('next')
+            currentStep--
+            Transition.textIn = new S.Timeline()
+            const isObj7 = S.Is.object(Transition.textIn)
+            Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn.play({delay: 500})
+            currentStep = nextStep
             return false;
         }
         this.headerVisible = !this.headerVisible
-        //Transition.prototype.sectionChange()
+
     }
    
 }
-
 
 scrollInit() {
     const body = S.Dom.body
