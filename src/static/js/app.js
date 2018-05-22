@@ -11133,8 +11133,8 @@ Transition.incrementId = function () {
     return id;
 };
 
-Transition.id = Transition.incrementId();
-
+//Transition.id = Transition.incrementId()
+Transition.id = 0;
 // Transtion.init(t) = () => {
 //     // console.log("init")
 //     this.first = !1
@@ -11258,27 +11258,28 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
             //headerUp()
             huHandler();
             titleInit();
-        } else if (delta > 0 && divOffset.top < -600) {
+        } else if (delta > 0 && divOffset.top < -600 && Transition.nextStep <= 3) {
 
-            //headerDown()
             hdHandler();
+            Transition.nextStep = Transition.id - 1;
             Transition.textOut = new skylake.Timeline();
             var isObj6 = skylake.Is.object(Transition.textOut);
-            Transition.textOut.from({ el: arr[Transition.id], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textOut.from({ el: arr[Transition.nextStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
             Transition.textOut.play({ delay: 500 });
-            //this.currentStep++
-            //this.nextStep = this.currentStep
+            Transition.id = Transition.nextStep;
         } else if (delta > 0 && divOffset.top === 30) {
 
             return false;
         } else if (delta < 0 && divOffset.top < -600) {
 
             //this.currentStep++
-
+            Transition.nextStep = Transition.id + 1;
             Transition.textIn = new skylake.Timeline();
             var isObj7 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[Transition.id], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.from({ el: arr[Transition.nextStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
             Transition.textIn.play({ delay: 500 });
+            Transition.id = Transition.nextStep;
+
             //currentStep = nextStep
             return false;
         }
