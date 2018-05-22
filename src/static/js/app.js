@@ -11135,6 +11135,9 @@ Transition.incrementId = function () {
 
 //Transition.id = Transition.incrementId()
 Transition.id = 0;
+
+Transition.currentStep = 1;
+Transition.nextStep = 0;
 // Transtion.init(t) = () => {
 //     // console.log("init")
 //     this.first = !1
@@ -11160,62 +11163,50 @@ Transition.open = function () {
     Transition.scrollInit();
 };
 
+var debounce = function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this,
+            args = arguments;
+        var later = function later() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+Transition.next = debounce(function () {
+    // All the taxing stuff you do
+    Transition.nextStep = Transition.currentStep + 1;
+    console.log('scrolling down - nextItem');
+    Transition.currentStep = Transition.nextStep;
+    return Transition.currentStep;
+}, 100);
+
+//window.addEventListener('wheel', Transition.next);
+
+
+Transition.prev = debounce(function () {
+    Transition.nextStep = Transition.currentStep - 1;
+    console.log('scrolling up - prevItem');
+    Transition.currentStep = Transition.nextStep;
+    return Transition.currentStep;
+}, 100);
+
+//window.addEventListener('wheel', Transition.prev);
+
+window.addEventListener('wheel', Transition.headerScroll);
+
 Transition.headerScroll = function (currentScrollY, delta, event) {
 
-    // let debounce = function(func, wait, immediate) {
-    //     var timeout;
-    //     return function() {
-    //         var context = this, args = arguments;
-    //         var later = function() {
-    //             timeout = null;
-    //             if (!immediate) func.apply(context, args);
-    //         };
-    //         var callNow = immediate && !timeout;
-    //         clearTimeout(timeout);
-    //         timeout = setTimeout(later, wait);
-    //         if (callNow) func.apply(context, args);
-    //         };
-    // };
-
-    function throttled(delay, fn) {
-        var lastCall = 0;
-        return function () {
-            var now = new Date().getTime();
-            if (now - lastCall < delay) {
-                return;
-            }
-            lastCall = now;
-            return fn.apply(undefined, arguments);
-        };
-    }
-
-    var titleInit = function titleInit() {
-        // All the taxing stuff you do
-        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-        var idx = 0;
-
-        Transition.textInit = new skylake.Timeline();
-        var isObj5 = skylake.Is.object(Transition.textInit);
-        Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.textInit.play({ delay: 500 });
-    };
-
-    var headerUp = function headerUp() {
-        // All the taxing stuff you do
-        Transition.headerUp = new skylake.Timeline();
-        var isObj3 = skylake.Is.object(Transition.headerUp);
-        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerUp.play({ delay: 500 });
-        console.log(divOffset.left, divOffset.top);
-    };
-
-    var headerDown = function headerDown() {
-        Transition.headerDown = new skylake.Timeline();
-        var isObj4 = skylake.Is.object(Transition.headerDown);
-        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerDown.play({ delay: 500 });
-        console.log(divOffset.left, divOffset.top);
-    };
+    var delta = null,
+        event = window.event;
+    // let currentStep = 0
+    // let nextStep
 
     function offset(el) {
         var rect = el.getBoundingClientRect(),
@@ -11229,13 +11220,33 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     var divOffset = offset(div);
     console.log(divOffset.top);
 
-    var huHandler = throttled(2000, headerUp);
-    var hdHandler = throttled(2000, headerDown);
+    Transition.titleInit = function () {
+        // All the taxing stuff you do
+        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        var idx = 0;
 
-    var delta = null,
-        event = window.event;
-    // let currentStep = 0
-    // let nextStep
+        Transition.textInit = new skylake.Timeline();
+        var isObj5 = skylake.Is.object(Transition.textInit);
+        Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInit.play({ delay: 500 });
+    };
+
+    Transition.headerUp = function () {
+        // All the taxing stuff you do
+        Transition.headerUp = new skylake.Timeline();
+        var isObj3 = skylake.Is.object(Transition.headerUp);
+        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerUp.play({ delay: 500 });
+        //console.log(divOffset.left, divOffset.top);
+    };
+
+    Transition.headerDown = function () {
+        Transition.headerDown = new skylake.Timeline();
+        var isObj4 = skylake.Is.object(Transition.headerDown);
+        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.play({ delay: 500 });
+        //console.log(divOffset.left, divOffset.top);
+    };
 
     if (!event) {
         // if the event is not provided, we get it from the window object
@@ -11255,33 +11266,38 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         if (delta < 0 && divOffset.top === 30) {
 
-            //headerUp()
-            huHandler();
-            titleInit();
-        } else if (delta > 0 && divOffset.top < -600 && Transition.nextStep <= 3) {
+            Transition.headerUp();
+            //huHandler()
+            Transition.titleInit();
+        } else if (delta > 0 && divOffset.top < -600) {
 
-            hdHandler();
-            Transition.nextStep = Transition.id - 1;
+            Transition.headerDown();
+            //hdHandler()
+            Transition.prev();
+            //Transition.nextStep = Transition.id - 1
             Transition.textOut = new skylake.Timeline();
             var isObj6 = skylake.Is.object(Transition.textOut);
-            Transition.textOut.from({ el: arr[Transition.nextStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textOut.from({ el: arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
             Transition.textOut.play({ delay: 500 });
-            Transition.id = Transition.nextStep;
+            //Transition.id = Transition.nextStep 
+
         } else if (delta > 0 && divOffset.top === 30) {
 
-            return false;
+            //return false;
+
         } else if (delta < 0 && divOffset.top < -600) {
 
             //this.currentStep++
-            Transition.nextStep = Transition.id + 1;
+            //Transition.nextStep = Transition.id + 1
+            Transition.next();
             Transition.textIn = new skylake.Timeline();
             var isObj7 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[Transition.nextStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.from({ el: arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
             Transition.textIn.play({ delay: 500 });
-            Transition.id = Transition.nextStep;
+            //Transition.id = Transition.nextStep 
 
             //currentStep = nextStep
-            return false;
+            //return false;
         }
     }
 };

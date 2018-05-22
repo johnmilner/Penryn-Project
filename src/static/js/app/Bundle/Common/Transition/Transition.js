@@ -21,7 +21,9 @@ Transition.incrementId = () => {
 
 //Transition.id = Transition.incrementId()
 Transition.id = 0;
-Transition.nextStep;
+
+Transition.currentStep = 1
+Transition.nextStep = 0
 // Transtion.init(t) = () => {
 //     // console.log("init")
 //     this.first = !1
@@ -45,25 +47,23 @@ const isObj2 = S.Is.object(Transition.outro)
 Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
 
 Transition.scrollInit()
-
 }
 
-Transition.headerScroll = (currentScrollY, delta, event) => {
 
-    // let debounce = function(func, wait, immediate) {
-    //     var timeout;
-    //     return function() {
-    //         var context = this, args = arguments;
-    //         var later = function() {
-    //             timeout = null;
-    //             if (!immediate) func.apply(context, args);
-    //         };
-    //         var callNow = immediate && !timeout;
-    //         clearTimeout(timeout);
-    //         timeout = setTimeout(later, wait);
-    //         if (callNow) func.apply(context, args);
-    //         };
-    // };
+    let debounce = function(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+            };
+    };
 
     function throttled(delay, fn) {
         let lastCall = 0;
@@ -78,37 +78,44 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
       }
 
 
-    let titleInit = function() {
-        // All the taxing stuff you do
-        const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        const idx = 0;
-
-        Transition.textInit = new S.Timeline()
-        const isObj5 = S.Is.object(Transition.textInit)
-        Transition.textInit.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInit.play({delay: 500})
-
-    };
-
-    let headerUp = function() {
-        // All the taxing stuff you do
-        Transition.headerUp = new S.Timeline()
-        const isObj3 = S.Is.object(Transition.headerUp)
-        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerUp.play({delay: 500})
-        console.log(divOffset.left, divOffset.top);
-
-    };
     
-    let headerDown = function() {
-        Transition.headerDown = new S.Timeline()
-        const isObj4 = S.Is.object(Transition.headerDown)
-        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerDown.play({delay: 500})
-        console.log(divOffset.left, divOffset.top);
+    const huHandler = throttled(2000, headerUp)
+    const hdHandler = throttled(2000, headerDown)
 
-    };
 
+   Transition.next = debounce(function() {
+        // All the taxing stuff you do
+        Transition.nextStep = Transition.currentStep + 1
+        console.log('scrolling down - nextItem')
+        Transition.currentStep = Transition.nextStep  
+        return Transition.currentStep
+        
+    }, 100);
+
+        
+    //window.addEventListener('wheel', Transition.next);
+
+
+    Transition.prev = debounce(function() {
+        Transition.nextStep = Transition.currentStep - 1
+        console.log('scrolling up - prevItem')
+        Transition.currentStep = Transition.nextStep 
+        return Transition.currentStep
+        
+    }, 100);
+    
+    //window.addEventListener('wheel', Transition.prev);
+
+    window.addEventListener('wheel', Transition.headerScroll);
+
+
+Transition.headerScroll = (currentScrollY, delta, event) => {
+
+    var delta = null,
+    currentScrollY = false,
+    event = window.event;
+    // let currentStep = 0
+    // let nextStep
 
     function offset(el) {
         var rect = el.getBoundingClientRect(),
@@ -122,14 +129,37 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     var divOffset = offset(div);
     console.log(divOffset.top)
 
-    const huHandler = throttled(2000, headerUp)
-    const hdHandler = throttled(2000, headerDown)
+    Transition.titleInit = function() {
+        // All the taxing stuff you do
+        const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        const idx = 0;
 
-    var delta = null,
-    currentScrollY = false,
-    event = window.event;
-    // let currentStep = 0
-    // let nextStep
+        Transition.textInit = new S.Timeline()
+        const isObj5 = S.Is.object(Transition.textInit)
+        Transition.textInit.from({el: arr[idx], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.textInit.play({delay: 500})
+
+    };
+
+    Transition.headerUp = function() {
+        // All the taxing stuff you do
+        Transition.headerUp = new S.Timeline()
+        const isObj3 = S.Is.object(Transition.headerUp)
+        Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerUp.play({delay: 500})
+        //console.log(divOffset.left, divOffset.top);
+
+    };
+    
+    Transition.headerDown = function() {
+        Transition.headerDown = new S.Timeline()
+        const isObj4 = S.Is.object(Transition.headerDown)
+        Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
+        Transition.headerDown.play({delay: 500})
+        //console.log(divOffset.left, divOffset.top);
+
+    };
+
 
     if ( !event ) { // if the event is not provided, we get it from the window object
         event = window.event;
@@ -146,42 +176,45 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         if (delta < 0 && divOffset.top === 30) {
             
-            //headerUp()
-            huHandler()
-            titleInit()
+            Transition.headerUp()
+            //huHandler()
+            Transition.titleInit()
 
         } else if (delta > 0 && divOffset.top < -600) {
 
-            hdHandler()
-            Transition.nextStep = Transition.id - 1
+            Transition.headerDown()
+            //hdHandler()
+            Transition.prev()
+            //Transition.nextStep = Transition.id - 1
             Transition.textOut = new S.Timeline()
             const isObj6 = S.Is.object(Transition.textOut)
-            Transition.textOut.from({el: arr[Transition.nextStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+            Transition.textOut.from({el: arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
             Transition.textOut.play({delay: 500})
-            Transition.id = Transition.nextStep 
+            //Transition.id = Transition.nextStep 
 
 
         } else if (delta > 0 && divOffset.top === 30) {
 
-            return false;
+            //return false;
 
         } else if (delta < 0 && divOffset.top < -600) {
 
             //this.currentStep++
-            Transition.nextStep = Transition.id + 1
+            //Transition.nextStep = Transition.id + 1
+            Transition.next()
             Transition.textIn = new S.Timeline()
             const isObj7 = S.Is.object(Transition.textIn)
-            Transition.textIn.from({el: arr[Transition.nextStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn.from({el: arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
             Transition.textIn.play({delay: 500})
-            Transition.id = Transition.nextStep 
+            //Transition.id = Transition.nextStep 
 
             //currentStep = nextStep
-            return false;
+            //return false;
         }
 
     }
-   
 }
+
 
 Transition.scrollInit = () => {
     const body = S.Dom.body
