@@ -11118,248 +11118,184 @@ console.log('loader.js');
 
 /* eslint-disable */
 
-var Transition = function () {
-    function Transition() {
-        classCallCheck(this, Transition);
+var Transition = {};
 
+// const body = S.Dom.body
 
-        // const body = S.Dom.body
+//this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
 
-        //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        this.idx = idx; // idx is undefined, so getNextIdx will take 0 as default
-        this.length = this.arr.length;
-        this.headerVisible = !0;
-        this.currentStep = 0;
-        this.nextStep = nextStep;
+Transition.headerVisible = !0;
+Transition.currentStep = 0;
 
-        skylake.BindMaker(this, ['sectionInit', 'headerUp', 'headerDown', 'headerScroll', 'scrollCb', 'scrollInit', 'open', 'getNewIndexAndRender', 'getNextIdx', 'updateViewIn', 'updateViewOut', 'handleMouseWheelDirection']);
+Transition.incrementId = function () {
+    var id = 0;
+    id++;
+    return id;
+};
+
+Transition.id = Transition.incrementId();
+
+// Transtion.init(t) = () => {
+//     // console.log("init")
+//     this.first = !1
+//     this.listeners("add")
+//     }
+
+// listeners(t) {
+// // console.log(homesticky.listeners)
+// S.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen)
+// S.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose)
+// }
+
+Transition.open = function () {
+
+    Transition.intro = new skylake.Timeline();
+    var isObj = skylake.Is.object(Transition.intro);
+    Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
+
+    Transition.outro = new skylake.Timeline();
+    var isObj2 = skylake.Is.object(Transition.outro);
+    Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
+
+    Transition.scrollInit();
+};
+
+Transition.headerScroll = function (currentScrollY, delta, event) {
+
+    // let debounce = function(func, wait, immediate) {
+    //     var timeout;
+    //     return function() {
+    //         var context = this, args = arguments;
+    //         var later = function() {
+    //             timeout = null;
+    //             if (!immediate) func.apply(context, args);
+    //         };
+    //         var callNow = immediate && !timeout;
+    //         clearTimeout(timeout);
+    //         timeout = setTimeout(later, wait);
+    //         if (callNow) func.apply(context, args);
+    //         };
+    // };
+
+    function throttled(delay, fn) {
+        var lastCall = 0;
+        return function () {
+            var now = new Date().getTime();
+            if (now - lastCall < delay) {
+                return;
+            }
+            lastCall = now;
+            return fn.apply(undefined, arguments);
+        };
     }
 
-    createClass(Transition, [{
-        key: 'init',
-        value: function init(t) {
-            // console.log("init")
-            this.first = !1;
-            this.listeners("add");
+    var titleInit = function titleInit() {
+        // All the taxing stuff you do
+        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        var idx = 0;
+
+        Transition.textInit = new skylake.Timeline();
+        var isObj5 = skylake.Is.object(Transition.textInit);
+        Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInit.play({ delay: 500 });
+    };
+
+    var headerUp = function headerUp() {
+        // All the taxing stuff you do
+        Transition.headerUp = new skylake.Timeline();
+        var isObj3 = skylake.Is.object(Transition.headerUp);
+        Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerUp.play({ delay: 500 });
+        console.log(divOffset.left, divOffset.top);
+    };
+
+    var headerDown = function headerDown() {
+        Transition.headerDown = new skylake.Timeline();
+        var isObj4 = skylake.Is.object(Transition.headerDown);
+        Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.headerDown.play({ delay: 500 });
+        console.log(divOffset.left, divOffset.top);
+    };
+
+    function offset(el) {
+        var rect = el.getBoundingClientRect(),
+            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
+    }
+
+    // example use
+    var div = document.querySelector('.header');
+    var divOffset = offset(div);
+    console.log(divOffset.top);
+
+    var huHandler = throttled(2000, headerUp);
+    var hdHandler = throttled(2000, headerDown);
+
+    var delta = null,
+        event = window.event;
+    // let currentStep = 0
+    // let nextStep
+
+    if (!event) {
+        // if the event is not provided, we get it from the window object
+        event = window.event;
+    }
+    if (event.wheelDelta) {
+        // will work in most cases
+        delta = event.wheelDelta / 60;
+    } else if (event.detail) {
+        // fallback for Firefox
+        delta = -event.detail / 2;
+    }
+    if (delta !== null) {
+        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+
+        console.log(Transition.id);
+
+        if (delta < 0 && divOffset.top === 30) {
+
+            //headerUp()
+            huHandler();
+            titleInit();
+        } else if (delta > 0 && divOffset.top < -600) {
+
+            //headerDown()
+            hdHandler();
+            Transition.textOut = new skylake.Timeline();
+            var isObj6 = skylake.Is.object(Transition.textOut);
+            Transition.textOut.from({ el: arr[Transition.id], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+            Transition.textOut.play({ delay: 500 });
+            //this.currentStep++
+            //this.nextStep = this.currentStep
+        } else if (delta > 0 && divOffset.top === 30) {
+
+            return false;
+        } else if (delta < 0 && divOffset.top < -600) {
+
+            //this.currentStep++
+
+            Transition.textIn = new skylake.Timeline();
+            var isObj7 = skylake.Is.object(Transition.textIn);
+            Transition.textIn.from({ el: arr[Transition.id], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+            Transition.textIn.play({ delay: 500 });
+            //currentStep = nextStep
+            return false;
         }
-    }, {
-        key: 'listeners',
-        value: function listeners(t) {
-            // console.log(homesticky.listeners)
-            skylake.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen);
-            skylake.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose);
-        }
-    }, {
-        key: 'open',
-        value: function open(t) {
+    }
+};
 
-            Transition.intro = new skylake.Timeline();
-            var isObj = skylake.Is.object(Transition.intro);
-            Transition.intro.from({ el: '#sail', p: { y: [-100, 100] }, d: 5000, e: 'Power4InOut', delay: 7000 });
+Transition.scrollInit = function () {
+    var body = skylake.Dom.body;
+    //S.BindMaker(this, ['headerScroll'])
+    // this.scroll = new S.Scroll(this.headerScroll)
+    // this.scroll.on()
+    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
 
-            Transition.outro = new skylake.Timeline();
-            var isObj2 = skylake.Is.object(Transition.outro);
-            Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
-
-            this.scrollInit();
-        }
-
-        // counter(nextStep) {
-
-
-        // }
-
-        // getNextIdx(idx = 0, length, direction) {
-        //         const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        //         let currentStep = 0
-        //         let nextStep
-        //             if (direction === 'init') {
-
-        //                 Transition.textInit = new S.Timeline()
-        //                 const isObj5 = S.Is.object(Transition.textInit)
-        //                 Transition.textInit.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //                 Transition.textInit.play({delay: 500})
-        //                 currentStep++
-        //                 nextStep = currentStep
-        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(init)')
-
-        //             } else if (direction === 'next' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
-
-        //                 Transition.textIn = new S.Timeline()
-        //                 const isObj6 = S.Is.object(Transition.textIn)
-        //                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //                 Transition.textIn.play({delay: 500})
-        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(next)')
-        //                 currentStep++
-        //                 nextStep = currentStep
-
-
-        //             } else if (direction === 'prev' && nextStep === 1 || nextStep === 2 || nextStep === 3) {
-
-        //                 currentStep--
-        //                 Transition.textIn = new S.Timeline()
-        //                 const isObj6 = S.Is.object(Transition.textIn)
-        //                 Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        //                 Transition.textIn.play({reverse: true})
-        //                 console.log('hello from Transition.prototype.getNewIndexAndRender(prev)')
-        //                 currentStep = nextStep
-
-        //             }
-
-        //     }
-
-
-        // getNewIndexAndRender(direction) {
-        //      let idx
-        //      const title = document.getElementById('h-txt-title-wrap')
-        //      const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-
-        //      const length = arr.length - 1;
-
-        //      Transition.prototype.getNextIdx(idx, length, direction)
-        //      //idx = Transition.prototype.getNextIdx(idx, length, direction, currentStep, nextStep);
-        //      //title.innerHTML = arr[idx]
-
-        // }
-
-    }, {
-        key: 'headerScroll',
-        value: function headerScroll(currentScrollY, delta, event) {
-
-            // let debounce = function(func, wait, immediate) {
-            //     var timeout;
-            //     return function() {
-            //         var context = this, args = arguments;
-            //         var later = function() {
-            //             timeout = null;
-            //             if (!immediate) func.apply(context, args);
-            //         };
-            //         var callNow = immediate && !timeout;
-            //         clearTimeout(timeout);
-            //         timeout = setTimeout(later, wait);
-            //         if (callNow) func.apply(context, args);
-            //         };
-            // };
-
-            function throttled(delay, fn) {
-                var lastCall = 0;
-                return function () {
-                    var now = new Date().getTime();
-                    if (now - lastCall < delay) {
-                        return;
-                    }
-                    lastCall = now;
-                    return fn.apply(undefined, arguments);
-                };
-            }
-
-            var titleInit = function titleInit() {
-                // All the taxing stuff you do
-                var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-                var idx = 0;
-
-                Transition.textInit = new skylake.Timeline();
-                var isObj5 = skylake.Is.object(Transition.textInit);
-                Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textInit.play({ delay: 500 });
-            };
-
-            var headerUp = function headerUp() {
-                // All the taxing stuff you do
-                Transition.headerUp = new skylake.Timeline();
-                var isObj3 = skylake.Is.object(Transition.headerUp);
-                Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-                Transition.headerUp.play({ delay: 500 });
-                console.log(divOffset.left, divOffset.top);
-            };
-
-            var headerDown = function headerDown() {
-                Transition.headerDown = new skylake.Timeline();
-                var isObj4 = skylake.Is.object(Transition.headerDown);
-                Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.headerDown.play({ delay: 500 });
-                console.log(divOffset.left, divOffset.top);
-            };
-
-            function offset(el) {
-                var rect = el.getBoundingClientRect(),
-                    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-                    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
-            }
-
-            // example use
-            var div = document.querySelector('.header');
-            var divOffset = offset(div);
-
-            var huHandler = throttled(2000, headerUp);
-            var hdHandler = throttled(2000, headerDown);
-
-            var delta = null,
-                event = window.event;
-
-            if (!event) {
-                // if the event is not provided, we get it from the window object
-                event = window.event;
-            }
-            if (event.wheelDelta) {
-                // will work in most cases
-                delta = event.wheelDelta / 60;
-            } else if (event.detail) {
-                // fallback for Firefox
-                delta = -event.detail / 2;
-            }
-            if (delta !== null) {
-                var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-                var currentStep = 0;
-                var _nextStep = void 0;
-                if (delta < 0 && this.headerVisible === !0) {
-
-                    //headerUp()
-                    huHandler();
-                    titleInit();
-                } else if (delta > 0 && this.headerVisible === !1) {
-
-                    //headerDown()
-                    hdHandler();
-                    Transition.textOut = new skylake.Timeline();
-                    var isObj6 = skylake.Is.object(Transition.textOut);
-                    Transition.textOut.from({ el: arr[currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textOut.play({ delay: 500 });
-                    currentStep++;
-                    _nextStep = currentStep;
-                } else if (delta > 0 && this.headerVisible === !0) {
-
-                    return false;
-                } else if (delta < 0 && divOffset.top < -600) {
-
-                    currentStep++;
-                    Transition.textIn = new skylake.Timeline();
-                    var isObj7 = skylake.Is.object(Transition.textIn);
-                    Transition.textIn.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                    Transition.textIn.play({ delay: 500 });
-                    currentStep = _nextStep;
-                    return false;
-                }
-                this.headerVisible = !this.headerVisible;
-            }
-        }
-    }, {
-        key: 'scrollInit',
-        value: function scrollInit() {
-            var body = skylake.Dom.body;
-            //S.BindMaker(this, ['headerScroll'])
-            // this.scroll = new S.Scroll(this.headerScroll)
-            // this.scroll.on()
-            skylake.Listen(body, 'add', 'mouseWheel', this.headerScroll);
-
-            // this.scroll.on()
-            // this.scroll.off()
-            console.log('hello from scroll init');
-        }
-    }]);
-    return Transition;
-}();
+    // this.scroll.on()
+    // this.scroll.off()
+    console.log('hello from scroll init');
+};
 
 // key: "WTGestion",
 // value: function(e) {
@@ -11458,8 +11394,6 @@ var Transition = function () {
 //     }
 //    }]), e
 //   }
-
-
 console.log('transition.js');
 
 var ErrorController = function () {
@@ -11817,7 +11751,7 @@ var HomeController = function (_Listeners) {
         key: 'preload',
         value: function preload(opts) {
             // Transition.callback()
-            Transition.prototype.open();
+            Transition.open();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
             });
