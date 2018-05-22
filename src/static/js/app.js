@@ -11271,33 +11271,20 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
             Transition.titleInit();
         } else if (delta > 0 && divOffset.top < -600) {
 
-            Transition.headerDown();
-            //hdHandler()
+            // Transition.headerDown()
             Transition.prev();
-            //Transition.nextStep = Transition.id - 1
+
             Transition.textOut = new skylake.Timeline();
             var isObj6 = skylake.Is.object(Transition.textOut);
             Transition.textOut.from({ el: arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
             Transition.textOut.play({ delay: 500 });
-            //Transition.id = Transition.nextStep 
+        } else if (delta > 0 && divOffset.top < -600 && arr.length <= arr.length - 1) {} else if (delta < 0 && divOffset.top < -600) {
 
-        } else if (delta > 0 && divOffset.top === 30) {
-
-            //return false;
-
-        } else if (delta < 0 && divOffset.top < -600) {
-
-            //this.currentStep++
-            //Transition.nextStep = Transition.id + 1
             Transition.next();
             Transition.textIn = new skylake.Timeline();
             var isObj7 = skylake.Is.object(Transition.textIn);
             Transition.textIn.from({ el: arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
             Transition.textIn.play({ delay: 500 });
-            //Transition.id = Transition.nextStep 
-
-            //currentStep = nextStep
-            //return false;
         }
     }
 };

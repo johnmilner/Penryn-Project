@@ -182,34 +182,29 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         } else if (delta > 0 && divOffset.top < -600) {
 
-            Transition.headerDown()
-            //hdHandler()
+            // Transition.headerDown()
             Transition.prev()
-            //Transition.nextStep = Transition.id - 1
+
             Transition.textOut = new S.Timeline()
             const isObj6 = S.Is.object(Transition.textOut)
             Transition.textOut.from({el: arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
             Transition.textOut.play({delay: 500})
-            //Transition.id = Transition.nextStep 
 
 
-        } else if (delta > 0 && divOffset.top === 30) {
+        } else if (delta > 0 && divOffset.top < -600 && arr.length <= arr.length - 1) {
 
-            //return false;
+            
 
         } else if (delta < 0 && divOffset.top < -600) {
 
-            //this.currentStep++
-            //Transition.nextStep = Transition.id + 1
+            
             Transition.next()
             Transition.textIn = new S.Timeline()
             const isObj7 = S.Is.object(Transition.textIn)
             Transition.textIn.from({el: arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
             Transition.textIn.play({delay: 500})
-            //Transition.id = Transition.nextStep 
+            
 
-            //currentStep = nextStep
-            //return false;
         }
 
     }
