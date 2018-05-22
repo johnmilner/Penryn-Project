@@ -11270,6 +11270,7 @@ var Transition = function () {
                 var isObj3 = skylake.Is.object(Transition.headerUp);
                 Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
                 Transition.headerUp.play({ delay: 500 });
+                console.log(divOffset.left, divOffset.top);
             };
 
             var headerDown = function headerDown() {
@@ -11277,7 +11278,19 @@ var Transition = function () {
                 var isObj4 = skylake.Is.object(Transition.headerDown);
                 Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
                 Transition.headerDown.play({ delay: 500 });
+                console.log(divOffset.left, divOffset.top);
             };
+
+            function offset(el) {
+                var rect = el.getBoundingClientRect(),
+                    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+                    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
+            }
+
+            // example use
+            var div = document.querySelector('.header');
+            var divOffset = offset(div);
 
             var huHandler = throttled(2000, headerUp);
             var hdHandler = throttled(2000, headerDown);
@@ -11318,9 +11331,9 @@ var Transition = function () {
                 } else if (delta > 0 && this.headerVisible === !0) {
 
                     return false;
-                } else if (delta < 0 && this.headerVisible === !1) {
+                } else if (delta < 0 && divOffset.top < -600) {
 
-                    currentStep--;
+                    currentStep++;
                     Transition.textIn = new skylake.Timeline();
                     var isObj7 = skylake.Is.object(Transition.textIn);
                     Transition.textIn.from({ el: arr[currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });

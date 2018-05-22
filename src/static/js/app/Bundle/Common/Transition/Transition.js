@@ -152,6 +152,8 @@ headerScroll(currentScrollY, delta, event) {
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
         Transition.headerUp.play({delay: 500})
+        console.log(divOffset.left, divOffset.top);
+
     };
     
     let headerDown = function() {
@@ -159,7 +161,21 @@ headerScroll(currentScrollY, delta, event) {
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
         Transition.headerDown.play({delay: 500})
+        console.log(divOffset.left, divOffset.top);
+
     };
+
+
+    function offset(el) {
+        var rect = el.getBoundingClientRect(),
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+    }
+
+    // example use
+    var div = document.querySelector('.header');
+    var divOffset = offset(div);
 
     const huHandler = throttled(2000, headerUp)
     const hdHandler = throttled(2000, headerDown)
@@ -167,6 +183,7 @@ headerScroll(currentScrollY, delta, event) {
     var delta = null,
     currentScrollY = false,
     event = window.event;
+    
 
     if ( !event ) { // if the event is not provided, we get it from the window object
         event = window.event;
@@ -201,9 +218,9 @@ headerScroll(currentScrollY, delta, event) {
 
             return false;
 
-        } else if (delta < 0 && this.headerVisible === !1) {
+        } else if (delta < 0 && divOffset.top < -600) {
 
-            currentStep--
+            currentStep++
             Transition.textIn = new S.Timeline()
             const isObj7 = S.Is.object(Transition.textIn)
             Transition.textIn.from({el: arr[currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
