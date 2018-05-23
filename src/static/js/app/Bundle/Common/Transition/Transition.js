@@ -79,9 +79,44 @@ Transition.scrollInit()
 
 
     
-    const huHandler = throttled(2000, headerUp)
-    const hdHandler = throttled(2000, headerDown)
+    // const huHandler = throttled(2000, headerUp)
+    // const hdHandler = throttled(2000, headerDown)
 
+        // left: 37, up: 38, right: 39, down: 40,
+    // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+    var keys = [37, 38, 39, 40];
+
+    Transition.preventDefault = function(e) {
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;  
+    }
+
+    Transition.keydown = function(e) {
+        for (var i = keys.length; i--;) {
+            if (e.keyCode === keys[i]) {
+                Transition.preventDefault(e);
+                return;
+            }
+        }
+    }
+
+    Transition.wheel = function(e) {
+    Transition.preventDefault(e);
+    }
+
+    Transition.disable_scroll = function() {
+        const body = S.Dom.body
+        S.Listen(body, 'remove', 'mouseWheel', Transition.headerScroll)
+
+      }
+      
+     Transition.enable_scroll = function() {
+        const body = S.Dom.body
+        S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll)
+  
+      }
 
    Transition.next = debounce(function() {
         // if (Transition.nextStep === 0) {
@@ -89,7 +124,8 @@ Transition.scrollInit()
         // }
         Transition.nextStep = Transition.currentStep + 1
         console.log('scrolling down - nextItem')
-        Transition.currentStep = Transition.nextStep  
+        Transition.currentStep = Transition.nextStep 
+        Transition.disable_scroll() 
         return Transition.currentStep
         
     }, 100);
@@ -102,13 +138,14 @@ Transition.scrollInit()
         Transition.nextStep = Transition.currentStep - 1
         console.log('scrolling up - prevItem')
         Transition.currentStep = Transition.nextStep 
+        Transition.disable_scroll()
         return Transition.currentStep
         
     }, 100);
     
     //window.addEventListener('wheel', Transition.prev);
 
-    window.addEventListener('wheel', Transition.headerScroll);
+    //window.addEventListener('wheel', Transition.headerScroll);
 
 
 Transition.headerScroll = (currentScrollY, delta, event) => {
@@ -187,7 +224,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     Transition.n2 = function() {
 
         Transition.next()
-        
+
         Transition.textInOut = new S.Timeline()
         const isObj8 = S.Is.object(Transition.textInOut)
         Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
@@ -196,7 +233,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.textIn2 = new S.Timeline()
             const isObj9 = S.Is.object(Transition.textIn2)
             Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.play({delay: 500})
+            Transition.textIn2.play({delay: 500, cb: Transition.enable_scroll})
 
             }
         })
@@ -206,7 +243,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     Transition.p2 = function() {
 
         Transition.prev()
-        
+        Transition.disable_scroll()
+
         Transition.textOutIn = new S.Timeline()
         const isObj10 = S.Is.object(Transition.textOutIn)
         Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
@@ -215,7 +253,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.textOut2 = new S.Timeline()
             const isObj11 = S.Is.object(Transition.textOut2)
             Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textOut2.play({delay: 500})
+            Transition.textOut2.play({delay: 500, cb: Transition.enable_scroll})
 
         }})
     }

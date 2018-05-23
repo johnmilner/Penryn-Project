@@ -11179,6 +11179,42 @@ var debounce = function debounce(func, wait, immediate) {
     };
 };
 
+// const huHandler = throttled(2000, headerUp)
+// const hdHandler = throttled(2000, headerDown)
+
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = [37, 38, 39, 40];
+
+Transition.preventDefault = function (e) {
+    e = e || window.event;
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+};
+
+Transition.keydown = function (e) {
+    for (var i = keys.length; i--;) {
+        if (e.keyCode === keys[i]) {
+            Transition.preventDefault(e);
+            return;
+        }
+    }
+};
+
+Transition.wheel = function (e) {
+    Transition.preventDefault(e);
+};
+
+Transition.disable_scroll = function () {
+    var body = skylake.Dom.body;
+    skylake.Listen(body, 'remove', 'mouseWheel', Transition.headerScroll);
+};
+
+Transition.enable_scroll = function () {
+    var body = skylake.Dom.body;
+    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
+};
+
 Transition.next = debounce(function () {
     // if (Transition.nextStep === 0) {
     //     return Transition.currentStep
@@ -11186,6 +11222,7 @@ Transition.next = debounce(function () {
     Transition.nextStep = Transition.currentStep + 1;
     console.log('scrolling down - nextItem');
     Transition.currentStep = Transition.nextStep;
+    Transition.disable_scroll();
     return Transition.currentStep;
 }, 100);
 
@@ -11196,12 +11233,14 @@ Transition.prev = debounce(function () {
     Transition.nextStep = Transition.currentStep - 1;
     console.log('scrolling up - prevItem');
     Transition.currentStep = Transition.nextStep;
+    Transition.disable_scroll();
     return Transition.currentStep;
 }, 100);
 
 //window.addEventListener('wheel', Transition.prev);
 
-window.addEventListener('wheel', Transition.headerScroll);
+//window.addEventListener('wheel', Transition.headerScroll);
+
 
 Transition.headerScroll = function (currentScrollY, delta, event) {
 
@@ -11284,7 +11323,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textIn2 = new skylake.Timeline();
                 var isObj9 = skylake.Is.object(Transition.textIn2);
                 Transition.textIn2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textIn2.play({ delay: 500 });
+                Transition.textIn2.play({ delay: 500, cb: Transition.enable_scroll });
             }
         });
     };
@@ -11292,6 +11331,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     Transition.p2 = function () {
 
         Transition.prev();
+        Transition.disable_scroll();
 
         Transition.textOutIn = new skylake.Timeline();
         var isObj10 = skylake.Is.object(Transition.textOutIn);
@@ -11301,7 +11341,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
                 Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut2.play({ delay: 500 });
+                Transition.textOut2.play({ delay: 500, cb: Transition.enable_scroll });
             } });
     };
 
