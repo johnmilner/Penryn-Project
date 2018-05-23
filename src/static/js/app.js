@@ -11180,7 +11180,7 @@ var debounce = function debounce(func, wait, immediate) {
 };
 
 Transition.next = debounce(function () {
-    // All the taxing stuff you do
+
     Transition.nextStep = Transition.currentStep + 1;
     console.log('scrolling down - nextItem');
     Transition.currentStep = Transition.nextStep;
@@ -11248,6 +11248,28 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         //console.log(divOffset.left, divOffset.top);
     };
 
+    Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+
+    Transition.p = function () {
+
+        Transition.prev();
+
+        Transition.textOut = new skylake.Timeline();
+        var isObj6 = skylake.Is.object(Transition.textOut);
+        Transition.textOut.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOut.play({ delay: 500 });
+    };
+
+    Transition.n = function () {
+
+        Transition.next();
+
+        Transition.textIn = new skylake.Timeline();
+        var isObj7 = skylake.Is.object(Transition.textIn);
+        Transition.textIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+        Transition.textIn.play({ delay: 500 });
+    };
+
     if (!event) {
         // if the event is not provided, we get it from the window object
         event = window.event;
@@ -11262,8 +11284,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     if (delta !== null) {
         var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
 
-        console.log(Transition.id);
-
         if (delta < 0 && divOffset.top === 30) {
 
             Transition.headerUp();
@@ -11272,19 +11292,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         } else if (delta > 0 && divOffset.top < -600) {
 
             // Transition.headerDown()
-            Transition.prev();
+            Transition.p();
+        } else if (delta < 0 && divOffset.top < -600) {
 
-            Transition.textOut = new skylake.Timeline();
-            var isObj6 = skylake.Is.object(Transition.textOut);
-            Transition.textOut.from({ el: arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-            Transition.textOut.play({ delay: 500 });
-        } else if (delta > 0 && divOffset.top < -600 && arr.length <= arr.length - 1) {} else if (delta < 0 && divOffset.top < -600) {
-
-            Transition.next();
-            Transition.textIn = new skylake.Timeline();
-            var isObj7 = skylake.Is.object(Transition.textIn);
-            Transition.textIn.from({ el: arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-            Transition.textIn.play({ delay: 500 });
+            //Transition.titleInit({loop: true})
+            Transition.n();
         }
     }
 };
