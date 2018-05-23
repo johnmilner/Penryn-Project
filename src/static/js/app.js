@@ -11270,6 +11270,23 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textIn.play({ delay: 500 });
     };
 
+    Transition.n2 = function () {
+
+        Transition.next();
+
+        Transition.textInOut = new skylake.Timeline();
+        var isObj8 = skylake.Is.object(Transition.textInOut);
+        Transition.textInOut.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInOut.play({ delay: 500, cb: function cb() {
+
+                Transition.textIn2 = new skylake.Timeline();
+                var isObj9 = skylake.Is.object(Transition.textIn2);
+                Transition.textIn2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn2.play({ delay: 500 });
+            }
+        });
+    };
+
     if (!event) {
         // if the event is not provided, we get it from the window object
         event = window.event;
@@ -11296,7 +11313,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         } else if (delta < 0 && divOffset.top < -600) {
 
             //Transition.titleInit({loop: true})
-            Transition.n();
+            Transition.n2();
         }
     }
 };
