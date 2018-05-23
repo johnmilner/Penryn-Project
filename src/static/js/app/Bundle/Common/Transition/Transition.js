@@ -115,7 +115,7 @@ Transition.scrollInit()
      Transition.enable_scroll = function() {
         const body = S.Dom.body
         S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll)
-  
+
       }
 
    Transition.next = debounce(function() {
@@ -139,10 +139,22 @@ Transition.scrollInit()
         console.log('scrolling up - prevItem')
         Transition.currentStep = Transition.nextStep 
         Transition.disable_scroll()
+
+
+        console.log('currentStep: ' + Transition.currentStep)
+        console.log('nextStep: ' + Transition.nextStep)
+
+        if (typeof Transition.arr[Transition.currentStep] === 'undefined') {
+
+            Transition.headerDown()
+            
+        }
+
         return Transition.currentStep
         
     }, 100);
     
+    //Transition.getChangePage = !0;
     //window.addEventListener('wheel', Transition.prev);
 
     //window.addEventListener('wheel', Transition.headerScroll);
@@ -229,6 +241,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const isObj8 = S.Is.object(Transition.textInOut)
         Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
         Transition.textInOut.play({delay: 500, cb: function() {
+
         
             Transition.textIn2 = new S.Timeline()
             const isObj9 = S.Is.object(Transition.textIn2)
@@ -250,12 +263,15 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
         Transition.textOutIn.play({delay: 500, cb: function() {
 
+            
             Transition.textOut2 = new S.Timeline()
             const isObj11 = S.Is.object(Transition.textOut2)
             Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
             Transition.textOut2.play({delay: 500, cb: Transition.enable_scroll})
 
+
         }})
+
     }
 
 
@@ -268,7 +284,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
-        const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+        //const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         
         if (delta < 0 && divOffset.top === 30) {
             
@@ -287,7 +303,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             //Transition.titleInit({loop: true})
             Transition.n2()
             
-        }
+        } 
 
     }
 }

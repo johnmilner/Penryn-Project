@@ -11234,9 +11234,19 @@ Transition.prev = debounce(function () {
     console.log('scrolling up - prevItem');
     Transition.currentStep = Transition.nextStep;
     Transition.disable_scroll();
+
+    console.log('currentStep: ' + Transition.currentStep);
+    console.log('nextStep: ' + Transition.nextStep);
+
+    if (typeof Transition.arr[Transition.currentStep] === 'undefined') {
+
+        Transition.headerDown();
+    }
+
     return Transition.currentStep;
 }, 100);
 
+//Transition.getChangePage = !0;
 //window.addEventListener('wheel', Transition.prev);
 
 //window.addEventListener('wheel', Transition.headerScroll);
@@ -11357,7 +11367,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         delta = -event.detail / 2;
     }
     if (delta !== null) {
-        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+        //const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
 
         if (delta < 0 && divOffset.top === 30) {
 
