@@ -22,7 +22,7 @@ Transition.incrementId = () => {
 //Transition.id = Transition.incrementId()
 Transition.id = 0;
 
-Transition.currentStep = 1
+Transition.currentStep = 0
 Transition.nextStep = 0
 // Transtion.init(t) = () => {
 //     // console.log("init")
@@ -84,7 +84,9 @@ Transition.scrollInit()
 
 
    Transition.next = debounce(function() {
-    
+        // if (Transition.nextStep === 0) {
+        //     return Transition.currentStep
+        // }
         Transition.nextStep = Transition.currentStep + 1
         console.log('scrolling down - nextItem')
         Transition.currentStep = Transition.nextStep  
