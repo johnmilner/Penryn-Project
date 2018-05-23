@@ -162,25 +162,25 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
     Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
 
-    Transition.p = function() {
+    // Transition.p = function() {
 
-        Transition.prev()
+    //     Transition.prev()
 
-        Transition.textOut = new S.Timeline()
-        const isObj6 = S.Is.object(Transition.textOut)
-        Transition.textOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textOut.play({delay: 500})
-    }
+    //     Transition.textOut = new S.Timeline()
+    //     const isObj5 = S.Is.object(Transition.textOut)
+    //     Transition.textOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+    //     Transition.textOut.play({delay: 500})
+    // }
 
-    Transition.n = function() {
+    // Transition.n = function() {
 
-        Transition.next()
-        
-        Transition.textIn = new S.Timeline()
-        const isObj7 = S.Is.object(Transition.textIn)
-        Transition.textIn.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.textIn.play({delay: 500})
-    }
+    //     Transition.next()
+
+    //     Transition.textIn = new S.Timeline()
+    //     const isObj6 = S.Is.object(Transition.textIn)
+    //     Transition.textIn.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+    //     Transition.textIn.play({delay: 500})
+    // }
 
     Transition.n2 = function() {
 
@@ -195,10 +195,27 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             const isObj9 = S.Is.object(Transition.textIn2)
             Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
             Transition.textIn2.play({delay: 500})
-            
+
             }
         })
 
+    }
+
+    Transition.p2 = function() {
+
+        Transition.prev()
+        
+        Transition.textOutIn = new S.Timeline()
+        const isObj10 = S.Is.object(Transition.textOutIn)
+        Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        Transition.textOutIn.play({delay: 500, cb: function() {
+
+            Transition.textOut2 = new S.Timeline()
+            const isObj11 = S.Is.object(Transition.textOut2)
+            Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textOut2.play({delay: 500})
+
+        }})
     }
 
 
@@ -222,7 +239,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         } else if (delta > 0 && divOffset.top < -600) {
 
             // Transition.headerDown()
-            Transition.p()
+            Transition.p2()
 
 
         } else if (delta < 0 && divOffset.top < -600) {
