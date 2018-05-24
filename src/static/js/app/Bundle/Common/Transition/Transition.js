@@ -149,7 +149,7 @@ Transition.scrollInit()
             Transition.nextStep = 0
             Transition.currentStep = Transition.nextStep
             Transition.headerDown()
-            return
+            
         }
 
         return Transition.currentStep
@@ -260,20 +260,18 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     Transition.p2 = function() {
 
         Transition.prev()
-        Transition.disable_scroll()
 
         Transition.textOutIn = new S.Timeline()
         const isObj10 = S.Is.object(Transition.textOutIn)
         Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
         Transition.textOutIn.play({delay: 500, cb: function() {
 
-            
-            Transition.textOut2 = new S.Timeline()
-            const isObj11 = S.Is.object(Transition.textOut2)
-            Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textOut2.play({delay: 500, cb: Transition.enable_scroll})
 
-
+                Transition.textOut2 = new S.Timeline()
+                const isObj11 = S.Is.object(Transition.textOut2)
+                Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                Transition.textOut2.play({delay: 500, cb: Transition.enable_scroll})
+        
         }})
 
     }

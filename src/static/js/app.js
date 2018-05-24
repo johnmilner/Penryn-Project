@@ -11244,7 +11244,6 @@ Transition.prev = debounce(function () {
         Transition.nextStep = 0;
         Transition.currentStep = Transition.nextStep;
         Transition.headerDown();
-        return;
     }
 
     return Transition.currentStep;
@@ -11347,7 +11346,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     Transition.p2 = function () {
 
         Transition.prev();
-        Transition.disable_scroll();
 
         Transition.textOutIn = new skylake.Timeline();
         var isObj10 = skylake.Is.object(Transition.textOutIn);
