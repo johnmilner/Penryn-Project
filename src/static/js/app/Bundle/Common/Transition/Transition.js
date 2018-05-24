@@ -147,7 +147,8 @@ Transition.scrollInit()
         if (typeof Transition.arr[Transition.currentStep] === 'undefined') {
 
             Transition.headerDown()
-            
+            Transition.nextStep = 0
+            Transition.currentStep = Transition.nextStep
         }
 
         return Transition.currentStep
