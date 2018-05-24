@@ -11240,9 +11240,11 @@ Transition.prev = debounce(function () {
 
     if (typeof Transition.arr[Transition.currentStep] === 'undefined') {
 
-        Transition.headerDown();
+        console.log('index undefined or -1');
         Transition.nextStep = 0;
         Transition.currentStep = Transition.nextStep;
+        Transition.headerDown();
+        return;
     }
 
     return Transition.currentStep;
@@ -11281,15 +11283,17 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textInit = new skylake.Timeline();
         var isObj5 = skylake.Is.object(Transition.textInit);
         Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.textInit.play({ delay: 500 });
+        Transition.textInit.play({ delay: 500, cb: Transition.enable_scroll });
     };
 
     Transition.headerUp = function () {
         // All the taxing stuff you do
+        Transition.disable_scroll();
         Transition.headerUp = new skylake.Timeline();
         var isObj3 = skylake.Is.object(Transition.headerUp);
         Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
         Transition.headerUp.play({ delay: 500 });
+
         //console.log(divOffset.left, divOffset.top);
     };
 
@@ -11374,15 +11378,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         if (delta < 0 && divOffset.top === 30) {
 
             Transition.headerUp();
-            //huHandler()
             Transition.titleInit();
         } else if (delta > 0 && divOffset.top < -600) {
 
-            // Transition.headerDown()
             Transition.p2();
         } else if (delta < 0 && divOffset.top < -600) {
 
-            //Transition.titleInit({loop: true})
             Transition.n2();
         }
     }
