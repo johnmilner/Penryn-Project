@@ -11125,16 +11125,16 @@ var Transition = {};
 //this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
 
 Transition.headerVisible = !0;
-Transition.currentStep = 0;
+// Transition.currentStep = 0;
 
-Transition.incrementId = function () {
-    var id = 0;
-    id++;
-    return id;
-};
+// Transition.incrementId = () => {
+//     let id = 0
+//     id++
+//     return id
+// }
 
 //Transition.id = Transition.incrementId()
-Transition.id = 0;
+//Transition.id = 0;
 
 Transition.currentStep = 0;
 Transition.nextStep = 0;
@@ -11215,6 +11215,18 @@ Transition.enable_scroll = function () {
     skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
 };
 
+Transition.titleInit = function () {
+    // All the taxing stuff you do
+    // const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+    // const idx = 0;
+    Transition.currentStep = 0;
+
+    Transition.textInit = new skylake.Timeline();
+    var isObj5 = skylake.Is.object(Transition.textInit);
+    Transition.textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+    Transition.textInit.play({ delay: 500, cb: Transition.enable_scroll });
+};
+
 Transition.next = debounce(function () {
     // if (Transition.nextStep === 0) {
     //     return Transition.currentStep
@@ -11231,6 +11243,8 @@ Transition.next = debounce(function () {
 
 Transition.prev = debounce(function () {
     Transition.nextStep = Transition.currentStep - 1;
+    //for cirular array
+    //Transition.nextStep = (Transition.currentStep + Transition.arr.length - 1) % Transition.arr.length
     console.log('scrolling up - prevItem');
     Transition.currentStep = Transition.nextStep;
     Transition.disable_scroll();
@@ -11238,11 +11252,11 @@ Transition.prev = debounce(function () {
     console.log('currentStep: ' + Transition.currentStep);
     console.log('nextStep: ' + Transition.nextStep);
 
-    if (typeof Transition.arr[Transition.currentStep] === 'undefined') {
+    if (Transition.currentStep === -1) {
 
-        console.log('index undefined or -1');
-        Transition.nextStep = 0;
-        Transition.currentStep = Transition.nextStep;
+        console.log('index 0 header down');
+        // Transition.nextStep = 0
+        // Transition.currentStep = Transition.nextStep
         Transition.headerDown();
     }
 
@@ -11274,17 +11288,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     var divOffset = offset(div);
     console.log(divOffset.top);
 
-    Transition.titleInit = function () {
-        // All the taxing stuff you do
-        var arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-        var idx = 0;
-
-        Transition.textInit = new skylake.Timeline();
-        var isObj5 = skylake.Is.object(Transition.textInit);
-        Transition.textInit.from({ el: arr[idx], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.textInit.play({ delay: 500, cb: Transition.enable_scroll });
-    };
-
     Transition.headerUp = function () {
         // All the taxing stuff you do
         Transition.disable_scroll();
@@ -11305,26 +11308,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     };
 
     Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-
-    // Transition.p = function() {
-
-    //     Transition.prev()
-
-    //     Transition.textOut = new S.Timeline()
-    //     const isObj5 = S.Is.object(Transition.textOut)
-    //     Transition.textOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-    //     Transition.textOut.play({delay: 500})
-    // }
-
-    // Transition.n = function() {
-
-    //     Transition.next()
-
-    //     Transition.textIn = new S.Timeline()
-    //     const isObj6 = S.Is.object(Transition.textIn)
-    //     Transition.textIn.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-    //     Transition.textIn.play({delay: 500})
-    // }
 
     Transition.n2 = function () {
 
