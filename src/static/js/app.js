@@ -624,13 +624,13 @@ var EventDelegation = function () {
     }, {
         key: 'done',
         value: function done() {
-            // let target = event.target
-            // const targetHref = target.dataset.href === undefined ? target.href : target.dataset.href
-            // this.path = {
-            //     old: S.Win.path,
-            //     new: targetHref.replace(/^.*\/\/[^/]+/, '')
-            // }
-            // Xhr.prototype.controller(this.path.new, EventDelegation.prototype.xhrCallback())
+            var target = event.target;
+            var targetHref = target.dataset.href === undefined ? target.href : target.dataset.href;
+            this.path = {
+                old: skylake.Win.path,
+                new: targetHref.replace(/^.*\/\/[^/]+/, '')
+                // Xhr.prototype.controller(this.path.new, EventDelegation.prototype.xhrCallback())
+            };
         }
     }, {
         key: 'xhrCallback',
@@ -675,460 +675,6 @@ EventDelegation.destAbout = function () {
         }
     });
 };
-
-/* eslint-disable */
-
-var Xhr = function () {
-    function Xhr() {
-        classCallCheck(this, Xhr);
-    }
-
-    createClass(Xhr, [{
-        key: 'controller',
-        value: function controller(page, callback, args) {
-            var path = 'index.php?url=' + page + '&xhr=true';
-            var xhr = new XMLHttpRequest();
-            var pageEl = skylake.Geb.id('xhr');
-
-            xhr.open('GET', path, true);
-            console.log('Xhr class controller loaded');
-
-            xhr.onreadystatechange = function (_) {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var _xhrC = JSON.parse(xhr.responseText).xhrController;
-
-                    skylake.Geb.tag('title')[0].textContent = _xhrC.title;
-                    // EventDelegation.prototype.xhrCallback(xhrC)
-
-                    getHistoryUpdate();
-                    var transit = {
-                        insertNew: function insertNew(_) {
-                            pageEl.insertAdjacentHTML('beforeend', _xhrC.view);
-                        },
-                        removeOld: function removeOld(_) {
-                            while (pageEl.hasChildNodes()) {
-                                pageEl.removeChild(pageEl.lastChild);
-                            }
-                            // const oldXhrContent = pageEl.children[0]
-                            // oldXhrContent.parentNode.removeChild(oldXhrContent)
-                        }
-                    };
-                    transit.removeOld();
-                    transit.insertNew();
-                    //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
-                    window.Penryn.outroIsOn = true;
-                    EventDelegation.prototype.run();
-                    loadjscssfile("/static/js/app.js", "js"); //dynamically load and add this .js file
-                    loadjscssfile("/static/style/css/app.css", "css"); ////dynamically load and add this .css file
-                    Xhr.prototype.onPopstate();
-                }
-            };
-
-            xhr.send(null);
-
-            // Browser history update
-            function getHistoryUpdate() {
-                var pageUrl = page === 'home' ? '/' : page;
-
-                history.pushState({ key: 'value' }, 'titre', pageUrl);
-            }
-        }
-    }, {
-        key: 'process',
-        value: function process() {
-            console.log(global.myXhr);
-            EventDelegation.prototype.xhrCallback(xhrC);
-        }
-    }, {
-        key: 'onPopstate',
-        value: function onPopstate() {
-            var d = document;
-            var w = window;
-
-            var blockPopstateEvent = d.readyState !== 'complete';
-
-            skylake.Listen(w, 'add', 'load', load);
-            skylake.Listen(w, 'add', 'popstate', popstate);
-
-            function load() {
-                setTimeout(function (_) {
-                    blockPopstateEvent = false;
-                }, 0);
-            }
-
-            function popstate(e) {
-                if (blockPopstateEvent && d.readyState === 'complete') {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                }
-            }
-
-            w.onpopstate = function (e) {
-                /* state is null when change url without change page → story stream social wall for example */
-                if (e.state !== null) {
-                    w.location.href = skylake.Win.path;
-                }
-            };
-        }
-    }]);
-    return Xhr;
-}();
-
-function loadjscssfile(filename, filetype) {
-    if (filetype == "js") {
-        //if filename is a external JavaScript file
-        var fileref = document.createElement('script');
-        fileref.setAttribute("type", "text/javascript");
-        fileref.setAttribute("src", filename);
-    } else if (filetype == "css") {
-        //if filename is an external CSS file
-        var fileref = document.createElement("link");
-        fileref.setAttribute("rel", "stylesheet");
-        fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", filename);
-    }
-    if (typeof fileref != "undefined") document.getElementsByTagName("head")[0].appendChild(fileref);
-}
-
-/* eslint-disable */
-
-var Listeners = function () {
-    function Listeners() {
-        classCallCheck(this, Listeners);
-    }
-
-    createClass(Listeners, [{
-        key: 'init',
-        value: function init(events) {
-            var _this = this;
-
-            var evs = events;
-            var speEvs = [];
-            this.normEvs = [];
-            this.moduleArr = [];
-            console.log('init events');
-
-            var spe = {
-                scroll: {
-                    throttle: true,
-                    skylake: 'Scroll'
-                },
-                ro: {
-                    throttle: true,
-                    skylake: 'RO'
-                },
-                wt: {
-                    throttle: false,
-                    skylake: 'WT'
-                }
-            };
-
-            var keys = Object.keys(evs);
-            var keysL = keys.length;
-            for (var i = 0; i < keysL; i++) {
-                var ev = keys[i];
-                var allEvContent = evs[keys[i]];
-                var isSpeEv = spe[ev] !== undefined;
-                var isThrottle = isSpeEv ? spe[ev].throttle : false;
-                var evContentL = isSpeEv ? 1 : allEvContent.length;
-                var arr = isSpeEv ? speEvs : this.normEvs;
-
-                for (var j = 0; j < evContentL; j++) {
-                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
-                    var evContentModule = evContent.module;
-                    // Normal & spe arr
-                    var obj = {
-                        event: ev,
-                        module: evContentModule,
-                        method: evContent.method
-                    };
-                    if (isThrottle) {
-                        obj.throttle = evContent.throttle;
-                    } else {
-                        obj.el = evContent.el;
-                    }
-                    arr.push(obj);
-                    // Common arr
-                    if (this.moduleArr.indexOf(evContentModule) < 0) {
-                        this.moduleArr.push({
-                            module: evContentModule,
-                            arg: evContent.arg,
-                            alreadyCalled: this.getAlreadyCalled(evContentModule)
-                        });
-                    }
-                }
-            }
-
-            this.normEvsL = this.normEvs.length;
-            this.speEvsL = speEvs.length;
-            this.moduleArrL = this.moduleArr.length;
-            this.speEvInstance = [];
-
-            // Normal events prepare
-
-            var _loop = function _loop(_i) {
-                var normEv = _this.normEvs[_i];
-                normEv.callback = function (e) {
-                    var opts = {
-                        event: e,
-                        listeners: _this,
-                        outroM: _this.outroM
-                    };
-                    normEv.module[normEv.method](opts);
-                };
-            };
-
-            for (var _i = 0; _i < this.normEvsL; _i++) {
-                _loop(_i);
-            }
-
-            // Special events prepare
-
-            var _loop2 = function _loop2(_i2) {
-                var speEv = speEvs[_i2];
-                var speEvSkylake = spe[speEv.event].skylake;
-
-                var opts = void 0;
-                _this.speOpts = {
-                    listeners: _this
-                };
-                if (speEvSkylake === 'Scroll') {
-                    opts = {
-                        callback: function callback(s, d) {
-                            _this.speOpts.currentScrollY = s;
-                            _this.speOpts.delta = d;
-                            speEv.module[speEv.method](_this.speOpts);
-                        },
-                        throttle: speEv.throttle
-                    };
-                } else if (speEvSkylake === 'WT') {
-                    opts = function opts(d, t, e) {
-                        _this.speOpts.delta = d;
-                        _this.speOpts.type = t;
-                        _this.speOpts.event = e;
-                        speEv.module[speEv.method](_this.speOpts);
-                    };
-                } else if (speEvSkylake === 'RO') {
-                    opts = {
-                        callback: function callback(_) {
-                            speEv.module[speEv.method](opts);
-                        },
-                        throttle: speEv.throttle
-                    };
-                }
-                _this.speEvInstance[_i2] = new skylake[speEvSkylake](opts);
-            };
-
-            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
-                _loop2(_i2);
-            }
-        }
-    }, {
-        key: 'getAlreadyCalled',
-        value: function getAlreadyCalled(module) {
-            var moduleArrL = this.moduleArr.length;
-            for (var i = 0; i < moduleArrL; i++) {
-                if (module === this.moduleArr[i].module) {
-                    return true;
-                    console.log('getAlreadyCalled');
-                }
-            }
-            return false;
-            console.log('getAlreadyCalled return false');
-        }
-    }, {
-        key: 'add',
-        value: function add(opts) {
-            if (opts && opts.moduleInit) {
-                this.outroM = this.speOpts.outroM = opts.outroM;
-                this.methodCall('init');
-            }
-            this.listen('add');
-            console.log('add');
-        }
-    }, {
-        key: 'remove',
-        value: function remove(opts) {
-            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
-            if (destroy) {
-                this.methodCall('destroy');
-            }
-            this.listen('remove');
-            console.log('remove');
-        }
-    }, {
-        key: 'methodCall',
-        value: function methodCall(name) {
-            for (var i = 0; i < this.moduleArrL; i++) {
-                var module = this.moduleArr[i].module;
-                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
-                    module[name]({
-                        outroM: this.outroM,
-                        listeners: this,
-                        arg: this.moduleArr[i].arg
-                    });
-                    console.log('methodCall');
-                }
-            }
-        }
-    }, {
-        key: 'listen',
-        value: function listen(action) {
-            for (var i = 0; i < this.speEvsL; i++) {
-                var state = action === 'add' ? 'on' : 'off';
-                this.speEvInstance[i][state]();
-            }
-            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
-                var _normEv = this.normEvs[_i3];
-                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
-            }
-            console.log('listen');
-        }
-    }]);
-    return Listeners;
-}();
-
-console.dir(Listeners);
-
-/*
-
-CLASS
-─────
-
-Class "_tb"     →    targetBlank W3C compatible (target blank)
-Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
-Class "_ost"    →    open link in same tab without prevent default (open same tab)
-
-PENRYN
-──────
-
-path
-target
-outroEnable
-outroArgs
-done
-xhr
-
-*/
-
-var Router = function () {
-    function Router() {
-        classCallCheck(this, Router);
-
-        // Parameters
-        this.routes = [];
-        this.p = window.Penryn;
-
-        // Bind
-        skylake.BindMaker(this, ['getInstance']);
-
-        // Outro is on : paralyse outro method during animations
-        this.p.outroIsOn = false;
-
-        // On popstate
-        Xhr.prototype.onPopstate();
-
-        // Instantiating event delegation
-        this.eventDelegation = new EventDelegation(this.getInstance);
-    }
-
-    createClass(Router, [{
-        key: 'init',
-        value: function init(path, controller) {
-            this.route = {
-                path: this.slashTrim(path),
-                controller: controller,
-                params: [],
-                instance: {},
-                args: ''
-            };
-            this.routes.push(this.route);
-
-            // Instantiating
-            var Controller = this.route.controller;
-            this.route.instance.controller = new Controller();
-
-            return this;
-        }
-    }, {
-        key: 'with',
-        value: function _with(param, regex) {
-            this.route.params[param] = regex;
-
-            return this;
-        }
-    }, {
-        key: 'error',
-        value: function error(errorController) {
-            // Instantiating
-            var ErrorController = errorController;
-            this.error.controller = new ErrorController();
-        }
-    }, {
-        key: 'run',
-        value: function run() {
-            // Event delegation
-            this.eventDelegation.run();
-
-            // Preload
-            var path = skylake.Win.path;
-            this.p.path = { new: path };
-            var instance = this.getInstance(path);
-
-            instance.controller.preload();
-        }
-    }, {
-        key: 'getInstance',
-        value: function getInstance(url) {
-            this.url = this.slashTrim(url);
-            var routesL = this.routes.length;
-
-            // Page controller
-            for (var i = 0; i < routesL; i++) {
-                if (this.match(this.routes[i])) {
-                    return {
-                        controller: this.routes[i].instance.controller
-                    };
-                }
-            }
-
-            // Error
-            return {
-                controller: this.error.controller
-            };
-        }
-    }, {
-        key: 'match',
-        value: function match(route) {
-            if (route.path === this.url) {
-                return true;
-            }
-
-            var path = route.path.replace(/:([\w]+)/g, function (total, part1) {
-                return '(' + route.params[part1] + ')';
-            });
-            path = path.replace(/\//g, '\\/');
-            var regex = new RegExp(path);
-            var matches = this.url.match(regex);
-
-            if (matches !== null) {
-                if (matches.length > 1) {
-                    matches.shift();
-                    route.args = matches;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }, {
-        key: 'slashTrim',
-        value: function slashTrim(string) {
-            return string.replace(/^\/|\/$/g, '');
-        }
-    }]);
-    return Router;
-}();
 
 /*!
  * jQuery JavaScript Library v3.3.1
@@ -11041,83 +10587,6 @@ var Router = function () {
 
 /* eslint-disable */
 
-var intro = function intro() {
-  var tl = new skylake.Timeline();
-  var isObj = skylake.Is.object(tl);
-  tl.from({ el: '.header', p: { opacity: [0, 1] }, d: 1000, e: 'ExpoIn' });
-  tl.from({ el: '.tagline', p: { y: [100, 0] }, d: 1600, e: 'Power4InOut', delay: 500 });
-
-  tl.from({ el: '#burger-border-wrap', p: { opacity: [0, .6] }, d: 1500, e: 'ExpoOut', delay: 250 });
-  tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 1000, e: 'ExpoOut', delay: 250 });
-  tl.from({ el: '#burger-mask', p: { y: [100, -100] }, d: 2000, e: 'ExpoOut', delay: 750 });
-
-  tl.play();
-};
-
-anime.timeline({ loop: false }).add({
-  targets: ".ml8 .circle-white",
-  scale: [0, 3],
-  opacity: [1, 0],
-  easing: "easeInOutExpo",
-  rotateZ: 360,
-  duration: 1100,
-  delay: 3000
-}).add({
-  targets: ".ml8 .circle-container",
-  scale: [0, 1],
-  duration: 1100,
-  easing: "easeInOutExpo",
-  offset: "-=1000"
-}).add({
-  targets: ".ml8 .circle-dark",
-  scale: [0, 1],
-  duration: 1100,
-  easing: "easeOutExpo",
-  offset: "-=600"
-}).add({
-  targets: ".ml8 .letters-left",
-  scale: [0, 1],
-  duration: 1200,
-  offset: "-=550"
-}).add({
-  targets: ".ml8 .bang",
-  scale: [0, 1],
-  rotateZ: [45, 15],
-  duration: 1200,
-  offset: "-=1000"
-}).add({
-  targets: ".ml8",
-  opacity: 1,
-  duration: 2000,
-  easing: "easeOutExpo",
-  delay: 300
-});
-
-anime({
-  targets: ".ml8 .circle-dark-dashed",
-  rotateZ: 360,
-  duration: 5000,
-  easing: "linear",
-  loop: true
-});
-
-var Loader = {};
-
-Loader.run = function () {
-  var preloaderFadeOutTime = 2500;
-  function hidePreloader() {
-    var preloader = $(".spinner");
-    preloader.delay(2300).show(); //show preloader - see spinner css
-    preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
-  }
-  hidePreloader();
-};
-
-//Loader.run()
-console.log('loader.js');
-
-/* eslint-disable */
-
 var Transition = {};
 
 // const body = S.Dom.body
@@ -11372,9 +10841,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
 Transition.scrollInit = function () {
     var body = skylake.Dom.body;
-    //S.BindMaker(this, ['headerScroll'])
-    // this.scroll = new S.Scroll(this.headerScroll)
-    // this.scroll.on()
+    //S.BindMaker(this, ['Transition.headerScroll'])
+    //S.scroll = new S.Scroll(Transition.headerScroll)
     skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
 
     // this.scroll.on()
@@ -11480,36 +10948,6 @@ Transition.scrollInit = function () {
 //    }]), e
 //   }
 console.log('transition.js');
-
-var ErrorController = function () {
-    function ErrorController() {
-        classCallCheck(this, ErrorController);
-    }
-
-    createClass(ErrorController, [{
-        key: 'preload',
-        value: function preload() {
-            Loader.run({
-                listeners: Listeners
-            });
-        }
-    }, {
-        key: 'intro',
-        value: function intro() {
-            Transition.intro({
-                listeners: Listeners
-            });
-        }
-    }, {
-        key: 'outro',
-        value: function outro() {
-            Transition.outro({
-                listeners: Listeners
-            });
-        }
-    }]);
-    return ErrorController;
-}();
 
 /* eslint-disable */
 
@@ -11787,6 +11225,569 @@ Menu.toggleMenuStates = function () {
 
 /* eslint-disable */
 
+var Xhr = function () {
+    function Xhr() {
+        classCallCheck(this, Xhr);
+    }
+
+    createClass(Xhr, [{
+        key: 'controller',
+        value: function controller(page, callback, args) {
+            var path = 'index.php?url=' + page + '&xhr=true';
+            var xhr = new XMLHttpRequest();
+            var pageEl = skylake.Geb.id('xhr');
+
+            xhr.open('GET', path, true);
+            console.log('Xhr class controller loaded');
+
+            xhr.onreadystatechange = function (_) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var _xhrC = JSON.parse(xhr.responseText).xhrController;
+
+                    skylake.Geb.tag('title')[0].textContent = _xhrC.title;
+                    // EventDelegation.prototype.xhrCallback(xhrC)
+
+                    getHistoryUpdate();
+                    var transit = {
+                        insertNew: function insertNew(_) {
+                            pageEl.insertAdjacentHTML('beforeend', _xhrC.view);
+                        },
+                        removeOld: function removeOld(_) {
+                            while (pageEl.hasChildNodes()) {
+                                pageEl.removeChild(pageEl.lastChild);
+                            }
+                            // const oldXhrContent = pageEl.children[0]
+                            // oldXhrContent.parentNode.removeChild(oldXhrContent)
+                        }
+                    };
+                    transit.removeOld();
+                    transit.insertNew();
+                    //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
+                    //window.Penryn.outroIsOn = true
+                    //EventDelegation.prototype.run()
+                    Transition.disable_scroll();
+                    console.log('hello from xhr');
+                    loadjscssfile("/static/js/app.js", "js"); //dynamically load and add this .js file
+                    loadjscssfile("/static/style/css/app.css", "css"); ////dynamically load and add this .css file
+                    Xhr.prototype.onPopstate();
+                }
+            };
+
+            xhr.send(null);
+
+            // Browser history update
+            function getHistoryUpdate() {
+                var pageUrl = page === 'home' ? '/' : page;
+
+                history.pushState({ key: 'value' }, 'titre', pageUrl);
+            }
+        }
+    }, {
+        key: 'process',
+        value: function process() {
+            console.log(global.myXhr);
+            EventDelegation.prototype.xhrCallback(xhrC);
+        }
+    }, {
+        key: 'onPopstate',
+        value: function onPopstate() {
+            var d = document;
+            var w = window;
+
+            var blockPopstateEvent = d.readyState !== 'complete';
+
+            skylake.Listen(w, 'add', 'load', load);
+            skylake.Listen(w, 'add', 'popstate', popstate);
+
+            function load() {
+                setTimeout(function (_) {
+                    blockPopstateEvent = false;
+                }, 0);
+            }
+
+            function popstate(e) {
+                if (blockPopstateEvent && d.readyState === 'complete') {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            }
+
+            w.onpopstate = function (e) {
+                /* state is null when change url without change page → story stream social wall for example */
+                if (e.state !== null) {
+                    w.location.href = skylake.Win.path;
+                }
+            };
+        }
+    }]);
+    return Xhr;
+}();
+
+function loadjscssfile(filename, filetype) {
+    if (filetype == "js") {
+        //if filename is a external JavaScript file
+        var fileref = document.createElement('script');
+        fileref.setAttribute("type", "text/javascript");
+        fileref.setAttribute("src", filename);
+    } else if (filetype == "css") {
+        //if filename is an external CSS file
+        var fileref = document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename);
+    }
+    if (typeof fileref != "undefined") document.getElementsByTagName("head")[0].appendChild(fileref);
+}
+
+/* eslint-disable */
+
+var Listeners = function () {
+    function Listeners() {
+        classCallCheck(this, Listeners);
+    }
+
+    createClass(Listeners, [{
+        key: 'init',
+        value: function init(events) {
+            var _this = this;
+
+            var evs = events;
+            var speEvs = [];
+            this.normEvs = [];
+            this.moduleArr = [];
+            console.log('init events');
+
+            var spe = {
+                scroll: {
+                    throttle: true,
+                    skylake: 'Scroll'
+                },
+                ro: {
+                    throttle: true,
+                    skylake: 'RO'
+                },
+                wt: {
+                    throttle: false,
+                    skylake: 'WT'
+                }
+            };
+
+            var keys = Object.keys(evs);
+            var keysL = keys.length;
+            for (var i = 0; i < keysL; i++) {
+                var ev = keys[i];
+                var allEvContent = evs[keys[i]];
+                var isSpeEv = spe[ev] !== undefined;
+                var isThrottle = isSpeEv ? spe[ev].throttle : false;
+                var evContentL = isSpeEv ? 1 : allEvContent.length;
+                var arr = isSpeEv ? speEvs : this.normEvs;
+
+                for (var j = 0; j < evContentL; j++) {
+                    var evContent = isSpeEv ? allEvContent : allEvContent[j];
+                    var evContentModule = evContent.module;
+                    // Normal & spe arr
+                    var obj = {
+                        event: ev,
+                        module: evContentModule,
+                        method: evContent.method
+                    };
+                    if (isThrottle) {
+                        obj.throttle = evContent.throttle;
+                    } else {
+                        obj.el = evContent.el;
+                    }
+                    arr.push(obj);
+                    // Common arr
+                    if (this.moduleArr.indexOf(evContentModule) < 0) {
+                        this.moduleArr.push({
+                            module: evContentModule,
+                            arg: evContent.arg,
+                            alreadyCalled: this.getAlreadyCalled(evContentModule)
+                        });
+                    }
+                }
+            }
+
+            this.normEvsL = this.normEvs.length;
+            this.speEvsL = speEvs.length;
+            this.moduleArrL = this.moduleArr.length;
+            this.speEvInstance = [];
+
+            // Normal events prepare
+
+            var _loop = function _loop(_i) {
+                var normEv = _this.normEvs[_i];
+                normEv.callback = function (e) {
+                    var opts = {
+                        event: e,
+                        listeners: _this,
+                        outroM: _this.outroM
+                    };
+                    normEv.module[normEv.method](opts);
+                };
+            };
+
+            for (var _i = 0; _i < this.normEvsL; _i++) {
+                _loop(_i);
+            }
+
+            // Special events prepare
+
+            var _loop2 = function _loop2(_i2) {
+                var speEv = speEvs[_i2];
+                var speEvSkylake = spe[speEv.event].skylake;
+
+                var opts = void 0;
+                _this.speOpts = {
+                    listeners: _this
+                };
+                if (speEvSkylake === 'Scroll') {
+                    opts = {
+                        callback: function callback(s, d) {
+                            _this.speOpts.currentScrollY = s;
+                            _this.speOpts.delta = d;
+                            speEv.module[speEv.method](_this.speOpts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                } else if (speEvSkylake === 'WT') {
+                    opts = function opts(d, t, e) {
+                        _this.speOpts.delta = d;
+                        _this.speOpts.type = t;
+                        _this.speOpts.event = e;
+                        speEv.module[speEv.method](_this.speOpts);
+                    };
+                } else if (speEvSkylake === 'RO') {
+                    opts = {
+                        callback: function callback(_) {
+                            speEv.module[speEv.method](opts);
+                        },
+                        throttle: speEv.throttle
+                    };
+                }
+                _this.speEvInstance[_i2] = new skylake[speEvSkylake](opts);
+            };
+
+            for (var _i2 = 0; _i2 < this.speEvsL; _i2++) {
+                _loop2(_i2);
+            }
+        }
+    }, {
+        key: 'getAlreadyCalled',
+        value: function getAlreadyCalled(module) {
+            var moduleArrL = this.moduleArr.length;
+            for (var i = 0; i < moduleArrL; i++) {
+                if (module === this.moduleArr[i].module) {
+                    return true;
+                    console.log('getAlreadyCalled');
+                }
+            }
+            return false;
+            console.log('getAlreadyCalled return false');
+        }
+    }, {
+        key: 'add',
+        value: function add(opts) {
+            if (opts && opts.moduleInit) {
+                this.outroM = this.speOpts.outroM = opts.outroM;
+                this.methodCall('init');
+            }
+            this.listen('add');
+            console.log('add');
+        }
+    }, {
+        key: 'remove',
+        value: function remove(opts) {
+            var destroy = opts && opts.destroy !== undefined ? opts.destroy : false;
+            if (destroy) {
+                this.methodCall('destroy');
+            }
+            this.listen('remove');
+            console.log('remove');
+        }
+    }, {
+        key: 'methodCall',
+        value: function methodCall(name) {
+            for (var i = 0; i < this.moduleArrL; i++) {
+                var module = this.moduleArr[i].module;
+                if (!this.moduleArr[i].alreadyCalled && typeof module[name] === 'function') {
+                    module[name]({
+                        outroM: this.outroM,
+                        listeners: this,
+                        arg: this.moduleArr[i].arg
+                    });
+                    console.log('methodCall');
+                }
+            }
+        }
+    }, {
+        key: 'listen',
+        value: function listen(action) {
+            for (var i = 0; i < this.speEvsL; i++) {
+                var state = action === 'add' ? 'on' : 'off';
+                this.speEvInstance[i][state]();
+            }
+            for (var _i3 = 0; _i3 < this.normEvsL; _i3++) {
+                var _normEv = this.normEvs[_i3];
+                skylake.Listen(_normEv.el, action, _normEv.event, _normEv.callback);
+            }
+            console.log('listen');
+        }
+    }]);
+    return Listeners;
+}();
+
+console.dir(Listeners);
+
+/*
+
+CLASS
+─────
+
+Class "_tb"     →    targetBlank W3C compatible (target blank)
+Class "_tbs"    →    targetBlank W3C compatible except for safari (target blank safari)
+Class "_ost"    →    open link in same tab without prevent default (open same tab)
+
+PENRYN
+──────
+
+path
+target
+outroEnable
+outroArgs
+done
+xhr
+
+*/
+
+var Router = function () {
+    function Router() {
+        classCallCheck(this, Router);
+
+        // Parameters
+        this.routes = [];
+        this.p = window.Penryn;
+
+        // Bind
+        skylake.BindMaker(this, ['getInstance']);
+
+        // Outro is on : paralyse outro method during animations
+        this.p.outroIsOn = false;
+
+        // On popstate
+        Xhr.prototype.onPopstate();
+
+        // Instantiating event delegation
+        this.eventDelegation = new EventDelegation(this.getInstance);
+    }
+
+    createClass(Router, [{
+        key: 'init',
+        value: function init(path, controller) {
+            this.route = {
+                path: this.slashTrim(path),
+                controller: controller,
+                params: [],
+                instance: {},
+                args: ''
+            };
+            this.routes.push(this.route);
+
+            // Instantiating
+            var Controller = this.route.controller;
+            this.route.instance.controller = new Controller();
+
+            return this;
+        }
+    }, {
+        key: 'with',
+        value: function _with(param, regex) {
+            this.route.params[param] = regex;
+
+            return this;
+        }
+    }, {
+        key: 'error',
+        value: function error(errorController) {
+            // Instantiating
+            var ErrorController = errorController;
+            this.error.controller = new ErrorController();
+        }
+    }, {
+        key: 'run',
+        value: function run() {
+            // Event delegation
+            this.eventDelegation.run();
+
+            // Preload
+            var path = skylake.Win.path;
+            this.p.path = { new: path };
+            var instance = this.getInstance(path);
+
+            instance.controller.preload();
+        }
+    }, {
+        key: 'getInstance',
+        value: function getInstance(url) {
+            this.url = this.slashTrim(url);
+            var routesL = this.routes.length;
+
+            // Page controller
+            for (var i = 0; i < routesL; i++) {
+                if (this.match(this.routes[i])) {
+                    return {
+                        controller: this.routes[i].instance.controller
+                    };
+                }
+            }
+
+            // Error
+            return {
+                controller: this.error.controller
+            };
+        }
+    }, {
+        key: 'match',
+        value: function match(route) {
+            if (route.path === this.url) {
+                return true;
+            }
+
+            var path = route.path.replace(/:([\w]+)/g, function (total, part1) {
+                return '(' + route.params[part1] + ')';
+            });
+            path = path.replace(/\//g, '\\/');
+            var regex = new RegExp(path);
+            var matches = this.url.match(regex);
+
+            if (matches !== null) {
+                if (matches.length > 1) {
+                    matches.shift();
+                    route.args = matches;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }, {
+        key: 'slashTrim',
+        value: function slashTrim(string) {
+            return string.replace(/^\/|\/$/g, '');
+        }
+    }]);
+    return Router;
+}();
+
+/* eslint-disable */
+
+var intro = function intro() {
+  var tl = new skylake.Timeline();
+  var isObj = skylake.Is.object(tl);
+  tl.from({ el: '.header', p: { opacity: [0, 1] }, d: 1000, e: 'ExpoIn' });
+  tl.from({ el: '.tagline', p: { y: [100, 0] }, d: 1600, e: 'Power4InOut', delay: 500 });
+
+  tl.from({ el: '#burger-border-wrap', p: { opacity: [0, .6] }, d: 1500, e: 'ExpoOut', delay: 250 });
+  tl.from({ el: '.burger-line-hover', p: { x: [105, 0] }, d: 1000, e: 'ExpoOut', delay: 250 });
+  tl.from({ el: '#burger-mask', p: { y: [100, -100] }, d: 2000, e: 'ExpoOut', delay: 750 });
+
+  tl.play();
+};
+
+anime.timeline({ loop: false }).add({
+  targets: ".ml8 .circle-white",
+  scale: [0, 3],
+  opacity: [1, 0],
+  easing: "easeInOutExpo",
+  rotateZ: 360,
+  duration: 1100,
+  delay: 3000
+}).add({
+  targets: ".ml8 .circle-container",
+  scale: [0, 1],
+  duration: 1100,
+  easing: "easeInOutExpo",
+  offset: "-=1000"
+}).add({
+  targets: ".ml8 .circle-dark",
+  scale: [0, 1],
+  duration: 1100,
+  easing: "easeOutExpo",
+  offset: "-=600"
+}).add({
+  targets: ".ml8 .letters-left",
+  scale: [0, 1],
+  duration: 1200,
+  offset: "-=550"
+}).add({
+  targets: ".ml8 .bang",
+  scale: [0, 1],
+  rotateZ: [45, 15],
+  duration: 1200,
+  offset: "-=1000"
+}).add({
+  targets: ".ml8",
+  opacity: 1,
+  duration: 2000,
+  easing: "easeOutExpo",
+  delay: 300
+});
+
+anime({
+  targets: ".ml8 .circle-dark-dashed",
+  rotateZ: 360,
+  duration: 5000,
+  easing: "linear",
+  loop: true
+});
+
+var Loader = {};
+
+Loader.run = function () {
+  var preloaderFadeOutTime = 2500;
+  function hidePreloader() {
+    var preloader = $(".spinner");
+    preloader.delay(2300).show(); //show preloader - see spinner css
+    preloader.delay(2300).fadeOut(preloaderFadeOutTime, intro);
+  }
+  hidePreloader();
+};
+
+//Loader.run()
+console.log('loader.js');
+
+var ErrorController = function () {
+    function ErrorController() {
+        classCallCheck(this, ErrorController);
+    }
+
+    createClass(ErrorController, [{
+        key: 'preload',
+        value: function preload() {
+            Loader.run({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'intro',
+        value: function intro() {
+            Transition.intro({
+                listeners: Listeners
+            });
+        }
+    }, {
+        key: 'outro',
+        value: function outro() {
+            Transition.outro({
+                listeners: Listeners
+            });
+        }
+    }]);
+    return ErrorController;
+}();
+
+/* eslint-disable */
+
 console.dir(Listeners);
 
 var HomeController = function (_Listeners) {
@@ -11845,11 +11846,25 @@ var HomeController = function (_Listeners) {
             EventDelegation.destAbout();
             //EventDelegation.prototype.run()
         }
+        // intro () {
+        //     Transition.intro.play({
+        //         listeners: Listeners
+        //     })
+        // }
+
+        // outro () {
+        //     Transition.outro.play({
+        //         listeners: Listeners
+        //     })
+        // }
+
     }, {
         key: 'intro',
         value: function intro(opts) {
             Listeners.prototype.add({ cb: Transition.intro.play() });
-            // {cb: this.outro()}
+            {
+                cb: this.outro();
+            }
             console.log('Transition.intro from HomeController');
         }
     }, {
@@ -11877,10 +11892,11 @@ var AboutController = function (_Listeners) {
         console.dir(Listeners);
         console.log('about constructor');
         _this.init({
-            mouseenter: [{
-                el: '#a-link',
-                module: EventDelegation,
-                method: 'destHome',
+            mouseWheel: [{
+                moduleInit: true,
+                el: 'body',
+                module: Transition,
+                method: 'scrollInit',
                 outroM: _this.outroM
             }],
             // click: [
@@ -11904,7 +11920,7 @@ var AboutController = function (_Listeners) {
     createClass(AboutController, [{
         key: 'preload',
         value: function preload(opts) {
-            Transition.prototype.open();
+            Transition.open();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
             });

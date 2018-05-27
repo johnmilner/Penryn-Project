@@ -64,10 +64,20 @@ class HomeController extends Listeners {
         //EventDelegation.prototype.run()
         
     }
+    // intro () {
+    //     Transition.intro.play({
+    //         listeners: Listeners
+    //     })
+    // }
 
+    // outro () {
+    //     Transition.outro.play({
+    //         listeners: Listeners
+    //     })
+    // }
     intro (opts) {
         Listeners.prototype.add({cb:Transition.intro.play()})
-        // {cb: this.outro()}
+        {cb: this.outro()}
         console.log('Transition.intro from HomeController')
     }
 
@@ -76,7 +86,8 @@ class HomeController extends Listeners {
             destroy: true
         })
         
-        }
+    }
+    
 }
 
 export default HomeController

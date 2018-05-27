@@ -36,7 +36,7 @@ Transition.nextStep = 0
 // S.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose)
 // }
 
-Transition.open = () => {
+Transition.open = function() {
 
 Transition.intro = new S.Timeline()
 const isObj = S.Is.object(Transition.intro)
@@ -115,6 +115,7 @@ Transition.scrollInit()
      Transition.enable_scroll = function() {
         const body = S.Dom.body
         S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll)
+        
 
       }
 
@@ -295,9 +296,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
 Transition.scrollInit = () => {
     const body = S.Dom.body
-    //S.BindMaker(this, ['headerScroll'])
-    // this.scroll = new S.Scroll(this.headerScroll)
-    // this.scroll.on()
+    //S.BindMaker(this, ['Transition.headerScroll'])
+    //S.scroll = new S.Scroll(Transition.headerScroll)
     S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll)
 
     

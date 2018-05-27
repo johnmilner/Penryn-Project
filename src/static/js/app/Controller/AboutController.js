@@ -18,11 +18,12 @@ class AboutController extends Listeners {
         console.dir(Listeners)
         console.log('about constructor')
         this.init({
-            mouseenter: [
+            mouseWheel: [
                 {
-                    el: '#a-link',
-                    module: EventDelegation,
-                    method: 'destHome',
+                    moduleInit: true,
+                    el: 'body',
+                    module: Transition,
+                    method: 'scrollInit',
                     outroM: this.outroM
                 }
             ],
@@ -45,7 +46,7 @@ class AboutController extends Listeners {
     }
 
     preload (opts) {
-        Transition.prototype.open()
+        Transition.open()
         console.log('Transition.outro from HomeController')
         Listeners.prototype.add({cb:
             Loader.run({cb: this.intro()})

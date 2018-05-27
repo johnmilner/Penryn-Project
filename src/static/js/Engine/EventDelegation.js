@@ -131,12 +131,12 @@ class EventDelegation {
     }
 
     done () {
-        // let target = event.target
-        // const targetHref = target.dataset.href === undefined ? target.href : target.dataset.href
-        // this.path = {
-        //     old: S.Win.path,
-        //     new: targetHref.replace(/^.*\/\/[^/]+/, '')
-        // }
+        let target = event.target
+        const targetHref = target.dataset.href === undefined ? target.href : target.dataset.href
+        this.path = {
+            old: S.Win.path,
+            new: targetHref.replace(/^.*\/\/[^/]+/, '')
+        }
         // Xhr.prototype.controller(this.path.new, EventDelegation.prototype.xhrCallback())
     }
 

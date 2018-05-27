@@ -23,6 +23,8 @@ Xhr.onPopstate()
 
 import S from 'skylake'
 import EventDelegation from './EventDelegation.js'
+import Transition from '../app/Bundle/Common/Transition/Transition.js'
+import Menu from '../app/Bundle/Common/Transition/Menu.js'
 
 
 class Xhr {
@@ -66,8 +68,10 @@ class Xhr {
                 transit.removeOld()
                 transit.insertNew()
                 //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
-                window.Penryn.outroIsOn = true
-                EventDelegation.prototype.run()
+                //window.Penryn.outroIsOn = true
+                //EventDelegation.prototype.run()
+                Transition.disable_scroll()
+                console.log('hello from xhr')
                 loadjscssfile("/static/js/app.js", "js") //dynamically load and add this .js file
                 loadjscssfile("/static/style/css/app.css", "css") ////dynamically load and add this .css file
                 Xhr.prototype.onPopstate()
