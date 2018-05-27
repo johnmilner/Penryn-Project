@@ -53,6 +53,7 @@ class HomeController extends Listeners {
 
     preload (opts) {
         // Transition.callback()
+        //Transition.disable_scroll()
         Transition.open()
         console.log('Transition.outro from HomeController')
         Listeners.prototype.add({cb:

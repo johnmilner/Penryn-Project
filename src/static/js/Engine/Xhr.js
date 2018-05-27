@@ -69,7 +69,7 @@ class Xhr {
                 transit.insertNew()
                 //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                 //window.Penryn.outroIsOn = true
-                //EventDelegation.prototype.run()
+                EventDelegation.prototype.run()
                 Transition.disable_scroll()
                 console.log('hello from xhr')
                 loadjscssfile("/static/js/app.js", "js") //dynamically load and add this .js file

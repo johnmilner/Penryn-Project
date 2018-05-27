@@ -11264,7 +11264,7 @@ var Xhr = function () {
                     transit.insertNew();
                     //pageEl.insertAdjacentHTML('beforeend', xhrC.view)
                     //window.Penryn.outroIsOn = true
-                    //EventDelegation.prototype.run()
+                    EventDelegation.prototype.run();
                     Transition.disable_scroll();
                     console.log('hello from xhr');
                     loadjscssfile("/static/js/app.js", "js"); //dynamically load and add this .js file
@@ -11837,6 +11837,7 @@ var HomeController = function (_Listeners) {
         key: 'preload',
         value: function preload(opts) {
             // Transition.callback()
+            //Transition.disable_scroll()
             Transition.open();
             console.log('Transition.outro from HomeController');
             Listeners.prototype.add({ cb: Loader.run({ cb: this.intro() })
@@ -11985,3 +11986,4 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
+
