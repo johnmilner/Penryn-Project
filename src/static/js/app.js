@@ -10692,7 +10692,12 @@ Transition.titleInit = function () {
 
     Transition.textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(Transition.textInit);
-    Transition.textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+    Transition.textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut', cb: function cb() {
+            console.log('title text');
+        } });
+    Transition.textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut', cb: function cb() {
+            console.log('description text');
+        } });
     Transition.textInit.play({ delay: 500, cb: Transition.enable_scroll });
 };
 
@@ -10777,6 +10782,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     };
 
     Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
+    Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-text"));
 
     Transition.n2 = function () {
 
@@ -11986,4 +11992,3 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
-
