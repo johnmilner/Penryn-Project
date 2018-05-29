@@ -271,30 +271,30 @@
                         <div class="h-bottom-title">ROLE</div>
                     </div>
                     <div class="h-bottom-value-wrap oh">
-                        <div class="h-bottom-value h-bottom-value-0">Designer</div>
-                        <div class="h-bottom-value h-bottom-value-1">Art Director</div>
-                        <div class="h-bottom-value h-bottom-value-2">Lead Designer</div>
-                        <div class="h-bottom-value h-bottom-value-3">Lead Designer</div>&nbsp;</div>
+                        <div class="h-bottom-value h-bottom-value-r">Designer</div>
+                        <div class="h-bottom-value h-bottom-value-r">Art Director</div>
+                        <div class="h-bottom-value h-bottom-value-r">Lead Designer</div>
+                        <div class="h-bottom-value h-bottom-value-r">Lead Designer</div>&nbsp;</div>
                 </div>
                 <div id="h-agency">
                     <div class="oh">
                         <div class="h-bottom-title">AGENCY</div>
                     </div>
                     <div class="h-bottom-value-wrap oh">
-                        <div class="h-bottom-value h-bottom-value-0">Fantasy</div>
-                        <div class="h-bottom-value h-bottom-value-1">DDB &amp; Tribal</div>
-                        <div class="h-bottom-value h-bottom-value-2">DDB &amp; Tribal</div>
-                        <div class="h-bottom-value h-bottom-value-3">DDB &amp; Tribal</div>&nbsp;</div>
+                        <div class="h-bottom-value h-bottom-value-a">Fantasy</div>
+                        <div class="h-bottom-value h-bottom-value-a">DDB &amp; Tribal</div>
+                        <div class="h-bottom-value h-bottom-value-a">DDB &amp; Tribal</div>
+                        <div class="h-bottom-value h-bottom-value-a">DDB &amp; Tribal</div>&nbsp;</div>
                 </div>
                 <div id="h-year">
                     <div class="oh">
                         <div class="h-bottom-title">YEAR</div>
                     </div>
                     <div class="h-bottom-value-wrap oh">
-                        <div class="h-bottom-value h-bottom-value-0">2015</div>
-                        <div class="h-bottom-value h-bottom-value-1">2015</div>
-                        <div class="h-bottom-value h-bottom-value-2">2014</div>
-                        <div class="h-bottom-value h-bottom-value-3">2013</div>&nbsp;</div>
+                        <div class="h-bottom-value h-bottom-value-y">2015</div>
+                        <div class="h-bottom-value h-bottom-value-y">2015</div>
+                        <div class="h-bottom-value h-bottom-value-y">2014</div>
+                        <div class="h-bottom-value h-bottom-value-y">2013</div>&nbsp;</div>
                 </div>
                 <div id="h-btn-container" class="oh">
                     <div id="h-btn-wrap" class="oh">

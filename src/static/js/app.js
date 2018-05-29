@@ -10611,7 +10611,11 @@ Transition.nextStep = 0;
 Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
 Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"));
 Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"));
-Transition.arrTextWrap = document.querySelector('.h-text-desc-txt-wrap');
+Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"));
+Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"));
+Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"));
+Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"));
+
 // Transtion.init(t) = () => {
 //     // console.log("init")
 //     this.first = !1
@@ -10686,21 +10690,31 @@ Transition.disable_scroll = function () {
 
 Transition.enable_scroll = function () {
     var body = skylake.Dom.body;
-    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
+    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll, { delay: 2000 });
 };
 
 Transition.titleInit = function () {
     // All the taxing stuff you do
     // const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
     // const idx = 0;
+
     Transition.currentStep = 0;
 
     var textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(textInit);
-    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
     console.log('title text');
-    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
+
+    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 2600, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 2800, e: 'ExpoOut', delay: 3500 });
+
+    textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+
     textInit.play({ delay: 500, cb: Transition.enable_scroll });
 };
 
@@ -10713,7 +10727,7 @@ Transition.next = debounce(function () {
     Transition.currentStep = Transition.nextStep;
     Transition.disable_scroll();
     return Transition.currentStep;
-}, 100);
+}, 250);
 
 //window.addEventListener('wheel', Transition.next);
 
@@ -10738,7 +10752,7 @@ Transition.prev = debounce(function () {
     }
 
     return Transition.currentStep;
-}, 100);
+}, 250);
 
 //Transition.getChangePage = !0;
 //window.addEventListener('wheel', Transition.prev);
@@ -10771,7 +10785,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerUp = new skylake.Timeline();
         var isObj3 = skylake.Is.object(Transition.headerUp);
         Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerUp.play({ delay: 500 });
+        Transition.headerUp.play();
 
         //console.log(divOffset.left, divOffset.top);
     };
@@ -10790,17 +10804,29 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         Transition.textInOut = new skylake.Timeline();
         var isObj8 = skylake.Is.object(Transition.textInOut);
+
         Transition.textInOut.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
         Transition.textInOut.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
         Transition.textInOut.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textInOut.play({ delay: 500, cb: function cb() {
+
+        Transition.textInOut.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textInOut.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textInOut.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+
+        Transition.textInOut.play({ cb: function cb() {
 
                 Transition.textIn2 = new skylake.Timeline();
                 var isObj9 = skylake.Is.object(Transition.textIn2);
+
                 Transition.textIn2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
                 Transition.textIn2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
                 Transition.textIn2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textIn2.play({ delay: 500, cb: Transition.enable_scroll });
+
+                Transition.textIn2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+
+                Transition.textIn2.play({ cb: Transition.enable_scroll });
             }
         });
     };
@@ -10811,17 +10837,29 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         Transition.textOutIn = new skylake.Timeline();
         var isObj10 = skylake.Is.object(Transition.textOutIn);
+
         Transition.textOutIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
         Transition.textOutIn.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
         Transition.textOutIn.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textOutIn.play({ delay: 500, cb: function cb() {
+
+        Transition.textOutIn.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+
+        Transition.textOutIn.play({ cb: function cb() {
 
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
+
                 Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
                 Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
                 Transition.textOut2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textOut2.play({ delay: 500, cb: Transition.enable_scroll });
+
+                Transition.textOut2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+
+                Transition.textOut2.play({ cb: Transition.enable_scroll });
             } });
     };
 
@@ -10864,103 +10902,6 @@ Transition.scrollInit = function () {
     console.log('hello from scroll init');
 };
 
-// key: "WTGestion",
-// value: function(e) {
-//  this.canChangePage && (this.getCanNotChangePage(), this.currentNo = this.getCurrentNo(), e.deltaY < 0 ? (this.direction = "next", this.no = this.currentNo === this.limit ? this.limit : this.currentNo + 1) : (this.direction = "prev", this.no = 0 === this.currentNo ? 0 : this.currentNo - 1), this.changePart())
-// }
-
-// {
-//     key: "getFirstCase",
-//     value: function() {
-//      this.canChangePage && (this.getCanNotChangePage(), this.direction = "next", this.currentNo = 0, this.no = 1, this.changePart())
-//     }
-// }
-
-// {
-// key: "getCanChangePage",
-// value: function() {
-//     this.pagiOverTop.getCanChangePage(!0), this.pagiOverBottom.getCanChangePage(!0), this.canChangePage = !0
-// }
-// }, {
-// key: "getCanNotChangePage",
-// value: function() {
-//     this.pagiOverTop.getCanChangePage(), this.pagiOverBottom.getCanChangePage(), this.canChangePage = !1
-// }
-// },
-
-// return createClass(e, [{
-//     key: "showFirstTime",
-//     value: function(e, t) {
-//      var i = index.Geb.class("h-bottom-value-" + e),
-//       n = "ExpoOut",
-//       o = new index.Timeline;
-//      o.from("#h-client-" + e, "3dy", 100, 0, 1200, n, {
-//       delay: 1100
-//      }), o.from(this.txtTitle[e], "3dy", 100, 0, 1200, n, {
-//       delay: 300
-//      }), o.from("#h-txt-desc-line", "3dx", -110, 0, 1200, n), o.from(this.txtDescTxt[e], "3dy", 100, 0, 1200, n), o.from(this.bottomTitle[0], "3dy", 100, 0, 1200, n, {
-//       delay: 300
-//      }), o.from(i[0], "3dy", 100, 0, 1200, n), o.from(this.bottomTitle[1], "3dy", 100, 0, 1200, n, {
-//       delay: 100
-//      }), o.from(i[1], "3dy", 100, 0, 1600, n), o.from(this.bottomTitle[2], "3dy", 100, 0, 1600, n, {
-//       delay: 100
-//      }), o.from(i[2], "3dy", 100, 0, 1600, n), o.from(this.img[e + 1], "3dx", 16, 0, 1200, n), 0 === e && (o.from(this.img[e], "3dx", 16, 0, 1200, n, {
-//       delay: 40
-//      }), o.from(this.img[e], "opacity", 0, 1, 600, "linear")), o.from(this.img[e + 1], "opacity", 0, 1, 600, "linear"), o.from("#h-btn-container", "3dy", 300, 0, {
-//       delay: 160
-//      }), o.from(this.btnCover[e], "3dy", 105, 0, 600, "Power3In"), o.from(this.btn[e], "3dy", 100, 0), o.from(this.btn[e], "opacity", 0, 1, {
-//       delay: 600,
-//       callbackDelay: 800,
-//       callback: t
-//      }), o.from(this.btnCover[e], "3dy", 0, -105, 1200, n), o.play()
-//     }
-//    },
-
-// {
-//     key: "hide",
-//     value: function(e, t) {
-//      var i = index.Geb.class("h-bottom-value-" + e),
-//       n = "Power3In",
-//       o = new index.Timeline;
-//      o.from("#h-client-" + e, "3dy", 0, 100, 500, n), o.from(this.txtTitle[e], "3dy", 0, 100, 500, n), o.from("#h-txt-desc-line", "3dx", 0, -110 * t, 500, n), o.from(this.txtDescTxt[e], "3dy", 0, 100, 500, n), o.from(i[0], "3dy", 0, 100, 500, n), o.from(i[1], "3dy", 0, 100, 500, n), o.from(i[2], "3dy", 0, 100, 500, n), o.from(this.img[e + 1], "3dx", 0, 16, 500, n), 0 === e && (o.from(this.img[e], "3dx", 0, 16, 500, n, {
-//       delay: 40
-//      }), o.from(this.img[e], "opacity", 1, 0, 500, "linear")), o.from(this.img[e + 1], "opacity", 1, 0, 500, "linear"), o.from(this.btn[e], "3dy", 0, 100, 500, n), o.from(this.btn[e], "opacity", 1, 0, {
-//       delay: 500
-//      }), o.from(this.btnCover[e], "3dy", 0, 105), o.play()
-//     }
-//    }, {
-//     key: "hideComplete",
-//     value: function(e) {
-//      var t = "Power3In";
-//      this.hide(e, 1);
-//      var i = new index.Timeline;
-//      i.from(this.bottomTitle[0], "3dy", 0, 100, 500, t), i.from(this.bottomTitle[1], "3dy", 0, 100, 500, t), i.from(this.bottomTitle[2], "3dy", 0, 100, 500, t), i.from("#h-btn-container", "3dy", 0, 300, {
-//       delay: 1e3
-//      }), i.play()
-//     }
-//    }, {
-//     key: "reset",
-//     value: function(e) {
-//      var t = new index.Timeline;
-//      t.from("#h-txt-desc-line", "3dx", 0, -100, {
-//       delay: 1300
-//      }), t.from(".h-img", "3dx", 0, 16), t.from(".h-img", "opacity", 1, 0), t.from(".h-btn", "opacity", 1, 0), t.from(".h-btn", "3dy", 0, 100), t.from(".h-btn-cover", "3dy", 0, 105), t.from(".h-txt-title", "3dy", 0, 100), t.from(".h-txt-desc-txt", "3dy", 0, 100), t.from(".h-client", "3dy", 0, 100), t.from(".h-bottom-value", "3dy", 0, 100), t.from(".h-bottom-title", "3dy", 0, 100, {
-//       callback: e
-//      }), t.play()
-//     }
-//    }, {
-//     key: "geSize",
-//     value: function() {
-//      for (var e = 0; e < this.txtDescTxtL; e++) this.txtDescTxtWrap[e].style.height = this.txtDescTxt[e].offsetHeight + "px";
-//      this.btnContainer.style.left = Math.round(index.Win.w / 2 - this.btnContainer.offsetWidth / 2) + "px"
-//     }
-//    }, {
-//     key: "destroy",
-//     value: function() {
-//      this.RO.off()
-//     }
-//    }]), e
-//   }
 console.log('transition.js');
 
 /* eslint-disable */
