@@ -3207,7 +3207,7 @@ html {
   }
   
   .h-txt-desc-txt {
-    position: absolute;
+    /* position: absolute; */
     line-height: 180%;
     color: #a3adb9;
     font-size: calc(0.4rem + 0.718vw);
