@@ -63,6 +63,8 @@ Transition.arrBotTitle = S.Geb.class("h-bottom-title")
 Transition.arrBotRole = S.Geb.class("h-bottom-value-r")
 Transition.arrBotAgency = S.Geb.class("h-bottom-value-a")
 Transition.arrBotYear = S.Geb.class('h-bottom-value-y')
+Transition.descLine = S.Geb.id('h-txt-desc-line')
+
 
 Transition.scrollInit()
 }
@@ -132,7 +134,7 @@ Transition.scrollInit()
       
      Transition.enable_scroll = function() {
         const body = S.Dom.body
-        S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll, {delay: 2000})
+        S.Listen(body, 'add', 'mouseWheel', Transition.headerScroll)
         
 
       }
@@ -158,6 +160,8 @@ Transition.scrollInit()
     textInit.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [100, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
     textInit.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
     textInit.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
+
+    textInit.from({el: Transition.descLine, p: {x: [-110, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
 
     textInit.play({delay: 500, cb: Transition.enable_scroll})
 

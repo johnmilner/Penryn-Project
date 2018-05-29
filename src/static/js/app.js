@@ -10646,6 +10646,7 @@ Transition.open = function () {
     Transition.arrBotRole = skylake.Geb.class("h-bottom-value-r");
     Transition.arrBotAgency = skylake.Geb.class("h-bottom-value-a");
     Transition.arrBotYear = skylake.Geb.class('h-bottom-value-y');
+    Transition.descLine = skylake.Geb.id('h-txt-desc-line');
 
     Transition.scrollInit();
 };
@@ -10699,7 +10700,7 @@ Transition.disable_scroll = function () {
 
 Transition.enable_scroll = function () {
     var body = skylake.Dom.body;
-    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll, { delay: 2000 });
+    skylake.Listen(body, 'add', 'mouseWheel', Transition.headerScroll);
 };
 
 Transition.titleInit = function () {
@@ -10723,6 +10724,8 @@ Transition.titleInit = function () {
     textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
     textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
     textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+
+    textInit.from({ el: Transition.descLine, p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
 
     textInit.play({ delay: 500, cb: Transition.enable_scroll });
 };
