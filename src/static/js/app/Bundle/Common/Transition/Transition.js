@@ -26,6 +26,7 @@ Transition.currentStep = 0
 Transition.nextStep = 0
 
 Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"))
 Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"))
 Transition.arrTextWrap = document.querySelector('.h-text-desc-txt-wrap')
 // Transtion.init(t) = () => {
@@ -134,6 +135,7 @@ Transition.scrollInit()
     textInit.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
     console.log('title text')
     textInit.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+    textInit.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
     textInit.play({delay: 500, cb: Transition.enable_scroll})
 
     };
@@ -234,15 +236,17 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.textInOut = new S.Timeline()
         const isObj8 = S.Is.object(Transition.textInOut)
-        Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInOut.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
+        Transition.textInOut.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
+        Transition.textInOut.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
         Transition.textInOut.play({delay: 500, cb: function() {
 
         
             Transition.textIn2 = new S.Timeline()
             const isObj9 = S.Is.object(Transition.textIn2)
-            Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
+            Transition.textIn2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
+            Transition.textIn2.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
             Transition.textIn2.play({delay: 500, cb: Transition.enable_scroll})
 
             }
@@ -256,15 +260,17 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.textOutIn = new S.Timeline()
         const isObj10 = S.Is.object(Transition.textOutIn)
-        Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textOutIn.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
+        Transition.textOutIn.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
+        Transition.textOutIn.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'ExpoOut'})
         Transition.textOutIn.play({delay: 500, cb: function() {
 
 
                 Transition.textOut2 = new S.Timeline()
                 const isObj11 = S.Is.object(Transition.textOut2)
-                Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-                Transition.textOut2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+                Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
+                Transition.textOut2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
+                Transition.textOut2.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'ExpoOut'})
                 Transition.textOut2.play({delay: 500, cb: Transition.enable_scroll})
         
         }})
