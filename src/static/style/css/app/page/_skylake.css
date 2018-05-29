@@ -3197,6 +3197,9 @@ html {
     top: 0;
     left: 0;
     transform: translate3d(0, 100%, 0);
+
+    -webkit-backface-visibility: hidden;
+	  -webkit-perspective: 1000;
   }
   
   .h-text-desc-txt-wrap {
@@ -3212,6 +3215,9 @@ html {
     color: #a3adb9;
     font-size: calc(0.4rem + 0.718vw);
     transform: translate3d(0, 100%, 0);
+
+    -webkit-backface-visibility: hidden;
+	  -webkit-perspective: 1000;
   }
   
   .h-bottom-title {

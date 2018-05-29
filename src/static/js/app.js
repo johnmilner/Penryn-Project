@@ -10711,14 +10711,14 @@ Transition.titleInit = function () {
 
     var textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(textInit);
-    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
     console.log('title text');
-    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
-    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
 
-    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 2300, e: 'ExpoOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 2600, e: 'ExpoOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 2800, e: 'ExpoOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 2600, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
 
     textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
     textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
@@ -10814,26 +10814,26 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textInOut = new skylake.Timeline();
         var isObj8 = skylake.Is.object(Transition.textInOut);
 
-        Transition.textInOut.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textInOut.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textInOut.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textInOut.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInOut.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInOut.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
 
-        Transition.textInOut.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textInOut.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textInOut.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textInOut.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInOut.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textInOut.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
 
         Transition.textInOut.play({ cb: function cb() {
 
                 Transition.textIn2 = new skylake.Timeline();
                 var isObj9 = skylake.Is.object(Transition.textIn2);
 
-                Transition.textIn2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textIn2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textIn2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textIn2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
 
-                Transition.textIn2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textIn2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
 
                 Transition.textIn2.play({ cb: Transition.enable_scroll });
             }
@@ -10847,26 +10847,26 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textOutIn = new skylake.Timeline();
         var isObj10 = skylake.Is.object(Transition.textOutIn);
 
-        Transition.textOutIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textOutIn.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textOutIn.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textOutIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
 
-        Transition.textOutIn.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
-        Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'ExpoOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
 
         Transition.textOutIn.play({ cb: function cb() {
 
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
 
-                Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textOut2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
 
-                Transition.textOut2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
-                Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'ExpoOut' });
+                Transition.textOut2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
 
                 Transition.textOut2.play({ cb: Transition.enable_scroll });
             } });
