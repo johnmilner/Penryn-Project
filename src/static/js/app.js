@@ -10608,13 +10608,14 @@ Transition.headerVisible = !0;
 Transition.currentStep = 0;
 Transition.nextStep = 0;
 
-Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"));
-Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"));
-Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"));
-Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"));
-Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"));
-Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"));
-Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"));
+// Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+// Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"))
+// Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"))
+// Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"))
+// Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"))
+// Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"))
+// Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"))
+
 
 // Transtion.init(t) = () => {
 //     // console.log("init")
@@ -10637,6 +10638,14 @@ Transition.open = function () {
     Transition.outro = new skylake.Timeline();
     var isObj2 = skylake.Is.object(Transition.outro);
     Transition.outro.from({ el: '#sail', p: { y: [100, -100] }, d: 5000, e: 'Power4InOut' });
+
+    Transition.arr = skylake.Geb.class("h-txt-title");
+    Transition.arrTitle = skylake.Geb.class("h-client");
+    Transition.arrText = skylake.Geb.class("h-txt-desc-txt");
+    Transition.arrBotTitle = skylake.Geb.class("h-bottom-title");
+    Transition.arrBotRole = skylake.Geb.class("h-bottom-value-r");
+    Transition.arrBotAgency = skylake.Geb.class("h-bottom-value-a");
+    Transition.arrBotYear = skylake.Geb.class('h-bottom-value-y');
 
     Transition.scrollInit();
 };
@@ -11762,7 +11771,7 @@ var HomeController = function (_Listeners) {
                 module: Transition,
                 method: 'scrollInit',
                 outroM: _this.outroM
-            }],
+            }]
             // click: [
             //     {
             //         el: '#h-link',
@@ -11777,13 +11786,14 @@ var HomeController = function (_Listeners) {
             //         method: 'bindButtonClick'
             //     }
             // ],
-            scroll: {
-                throttle: {
-                    throttle: true,
-                    skylake: 'Scroll'
-                    // module: Resize,
-                    // method: 'calculate'
-                } }
+            // scroll: {
+            //     throttle: {
+            //         throttle: true,
+            //         skylake: 'Scroll'
+            //     }
+            // module: Resize,
+            // method: 'calculate'
+            //}
         });
         return _this;
     }
@@ -11802,18 +11812,6 @@ var HomeController = function (_Listeners) {
             EventDelegation.destAbout();
             //EventDelegation.prototype.run()
         }
-        // intro () {
-        //     Transition.intro.play({
-        //         listeners: Listeners
-        //     })
-        // }
-
-        // outro () {
-        //     Transition.outro.play({
-        //         listeners: Listeners
-        //     })
-        // }
-
     }, {
         key: 'intro',
         value: function intro(opts) {

@@ -25,13 +25,13 @@ Transition.headerVisible = !0;
 Transition.currentStep = 0
 Transition.nextStep = 0
 
-Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"))
-Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"))
-Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"))
-Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"))
-Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"))
-Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"))
+// Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
+// Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"))
+// Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"))
+// Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"))
+// Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"))
+// Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"))
+// Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"))
 
 
 // Transtion.init(t) = () => {
@@ -55,6 +55,14 @@ Transition.intro.from({el: '#sail', p: {y: [-100, 100]}, d: 5000, e: 'Power4InOu
 Transition.outro = new S.Timeline()
 const isObj2 = S.Is.object(Transition.outro)
 Transition.outro.from({el: '#sail', p: {y: [100, -100]}, d: 5000, e: 'Power4InOut'})
+
+Transition.arr = S.Geb.class("h-txt-title")
+Transition.arrTitle = S.Geb.class("h-client")
+Transition.arrText = S.Geb.class("h-txt-desc-txt")
+Transition.arrBotTitle = S.Geb.class("h-bottom-title")
+Transition.arrBotRole = S.Geb.class("h-bottom-value-r")
+Transition.arrBotAgency = S.Geb.class("h-bottom-value-a")
+Transition.arrBotYear = S.Geb.class('h-bottom-value-y')
 
 Transition.scrollInit()
 }
