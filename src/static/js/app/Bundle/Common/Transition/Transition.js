@@ -63,7 +63,7 @@ Transition.arrBotTitle = S.Geb.class("h-bottom-title")
 Transition.arrBotRole = S.Geb.class("h-bottom-value-r")
 Transition.arrBotAgency = S.Geb.class("h-bottom-value-a")
 Transition.arrBotYear = S.Geb.class('h-bottom-value-y')
-Transition.descLine = S.Geb.id('h-txt-desc-line')
+//Transition.descLine = S.Geb.id('h-txt-desc-line')
 
 
 Transition.scrollInit()
@@ -161,7 +161,7 @@ Transition.scrollInit()
     textInit.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
     textInit.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
 
-    textInit.from({el: Transition.descLine, p: {x: [-110, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
+    textInit.from({el: '#h-txt-desc-line', p: {x: [-110, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
 
     textInit.play({delay: 500, cb: Transition.enable_scroll})
 
@@ -265,30 +265,34 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textInOut = new S.Timeline()
         const isObj8 = S.Is.object(Transition.textInOut)
 
-        Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInOut.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInOut.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
+        Transition.textInOut.from({el: '#h-txt-desc-line', p: {x: [0, -110]}, d: 1200, e: 'Power4InOut'})
 
-        Transition.textInOut.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInOut.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        Transition.textInOut.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
-        
+        Transition.textInOut.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+
+        Transition.textInOut.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         
         Transition.textInOut.play({ cb: function() {
 
         
             Transition.textIn2 = new S.Timeline()
             const isObj9 = S.Is.object(Transition.textIn2)
+            const t = -1
 
-            Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn2.from({el: '#h-txt-desc-line', p: {x: [-110 * t, 0]}, d: 1200, e: 'Power4InOut'})
 
-            Transition.textIn2.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
-            Transition.textIn2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arrTitle[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+
+            Transition.textIn2.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            Transition.textIn2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
             
-            Transition.textIn2.play({cb: Transition.enable_scroll})
+            Transition.textIn2.play({ cb: Transition.enable_scroll})
 
             }
         })
@@ -301,6 +305,9 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.textOutIn = new S.Timeline()
         const isObj10 = S.Is.object(Transition.textOutIn)
+        const t = -1
+
+        Transition.textOutIn.from({el: '#h-txt-desc-line', p: {x: [0, -110 * t]}, d: 1200, e: 'Power4InOut'})
 
         Transition.textOutIn.from({el: Transition.arr[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
         Transition.textOutIn.from({el: Transition.arrText[Transition.currentStep], p: {y: [0, 100]}, d: 1300, e: 'Power4InOut'})
@@ -315,6 +322,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
                 Transition.textOut2 = new S.Timeline()
                 const isObj11 = S.Is.object(Transition.textOut2)
+
+                Transition.textOut2.from({el: '#h-txt-desc-line', p: {x: [-110, 0]}, d: 2800, e: 'Power4InOut', delay: 3500})
 
                 Transition.textOut2.from({el: Transition.arr[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
                 Transition.textOut2.from({el: Transition.arrText[Transition.currentStep], p: {y: [100, 0]}, d: 1300, e: 'Power4InOut'})
