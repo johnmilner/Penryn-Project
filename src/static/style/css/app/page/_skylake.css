@@ -3028,7 +3028,7 @@ html {
   #h-intro {
     
     background-color: #1b1a25;
-    background-image: url(static/media/img/home/intro/img.jpg);
+    /* background-image: url(static/media/img/home/intro/img.jpg); */
     background-size: cover;
     background-position: 50%;
     display: -ms-flexbox;
@@ -3199,7 +3199,7 @@ html {
     transform: translate3d(0, 100%, 0);
 
     -webkit-backface-visibility: hidden;
-	  -webkit-perspective: 1000;
+	  -webkit-perspective: 1000;S
   }
   
   .h-text-desc-txt-wrap {

@@ -10713,6 +10713,7 @@ Transition.titleInit = function () {
 
     var textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(textInit);
+
     textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
     console.log('title text');
     textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
@@ -10793,12 +10794,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
     console.log(divOffset.top);
 
     Transition.headerUp = function () {
-        // All the taxing stuff you do
+
         Transition.disable_scroll();
         Transition.headerUp = new skylake.Timeline();
         var isObj3 = skylake.Is.object(Transition.headerUp);
         Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerUp.play();
+        Transition.headerUp.play({ delay: 500 });
 
         //console.log(divOffset.left, divOffset.top);
     };
@@ -10872,7 +10873,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
 
-                Transition.textOut2.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+                Transition.textOut2.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 1200, e: 'Power4InOut' });
 
                 Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
                 Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });

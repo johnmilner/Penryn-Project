@@ -2820,7 +2820,7 @@
             #h-intro {
                 z-index: 20;
                 background-color: #1b1a25;
-                background-image: url(static/media/img/home/intro/img.jpg);
+                /* background-image: url(static/media/img/home/intro/img.jpg); */
                 background-size: cover;
                 background-position: 50%;
                 display: -ms-flexbox;
