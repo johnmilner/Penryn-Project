@@ -112,8 +112,8 @@
     height: 92vh;
     background-image: linear-gradient(
         to right bottom,
-        rgba(41, 152, 255, 1),
-        rgba(255,255,255, 1));
+        rgba(41, 152, 255, .6),
+        rgba(255,255,255, .6));
     background-size: cover;
     background-position: top;
     position: relative;

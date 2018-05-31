@@ -3242,6 +3242,7 @@ html {
     color: #a3adb9;
     line-height: 150%;
     transform: translate3d(0, 100%, 0);
+    
     -webkit-backface-visibility: hidden;
 	  -webkit-perspective: 1000;
   }

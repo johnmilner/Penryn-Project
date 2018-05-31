@@ -10714,22 +10714,38 @@ Transition.titleInit = function () {
     var textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(textInit);
 
-    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
     console.log('title text');
-    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
 
-    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 2300, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 2600, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
 
-    textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2000, e: 'Power4InOut', delay: 3500 });
 
     textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
 
     textInit.play({ delay: 500, cb: Transition.enable_scroll });
+};
+
+Transition.reset = function () {
+
+    var elReset = new skylake.Timeline();
+    var isObj15 = skylake.Is.object(elReset);
+    var t = -1;
+
+    elReset.from({ el: Transition.arrBotTitle[0], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    elReset.from({ el: Transition.arrBotTitle[1], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    elReset.from({ el: Transition.arrBotTitle[2], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+    elReset.from({ el: '#h-txt-desc-line', p: { x: [0, -110 * t] }, d: 1200, e: 'Power4InOut', cb: Transition.enable_scroll });
+
+    console.log('hello from Transition.reset');
+    elReset.play();
 };
 
 Transition.next = debounce(function () {
@@ -10763,6 +10779,7 @@ Transition.prev = debounce(function () {
         // Transition.nextStep = 0
         // Transition.currentStep = Transition.nextStep
         Transition.headerDown();
+        Transition.reset();
     }
 
     return Transition.currentStep;
@@ -10799,12 +10816,14 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerUp = new skylake.Timeline();
         var isObj3 = skylake.Is.object(Transition.headerUp);
         Transition.headerUp.from({ el: '.header', p: { y: [0, -100] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerUp.play({ delay: 500 });
+        Transition.headerUp.play({ delay: 500, cb: Transition.titleInit });
 
         //console.log(divOffset.left, divOffset.top);
     };
 
     Transition.headerDown = function () {
+
+        Transition.disable_scroll();
         Transition.headerDown = new skylake.Timeline();
         var isObj4 = skylake.Is.object(Transition.headerDown);
         Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
@@ -10904,7 +10923,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         if (delta < 0 && divOffset.top === 30) {
 
             Transition.headerUp();
-            Transition.titleInit();
+            //Transition.titleInit()
         } else if (delta > 0 && divOffset.top < -600) {
 
             Transition.p2();
