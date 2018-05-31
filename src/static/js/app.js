@@ -10747,6 +10747,32 @@ Transition.reset = function () {
     elReset.play({ cb: Transition.enable_scroll });
 };
 
+Transition.resumeUp = function () {
+
+    var resUp = new skylake.Timeline();
+    var isObj15 = skylake.Is.object(resUp);
+
+    resUp.from({ el: '#h-resume', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    resUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    resUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    resUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+
+    resUp.play({ cb: Transition.enable_scroll });
+};
+
+Transition.resumeDown = function () {
+
+    var resDown = new skylake.Timeline();
+    var isObj15 = skylake.Is.object(resDown);
+
+    resDown.from({ el: '#h-resume', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    resDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    resDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    resDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+    resDown.play({ cb: Transition.enable_scroll });
+};
+
 Transition.next = debounce(function () {
     // if (Transition.nextStep === 0) {
     //     return Transition.currentStep
@@ -10755,6 +10781,14 @@ Transition.next = debounce(function () {
     console.log('scrolling down - nextItem');
     Transition.currentStep = Transition.nextStep;
     Transition.disable_scroll();
+
+    if (Transition.currentStep === 4) {
+
+        console.log('index 4 resumeUp');
+
+        Transition.resumeUp();
+    }
+
     return Transition.currentStep;
 }, 250);
 
@@ -10779,6 +10813,14 @@ Transition.prev = debounce(function () {
         // Transition.currentStep = Transition.nextStep
         Transition.headerDown();
         Transition.reset();
+    }
+
+    if (Transition.currentStep === 3) {
+
+        console.log('index 3 resumeDown');
+        // Transition.nextStep = 0
+        // Transition.currentStep = Transition.nextStep
+        Transition.resumeDown();
     }
 
     return Transition.currentStep;
@@ -11972,3 +12014,4 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
+
