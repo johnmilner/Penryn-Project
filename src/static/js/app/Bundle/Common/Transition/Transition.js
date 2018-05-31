@@ -193,9 +193,9 @@ Transition.scrollInit()
         const isObj15 = S.Is.object(resUp)
 
         resUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-        resUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-        resUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-        resUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+        resUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 600})
+        resUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 800})
+        resUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 800})
 
         resUp.play({cb: Transition.enable_scroll})
 
@@ -215,6 +215,40 @@ Transition.scrollInit()
 
     }
 
+    Transition.experienceUp = function() {
+        
+        const xpUp = new S.Timeline()
+        const isObj16 = S.Is.object(xpUp)
+
+        xpUp.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        xpUp.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        xpUp.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+        xpUp.from({el: '.h-xp-title', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
+        xpUp.from({el: '#h-xp-list', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
+        xpUp.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
+
+        xpUp.play({cb: Transition.enable_scroll})
+
+   }
+
+   Transition.experienceDown = function() {
+        
+    const xpDown = new S.Timeline()
+    const isObj17 = S.Is.object(xpDown)
+
+    xpDown.from({el: '.h-xp-title', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
+    xpDown.from({el: '#h-xp-list', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
+    xpDown.from({el: '#h-xp-txt', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
+    
+    xpDown.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
+    xpDown.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
+    xpDown.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
+
+    xpDown.play({cb: Transition.enable_scroll})
+
+
+}
+
    Transition.next = debounce(function() {
         // if (Transition.nextStep === 0) {
         //     return Transition.currentStep
@@ -229,7 +263,14 @@ Transition.scrollInit()
             console.log('index 4 resumeUp')
             
             Transition.resumeUp()
-            } 
+        } 
+
+        if (Transition.currentStep === 5) {
+
+            console.log('index 5 experienceUp')
+            
+            Transition.experienceUp()
+        } 
 
 
 
@@ -267,6 +308,14 @@ Transition.scrollInit()
             // Transition.nextStep = 0
             // Transition.currentStep = Transition.nextStep
             Transition.resumeDown()
+            } 
+
+        if (Transition.currentStep === 4) {
+
+            console.log('index 4 experienceDown resumeUp')
+            // Transition.nextStep = 0
+            // Transition.currentStep = Transition.nextStep
+            Transition.experienceDown()
             } 
 
         return Transition.currentStep
