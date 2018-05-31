@@ -10714,20 +10714,20 @@ Transition.titleInit = function () {
     var textInit = new skylake.Timeline();
     var isObj5 = skylake.Is.object(textInit);
 
-    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
     console.log('title text');
-    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut' });
 
-    textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut', delay: 3500 });
-    textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2000, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut' });
+    textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2000, e: 'Power4InOut' });
 
-    textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut', delay: 3500 });
+    textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut' });
 
     textInit.play({ delay: 500, cb: Transition.enable_scroll });
 };
@@ -10878,13 +10878,13 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         Transition.textOutIn.from({ el: '#h-txt-desc-line', p: { x: [0, -110 * t] }, d: 1200, e: 'Power4InOut' });
 
-        Transition.textOutIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-        Transition.textOutIn.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-        Transition.textOutIn.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arr[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrText[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-        Transition.textOutIn.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-        Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
-        Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1300, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
         Transition.textOutIn.play({ cb: function cb() {
 
@@ -10893,13 +10893,13 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 Transition.textOut2.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arr[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrText[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrTitle[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textOut2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
-                Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1300, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+                Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
                 Transition.textOut2.play({ cb: Transition.enable_scroll });
             } });
