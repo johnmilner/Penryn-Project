@@ -179,10 +179,10 @@ Transition.scrollInit()
     elReset.from({el: Transition.arrBotTitle[1], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
     elReset.from({el: Transition.arrBotTitle[2], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
 
-    elReset.from({el: '#h-txt-desc-line', p: {x: [0, -110 * t]}, d: 1200, e: 'Power4InOut', cb: Transition.enable_scroll})
+    elReset.from({el: '#h-txt-desc-line', p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
 
     console.log('hello from Transition.reset')
-    elReset.play()
+    elReset.play({cb: Transition.enable_scroll})
     
 
    }
@@ -256,7 +256,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
     Transition.headerUp = function() {
 
-        Transition.disable_scroll() 
+        Transition.disable_scroll()
         Transition.headerUp = new S.Timeline()
         const isObj3 = S.Is.object(Transition.headerUp)
         Transition.headerUp.from({el: '.header', p: {y: [0, -100]}, d: 1300, e: 'Power4InOut'})
@@ -272,7 +272,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.headerDown = new S.Timeline()
         const isObj4 = S.Is.object(Transition.headerDown)
         Transition.headerDown.from({el: '.header', p: {y: [-100, 0]}, d: 1300, e: 'Power4InOut'})
-        Transition.headerDown.play({delay: 500})
+        Transition.headerDown.play({delay: 500, cb: Transition.reset})
         //console.log(divOffset.left, divOffset.top);
 
     };

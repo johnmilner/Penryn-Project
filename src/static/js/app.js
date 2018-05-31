@@ -10736,16 +10736,15 @@ Transition.reset = function () {
 
     var elReset = new skylake.Timeline();
     var isObj15 = skylake.Is.object(elReset);
-    var t = -1;
 
     elReset.from({ el: Transition.arrBotTitle[0], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     elReset.from({ el: Transition.arrBotTitle[1], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     elReset.from({ el: Transition.arrBotTitle[2], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-    elReset.from({ el: '#h-txt-desc-line', p: { x: [0, -110 * t] }, d: 1200, e: 'Power4InOut', cb: Transition.enable_scroll });
+    elReset.from({ el: '#h-txt-desc-line', p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
 
     console.log('hello from Transition.reset');
-    elReset.play();
+    elReset.play({ cb: Transition.enable_scroll });
 };
 
 Transition.next = debounce(function () {
@@ -10827,7 +10826,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerDown = new skylake.Timeline();
         var isObj4 = skylake.Is.object(Transition.headerDown);
         Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
-        Transition.headerDown.play({ delay: 500 });
+        Transition.headerDown.play({ delay: 500, cb: Transition.reset });
         //console.log(divOffset.left, divOffset.top);
     };
 
