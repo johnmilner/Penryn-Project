@@ -10862,7 +10862,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut' });
 
-        textInit.play({ delay: 500, cb: Transition.enable_scroll });
+        textInit.play({ cb: Transition.enable_scroll, cbDelay: 1000 });
     };
 
     Transition.reset = function () {
@@ -10877,7 +10877,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         elReset.from({ el: '#h-txt-desc-line', p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
 
         console.log('hello from Transition.reset');
-        elReset.play({ cb: Transition.enable_scroll });
+        elReset.play();
     };
 
     Transition.recognitionUp = function () {
@@ -10890,7 +10890,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         resUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         resUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
 
-        resUp.play({ cb: Transition.enable_scroll });
+        resUp.play();
     };
 
     Transition.recognitionDown = function () {
@@ -10903,7 +10903,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         resDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         resDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-        resDown.play({ cb: Transition.enable_scroll });
+        resDown.play();
     };
 
     Transition.experienceUp = function () {
@@ -10919,7 +10919,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         xpUp.from({ el: '#h-xp-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 500 });
         xpUp.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-        xpUp.play({ cb: Transition.enable_scroll });
+        xpUp.play();
     };
 
     Transition.experienceDown = function () {
@@ -10935,7 +10935,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         xpDown.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
         xpDown.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 300 });
 
-        xpDown.play({ cb: Transition.enable_scroll });
+        xpDown.play();
     };
 
     Transition.socialUp = function () {
@@ -10951,7 +10951,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         socUp.from({ el: '#h-social-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         socUp.from({ el: '.cf', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-        socUp.play({ cb: Transition.enable_scroll });
+        socUp.play();
     };
 
     Transition.socialDown = function () {
@@ -10967,10 +10967,10 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         socDown.from({ el: '#h-xp-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         socDown.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-        socDown.play({ cb: Transition.enable_scroll });
+        socDown.play();
     };
 
-    Transition.n2 = function () {
+    Transition.n2 = function (callback) {
 
         Transition.next();
 
@@ -11003,12 +11003,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textIn2.play({ cb: Transition.enable_scroll });
+                Transition.textIn2.play({ cb: Transition.enable_scroll, cbDelay: 1000 });
             }
         });
     };
 
-    Transition.p2 = function () {
+    Transition.p2 = function (callback) {
 
         Transition.prev();
 
@@ -11041,7 +11041,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textOut2.play({ cb: Transition.enable_scroll });
+                Transition.textOut2.play({ cb: Transition.enable_scroll, cbDelay: 1000 });
             } });
     };
 
