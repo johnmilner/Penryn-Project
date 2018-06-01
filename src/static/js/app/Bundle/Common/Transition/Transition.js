@@ -187,21 +187,21 @@ Transition.scrollInit()
 
    }
 
-   Transition.resumeUp = function() {
+   Transition.recognitionUp = function() {
 
         const resUp = new S.Timeline()
         const isObj15 = S.Is.object(resUp)
 
         resUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         resUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 600})
-        resUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 800})
-        resUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 800})
+        resUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 100})
+        resUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 300})
 
         resUp.play({cb: Transition.enable_scroll})
 
    }
 
-   Transition.resumeDown = function() {
+   Transition.recognitionDown = function() {
 
     const resDown = new S.Timeline()
     const isObj15 = S.Is.object(resDown)
@@ -223,9 +223,10 @@ Transition.scrollInit()
         xpUp.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         xpUp.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         xpUp.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
-        xpUp.from({el: '.h-xp-title', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
-        xpUp.from({el: '#h-xp-list', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
-        xpUp.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut'})
+
+        xpUp.from({el: '.h-xp-title', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut', delay: 500})
+        xpUp.from({el: '#h-xp-list', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut', delay: 500})
+        xpUp.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1500, e: 'Power4InOut', delay: 500})
 
         xpUp.play({cb: Transition.enable_scroll})
 
@@ -239,7 +240,7 @@ Transition.scrollInit()
     xpDown.from({el: '.h-xp-title', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
     xpDown.from({el: '#h-xp-list', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
     xpDown.from({el: '#h-xp-txt', p: {y: [0, 100]}, d: 1500, e: 'Power4InOut'})
-    
+
     xpDown.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
     xpDown.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
     xpDown.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 2000, e: 'Power4InOut'})
@@ -249,6 +250,12 @@ Transition.scrollInit()
 
 }
 
+    Transition.socialUp = function() {
+
+    }
+
+
+    
    Transition.next = debounce(function() {
         // if (Transition.nextStep === 0) {
         //     return Transition.currentStep
@@ -262,7 +269,7 @@ Transition.scrollInit()
 
             console.log('index 4 resumeUp')
             
-            Transition.resumeUp()
+            Transition.recognitionUp()
         } 
 
         if (Transition.currentStep === 5) {
@@ -307,7 +314,7 @@ Transition.scrollInit()
             console.log('index 3 resumeDown')
             // Transition.nextStep = 0
             // Transition.currentStep = Transition.nextStep
-            Transition.resumeDown()
+            Transition.recognitionDown()
             } 
 
         if (Transition.currentStep === 4) {

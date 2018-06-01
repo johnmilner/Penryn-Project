@@ -10747,20 +10747,20 @@ Transition.reset = function () {
     elReset.play({ cb: Transition.enable_scroll });
 };
 
-Transition.resumeUp = function () {
+Transition.recognitionUp = function () {
 
     var resUp = new skylake.Timeline();
     var isObj15 = skylake.Is.object(resUp);
 
     resUp.from({ el: '#h-resume', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
     resUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 600 });
-    resUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 800 });
-    resUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 800 });
+    resUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
+    resUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 300 });
 
     resUp.play({ cb: Transition.enable_scroll });
 };
 
-Transition.resumeDown = function () {
+Transition.recognitionDown = function () {
 
     var resDown = new skylake.Timeline();
     var isObj15 = skylake.Is.object(resDown);
@@ -10781,9 +10781,10 @@ Transition.experienceUp = function () {
     xpUp.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     xpUp.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     xpUp.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-    xpUp.from({ el: '.h-xp-title', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
-    xpUp.from({ el: '#h-xp-list', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
-    xpUp.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut' });
+
+    xpUp.from({ el: '.h-xp-title', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 500 });
+    xpUp.from({ el: '#h-xp-list', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 500 });
+    xpUp.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1500, e: 'Power4InOut', delay: 500 });
 
     xpUp.play({ cb: Transition.enable_scroll });
 };
@@ -10817,7 +10818,7 @@ Transition.next = debounce(function () {
 
         console.log('index 4 resumeUp');
 
-        Transition.resumeUp();
+        Transition.recognitionUp();
     }
 
     if (Transition.currentStep === 5) {
@@ -10858,7 +10859,7 @@ Transition.prev = debounce(function () {
         console.log('index 3 resumeDown');
         // Transition.nextStep = 0
         // Transition.currentStep = Transition.nextStep
-        Transition.resumeDown();
+        Transition.recognitionDown();
     }
 
     if (Transition.currentStep === 4) {
