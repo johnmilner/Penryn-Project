@@ -10805,6 +10805,8 @@ Transition.experienceDown = function () {
     xpDown.play({ cb: Transition.enable_scroll });
 };
 
+Transition.socialUp = function () {};
+
 Transition.next = debounce(function () {
     // if (Transition.nextStep === 0) {
     //     return Transition.currentStep
