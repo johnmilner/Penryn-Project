@@ -10750,7 +10750,7 @@ Transition.reset = function () {
 Transition.recognitionUp = function () {
 
     var resUp = new skylake.Timeline();
-    var isObj15 = skylake.Is.object(resUp);
+    var isObj16 = skylake.Is.object(resUp);
 
     resUp.from({ el: '#h-resume', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
     resUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 600 });
@@ -10763,7 +10763,7 @@ Transition.recognitionUp = function () {
 Transition.recognitionDown = function () {
 
     var resDown = new skylake.Timeline();
-    var isObj15 = skylake.Is.object(resDown);
+    var isObj17 = skylake.Is.object(resDown);
 
     resDown.from({ el: '#h-resume', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     resDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
@@ -10776,7 +10776,7 @@ Transition.recognitionDown = function () {
 Transition.experienceUp = function () {
 
     var xpUp = new skylake.Timeline();
-    var isObj16 = skylake.Is.object(xpUp);
+    var isObj18 = skylake.Is.object(xpUp);
 
     xpUp.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
     xpUp.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
@@ -10792,7 +10792,7 @@ Transition.experienceUp = function () {
 Transition.experienceDown = function () {
 
     var xpDown = new skylake.Timeline();
-    var isObj17 = skylake.Is.object(xpDown);
+    var isObj19 = skylake.Is.object(xpDown);
 
     xpDown.from({ el: '.h-xp-title', p: { y: [0, 100] }, d: 1500, e: 'Power4InOut' });
     xpDown.from({ el: '#h-xp-list', p: { y: [0, 100] }, d: 1500, e: 'Power4InOut' });
@@ -10805,7 +10805,37 @@ Transition.experienceDown = function () {
     xpDown.play({ cb: Transition.enable_scroll });
 };
 
-Transition.socialUp = function () {};
+Transition.socialUp = function () {
+
+    var socUp = new skylake.Timeline();
+    var isObj20 = skylake.Is.object(socUp);
+
+    socUp.from({ el: '.h-xp-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    socUp.from({ el: '#h-xp-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    socUp.from({ el: '#h-xp-txt', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+    socUp.from({ el: '#h-social', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    socUp.from({ el: '#h-social-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    socUp.from({ el: '.cf', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+
+    socUp.play({ cb: Transition.enable_scroll });
+};
+
+Transition.socialDown = function () {
+
+    var socDown = new skylake.Timeline();
+    var isObj21 = skylake.Is.object(socDown);
+
+    socDown.from({ el: '#h-social', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    socDown.from({ el: '#h-social-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+    socDown.from({ el: '.cf', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+    socDown.from({ el: '.h-xp-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    socDown.from({ el: '#h-xp-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+    socDown.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+
+    socDown.play({ cb: Transition.enable_scroll });
+};
 
 Transition.next = debounce(function () {
     // if (Transition.nextStep === 0) {
@@ -10828,6 +10858,13 @@ Transition.next = debounce(function () {
         console.log('index 5 experienceUp');
 
         Transition.experienceUp();
+    }
+
+    if (Transition.currentStep === 6) {
+
+        console.log('index 6 socialUp');
+
+        Transition.socialUp();
     }
 
     return Transition.currentStep;
@@ -10866,10 +10903,18 @@ Transition.prev = debounce(function () {
 
     if (Transition.currentStep === 4) {
 
-        console.log('index 4 experienceDown resumeUp');
+        console.log('index 4 experienceDown recognitionUp');
         // Transition.nextStep = 0
         // Transition.currentStep = Transition.nextStep
         Transition.experienceDown();
+    }
+
+    if (Transition.currentStep === 5) {
+
+        console.log('index 5 socialDown experienceUp');
+        // Transition.nextStep = 0
+        // Transition.currentStep = Transition.nextStep
+        Transition.socialDown();
     }
 
     return Transition.currentStep;
