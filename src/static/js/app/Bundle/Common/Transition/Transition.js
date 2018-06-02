@@ -97,6 +97,29 @@ Transition.scrollInit()
         }
       }
 
+      function throttle(fn, threshhold, scope) {
+        threshhold || (threshhold = 250);
+        var last,
+            deferTimer;
+        return function () {
+          var context = scope || this;
+      
+          var now = +new Date,
+              args = arguments;
+          if (last && now < last + threshhold) {
+            // hold on to it
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+              last = now;
+              fn.apply(context, args);
+            }, threshhold);
+          } else {
+            last = now;
+            fn.apply(context, args);
+          }
+        };
+      }
+
       
     
     // const huHandler = throttled(2000, headerUp)
@@ -310,7 +333,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     
         textInit.from({el: '#h-txt-desc-line', p: {x: [-110, 0]}, d: 2800, e: 'Power4InOut'})
     
-        textInit.play({cb: Transition.enable_scroll, cbDelay: 1000})
+        textInit.play({cb: setTimeout(Transition.enable_scroll, 2000)})
     
         };
     
@@ -434,7 +457,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
 
         Transition.next()
-
+        
         Transition.textInOut = new S.Timeline()
         const isObj8 = S.Is.object(Transition.textInOut)
 
@@ -465,7 +488,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.textIn2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
             Transition.textIn2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
             
-            Transition.textIn2.play({cb: Transition.enable_scroll, cbDelay: 1000})
+            Transition.textIn2.play({cb: setTimeout(Transition.enable_scroll, 2000)})
 
             }
         })
@@ -506,7 +529,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 Transition.textOut2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
                 Transition.textOut2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
                 
-                Transition.textOut2.play({cb: Transition.enable_scroll, cbDelay: 1000})
+                Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 2000)})
         
         }})
 
