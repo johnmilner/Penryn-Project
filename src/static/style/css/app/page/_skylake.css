@@ -3687,7 +3687,7 @@ html {
     align-items: center;
     -ms-flex-pack: center;
     justify-content: center;
-    background-image: url(static/media/img/home/social/img-0.jpg);
+    background-image: url('../../../../media/img/img-0.jpg');
     background-size: cover;
     background-position: 50%;
     transform: translate3d(0, 100%, 0);
