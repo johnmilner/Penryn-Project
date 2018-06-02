@@ -10758,7 +10758,7 @@ Transition.prev = debounce(function () {
         // Transition.nextStep = 0
         // Transition.currentStep = Transition.nextStep
         Transition.headerDown();
-        Transition.reset();
+        //Transition.reset()
     }
 
     if (Transition.currentStep === 3) {
@@ -10882,28 +10882,32 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
     Transition.recognitionUp = function () {
 
-        var resUp = new skylake.Timeline();
-        var isObj16 = skylake.Is.object(resUp);
+        var recUp = new skylake.Timeline();
+        var isObj16 = skylake.Is.object(recUp);
 
-        resUp.from({ el: '#h-resume', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
-        resUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 600 });
-        resUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
-        resUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
+        recUp.from({ el: '#h-resume', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+        recUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 600 });
+        recUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+        recUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
 
-        resUp.play();
+        recUp.play();
     };
 
     Transition.recognitionDown = function () {
 
-        var resDown = new skylake.Timeline();
-        var isObj17 = skylake.Is.object(resDown);
+        var recDown = new skylake.Timeline();
+        var isObj17 = skylake.Is.object(recDown);
 
-        resDown.from({ el: '#h-resume', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        resDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        resDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        resDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        recDown.from({ el: Transition.arrBotTitle[0], p: { y: [100, 0] }, d: 1800, e: 'Power4InOut' });
+        recDown.from({ el: Transition.arrBotTitle[1], p: { y: [100, 0] }, d: 2100, e: 'Power4InOut' });
+        recDown.from({ el: Transition.arrBotTitle[2], p: { y: [100, 0] }, d: 2400, e: 'Power4InOut' });
 
-        resDown.play();
+        recDown.from({ el: '#h-resume', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        recDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        recDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        recDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+        recDown.play();
     };
 
     Transition.experienceUp = function () {

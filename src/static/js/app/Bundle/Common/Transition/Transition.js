@@ -223,7 +223,7 @@ Transition.scrollInit()
             // Transition.nextStep = 0
             // Transition.currentStep = Transition.nextStep
             Transition.headerDown()
-            Transition.reset()
+            //Transition.reset()
             } 
 
         if (Transition.currentStep === 3) {
@@ -357,29 +357,33 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
     Transition.recognitionUp = function() {
 
-        const resUp = new S.Timeline()
-        const isObj16 = S.Is.object(resUp)
+        const recUp = new S.Timeline()
+        const isObj16 = S.Is.object(recUp)
 
-        resUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-        resUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 600})
-        resUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-        resUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 100})
+        recUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+        recUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 600})
+        recUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+        recUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 100})
 
-        resUp.play()
+        recUp.play()
 
    }
 
    Transition.recognitionDown = function() {
 
-    const resDown = new S.Timeline()
-    const isObj17 = S.Is.object(resDown)
+    const recDown = new S.Timeline()
+    const isObj17 = S.Is.object(recDown)
 
-    resDown.from({el: '#h-resume', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
-    resDown.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
-    resDown.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
-    resDown.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+    recDown.from({el: Transition.arrBotTitle[0], p: {y: [100, 0]}, d: 1800, e: 'Power4InOut'})
+    recDown.from({el: Transition.arrBotTitle[1], p: {y: [100, 0]}, d: 2100, e: 'Power4InOut'})
+    recDown.from({el: Transition.arrBotTitle[2], p: {y: [100, 0]}, d: 2400, e: 'Power4InOut'})
 
-    resDown.play()
+    recDown.from({el: '#h-resume', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+    recDown.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+    recDown.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+    recDown.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+
+    recDown.play()
 
     }
 
