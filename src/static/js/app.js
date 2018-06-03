@@ -10693,8 +10693,6 @@ Transition.next = debounce(function () {
 
     if (Transition.currentStep > 6) {
 
-        // console.log('index 6 socialUp')
-        // Transition.socialUp()
         return Transition.currentStep = 6;
     }
 
@@ -12056,4 +12054,3 @@ var App = function App() {
 (function (_) {
   return new App();
 })();
-
