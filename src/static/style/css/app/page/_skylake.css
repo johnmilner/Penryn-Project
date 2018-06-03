@@ -3469,6 +3469,7 @@ html {
     bottom: 0;
     background: #1b1a25;
     transform: translate3d(0, 100%, 0);
+    z-index: 2;
   }
   
   #h-reco {
@@ -3680,7 +3681,7 @@ html {
   }
   
   #h-social {
-    z-index: 2;
+    z-index: 3;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;

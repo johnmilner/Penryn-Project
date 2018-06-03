@@ -10672,8 +10672,7 @@ Transition.next = debounce(function () {
 
     if (Transition.currentStep === 4) {
 
-        console.log('index 4 resumeUp');
-
+        console.log('index 4 recognitionUp');
         Transition.recognitionUp();
     }
 
@@ -10720,8 +10719,7 @@ Transition.prev = debounce(function () {
 
     if (Transition.currentStep === 3) {
 
-        console.log('index 3 resumeDown');
-
+        console.log('index 3 recognitionDown');
         Transition.recognitionDown();
     }
 
@@ -10776,6 +10774,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerDown = new skylake.Timeline();
         var isObj4 = skylake.Is.object(Transition.headerDown);
         Transition.headerDown.from({ el: '.header', p: { y: [-100, 0] }, d: 1300, e: 'Power4InOut' });
+
+        Transition.headerDown.from({ el: Transition.arrBotTitle[0], p: { y: [0, 100] }, d: 600, e: 'Power4InOut' });
+        Transition.headerDown.from({ el: Transition.arrBotTitle[1], p: { y: [0, 100] }, d: 600, e: 'Power4InOut' });
+        Transition.headerDown.from({ el: Transition.arrBotTitle[2], p: { y: [0, 100] }, d: 600, e: 'Power4InOut' });
+
         Transition.headerDown.play({ delay: 500, cb: Transition.reset });
         //console.log(divOffset.left, divOffset.top);
     };
@@ -10809,10 +10812,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         var elReset = new skylake.Timeline();
         var isObj15 = skylake.Is.object(elReset);
-
-        elReset.from({ el: Transition.arrBotTitle[0], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        elReset.from({ el: Transition.arrBotTitle[1], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        elReset.from({ el: Transition.arrBotTitle[2], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
         elReset.from({ el: '#h-txt-desc-line', p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
 
