@@ -6,45 +6,10 @@ import jQuery from "jquery"
 
 const Transition = {}
 
-// const body = S.Dom.body
-
-//this.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-
 Transition.headerVisible = !0;
-// Transition.currentStep = 0;
-    
-// Transition.incrementId = () => {
-//     let id = 0
-//     id++
-//     return id
-// }
-
-//Transition.id = Transition.incrementId()
-//Transition.id = 0;
-
 Transition.currentStep = 0
 Transition.nextStep = 0
 
-// Transition.arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-// Transition.arrTitle = [].slice.call(document.querySelectorAll(".h-client"))
-// Transition.arrText = [].slice.call(document.querySelectorAll(".h-txt-desc-txt"))
-// Transition.arrBotTitle = [].slice.call(document.querySelectorAll(".h-bottom-title"))
-// Transition.arrBotRole = [].slice.call(document.querySelectorAll(".h-bottom-value-r"))
-// Transition.arrBotAgency = [].slice.call(document.querySelectorAll(".h-bottom-value-a"))
-// Transition.arrBotYear = [].slice.call(document.querySelectorAll(".h-bottom-value-y"))
-
-
-// Transtion.init(t) = () => {
-//     // console.log("init")
-//     this.first = !1
-//     this.listeners("add")
-//     }
-
-// listeners(t) {
-// // console.log(homesticky.listeners)
-// S.Listen("#nav-link-submenu", t, "mouseenter", this.menuOpen)
-// S.Listen("#nav-link-submenu", t, "mouseleave", this.menuClose)
-// }
 
 Transition.open = function() {
 
@@ -63,11 +28,12 @@ Transition.arrBotTitle = S.Geb.class("h-bottom-title")
 Transition.arrBotRole = S.Geb.class("h-bottom-value-r")
 Transition.arrBotAgency = S.Geb.class("h-bottom-value-a")
 Transition.arrBotYear = S.Geb.class('h-bottom-value-y')
-//Transition.descLine = S.Geb.id('h-txt-desc-line')
 
 
 Transition.scrollInit()
 }
+
+
 
 
     let debounce = function(func, wait, immediate) {
@@ -120,12 +86,7 @@ Transition.scrollInit()
         };
       }
 
-      
-    
-    // const huHandler = throttled(2000, headerUp)
-    // const hdHandler = throttled(2000, headerDown)
-
-        // left: 37, up: 38, right: 39, down: 40,
+    // left: 37, up: 38, right: 39, down: 40,
     // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
     var keys = [37, 38, 39, 40];
 
@@ -164,9 +125,7 @@ Transition.scrollInit()
 
 
    Transition.next = debounce(function() {
-        // if (Transition.nextStep === 0) {
-        //     return Transition.currentStep
-        // }
+ 
         Transition.disable_scroll() 
         Transition.nextStep = Transition.currentStep + 1
         console.log('scrolling down - nextItem')
@@ -192,16 +151,18 @@ Transition.scrollInit()
             console.log('index 6 socialUp')
             
             Transition.socialUp()
+
         } 
 
+        if (Transition.currentStep > 6) {
 
+            return Transition.currentStep = 6
+                
+        } 
 
         return Transition.currentStep
         
     }, 250);
-
-        
-    //window.addEventListener('wheel', Transition.next);
 
 
     Transition.prev = debounce(function() {
@@ -220,17 +181,15 @@ Transition.scrollInit()
         if (Transition.currentStep === -1) {
 
             console.log('index 0 header down')
-            // Transition.nextStep = 0
-            // Transition.currentStep = Transition.nextStep
+
             Transition.headerDown()
-            //Transition.reset()
-            } 
+
+        } 
 
         if (Transition.currentStep === 3) {
 
             console.log('index 3 resumeDown')
-            // Transition.nextStep = 0
-            // Transition.currentStep = Transition.nextStep
+
             
             Transition.recognitionDown()
             } 
@@ -238,8 +197,7 @@ Transition.scrollInit()
         if (Transition.currentStep === 4) {
 
             console.log('index 4 experienceDown recognitionUp')
-            // Transition.nextStep = 0
-            // Transition.currentStep = Transition.nextStep
+
             
             Transition.experienceDown()
             } 
@@ -247,8 +205,7 @@ Transition.scrollInit()
         if (Transition.currentStep === 5) {
 
             console.log('index 5 socialDown experienceUp')
-            // Transition.nextStep = 0
-            // Transition.currentStep = Transition.nextStep
+
             
             Transition.socialDown()
             } 
@@ -257,19 +214,13 @@ Transition.scrollInit()
         
     }, 250);
     
-    //Transition.getChangePage = !0;
-    //window.addEventListener('wheel', Transition.prev);
-
-    //window.addEventListener('wheel', Transition.headerScroll);
-
 
 Transition.headerScroll = (currentScrollY, delta, event) => {
 
     var delta = null,
     currentScrollY = false,
     event = window.event;
-    // let currentStep = 0
-    // let nextStep
+
 
     function offset(el) {
         var rect = el.getBoundingClientRect(),
@@ -308,10 +259,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     };
 
     Transition.titleInit = function() {
-        // All the taxing stuff you do
-        // const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
-        // const idx = 0;
-        
+  
         Transition.currentStep = 0
         
         const textInit = new S.Timeline()
@@ -455,7 +403,6 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socDown.play()
     }
 
-    
 
     Transition.n2 = function(callback) {
 
@@ -549,12 +496,10 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         delta = -event.detail / 2;
     }
     if ( delta !== null) {
-        //const arr = [].slice.call(document.querySelectorAll(".h-txt-title"))
         
         if (delta < 0 && divOffset.top === 30) {
             
             Transition.headerUp()
-            //Transition.titleInit()
 
         } else if (delta > 0 && divOffset.top < -600) {
 
