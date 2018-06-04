@@ -2159,14 +2159,15 @@ html {
   .h-pagi-top-no-container,
   .h-pagi-top-title-container {
     position: absolute;
-    bottom: 0;
+    bottom: -75px;
     left: 0;
     width: 100%;
   }
   
   .h-pagi-top-no-wrap,
   .h-pagi-top-title-wrap {
-    height: 0;
+    /* height: 0; */
+    height: auto;
   }
   
   .h-pagi-top-no-wrap {
@@ -2189,6 +2190,7 @@ html {
     padding: 7px 0;
     width: 100%;
     transform: translate3d(0, 100%, 0);
+    color: rgb(24, 24, 24);
     line-height: auto;
   }
   

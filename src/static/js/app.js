@@ -10610,6 +10610,7 @@ Transition.open = function () {
     Transition.arrBotRole = skylake.Geb.class("h-bottom-value-r");
     Transition.arrBotAgency = skylake.Geb.class("h-bottom-value-a");
     Transition.arrBotYear = skylake.Geb.class('h-bottom-value-y');
+    Transition.arrPagiTopNo = skylake.Geb.class('h-pagi-top-no');
 
     Transition.scrollInit();
 };
@@ -10779,6 +10780,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerDown.from({ el: Transition.arrBotTitle[1], p: { y: [0, 100] }, d: 600, e: 'Power4InOut' });
         Transition.headerDown.from({ el: Transition.arrBotTitle[2], p: { y: [0, 100] }, d: 600, e: 'Power4InOut' });
 
+        Transition.headerDown.from({ el: Transition.arrPagiTopNo[Transition.currentStep], p: { y: [0, -100] }, d: 1200, e: 'Power4InOut' });
+
+        Transition.headerDown.from({ el: '#h-pagi-line', p: { y: [0, -102] }, d: 1200, e: 'Power4InOut' });
+        Transition.headerDown.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
         Transition.headerDown.play({ delay: 500, cb: Transition.reset });
         //console.log(divOffset.left, divOffset.top);
     };
@@ -10804,6 +10810,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         textInit.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 2000, e: 'Power4InOut' });
 
         textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut' });
+
+        textInit.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 2800, e: 'Power4InOut' });
+
+        textInit.from({ el: '#h-pagi-line', p: { y: [-102, 0] }, d: 2800, e: 'Power4InOut' });
+        textInit.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 2800, e: 'Power4InOut' });
 
         textInit.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
     };
@@ -10930,6 +10941,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textInOut.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         Transition.textInOut.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
+        Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
+
         Transition.textInOut.play({ cb: function cb() {
 
                 Transition.textIn2 = new skylake.Timeline();
@@ -10945,6 +10958,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textIn2.from({ el: Transition.arrBotRole[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
+
+                Transition.textIn2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
                 Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
             }
