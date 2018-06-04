@@ -29,8 +29,12 @@ Transition.arrBotRole = S.Geb.class("h-bottom-value-r")
 Transition.arrBotAgency = S.Geb.class("h-bottom-value-a")
 Transition.arrBotYear = S.Geb.class('h-bottom-value-y')
 Transition.arrPagiTopNo = S.Geb.class('h-pagi-top-no')
+Transition.arrPagiBotNo = S.Geb.class('h-pagi-bottom-no')
+
 Transition.arrTopPagiWrap = S.Geb.class('h-pagi-top-no-wrap')
 Transition.arrTopTitleWrap = S.Geb.class('h-pagi-top-title-wrap')
+Transition.arrBotPagiWrap = S.Geb.class('h-pagi-bottom-no-wrap')
+Transition.arrBotTitleWrap = S.Geb.class('h-pagi-bottom-title-wrap')
 
 Transition.scrollInit()
 }
@@ -436,7 +440,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
-        Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
+        Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
+        p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
         
         Transition.textInOut.play({ cb: function() {
 
@@ -483,6 +488,10 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textOutIn.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         Transition.textOutIn.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         Transition.textOutIn.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+
+        
+        Transition.textOutIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
+        p: {x: [0, 100]}, d: 1200, e: 'Power4InOut'})
         
         Transition.textOutIn.play({cb: function() {
 
@@ -499,6 +508,9 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 Transition.textOut2.from({el: Transition.arrBotRole[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
                 Transition.textOut2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
                 Transition.textOut2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+
+                
+                Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
                 
                 Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 2000)})
         

@@ -2159,7 +2159,7 @@ html {
   .h-pagi-top-no-container,
   .h-pagi-top-title-container {
     position: absolute;
-    bottom: -75px;
+    bottom: 0;
     left: 0;
     width: 100%;
   }
