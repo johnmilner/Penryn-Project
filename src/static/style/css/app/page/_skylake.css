@@ -2166,8 +2166,7 @@ html {
   
   .h-pagi-top-no-wrap,
   .h-pagi-top-title-wrap {
-    /* height: 0; */
-    height: auto;
+    height: 0;
   }
   
   .h-pagi-top-no-wrap {
@@ -2190,12 +2189,13 @@ html {
     padding: 7px 0;
     width: 100%;
     transform: translate3d(0, 100%, 0);
-    color: rgb(24, 24, 24);
+    
     line-height: auto;
   }
   
   .h-pagi-top-no {
-    color: hsla(0, 0%, 73%, 0.6);
+    /* color: hsla(0, 0%, 73%, 0.6); */
+    color: rgb(24, 24, 24);
   }
   
   #h-pagi-bottom-marker {

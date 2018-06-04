@@ -10611,6 +10611,8 @@ Transition.open = function () {
     Transition.arrBotAgency = skylake.Geb.class("h-bottom-value-a");
     Transition.arrBotYear = skylake.Geb.class('h-bottom-value-y');
     Transition.arrPagiTopNo = skylake.Geb.class('h-pagi-top-no');
+    Transition.arrTopPagiWrap = skylake.Geb.class('h-pagi-top-no-wrap');
+    Transition.arrTopTitleWrap = skylake.Geb.class('h-pagi-top-title-wrap');
 
     Transition.scrollInit();
 };
@@ -10811,6 +10813,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         textInit.from({ el: '#h-txt-desc-line', p: { x: [-110, 0] }, d: 2800, e: 'Power4InOut' });
 
+        Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
+        Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         textInit.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 2800, e: 'Power4InOut' });
 
         textInit.from({ el: '#h-pagi-line', p: { y: [-102, 0] }, d: 2800, e: 'Power4InOut' });
@@ -10941,6 +10945,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textInOut.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         Transition.textInOut.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
+        Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
+        Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
 
         Transition.textInOut.play({ cb: function cb() {
@@ -10959,6 +10965,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textIn2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textIn2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
+                Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
+                Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
                 Transition.textIn2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
                 Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
