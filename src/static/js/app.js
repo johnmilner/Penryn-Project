@@ -10999,10 +10999,17 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-        Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
-        Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-        Transition.textOutIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
-            p: { x: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        Transition.pagiOut = function () {
+            // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
+            // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
+            Transition.textOutIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
+                p: { x: [0, 100] }, d: 1200, e: 'Power4InOut' });
+            for (var n = 7; n > Transition.currentStep + 1; n--) {
+                Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "";
+                Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "";
+            }
+        };
+        Transition.pagiOut();
 
         Transition.textOutIn.play({ cb: function cb() {
 
