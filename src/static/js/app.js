@@ -10825,6 +10825,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         textInit.from({ el: '#h-pagi-line', p: { y: [-102, 0] }, d: 2800, e: 'Power4InOut' });
         textInit.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 2800, e: 'Power4InOut' });
 
+        textInit.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1] }, d: 1200, e: 'Power4InOut' });
+
         textInit.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
     };
 
@@ -10954,6 +10956,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
             p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
+
+        Transition.textInOut.from({ el: "#h-img-" + (Transition.currentStep + 1), p: { opacity: [0, 1] }, d: 1200, e: 'Power4InOut' });
 
         Transition.textInOut.play({ cb: function cb() {
 
