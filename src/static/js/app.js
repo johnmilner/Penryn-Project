@@ -10610,6 +10610,7 @@ Transition.open = function () {
     Transition.arrBotRole = skylake.Geb.class("h-bottom-value-r");
     Transition.arrBotAgency = skylake.Geb.class("h-bottom-value-a");
     Transition.arrBotYear = skylake.Geb.class('h-bottom-value-y');
+
     Transition.arrPagiTopNo = skylake.Geb.class('h-pagi-top-no');
     Transition.arrPagiBotNo = skylake.Geb.class('h-pagi-bottom-no');
 
@@ -10617,8 +10618,6 @@ Transition.open = function () {
     Transition.arrTopTitleWrap = skylake.Geb.class('h-pagi-top-title-wrap');
     Transition.arrBotPagiWrap = skylake.Geb.class('h-pagi-bottom-no-wrap');
     Transition.arrBotTitleWrap = skylake.Geb.class('h-pagi-bottom-title-wrap');
-
-    Transition.topNoH = Transition.arrPagiTopNo[0].offsetHeight;
 
     Transition.scrollInit();
 };
@@ -11002,17 +11001,20 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.pagiOut = function () {
             // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
             // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-            Transition.textOutIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
-                p: { x: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
             for (var n = 7; n > Transition.currentStep + 1; n--) {
-                Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "";
-                Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "";
+                Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = "";
+                Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = "";
             }
+            console.log('hello from pagiOut');
         };
-        Transition.pagiOut();
+        Transition.textOutIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
+            p: { x: [0, 100] }, d: 1200, e: 'Power4InOut' });
+        // Transition.pagiOut()
 
         Transition.textOutIn.play({ cb: function cb() {
 
+                Transition.pagiOut();
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
 

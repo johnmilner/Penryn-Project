@@ -2194,7 +2194,8 @@ html {
   
   .h-pagi-top-no {
     /* color: hsla(0, 0%, 73%, 0.6); */
-    color: rgb(24, 24, 24);
+    color: rgb(24, 24, 41);
+    opacity: 1;
   }
   
   #h-pagi-bottom-marker {
