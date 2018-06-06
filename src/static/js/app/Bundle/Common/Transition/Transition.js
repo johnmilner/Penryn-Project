@@ -302,7 +302,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         textInit.from({el: '#h-pagi-line', p: {y: [-102, 0]}, d: 2800, e: 'Power4InOut'})
         textInit.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 2800, e: 'Power4InOut'})
 
-        textInit.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1]}, d: 1200, e: 'Power4InOut'})
+        textInit.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
     
         textInit.play({cb: setTimeout(Transition.enable_scroll, 2000)})
     
@@ -445,8 +445,9 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
         p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
 
-        Transition.textInOut.from({el: "#h-img-" + (Transition.currentStep + 1), p: {opacity: [0, 1]}, d: 1200, e: 'Power4InOut'})
-         
+        Transition.textInOut.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
+
+ 
         Transition.textInOut.play({ cb: function() {
 
         
@@ -467,6 +468,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
             Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
+
+            Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
             
             Transition.textIn2.play({cb: setTimeout(Transition.enable_scroll, 2000)})
 
@@ -508,6 +511,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textOutIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1],
             p: {x: [0, 100]}, d: 1200, e: 'Power4InOut'})
         // Transition.pagiOut()
+
+        Transition.textOutIn.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
         
         Transition.textOutIn.play({cb: function() {
 
@@ -528,6 +533,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
                 // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
                 Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
+
+                Transition.textOut2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
                 
                 Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 2000)})
         
