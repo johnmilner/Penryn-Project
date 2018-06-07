@@ -11049,11 +11049,22 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.pagiOut = function () {
             // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
             // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-
+            // if (Transition.currentStep === 5) {
+            //     for (var n = 7; n > Transition.currentStep + 1; n--) {
+            //         Transition.arrTopPagiWrap[6].style.height = ""
+            //         Transition.arrTopTitleWrap[6].style.height = ""
+            //         }
+            // } else if (Transition.currentStep === 4) {
+            //     for (var n = 7; n > Transition.currentStep + 1; n--) {
+            //         Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = ""
+            //         Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = ""
+            //         }
+            // } else {
             for (var n = 7; n > Transition.currentStep + 1; n--) {
                 Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = "";
                 Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = "";
             }
+
             console.log('hello from pagiOut');
         };
 
@@ -11067,9 +11078,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         Transition.textOutIn.play({ cb: function cb() {
 
-                if (Transition.currentStep <= 5) {
-                    setTimeout(Transition.pagiOut, 1000);
-                }
+                setTimeout(Transition.pagiOut, 1000);
+
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
 
