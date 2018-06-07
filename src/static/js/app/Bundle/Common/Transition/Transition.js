@@ -474,13 +474,17 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textInOut.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         Transition.textInOut.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
 
+        if (Transition.currentStep <= 5) {
         Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
+        }
+
         Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
         p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
 
+        if (Transition.currentStep <= 3) {
         Transition.textInOut.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
-
+        }
  
         Transition.textInOut.play({ cb: function() {
 
@@ -499,12 +503,17 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.textIn2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
             Transition.textIn2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
+            if (Transition.currentStep <= 5) {
             Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
+            }
+
             Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
+            if (Transition.currentStep <= 3) {
             Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
-            
+            } 
+
             Transition.textIn2.play({cb: setTimeout(Transition.enable_scroll, 3000)})
 
             }
@@ -534,23 +543,28 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.pagiOut = function() {
             // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
             // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-            
+
             for (var n = 7; n > Transition.currentStep + 1; n--) {
                 Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = ""
                 Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = ""
                 
+                }
+                console.log('hello from pagiOut')
             }
-            console.log('hello from pagiOut')
-        }
+    
         Transition.textOutIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1],
             p: {x: [0, 100]}, d: 1200, e: 'Power4InOut'})
         // Transition.pagiOut()
-
+        
+        if (Transition.currentStep <= 3) {
         Transition.textOutIn.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
+        }
         
         Transition.textOutIn.play({cb: function() {
 
-                setTimeout(Transition.pagiOut, 1000)
+                if (Transition.currentStep <= 5) {
+                    setTimeout(Transition.pagiOut, 1000)
+                }
                 Transition.textOut2 = new S.Timeline()
                 const isObj11 = S.Is.object(Transition.textOut2)
 
@@ -568,7 +582,9 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
                 Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
 
+                if (Transition.currentStep <= 3) {
                 Transition.textOut2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
+                }
                 
                 Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 3000)})
         
