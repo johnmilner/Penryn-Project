@@ -278,7 +278,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.headerDown.from({el: '#h-pagi-line', p: {y: [0, -102]}, d: 1200, e: 'Power4InOut'})
         Transition.headerDown.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
 
-        Transition.headerDown.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
+        //Transition.headerDown.from({el: "#h-img-0", p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
         Transition.headerDown.from({el: "#h-img-0-b", p: {opacity: [1, 0], x:[0, 4]}, d: 600, e: 'Power4InOut'})
 
         Transition.headerDown.play({delay: 500, cb: Transition.reset})
@@ -567,7 +567,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             p: {x: [0, 100]}, d: 1200, e: 'Power4InOut'})
         // Transition.pagiOut()
         
-        if (Transition.currentStep <= 3) {
+        if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
         Transition.textOutIn.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
         }
         
@@ -592,7 +592,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
                 Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
 
-                if (Transition.currentStep <= 3) {
+                if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
                 Transition.textOut2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
                 }
                 
