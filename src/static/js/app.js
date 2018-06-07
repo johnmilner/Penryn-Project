@@ -10678,6 +10678,11 @@ Transition.next = debounce(function () {
     console.log('scrolling down - nextItem');
     Transition.currentStep = Transition.nextStep;
 
+    if (Transition.currentStep === 1) {
+
+        Transition.imgReset();
+    }
+
     if (Transition.currentStep === 4) {
 
         console.log('index 4 recognitionUp');
@@ -10792,6 +10797,9 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerDown.from({ el: '#h-pagi-line', p: { y: [0, -102] }, d: 1200, e: 'Power4InOut' });
         Transition.headerDown.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
+        Transition.headerDown.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [1, 0], x: [0, 16] }, d: 1200, e: 'Power4InOut' });
+        Transition.headerDown.from({ el: "#h-img-0-b", p: { opacity: [1, 0], x: [0, 4] }, d: 600, e: 'Power4InOut' });
+
         Transition.headerDown.play({ delay: 500, cb: Transition.reset });
         //console.log(divOffset.left, divOffset.top);
     };
@@ -10826,6 +10834,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         textInit.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 2800, e: 'Power4InOut' });
 
         textInit.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
+        textInit.from({ el: "#h-img-0-b", p: { opacity: [0, 1], x: [4, 0] }, d: 1200, delay: 150, e: 'Power4InOut' });
 
         textInit.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
     };
@@ -10839,6 +10848,15 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         console.log('hello from Transition.reset');
         elReset.play();
+    };
+
+    Transition.imgReset = function () {
+
+        var imgReset = new skylake.Timeline();
+        var isObj23 = skylake.Is.object(imgReset);
+
+        imgReset.from({ el: "#h-img-0-b", p: { opacity: [1, 0], x: [0, 4] }, d: 600, e: 'Power4InOut' });
+        imgReset.play();
     };
 
     Transition.recognitionUp = function () {
@@ -10981,7 +10999,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 Transition.textIn2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
+                Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 3000) });
             }
         });
     };
@@ -11022,7 +11040,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         Transition.textOutIn.play({ cb: function cb() {
 
-                Transition.pagiOut();
+                setTimeout(Transition.pagiOut, 1000);
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
 
@@ -11042,7 +11060,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 Transition.textOut2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
 
-                Transition.textOut2.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
+                Transition.textOut2.play({ cb: setTimeout(Transition.enable_scroll, 3000) });
             } });
     };
 
