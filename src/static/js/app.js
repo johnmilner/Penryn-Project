@@ -10730,6 +10730,11 @@ Transition.prev = debounce(function () {
         Transition.headerDown();
     }
 
+    if (Transition.currentStep === 0) {
+
+        Transition.imgResetIn();
+    }
+
     if (Transition.currentStep === 3) {
 
         console.log('index 3 recognitionDown');
@@ -10857,6 +10862,15 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         imgReset.from({ el: "#h-img-0-b", p: { opacity: [1, 0], x: [0, 4] }, d: 600, e: 'Power4InOut' });
         imgReset.play();
+    };
+
+    Transition.imgResetIn = function () {
+
+        var imgResetIn = new skylake.Timeline();
+        var isObj24 = skylake.Is.object(imgResetIn);
+
+        imgResetIn.from({ el: "#h-img-0-b", p: { opacity: [0, 1], x: [4, 0] }, d: 600, delay: 2000, e: 'Power4InOut' });
+        imgResetIn.play();
     };
 
     Transition.recognitionUp = function () {
