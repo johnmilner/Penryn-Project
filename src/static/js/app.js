@@ -10923,10 +10923,10 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         recUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
 
-        Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
-        Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
-        Transition.pagiBottomMarker.style.color = "#fff";
-        Transition.pagiBottomMarker.style.transition = "color 200ms";
+        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+        // Transition.pagiBottomMarker.style.color = "#fff";
+        // Transition.pagiBottomMarker.style.transition = "color 200ms";
 
         recUp.play();
     };
@@ -10945,8 +10945,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         recDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-        Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
-        Transition.pagiBottomMarker.style.color = "";
+        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
+        // Transition.pagiBottomMarker.style.color = "";
 
         recDown.play();
     };
@@ -11078,6 +11078,13 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 Transition.textIn2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
+                if (Transition.currentStep > 3) {
+                    Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+                    Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+                    Transition.pagiBottomMarker.style.color = "#fff";
+                    Transition.pagiBottomMarker.style.transition = "color 200ms";
+                }
+
                 if (Transition.currentStep <= 3) {
                     Transition.textIn2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
                 }
@@ -11140,6 +11147,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                     Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, e: 'Power3In' });
                 } else {
                     Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
+                }
+
+                if (Transition.currentStep <= 3) {
+                    Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
+                    Transition.pagiBottomMarker.style.color = "";
                 }
 
                 if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
