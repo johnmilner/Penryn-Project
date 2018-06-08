@@ -10678,6 +10678,9 @@ Transition.next = debounce(function () {
     console.log('scrolling down - nextItem');
     Transition.currentStep = Transition.nextStep;
 
+    console.log('currentStep: ' + Transition.currentStep);
+    console.log('nextStep: ' + Transition.nextStep);
+
     if (Transition.currentStep === 1) {
 
         Transition.imgReset();
@@ -10889,7 +10892,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var pagiFadeOut = new skylake.Timeline();
         var isObj24 = skylake.Is.object(pagiFadeOut);
 
-        pagiFadeOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [0, -100] }, d: 800, e: 'Power3In' });
+        // pagiFadeOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, e: 'Power3In'})
         pagiFadeOut.from({ el: '#h-pagi-line', p: { x: [0, -102] }, d: 800, e: 'Power3In' });
         pagiFadeOut.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 800, e: 'Power3In' });
         pagiFadeOut.play({ cb: Transition.socialUp, cbDelay: 600 });
@@ -10901,11 +10904,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var pagiFadeIn = new skylake.Timeline();
         var isObj25 = skylake.Is.object(pagiFadeIn);
 
-        pagiFadeIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, e: 'Power3In' });
+        // pagiFadeIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, e: 'Power3In'})
         pagiFadeIn.from({ el: '#h-pagi-line', p: { x: [-102, 0] }, d: 800, e: 'Power3In' });
         pagiFadeIn.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 800, e: 'Power3In' });
         pagiFadeIn.play();
-        console.log('hello from pagiFadeOut');
+        console.log('hello from pagiFadeIn');
     };
 
     Transition.recognitionUp = function () {
@@ -10983,7 +10986,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         socUp.from({ el: '#h-social-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         socUp.from({ el: '.cf', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-        socUp.play({ delay: 1000 });
+        socUp.play();
     };
 
     Transition.socialDown = function () {
@@ -11024,8 +11027,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         }
 
-        Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
-            p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
+        if (Transition.currentStep === 5) {
+            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [0, -100] }, d: 800, e: 'Power4InOut' });
+        } else {
+            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
+                p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
+        }
 
         if (Transition.currentStep <= 3) {
             Transition.textInOut.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [1, 0], x: [0, 16] }, d: 1200, e: 'Power4InOut' });
@@ -11057,6 +11064,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 // } else {
                 //     Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
                 // }
+
 
                 Transition.textIn2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
@@ -11117,7 +11125,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
                 // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-                Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
+
+                if (Transition.currentStep === 5) {
+                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, e: 'Power3In' });
+                } else {
+                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
+                }
 
                 if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
                     Transition.textOut2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
