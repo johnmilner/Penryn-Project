@@ -460,6 +460,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const socDown = new S.Timeline()
         const isObj21 = S.Is.object(socDown)
 
+        Transition.hideSocial()
         socDown.from({el: '#h-social', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         socDown.from({el: '#h-social-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         socDown.from({el: '.cf', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
@@ -467,7 +468,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socDown.from({el: '.h-xp-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         socDown.from({el: '#h-xp-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         socDown.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
-
+        
         socDown.play({cb: Transition.pagiFadeIn, cbDelay: 600})
     }
 
@@ -489,7 +490,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power3In'})
         pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power3In'})
-        pagiFadeIn.play({cb: Transition.hideSocial})
+        pagiFadeIn.play()
         console.log('hello from pagiFadeIn')
     }
 
@@ -498,7 +499,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const isObj26 = S.Is.object(showSocial)
 
         Transition.pagiSocialWrap.style.zIndex = 4;
-        showSocial.from({el: '#h-pagi-social', p: {y: [100, 0]}, d: 1400, delay: 1700, e: 'Power4InOut'})
+        showSocial.from({el: '#h-pagi-social', p: {y: [100, 0]}, d: 1400, delay: 300, e: 'Power4InOut'})
         showSocial.play()
     }
 
@@ -640,7 +641,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
                 
                 if (Transition.currentStep === 5) {
-                    Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, delay: 950, e: 'Power4InOut'})
+                    Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, delay: 1100, e: 'Power4InOut'})
                 } else {
                 Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
                 }

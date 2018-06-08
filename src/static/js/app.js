@@ -10973,6 +10973,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var socDown = new skylake.Timeline();
         var isObj21 = skylake.Is.object(socDown);
 
+        Transition.hideSocial();
         socDown.from({ el: '#h-social', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         socDown.from({ el: '#h-social-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         socDown.from({ el: '.cf', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
@@ -11002,7 +11003,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         pagiFadeIn.from({ el: '#h-pagi-line', p: { x: [-102, 0] }, d: 800, e: 'Power3In' });
         pagiFadeIn.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 800, e: 'Power3In' });
-        pagiFadeIn.play({ cb: Transition.hideSocial });
+        pagiFadeIn.play();
         console.log('hello from pagiFadeIn');
     };
 
@@ -11011,7 +11012,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var isObj26 = skylake.Is.object(showSocial);
 
         Transition.pagiSocialWrap.style.zIndex = 4;
-        showSocial.from({ el: '#h-pagi-social', p: { y: [100, 0] }, d: 1400, delay: 1700, e: 'Power4InOut' });
+        showSocial.from({ el: '#h-pagi-social', p: { y: [100, 0] }, d: 1400, delay: 300, e: 'Power4InOut' });
         showSocial.play();
     };
 
@@ -11143,7 +11144,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
                 if (Transition.currentStep === 5) {
-                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, delay: 950, e: 'Power4InOut' });
+                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, delay: 1100, e: 'Power4InOut' });
                 } else {
                     Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
                 }
