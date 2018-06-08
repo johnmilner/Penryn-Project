@@ -10803,7 +10803,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.headerDown.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
         //Transition.headerDown.from({el: "#h-img-0", p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
-        Transition.headerDown.from({ el: "#h-img-0-b", p: { opacity: [1, 0], x: [0, 4] }, d: 600, e: 'Power4InOut' });
+        // Transition.headerDown.from({el: "#h-img-0-b", p: {opacity: [1, 0], x:[0, 4]}, d: 600, e: 'Power4InOut'})
 
         Transition.headerDown.play({ delay: 500, cb: Transition.reset });
         //console.log(divOffset.left, divOffset.top);
@@ -10871,6 +10871,16 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
         imgResetIn.from({ el: "#h-img-0-b", p: { opacity: [0, 1], x: [4, 0] }, d: 600, delay: 2000, e: 'Power4InOut' });
         imgResetIn.play();
+    };
+
+    Transition.pagiOut = function () {
+
+        for (var n = 7; n > Transition.currentStep + 1; n--) {
+            Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = "";
+            Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = "";
+        }
+
+        console.log('hello from pagiOut');
     };
 
     Transition.recognitionUp = function () {
@@ -11046,39 +11056,20 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         Transition.textOutIn.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         Transition.textOutIn.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
 
-        Transition.pagiOut = function () {
-            // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
-            // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-            // if (Transition.currentStep === 5) {
-            //     for (var n = 7; n > Transition.currentStep + 1; n--) {
-            //         Transition.arrTopPagiWrap[6].style.height = ""
-            //         Transition.arrTopTitleWrap[6].style.height = ""
-            //         }
-            // } else if (Transition.currentStep === 4) {
-            //     for (var n = 7; n > Transition.currentStep + 1; n--) {
-            //         Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = ""
-            //         Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = ""
-            //         }
-            // } else {
-            for (var n = 7; n > Transition.currentStep + 1; n--) {
-                Transition.arrTopPagiWrap[Transition.currentStep + 2].style.height = "";
-                Transition.arrTopTitleWrap[Transition.currentStep + 2].style.height = "";
-            }
-
-            console.log('hello from pagiOut');
-        };
-
         Transition.textOutIn.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
             p: { x: [0, 100] }, d: 1200, e: 'Power4InOut' });
-        // Transition.pagiOut()
 
         if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
             Transition.textOutIn.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [1, 0], x: [0, 16] }, d: 1200, e: 'Power4InOut' });
         }
 
+        if (Transition.currentStep === 0) {
+            Transition.imgReset();
+        }
+
         Transition.textOutIn.play({ cb: function cb() {
 
-                setTimeout(Transition.pagiOut, 1000);
+                setTimeout(Transition.pagiOut, 300);
 
                 Transition.textOut2 = new skylake.Timeline();
                 var isObj11 = skylake.Is.object(Transition.textOut2);
