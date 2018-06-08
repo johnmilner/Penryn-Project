@@ -10620,6 +10620,7 @@ Transition.open = function () {
     Transition.arrBotTitleWrap = skylake.Geb.class('h-pagi-bottom-title-wrap');
 
     Transition.pagiBottomMarker = skylake.Geb.id('h-pagi-bottom-marker');
+    Transition.pagiSocialWrap = skylake.Geb.id("h-pagi-social-wrap");
 
     Transition.scrollInit();
 };
@@ -10889,28 +10890,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         console.log('hello from pagiOut');
     };
 
-    Transition.pagiFadeOut = function () {
-
-        var pagiFadeOut = new skylake.Timeline();
-        var isObj24 = skylake.Is.object(pagiFadeOut);
-
-        pagiFadeOut.from({ el: '#h-pagi-line', p: { x: [0, -102] }, d: 800, e: 'Power3In' });
-        pagiFadeOut.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 800, e: 'Power3In' });
-        pagiFadeOut.play({ cb: Transition.socialUp });
-        console.log('hello from pagiFadeOut');
-    };
-
-    Transition.pagiFadeIn = function () {
-
-        var pagiFadeIn = new skylake.Timeline();
-        var isObj25 = skylake.Is.object(pagiFadeIn);
-
-        pagiFadeIn.from({ el: '#h-pagi-line', p: { x: [-102, 0] }, d: 800, e: 'Power3In' });
-        pagiFadeIn.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 800, e: 'Power3In' });
-        pagiFadeIn.play();
-        console.log('hello from pagiFadeIn');
-    };
-
     Transition.recognitionUp = function () {
 
         var recUp = new skylake.Timeline();
@@ -10986,7 +10965,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         socUp.from({ el: '#h-social-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         socUp.from({ el: '.cf', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-        socUp.play();
+        socUp.play({ cb: Transition.showSocial });
     };
 
     Transition.socialDown = function () {
@@ -11003,6 +10982,46 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         socDown.from({ el: '#h-xp-txt', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
         socDown.play({ cb: Transition.pagiFadeIn, cbDelay: 600 });
+    };
+
+    Transition.pagiFadeOut = function () {
+
+        var pagiFadeOut = new skylake.Timeline();
+        var isObj24 = skylake.Is.object(pagiFadeOut);
+
+        pagiFadeOut.from({ el: '#h-pagi-line', p: { x: [0, -102] }, d: 800, e: 'Power3In' });
+        pagiFadeOut.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 800, e: 'Power3In' });
+        pagiFadeOut.play({ cb: Transition.socialUp });
+        console.log('hello from pagiFadeOut');
+    };
+
+    Transition.pagiFadeIn = function () {
+
+        var pagiFadeIn = new skylake.Timeline();
+        var isObj25 = skylake.Is.object(pagiFadeIn);
+
+        pagiFadeIn.from({ el: '#h-pagi-line', p: { x: [-102, 0] }, d: 800, e: 'Power3In' });
+        pagiFadeIn.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 800, e: 'Power3In' });
+        pagiFadeIn.play({ cb: Transition.hideSocial });
+        console.log('hello from pagiFadeIn');
+    };
+
+    Transition.showSocial = function () {
+        var showSocial = new skylake.Timeline();
+        var isObj26 = skylake.Is.object(showSocial);
+
+        Transition.pagiSocialWrap.style.zIndex = 4;
+        showSocial.from({ el: '#h-pagi-social', p: { y: [100, 0] }, d: 1400, delay: 1700, e: 'Power4InOut' });
+        showSocial.play();
+    };
+
+    Transition.hideSocial = function () {
+        var hideSocial = new skylake.Timeline();
+        var isObj26 = skylake.Is.object(hideSocial);
+
+        Transition.pagiSocialWrap.style.zIndex = -1;
+        hideSocial.from({ el: '#h-pagi-social', p: { y: [0, 100] }, d: 500, e: 'Power4In' });
+        hideSocial.play();
     };
 
     Transition.n2 = function (callback) {

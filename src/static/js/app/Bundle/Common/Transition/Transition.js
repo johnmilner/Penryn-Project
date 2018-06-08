@@ -38,6 +38,7 @@ Transition.arrBotPagiWrap = S.Geb.class('h-pagi-bottom-no-wrap')
 Transition.arrBotTitleWrap = S.Geb.class('h-pagi-bottom-title-wrap')
 
 Transition.pagiBottomMarker = S.Geb.id('h-pagi-bottom-marker')
+Transition.pagiSocialWrap = S.Geb.id("h-pagi-social-wrap")
 
 Transition.scrollInit()
 }
@@ -370,28 +371,6 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             console.log('hello from pagiOut')
     }
 
-    Transition.pagiFadeOut = function() {
-
-        const pagiFadeOut = new S.Timeline()
-        const isObj24 = S.Is.object(pagiFadeOut)
-
-        pagiFadeOut.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 800, e: 'Power3In'})
-        pagiFadeOut.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 800, e: 'Power3In'})
-        pagiFadeOut.play({cb: Transition.socialUp})
-        console.log('hello from pagiFadeOut')
-    }
-
-    Transition.pagiFadeIn = function() {
-
-        const pagiFadeIn = new S.Timeline()
-        const isObj25 = S.Is.object(pagiFadeIn)
-
-        pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power3In'})
-        pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power3In'})
-        pagiFadeIn.play()
-        console.log('hello from pagiFadeIn')
-    }
-
     Transition.recognitionUp = function() {
 
         const recUp = new S.Timeline()
@@ -472,7 +451,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socUp.from({el: '#h-social-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         socUp.from({el: '.cf', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
-        socUp.play()
+        socUp.play({cb: Transition.showSocial})
 
     }
 
@@ -490,6 +469,46 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socDown.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
         socDown.play({cb: Transition.pagiFadeIn, cbDelay: 600})
+    }
+
+    Transition.pagiFadeOut = function() {
+
+        const pagiFadeOut = new S.Timeline()
+        const isObj24 = S.Is.object(pagiFadeOut)
+
+        pagiFadeOut.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.play({cb: Transition.socialUp})
+        console.log('hello from pagiFadeOut')
+    }
+
+    Transition.pagiFadeIn = function() {
+
+        const pagiFadeIn = new S.Timeline()
+        const isObj25 = S.Is.object(pagiFadeIn)
+
+        pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.play({cb: Transition.hideSocial})
+        console.log('hello from pagiFadeIn')
+    }
+
+    Transition.showSocial = function() {
+        const showSocial = new S.Timeline()
+        const isObj26 = S.Is.object(showSocial)
+
+        Transition.pagiSocialWrap.style.zIndex = 4;
+        showSocial.from({el: '#h-pagi-social', p: {y: [100, 0]}, d: 1400, delay: 1700, e: 'Power4InOut'})
+        showSocial.play()
+    }
+
+    Transition.hideSocial = function() {
+        const hideSocial = new S.Timeline()
+        const isObj26 = S.Is.object(hideSocial)
+
+        Transition.pagiSocialWrap.style.zIndex = -1;
+        hideSocial.from({el: '#h-pagi-social', p: {y: [0, 100]}, d: 500, e: 'Power4In'})
+        hideSocial.play()
     }
 
 
