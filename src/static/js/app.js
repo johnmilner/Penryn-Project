@@ -10841,7 +10841,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         textInit.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
         textInit.from({ el: "#h-img-0-b", p: { opacity: [0, 1], x: [4, 0] }, d: 1200, delay: 150, e: 'Power4InOut' });
 
-        textInit.play({ cb: setTimeout(Transition.enable_scroll, 2000) });
+        textInit.play({ cb: setTimeout(Transition.enable_scroll, 4000) });
     };
 
     Transition.reset = function () {
@@ -11033,7 +11033,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                     Transition.textIn2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
                 }
 
-                Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 3000) });
+                Transition.textIn2.play({ cb: setTimeout(Transition.enable_scroll, 4000) });
             }
         });
     };
@@ -11092,7 +11092,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                     Transition.textOut2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
                 }
 
-                Transition.textOut2.play({ cb: setTimeout(Transition.enable_scroll, 3000) });
+                Transition.textOut2.play({ cb: setTimeout(Transition.enable_scroll, 4000) });
             } });
     };
 
