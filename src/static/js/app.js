@@ -10619,6 +10619,8 @@ Transition.open = function () {
     Transition.arrBotPagiWrap = skylake.Geb.class('h-pagi-bottom-no-wrap');
     Transition.arrBotTitleWrap = skylake.Geb.class('h-pagi-bottom-title-wrap');
 
+    Transition.pagiBottomMarker = skylake.Geb.id('h-pagi-bottom-marker');
+
     Transition.scrollInit();
 };
 
@@ -10921,6 +10923,11 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         recUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
 
+        Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+        Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+        Transition.pagiBottomMarker.style.color = "#fff";
+        Transition.pagiBottomMarker.style.transition = "color 200ms";
+
         recUp.play();
     };
 
@@ -10937,6 +10944,9 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         recDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         recDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
+
+        Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
+        Transition.pagiBottomMarker.style.color = "";
 
         recDown.play();
     };

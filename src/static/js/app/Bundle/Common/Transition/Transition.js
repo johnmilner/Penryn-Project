@@ -37,6 +37,8 @@ Transition.arrTopTitleWrap = S.Geb.class('h-pagi-top-title-wrap')
 Transition.arrBotPagiWrap = S.Geb.class('h-pagi-bottom-no-wrap')
 Transition.arrBotTitleWrap = S.Geb.class('h-pagi-bottom-title-wrap')
 
+Transition.pagiBottomMarker = S.Geb.id('h-pagi-bottom-marker')
+
 Transition.scrollInit()
 }
 
@@ -403,6 +405,11 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         recUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         recUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 100})
 
+        Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+        Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+        Transition.pagiBottomMarker.style.color = "#fff";
+        Transition.pagiBottomMarker.style.transition = "color 200ms";
+
         recUp.play()
 
    }
@@ -420,6 +427,9 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     recDown.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
     recDown.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
     recDown.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+
+    Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
+    Transition.pagiBottomMarker.style.color = "";
 
     recDown.play()
 
@@ -516,6 +526,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         }
+
 
         if (Transition.currentStep === 5) {
             Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, e: 'Power4InOut'})
