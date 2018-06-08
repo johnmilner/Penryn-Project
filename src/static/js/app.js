@@ -10894,10 +10894,9 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var pagiFadeOut = new skylake.Timeline();
         var isObj24 = skylake.Is.object(pagiFadeOut);
 
-        // pagiFadeOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, e: 'Power3In'})
         pagiFadeOut.from({ el: '#h-pagi-line', p: { x: [0, -102] }, d: 800, e: 'Power3In' });
         pagiFadeOut.from({ el: '#h-pagi-bottom-marker', p: { y: [0, 100] }, d: 800, e: 'Power3In' });
-        pagiFadeOut.play({ cb: Transition.socialUp, cbDelay: 600 });
+        pagiFadeOut.play({ cb: Transition.socialUp });
         console.log('hello from pagiFadeOut');
     };
 
@@ -10906,7 +10905,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         var pagiFadeIn = new skylake.Timeline();
         var isObj25 = skylake.Is.object(pagiFadeIn);
 
-        // pagiFadeIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, e: 'Power3In'})
         pagiFadeIn.from({ el: '#h-pagi-line', p: { x: [-102, 0] }, d: 800, e: 'Power3In' });
         pagiFadeIn.from({ el: '#h-pagi-bottom-marker', p: { y: [100, 0] }, d: 800, e: 'Power3In' });
         pagiFadeIn.play();
@@ -10922,11 +10920,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recUp.from({ el: '#h-reco-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 600 });
         recUp.from({ el: '.h-reco-txt-title', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
         recUp.from({ el: '.h-reco-txt-list', p: { y: [100, 0] }, d: 1200, e: 'Power4InOut', delay: 100 });
-
-        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
-        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
-        // Transition.pagiBottomMarker.style.color = "#fff";
-        // Transition.pagiBottomMarker.style.transition = "color 200ms";
 
         recUp.play();
     };
@@ -10944,9 +10937,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         recDown.from({ el: '#h-reco-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         recDown.from({ el: '.h-reco-txt-list', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
         recDown.from({ el: '.h-reco-txt-title', p: { y: [0, 100] }, d: 1200, e: 'Power4InOut' });
-
-        // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
-        // Transition.pagiBottomMarker.style.color = "";
 
         recDown.play();
     };
@@ -11038,7 +11028,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         }
 
         if (Transition.currentStep === 5) {
-            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [0, -100] }, d: 800, e: 'Power4InOut' });
+            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [0, -100] }, d: 800, delay: 400, e: 'Power4InOut' });
         } else {
             Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
                 p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
@@ -11068,13 +11058,6 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                     Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
                     Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
                 }
-
-                // if (Transition.currentStep === 6) {
-                //     Transition.pagiFadeOut()
-                // } else {
-                //     Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
-                // }
-
 
                 Transition.textIn2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
@@ -11140,11 +11123,8 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
                 Transition.textOut2.from({ el: Transition.arrBotAgency[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
                 Transition.textOut2.from({ el: Transition.arrBotYear[Transition.currentStep], p: { y: [100, 0] }, d: 1200, e: 'Power4InOut' });
 
-                // Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = '';
-                // Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = 'auto';
-
                 if (Transition.currentStep === 5) {
-                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, e: 'Power3In' });
+                    Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [-100, 0] }, d: 800, delay: 950, e: 'Power4InOut' });
                 } else {
                     Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
                 }
