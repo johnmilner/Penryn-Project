@@ -159,9 +159,10 @@ Transition.scrollInit()
         if (Transition.currentStep === 6) {
 
             console.log('index 6 socialUp')
-            
-            Transition.socialUp()
 
+            Transition.pagiFadeOut()
+            
+            
         } 
 
         if (Transition.currentStep > 6) {
@@ -275,7 +276,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.headerDown.from({el: Transition.arrPagiTopNo[Transition.currentStep], p: {y: [0, -100]}, d: 1200, e: 'Power4InOut'})
 
-        Transition.headerDown.from({el: '#h-pagi-line', p: {y: [0, -102]}, d: 1200, e: 'Power4InOut'})
+        Transition.headerDown.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 600, e: 'Power4InOut'})
         Transition.headerDown.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
 
         //Transition.headerDown.from({el: "#h-img-0", p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
@@ -311,9 +312,10 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
 
         Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
+
         textInit.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 2800, e: 'Power4InOut'})
 
-        textInit.from({el: '#h-pagi-line', p: {y: [-102, 0]}, d: 2800, e: 'Power4InOut'})
+        textInit.from({el: '#h-pagi-line', p: {y: [-102, 0]}, d: 2000, e: 'Power4InOut'})
         textInit.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 2800, e: 'Power4InOut'})
 
         textInit.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
@@ -365,6 +367,29 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             console.log('hello from pagiOut')
     }
 
+    Transition.pagiFadeOut = function() {
+
+        const pagiFadeOut = new S.Timeline()
+        const isObj24 = S.Is.object(pagiFadeOut)
+
+        pagiFadeOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.play({cb: Transition.socialUp, cbDelay: 600})
+        console.log('hello from pagiFadeOut')
+    }
+
+    Transition.pagiFadeIn = function() {
+
+        const pagiFadeIn = new S.Timeline()
+        const isObj25 = S.Is.object(pagiFadeIn)
+
+        pagiFadeIn.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.play()
+        console.log('hello from pagiFadeOut')
+    }
 
     Transition.recognitionUp = function() {
 
@@ -446,7 +471,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socUp.from({el: '#h-social-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         socUp.from({el: '.cf', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
-        socUp.play()
+        socUp.play({delay: 1000})
 
     }
 
@@ -463,7 +488,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         socDown.from({el: '#h-xp-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         socDown.from({el: '#h-xp-txt', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
-        socDown.play()
+        socDown.play({cb: Transition.pagiFadeIn, cbDelay: 600})
     }
 
 
@@ -519,8 +544,15 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
             }
 
-            Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            // if (Transition.currentStep === 6) {
+            //     Transition.pagiFadeOut()
+            // } else {
+            //     Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            // }
 
+            Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
+            
+            
             if (Transition.currentStep <= 3) {
             Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
             } 
