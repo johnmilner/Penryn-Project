@@ -2202,8 +2202,6 @@ html {
   #h-pagi-bottom-marker {
     transform: translate3d(0, 100%, 0);
     color: #181829;
-    /* -webkit-backface-visibility: hidden;
-    transform: translateZ(0) scale(1,1)!important; */
   }
   
   #h-pagi-bottom {
@@ -2237,6 +2235,7 @@ html {
     position: absolute;
     top: 0;
     width: 18px;
+    transform: translate3d(0, 0, 0);
   }
   
   .h-pagi-bottom-title-wrap {

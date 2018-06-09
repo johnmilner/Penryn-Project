@@ -37,6 +37,7 @@ Transition.arrTopTitleWrap = S.Geb.class('h-pagi-top-title-wrap')
 Transition.arrBotPagiWrap = S.Geb.class('h-pagi-bottom-no-wrap')
 Transition.arrBotTitleWrap = S.Geb.class('h-pagi-bottom-title-wrap')
 
+Transition.pagiBottomMarkerWrap = S.Geb.id('h-pagi-bottom-marker-wrap')
 Transition.pagiBottomMarker = S.Geb.id('h-pagi-bottom-marker')
 Transition.pagiSocialWrap = S.Geb.id("h-pagi-social-wrap")
 
@@ -376,7 +377,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const recUp = new S.Timeline()
         const isObj16 = S.Is.object(recUp)
 
-        recUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
+        recUp.from({el: '#h-resume', p: {y: [100, 0]}, d: 1200, e: 'Power3In'})
         recUp.from({el: '#h-reco-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 600})
         recUp.from({el: '.h-reco-txt-title', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
         recUp.from({el: '.h-reco-txt-list', p: {y: [100, 0]}, d: 1200, e: 'Power4InOut', delay: 100})
@@ -394,7 +395,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
     recDown.from({el: Transition.arrBotTitle[1], p: {y: [100, 0]}, d: 2100, e: 'Power4InOut'})
     recDown.from({el: Transition.arrBotTitle[2], p: {y: [100, 0]}, d: 2400, e: 'Power4InOut'})
 
-    recDown.from({el: '#h-resume', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
+    recDown.from({el: '#h-resume', p: {y: [0, 100]}, d: 1200, e: 'Power3In'})
     recDown.from({el: '#h-reco-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
     recDown.from({el: '.h-reco-txt-list', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
     recDown.from({el: '.h-reco-txt-title', p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
@@ -477,8 +478,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const pagiFadeOut = new S.Timeline()
         const isObj24 = S.Is.object(pagiFadeOut)
 
-        pagiFadeOut.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 800, e: 'Power3In'})
-        pagiFadeOut.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 800, e: 'Power3In'})
+        pagiFadeOut.from({el: '#h-pagi-line', p: {x: [0, -102]}, d: 800, e: 'Power4InOut'})
+        pagiFadeOut.from({el: '#h-pagi-bottom-marker', p: {y: [0, 100]}, d: 800, e: 'Power4InOut'})
         pagiFadeOut.play({cb: Transition.socialUp})
         console.log('hello from pagiFadeOut')
     }
@@ -488,8 +489,8 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const pagiFadeIn = new S.Timeline()
         const isObj25 = S.Is.object(pagiFadeIn)
 
-        pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power3In'})
-        pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power3In'})
+        pagiFadeIn.from({el: '#h-pagi-line', p: {x: [-102, 0]}, d: 800, e: 'Power4InOut'})
+        pagiFadeIn.from({el: '#h-pagi-bottom-marker', p: {y: [100, 0]}, d: 800, e: 'Power4InOut'})
         pagiFadeIn.play()
         console.log('hello from pagiFadeIn')
     }
@@ -512,6 +513,16 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         hideSocial.play()
     }
 
+    Transition.pagiColor = function() {
+
+        if (Transition.currentStep > 3) {
+            Transition.pagiBottomMarkerWrap.style.transform = "translate3d(0,0,0)"
+            Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+            Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+            Transition.pagiBottomMarker.style.color = "#fff";
+            Transition.pagiBottomMarker.style.transition = "color 200ms";
+        }
+    }
 
     Transition.n2 = function(callback) {
 
@@ -572,13 +583,14 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             
             Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
             
-            if (Transition.currentStep > 3) {
-            Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
-            Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
-            Transition.pagiBottomMarker.style.color = "#fff";
-            Transition.pagiBottomMarker.style.transition = "color 200ms";
-            }
-            
+            // if (Transition.currentStep > 3) {
+            // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
+            // Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
+            // Transition.pagiBottomMarker.style.color = "#fff";
+            // Transition.pagiBottomMarker.style.transition = "color 200ms";
+            // }
+            Transition.pagiColor()
+
             if (Transition.currentStep <= 3) {
             Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
             } 
