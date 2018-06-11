@@ -11059,12 +11059,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         }
 
-        if (Transition.currentStep === 5) {
-            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { y: [0, -100] }, d: 800, delay: 400, e: 'Power4InOut' });
-        } else {
-            Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
-                p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
-        }
+        // if (Transition.currentStep === 5) {
+        //     Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, delay: 400, e: 'Power4InOut'})
+        // } else {
+        Transition.textInOut.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1],
+            p: { x: [0, -100] }, d: 1200, e: 'Power4InOut' });
+        //}
 
         if (Transition.currentStep <= 3) {
             Transition.textInOut.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [1, 0], x: [0, 16] }, d: 1200, e: 'Power4InOut' });
