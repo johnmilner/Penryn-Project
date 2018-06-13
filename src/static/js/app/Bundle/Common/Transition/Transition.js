@@ -195,18 +195,25 @@ Transition.scrollInit()
         console.log('currentStep: ' + Transition.currentStep)
         console.log('nextStep: ' + Transition.nextStep)
 
-        if (Transition.currentStep === -1) {
+        // if (Transition.currentStep === -1) {
 
-            console.log('index 0 header down')
+        //     console.log('index 0 header down')
 
-            Transition.headerDown()
+        //     Transition.headerDown()
 
-        } 
+        // } 
 
         if (Transition.currentStep === 0) {
 
             Transition.imgResetIn()
 
+        } 
+
+        if (Transition.currentStep <= -1) {
+
+            Transition.headerDown()
+            return Transition.currentStep = -1
+                
         } 
 
         if (Transition.currentStep === 3) {
@@ -336,7 +343,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         const isObj15 = S.Is.object(elReset)
     
         elReset.from({el: '#h-txt-desc-line', p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
-    
+
         console.log('hello from Transition.reset')
         elReset.play()
         
@@ -542,22 +549,18 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
         Transition.textInOut.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
         Transition.textInOut.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [0, 100]}, d: 1200, e: 'Power4InOut'})
 
+        Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
+            p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
+
+        if (Transition.currentStep < 4) {
+            Transition.textInOut.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
+        }
+
         if (Transition.currentStep <= 5) {
         Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
         Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
         }
 
-
-        // if (Transition.currentStep === 5) {
-        //     Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [0, -100]}, d: 800, delay: 400, e: 'Power4InOut'})
-        // } else {
-        Transition.textInOut.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], 
-        p: {x: [0, -100]}, d: 1200, e: 'Power4InOut'})
-        //}
-
-        if (Transition.currentStep <= 3) {
-        Transition.textInOut.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
-        }
  
         Transition.textInOut.play({ cb: function() {
 
@@ -576,26 +579,20 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             Transition.textIn2.from({el: Transition.arrBotAgency[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
             Transition.textIn2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
+            Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
+
+            if (Transition.currentStep < 4) {
+                Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
+                } 
+
             if (Transition.currentStep <= 5) {
             Transition.arrTopPagiWrap[Transition.currentStep + 1].style.height = "auto";
             Transition.arrTopTitleWrap[Transition.currentStep + 1].style.height = "auto";
             }
-            
-            Transition.textIn2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [100, 0]}, d: 1200, e: 'Power4InOut'})
-            
-            // if (Transition.currentStep > 3) {
-            // Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "#fff";
-            // Transition.arrPagiTopNo[Transition.currentStep + 1].style.transition = "color 200ms";
-            // Transition.pagiBottomMarker.style.color = "#fff";
-            // Transition.pagiBottomMarker.style.transition = "color 200ms";
-            // }
+        
             Transition.pagiColor()
 
-            if (Transition.currentStep <= 3) {
-            Transition.textIn2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
-            } 
-
-            Transition.textIn2.play({cb: setTimeout(Transition.enable_scroll, 4000)})
+            Transition.textIn2.play({cb: setTimeout(Transition.enable_scroll, 3000)})
 
             }
         })
@@ -626,7 +623,7 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
             p: {x: [0, 100]}, d: 1200, e: 'Power4InOut'})
         
 
-        if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
+        if (Transition.currentStep < 4) {
         Transition.textOutIn.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [1, 0], x:[0, 16]}, d: 1200, e: 'Power4InOut'})
         }
 
@@ -652,22 +649,19 @@ Transition.headerScroll = (currentScrollY, delta, event) => {
                 Transition.textOut2.from({el: Transition.arrBotYear[Transition.currentStep], p: {y: [100, 0]}, d: 1200, e: 'Power4InOut'})
 
                 
-                if (Transition.currentStep === 5) {
-                    Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {y: [-100, 0]}, d: 800, delay: 1000, e: 'Power4InOut'})
-                } else {
                 Transition.textOut2.from({el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: {x: [-100, 0]}, d: 1200, e: 'Power4InOut'})
-                }
+                
 
-                if (Transition.currentStep <= 3) {
+                if (Transition.currentStep < 4) {
                     Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
                     Transition.pagiBottomMarker.style.color = "";
                 }
 
-                if (Transition.currentStep <= 3 && Transition.currentStep !== -1) {
+                if (Transition.currentStep < 4) {
                 Transition.textOut2.from({el: "#h-img-" + Transition.currentStep, p: {opacity: [0, 1], x:[16, 0]}, d: 1200, e: 'Power4InOut'})
                 }
                 
-                Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 4000)})
+                Transition.textOut2.play({cb: setTimeout(Transition.enable_scroll, 3000)})
         
         }})
 
