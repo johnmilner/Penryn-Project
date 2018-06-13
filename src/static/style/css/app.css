@@ -578,12 +578,12 @@ $grid-width: 114rem;//$grid-width: 100%;/* CSS Normalize */*,
     background-image: -webkit-gradient(
         linear,
         left top, right bottom,
-        from(rgba(41, 152, 255, .6)),
-        to(rgba(255,255,255, .6)));
+        from(rgba(41, 152, 255, 1)),
+        to(rgba(255,255,255, 1)));
     background-image: linear-gradient(
         to right bottom,
-        rgba(41, 152, 255, .6),
-        rgba(255,255,255, .6));
+        rgba(41, 152, 255, 1),
+        rgba(255,255,255, 1));
     background-size: cover;
     background-position: top;
     position: relative;

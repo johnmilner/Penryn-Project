@@ -11044,7 +11044,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         }
     };
 
-    Transition.n2 = function (callback) {
+    Transition.n2 = function () {
 
         Transition.next();
 
@@ -11107,7 +11107,7 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
         });
     };
 
-    Transition.p2 = function (callback) {
+    Transition.p2 = function () {
 
         Transition.prev();
 
@@ -11155,12 +11155,12 @@ Transition.headerScroll = function (currentScrollY, delta, event) {
 
                 Transition.textOut2.from({ el: Transition.arrPagiTopNo[Transition.currentStep + 1], p: { x: [-100, 0] }, d: 1200, e: 'Power4InOut' });
 
-                if (Transition.currentStep < 4) {
+                if (Transition.currentStep < 4 && Transition.currentStep > -1) {
                     Transition.arrPagiTopNo[Transition.currentStep + 1].style.color = "";
                     Transition.pagiBottomMarker.style.color = "";
                 }
 
-                if (Transition.currentStep < 4) {
+                if (Transition.currentStep < 4 && Transition.currentStep > -1) {
                     Transition.textOut2.from({ el: "#h-img-" + Transition.currentStep, p: { opacity: [0, 1], x: [16, 0] }, d: 1200, e: 'Power4InOut' });
                 }
 
