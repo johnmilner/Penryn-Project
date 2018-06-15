@@ -3189,11 +3189,12 @@ html {
     bottom: calc(9px + 1.9vw);
     left: -3px;
     width: 41.66vw;
-    font-family: goku;
+    font-family: GinesoBold;
     line-height: 120%;
     letter-spacing: -1px;
     font-size: calc(1.1rem + 4.24vw);
     color: #3d3560;
+    
   }
   
   .h-txt-title {
@@ -3203,7 +3204,7 @@ html {
     transform: translate3d(0, 100%, 0);
 
     -webkit-backface-visibility: hidden;
-	  -webkit-perspective: 1000;S
+	  -webkit-perspective: 1000;
   }
   
   .h-text-desc-txt-wrap {
